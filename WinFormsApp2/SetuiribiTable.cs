@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
+    //節入り日データテーブル管理クラス
     class SetuiribiTable
     {
 
-
+        /// <summary>
+        /// 年毎データ
+        /// </summary>
         class YearItem
         {
             public int year =0;
