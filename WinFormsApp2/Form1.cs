@@ -29,6 +29,10 @@ namespace WinFormsApp2
             setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
 
 
+            txtYear.Text = "1960";
+            txtMonth.Text = "8";
+            txtDay.Text = "2";
+
             txtNikkansiSanshutuSu_TextChanged(null, null);
         }
 
@@ -36,9 +40,10 @@ namespace WinFormsApp2
         //天中殺
         class TenchusatuLabelPair
         {
-            public TenchusatuLabelPair(Label[] _aryLabel)
+            public TenchusatuLabelPair(Label[] _aryLabel, Label[] _zokanLabel)
             {
                 aryLabel = _aryLabel;
+                aryZoukanLabel = _zokanLabel;
             }
             public bool IsExist(string s)
             {
@@ -62,16 +67,44 @@ namespace WinFormsApp2
                 {
                     aryLabel[i].ForeColor = color;
                 }
+                for (int i = 0; i < aryZoukanLabel.Length; i++)
+                {
+                    aryZoukanLabel[i].ForeColor = color;
+                }
             }
 
 
             public Label[] aryLabel;
+            public Label[] aryZoukanLabel;
         };
 
         private void button1_Click(object sender, EventArgs e)
         {
 
             dataMng = new TableMng();
+
+
+            //----------------------------------------------
+            //ラベルの組み合わせを登録
+            //----------------------------------------------
+            //日干支 ラベル
+            List<Label> lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
+            //月干支 ラベル
+            List<Label> lstLblGekkaansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
+            //年干支 ラベル
+            List<Label> lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
+
+            //日干支 天中殺 ラベル
+            List<Label> lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
+            //年干支 天中殺 ラベル
+            List<Label> lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
+
+            //日干支 二十八元素 ラベル
+            List<Label> lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+            //月干支 二十八元素 ラベル
+            List<Label> lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+            //年干支 二十八元素 ラベル
+            List<Label> lstLblNenkasiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
 
             int baseYear = int.Parse(txtBaseYear.Text);
@@ -96,11 +129,10 @@ namespace WinFormsApp2
             lblNenkansiNo.Text = NenkansiNo.ToString();
 
             //日干支
-            var kansi = dataMng.dicKansi[NikkansiNo];
-            lblTenchusatu.Text = kansi.tenchusatu;
+            var Nikkansi = dataMng.dicKansi[NikkansiNo];
 
-            lblNikkansi1.Text = kansi.kan;
-            lblNikkansi2.Text = kansi.si;
+            lblNikkansi1.Text = Nikkansi.kan;
+            lblNikkansi2.Text = Nikkansi.si;
 
             if(setuiribiTbl.CalcPassedDayFromSetuiribi(Year, Month, Day)>7)
             {
@@ -114,16 +146,16 @@ namespace WinFormsApp2
 
 
             //月干支
-            kansi = dataMng.dicKansi[GekkansiNo];
+            var Gekkansi = dataMng.dicKansi[GekkansiNo];
 
-            lblGekkansi1.Text = kansi.kan;
-            lblGekkansi2.Text = kansi.si;
+            lblGekkansi1.Text = Gekkansi.kan;
+            lblGekkansi2.Text = Gekkansi.si;
 
             //年干支
-            kansi = dataMng.dicKansi[NenkansiNo];
+            var Nenkansi = dataMng.dicKansi[NenkansiNo];
 
-            lblNenkansi1.Text = kansi.kan;
-            lblNenkansi2.Text = kansi.si;
+            lblNenkansi1.Text = Nenkansi.kan;
+            lblNenkansi2.Text = Nenkansi.si;
 
 
             Label[] aryLblNikkansiZougan = new Label[]
@@ -167,56 +199,89 @@ namespace WinFormsApp2
             lblJudaiShuseiE.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblGekkansi1.Text);
 
             //十二大主星
-            //干1 → 支1
-            lblJunidaiJuseiA.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNikkansi2.Text);
+            //干1 → 支3
+            lblJunidaiJuseiA.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNenkansi2.Text);
             //干1 → 支2
             lblJunidaiJuseiB.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblGekkansi2.Text);
-            //干1 → 支3
-            lblJunidaiJuseiC.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNenkansi2.Text);
+            //干1 → 支1
+            lblJunidaiJuseiC.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNikkansi2.Text);
 
 
-
-            TenchusatuLabelPair[] aryPair = new TenchusatuLabelPair[]
+            //日干支天中殺の文字チェック対象ラベル
+            TenchusatuLabelPair[] nikkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
             {
-                  new TenchusatuLabelPair(new Label[]{lblNenkansi1, lblNenkansi2 }),
-                  new TenchusatuLabelPair(new Label[]{lblGekkansi1, lblGekkansi2 })
+                  new TenchusatuLabelPair(new Label[]{lblNenkansi1, lblNenkansi2 } ,new Label[]{lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen }),
+                  new TenchusatuLabelPair(new Label[]{lblGekkansi1, lblGekkansi2 } ,new Label[]{lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen })
+            };
+            //年干支天中殺の文字チェック対象ラベル
+            TenchusatuLabelPair[] nenkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
+            {
+                  new TenchusatuLabelPair(new Label[]{lblNikkansi1, lblNikkansi2 } ,new Label[]{lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen }),
             };
 
-            //干支との陽占ラベル関連付け
-            Dictionary<Label, Label> dicKansiCombineYosenLabel = new Dictionary<Label, Label>()
+
+            //---------------------------------------------
+            //天中殺
+            //---------------------------------------------
+            string[] NikkansiTenchusatu = Nikkansi.tenchusatu.Split(",");
+            string[] NenkansiTenchusatu = Nenkansi.tenchusatu.Split(",");
+            for (int i = 0; i < 2; i++)
             {
-                { lblNenkansi1,lblJudaiShuseiD },
-                { lblGekkansi1,lblJudaiShuseiE },
-                { lblNenkansi2,lblJunidaiJuseiA },
-                { lblGekkansi2,lblJunidaiJuseiB },
-                { lblNikkansi2,lblJunidaiJuseiC },
+                lstLblNikkansiTenchusatu[i].Text = NikkansiTenchusatu[i];
+                lstLblNenkansiTenchusatu[i].Text = NenkansiTenchusatu[i];
+            }
+
+            //陽占ラベルの色設定に影響するラベルとの関連付け
+            Dictionary<Label, Label> dicYosenCombineInsenLabel = new Dictionary<Label, Label>()
+            {
+                { lblJudaiShuseiA, lblNikkansiHongen },
+                { lblJudaiShuseiB, lblGekkansiHongen },
+                { lblJudaiShuseiC, lblNenkansiHongen },
+                { lblJudaiShuseiD, lblNenkansi1 },
+                { lblJudaiShuseiE, lblGekkansi1 },
+                { lblJunidaiJuseiA, lblNenkansi2 },
+                { lblJunidaiJuseiB, lblGekkansi2 },
+                { lblJunidaiJuseiC, lblNikkansi2 },
             };
             //色を初期化
-            for (int ary = 0; ary < aryPair.Length; ary++)
+            for (int ary = 0; ary < nikkansiTenchusatuCheckLabels.Length; ary++)
             {
-                aryPair[ary].SetColor(Color.Black);
+                nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
             }
-            foreach(var lbl in dicKansiCombineYosenLabel)
+            for (int ary = 0; ary < nenkansiTenchusatuCheckLabels.Length; ary++)
+            {
+                nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
+            }
+            foreach (var lbl in dicYosenCombineInsenLabel)
             {
                 lbl.Value.ForeColor = Color.Black;
             }
-
-            string[] tenchusatu = lblTenchusatu.Text.Split(",");
-            for(int i=0; i<tenchusatu.Length; i++)
+            //日干支天中殺の文字が月干支と年干支に含まれていたら赤色設定
+            for (int i = 0; i < NikkansiTenchusatu.Length; i++)
             {
-
-                for(int ary=0; ary< aryPair.Length; ary++)
+                for (int j = 0; j < nikkansiTenchusatuCheckLabels.Length; j++)
                 {
-                   if( aryPair[ary].IsExist(tenchusatu[i]))
-                   {
-                        aryPair[ary].SetColor(Color.Red);
-
-                        Label lbl = aryPair[ary].GetSameLabel(tenchusatu[i]);
-                        dicKansiCombineYosenLabel[lbl].ForeColor = Color.Red;
-
-                   }
+                    if (nikkansiTenchusatuCheckLabels[j].IsExist(NikkansiTenchusatu[i]))
+                    {
+                        nikkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
+                    }
                 }
-
+            }
+            //年干支天中殺の文字が日干支に含まれていたら赤色設定
+            for (int i = 0; i < NenkansiTenchusatu.Length; i++)
+            {
+                for (int j = 0; j < nenkansiTenchusatuCheckLabels.Length; j++)
+                {
+                    if (nenkansiTenchusatuCheckLabels[j].IsExist(NenkansiTenchusatu[i]))
+                    {
+                        nenkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
+                    }
+                }
+            }
+            //陰占ラベルの色を陽占のラベルに反映
+            foreach (var item in dicYosenCombineInsenLabel)
+            {
+                item.Key.ForeColor = item.Value.ForeColor;
             }
         }
 
