@@ -19,6 +19,30 @@ namespace WinFormsApp2
 
         TableMng dataMng;
         SetuiribiTable setuiribiTbl = null;
+
+        //----------------------------------------------
+        //ラベルの組み合わせを登録
+        //----------------------------------------------
+        //日干支 ラベル
+        List<Label> lstLblNikkansi;
+        //月干支 ラベル
+        List<Label> lstLblGekkansi;
+        //年干支 ラベル
+        List<Label> lstLblNenkansi;
+
+        //日干支 天中殺 ラベル
+        List<Label> lstLblNikkansiTenchusatu;
+        //年干支 天中殺 ラベル
+        List<Label> lstLblNenkansiTenchusatu;
+
+        //日干支 二十八元素 ラベル
+        List<Label> lstLblNikkansiNijuhachiGenso;
+        //月干支 二十八元素 ラベル
+        List<Label> lstLblGekkansiNijuhachiGenso;
+        //年干支 二十八元素 ラベル
+        List<Label> lstLblNenkansiNijuhachiGenso;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -33,80 +57,39 @@ namespace WinFormsApp2
             txtMonth.Text = "8";
             txtDay.Text = "2";
 
+            //----------------------------------------------
+            //ラベルの組み合わせを登録
+            //----------------------------------------------
+            //日干支 ラベル
+            lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
+            //月干支 ラベル
+            lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
+            //年干支 ラベル
+            lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
+
+            //日干支 天中殺 ラベル
+            lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
+            //年干支 天中殺 ラベル
+            lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
+
+            //日干支 二十八元素 ラベル
+            lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+            //月干支 二十八元素 ラベル
+            lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+            //年干支 二十八元素 ラベル
+            lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+
+
+
+
             txtNikkansiSanshutuSu_TextChanged(null, null);
         }
 
-
-        //天中殺
-        class TenchusatuLabelPair
-        {
-            public TenchusatuLabelPair(Label[] _aryLabel, Label[] _zokanLabel)
-            {
-                aryLabel = _aryLabel;
-                aryZoukanLabel = _zokanLabel;
-            }
-            public bool IsExist(string s)
-            {
-                for (int i = 0; i < aryLabel.Length; i++)
-                {
-                    if (aryLabel[i].Text == s) return true;
-                }
-                return false;
-            }
-            public Label GetSameLabel(string s)
-            {
-                for (int i = 0; i < aryLabel.Length; i++)
-                {
-                    if (aryLabel[i].Text == s) return aryLabel[i];
-                }
-                return null;
-            }
-            public void SetColor(Color color)
-            {
-                for (int i = 0; i < aryLabel.Length; i++)
-                {
-                    aryLabel[i].ForeColor = color;
-                }
-                for (int i = 0; i < aryZoukanLabel.Length; i++)
-                {
-                    aryZoukanLabel[i].ForeColor = color;
-                }
-            }
-
-
-            public Label[] aryLabel;
-            public Label[] aryZoukanLabel;
-        };
 
         private void button1_Click(object sender, EventArgs e)
         {
 
             dataMng = new TableMng();
-
-
-
-            //----------------------------------------------
-            //ラベルの組み合わせを登録
-            //----------------------------------------------
-            //日干支 ラベル
-            List<Label> lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
-            //月干支 ラベル
-            List<Label> lstLblGekkaansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
-            //年干支 ラベル
-            List<Label> lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
-
-            //日干支 天中殺 ラベル
-            List<Label> lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
-            //年干支 天中殺 ラベル
-            List<Label> lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
-
-            //日干支 二十八元素 ラベル
-            List<Label> lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-            //月干支 二十八元素 ラベル
-            List<Label> lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-            //年干支 二十八元素 ラベル
-            List<Label> lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
-
 
             int baseYear = int.Parse(txtBaseYear.Text);
             int baseMonth = int.Parse(txtBaseMonth.Text);
@@ -131,7 +114,7 @@ namespace WinFormsApp2
             int NikkansiNo = setuiribiTbl.GetNikkansiNo(Year, Month, Day);
             int GekkansiNo = setuiribiTbl.GetGekkansiNo(Year, Month, Day);
             int NenkansiNo = setuiribiTbl.GetNenKansiNo(Year, Month, Day);
-            lblNIkkansiNo.Text = NikkansiNo.ToString();
+            lblNikkansiNo.Text = NikkansiNo.ToString();
             lblGekkansiNo.Text = GekkansiNo.ToString();
             lblNenkansiNo.Text = NenkansiNo.ToString();
 
@@ -142,13 +125,13 @@ namespace WinFormsApp2
             //------------------
             //日干支
             //------------------
-            var Nikkansi = dataMng.dicKansi[NikkansiNo];
+            var Nikkansi = dataMng.kansiMng.dicKansi[NikkansiNo];
 
             lblNikkansi1.Text = Nikkansi.kan;
             lblNikkansi2.Text = Nikkansi.si;
 
             //誕生日に該当する節入り日から誕生日までの経過日数
-            int dayNumFromSetuiribi = setuiribiTbl.CalcPassedDayFromSetuiribi(Year, Month, Day);
+            int dayNumFromSetuiribi = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
 
             //節理日から７日を超える日数の日干支を太字にする
             if (dayNumFromSetuiribi > 7)
@@ -164,7 +147,7 @@ namespace WinFormsApp2
             //------------------
             //月干支
             //------------------
-            var Gekkansi = dataMng.dicKansi[GekkansiNo];
+            var Gekkansi = dataMng.kansiMng.GetKansi(GekkansiNo);
 
             lblGekkansi1.Text = Gekkansi.kan;
             lblGekkansi2.Text = Gekkansi.si;
@@ -172,7 +155,7 @@ namespace WinFormsApp2
             //------------------
             //年干支
             //------------------
-            var Nenkansi = dataMng.dicKansi[NenkansiNo];
+            var Nenkansi = dataMng.kansiMng.GetKansi(NenkansiNo);
 
             lblNenkansi1.Text = Nenkansi.kan;
             lblNenkansi2.Text = Nenkansi.si;
@@ -224,16 +207,36 @@ namespace WinFormsApp2
             //============================================================
             //陽占
             //============================================================
+            DispYousen(idxNikkansiGensoType, idxGekkansiGensoType, idxNenkaisiGensoType);
+
+            //============================================================
+            //天中殺
+            //============================================================
+            DispTenchusatu(Nikkansi, Nenkansi);
+
+            //============================================================
+            //大運
+            //============================================================
+            DispTaiun(NenkansiNo);
+
+
+        }
+
+        /// <summary>
+        /// 陽占 表示
+        /// </summary>
+        private void DispYousen(int idxNikkansiGensoType, int idxGekkansiGensoType, int idxNenkaisiGensoType)
+        {
 
             //------------------
             //十大主星
             //------------------
             //干1 → 蔵13
-            lblJudaiShuseiA.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNikkansiNijuhachiGenso[ idxNikkansiGensoType ].Text);
+            lblJudaiShuseiA.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNikkansiNijuhachiGenso[idxNikkansiGensoType].Text);
             //干1 → 蔵23
-            lblJudaiShuseiB.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblGekkansiNijuhachiGenso[ idxGekkansiGensoType ].Text);
+            lblJudaiShuseiB.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblGekkansiNijuhachiGenso[idxGekkansiGensoType].Text);
             //干1 → 蔵33
-            lblJudaiShuseiC.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNenkansiNijuhachiGenso[idxNenkaisiGensoType ].Text);
+            lblJudaiShuseiC.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNenkansiNijuhachiGenso[idxNenkaisiGensoType].Text);
             //干1 → 干3
             lblJudaiShuseiD.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblNenkansi1.Text);
             //干1 → 干2
@@ -249,7 +252,13 @@ namespace WinFormsApp2
             //干1 → 支1
             lblJunidaiJuseiC.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNikkansi2.Text);
 
+        }
 
+        /// <summary>
+        /// 天中殺
+        /// </summary>
+        private void DispTenchusatu(Kansi Nikkansi, Kansi Nenkansi)
+        {
             //日干支天中殺の文字チェック対象ラベル
             TenchusatuLabelPair[] nikkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
             {
@@ -262,10 +271,6 @@ namespace WinFormsApp2
                   new TenchusatuLabelPair(new Label[]{lblNikkansi1, lblNikkansi2 } ,new Label[]{lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen }),
             };
 
-
-            //---------------------------------------------
-            //天中殺
-            //---------------------------------------------
             string[] NikkansiTenchusatu = Nikkansi.tenchusatu.Split(",");
             string[] NenkansiTenchusatu = Nenkansi.tenchusatu.Split(",");
             for (int i = 0; i < 2; i++)
@@ -328,6 +333,194 @@ namespace WinFormsApp2
             }
         }
 
+        //====================================================
+        // 大運 表示処理
+        //====================================================
+        /// <summary>
+        /// 大運
+        /// </summary>
+        /// <param name="nenkansiNo"></param>
+        private void DispTaiun(int nenkansiNo)
+        {
+            lvTaiun.Items.Clear();
+
+            //初旬干支番号
+            string[] kansi = new string[]{ lstLblGekkansi[0].Text, lstLblGekkansi[1].Text };
+            int  kansiNo = dataMng.kansiMng.GetKansiNo(kansi);
+
+            //順行、逆行
+            int dirc = Direction(nenkansiNo);
+
+            int Year = int.Parse(txtYear.Text);
+            int Month = int.Parse(txtMonth.Text);
+            int Day = int.Parse(txtDay.Text);
+            //才運
+            int dayCnt = 0;
+            if ( dirc==1) //順行
+            {
+                dayCnt = setuiribiTbl.CalcDayCountBirthdayToLastMonthDay(Year, Month, Day);
+            }
+            else
+            {
+                dayCnt = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
+            }
+            int countStartNen = (int)Math.Ceiling(dayCnt / 3.0);
+
+            //初旬
+            AddTaiunItem("初旬 0～", kansiNo, 0);
+
+
+            //1旬～10旬まで
+            for (int i=0; i<10; i++)
+            {
+                kansiNo += dirc;
+                if (kansiNo < 1) kansiNo = 60;
+                if (kansiNo > 60) kansiNo = 1;
+
+                AddTaiunItem(string.Format("{0}旬 {1}～", i + 1, countStartNen),
+                             kansiNo, countStartNen);
+
+                countStartNen += 10;
+
+            }
+
+            lvTaiun.Items[0].Selected = true;
+
+        }
+        /// <summary>
+        /// 大運 順行、逆行判定
+        /// </summary>
+        /// <param name="NenkansiNo"></param>
+        /// <returns></returns>
+        private int Direction(int NenkansiNo)
+        {
+            var Nenkansi = dataMng.kansiMng.dicKansi[NenkansiNo];
+
+            //性別
+            if (radMan.Checked)
+            {   //男性
+                if (dataMng.dicJyukan[Nenkansi.kan].inyou == "+") return 1;
+                else return -1;
+            }
+            else
+            {   //女性
+                if (dataMng.dicJyukan[Nenkansi.kan].inyou == "+") return -1;
+                else return 1;
+            }
+        }
+        /// <summary>
+        /// 大運 行データ追加
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="kansiNo"></param>
+        private void AddTaiunItem(string title, int kansiNo, int startNen)
+        {
+            string[] kansi = dataMng.kansiMng.GetKansiStr(kansiNo);
+
+            var lvItem = lvTaiun.Items.Add(title);
+            lvItem.SubItems.Add(string.Format("{0}{1}", kansi[0], kansi[1])); //干支
+
+            string judai = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, kansi[0]);
+            string junidai = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, kansi[1]);
+
+            //"星"を削除
+            judai = judai.Replace("星", "");
+            junidai = junidai.Replace("星", "");
+
+            lvItem.SubItems.Add(judai); //十大主星
+            lvItem.SubItems.Add(junidai); //十二大従星
+
+            //行のサブ情報として、開始年を保持させておく
+            lvItem.Tag = startNen;
+
+            //天中殺
+            Color color = Color.Black;
+            for(int i=0; i< lstLblNenkansiTenchusatu.Count; i++)
+            {
+                if(kansi[0] == lstLblNikkansiTenchusatu[i].Text || 
+                   kansi[1] == lstLblNikkansiTenchusatu[i].Text)
+                {
+                    color = Color.Red;
+                    break;
+                }
+            }
+
+            lvItem.ForeColor = color;
+
+        }
+
+        //====================================================
+        // 年運 表示処理
+        //====================================================
+        /// <summary>
+        /// 年運
+        /// </summary>
+        /// <param name="baseYear">大運で選択された行の開始年</param>
+        private void DispNenun(int birthDayYear, int startNen)
+        {
+            lvNenun.Items.Clear();
+
+            int year = birthDayYear + startNen;
+            int Month = int.Parse(txtMonth.Text);
+            int Day = int.Parse(txtDay.Text);
+
+            //初旬干支番号
+            int NenkansiNo = setuiribiTbl.GetNenKansiNo(year, Month, Day);
+
+ 
+            //1旬～10旬まで
+            for (int i = 0; i < 10+1; i++)
+            {
+                if (NenkansiNo < 1) NenkansiNo = 60;
+                if (NenkansiNo > 60) NenkansiNo = 1;
+
+                AddNenunItem(string.Format("{0}歳({1})", (year +i) - birthDayYear,  year +i),
+                             NenkansiNo);
+                NenkansiNo += 1;
+            }
+
+        }
+
+        /// <summary>
+        /// 年運 行データ追加
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="kansiNo"></param>
+        private void AddNenunItem(string title, int nenkansiNo)
+        {
+            string[] kansi = dataMng.kansiMng.GetKansiStr(nenkansiNo);
+
+            var lvItem = lvNenun.Items.Add(title);
+            lvItem.SubItems.Add(string.Format("{0}{1}", kansi[0], kansi[1])); //干支
+
+            string judai = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, kansi[0]);
+            string junidai = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, kansi[1]);
+
+            //"星"を削除
+            judai = judai.Replace("星", "");
+            junidai = junidai.Replace("星", "");
+
+            lvItem.SubItems.Add(judai); //十大主星
+            lvItem.SubItems.Add(junidai); //十二大従星
+
+            //天中殺
+            Color color = Color.Black;
+            for (int i = 0; i < lstLblNenkansiTenchusatu.Count; i++)
+            {
+                if (kansi[0] == lstLblNikkansiTenchusatu[i].Text ||
+                   kansi[1] == lstLblNikkansiTenchusatu[i].Text)
+                {
+                    color = Color.Red;
+                    break;
+                }
+            }
+
+            lvItem.ForeColor = color;
+
+        }
+
+
+
         private void txtNikkansiSanshutuSu_TextChanged(object sender, EventArgs e)
         {
             if (txtNikkansiSanshutuSu.Text == "") return;
@@ -337,6 +530,18 @@ namespace WinFormsApp2
             int no = int.Parse(txtNikkansiSanshutuSu.Text)+ baseDay;
 
             txtBaseNikkansiNo.Text = no.ToString();
+        }
+
+        private void lvTaiun_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int Year = int.Parse(txtYear.Text);
+
+            var selectedItem = lvTaiun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+
+            int startNen = (int)selectedItem[0].Tag;
+
+            DispNenun(Year, startNen);
         }
     }
 }

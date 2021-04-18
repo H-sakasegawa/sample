@@ -142,8 +142,8 @@ namespace WinFormsApp2
             return value;
         }
 
-        //生年月日に紐付く月の節入り日からの経過日数
-        public int CalcPassedDayFromSetuiribi(int year, int month, int day)
+        //入力された生年月日に紐付く月の節入り日からの経過日数
+        public int CalcDayCountFromSetuiribi(int year, int month, int day)
         {
             int orgYear = year;
             int orgMonth = month;
@@ -159,6 +159,54 @@ namespace WinFormsApp2
             return (int)(dateTo - dateFrom).TotalDays;
 
         }
+
+        //入力された生年月日から、紐付く月最終日までの日数
+        public int CalcDayCountBirthdayToLastMonthDay(int year, int month, int day)
+        {
+            int orgYear = year;
+            int orgMonth = month;
+            int orgDay = day;
+
+            CorrectMonthBySetuiribi(ref year, ref month, day);
+
+            int toYear = year;
+            int toMonth = month+1;
+            if (toMonth > 12)
+            {
+                toYear++;
+                toMonth = 1;
+            }
+
+            var yearItem = dicSetuiribiTbl[toYear];
+            int seturibi = yearItem.dicSetuiribi[toMonth];
+
+            //次の月の節入り日の前日
+            DateTime dateFrom = new DateTime(orgYear, orgMonth, orgDay);
+            DateTime dateTo = new DateTime(toYear, toMonth, seturibi-1);
+
+            return (int)(dateTo - dateFrom).TotalDays+1;
+
+        }
+
+        ////入力された生年月日に紐付く節入り日から生年月日までの日数
+        //public int CalcDayCountSetuiribiToBirthday(int year, int month, int day)
+        //{
+        //    int orgYear = year;
+        //    int orgMonth = month;
+        //    int orgDay = day;
+
+        //    CorrectMonthBySetuiribi(ref year, ref month, day);
+        //    var yearItem = dicSetuiribiTbl[year];
+        //    int seturibi = yearItem.dicSetuiribi[month];
+
+
+        //    DateTime dateFrom = new DateTime(year, month, day);
+        //    DateTime dateTo = new DateTime(orgYear, orgMonth, orgDay);
+
+        //    return (int)(dateTo - dateFrom).TotalDays;
+
+        //}
+
 
         private int CorrectMonthBySetuiribi(ref int year, ref int month, int day)
         {

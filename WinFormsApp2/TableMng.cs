@@ -12,16 +12,61 @@ namespace WinFormsApp2
         /// <summary>
         /// 十干
         /// </summary>
-        public List<Jyunisi> lstJyunisi = null;
+        public Dictionary<string, Jyukan> dicJyukan = null;
         /// <summary>
         /// 十二支
         /// </summary>
-        public List<Jyukan> lstJyukan = null;
+        public Dictionary<string, Jyunisi> dicJyunisi = null;
 
         /// <summary>
         /// 干支
         /// </summary>
-        public Dictionary<int, Kansi> dicKansi = null;
+        public class KansiMng
+        {
+            public Dictionary<int, Kansi> dicKansi = null;
+
+
+            /// <summary>
+            /// 干支文字列から干支番号取得
+            /// </summary>
+            /// <param name="kan"></param>
+            /// <param name="si"></param>
+            /// <returns></returns>
+            public int GetKansiNo(string[] kansi)
+            {
+                return GetKansiNo( kansi[0], kansi[1]);
+            }
+            public int GetKansiNo(string kan, string si)
+            {
+                return dicKansi.First(x => x.Value.kan == kan && x.Value.si == si).Key;
+            }
+            /// <summary>
+            /// 干支番号から干支取得
+            /// </summary>
+            /// <param name="kansiNo"></param>
+            /// <returns></returns>
+            public Kansi GetKansi(int kansiNo)
+            {
+                if (!dicKansi.ContainsKey(kansiNo)) return null;
+                var kansi = dicKansi[kansiNo];
+                return kansi;
+            }
+            /// <summary>
+            /// 干支番号から干支文字取得
+            /// </summary>
+            /// <param name="kansiNo"></param>
+            /// <returns></returns>
+            public string[] GetKansiStr(int kansiNo)
+            {
+                Kansi kansi = GetKansi(kansiNo);
+                if (kansi == null) return null;
+
+                return kansi.GetArray();
+            }
+
+        }
+        public KansiMng kansiMng = new KansiMng();
+
 
         /// <summary>
         /// 二十八元表
@@ -41,51 +86,53 @@ namespace WinFormsApp2
             //--------------------------------
             //十干
             //--------------------------------
-            lstJyukan = new List<Jyukan>
+            dicJyukan = new Dictionary<string, Jyukan>
             {
-                new Jyukan("甲","木","陽(+)"),
-                new Jyukan("乙","木","陰(-)"),
-                new Jyukan("丙","火","陽(+)"),
-                new Jyukan("丁","火","陰(-)"),
-                new Jyukan("戊","土","陽(+)"),
-                new Jyukan("己","土","陰(-)"),
-                new Jyukan("庚","金","陽(+)"),
-                new Jyukan("辛","金","陰(-)"),
-                new Jyukan("壬","水","陽(+)"),
-                new Jyukan("癸","水","陰(-)"),
+                {"甲", new Jyukan("甲","木","+") },
+                {"乙", new Jyukan("乙","木","-") },
+                {"丙", new Jyukan("丙","火","+") },
+                {"丁", new Jyukan("丁","火","-") },
+                {"戊", new Jyukan("戊","土","+") },
+                {"己", new Jyukan("己","土","-") },
+                {"庚", new Jyukan("庚","金","+") },
+                {"辛", new Jyukan("辛","金","-") },
+                {"壬", new Jyukan("壬","水","+") },
+                {"癸", new Jyukan("癸","水","-") },
             };
             //--------------------------------
             //十二支
             //--------------------------------
-            lstJyunisi = new List<Jyunisi>
+            dicJyunisi = new Dictionary<string, Jyunisi>
             {
-                new Jyunisi("子","水","陽(+)"),
-                new Jyunisi("丑","土","陰(-)"),
-                new Jyunisi("寅","木","陽(+)"),
-                new Jyunisi("卯","木","陰(-)"),
-                new Jyunisi("辰","土","陽(+)"),
-                new Jyunisi("巳","火","陰(-)"),
-                new Jyunisi("午","火","陽(+)"),
-                new Jyunisi("未","土","陰(-)"),
-                new Jyunisi("申","金","陽(+)"),
-                new Jyunisi("酉","金","陰(-)"),
-                new Jyunisi("戌","土","陽(+)"),
-                new Jyunisi("亥","水","陰(-)"),
+                {"子", new Jyunisi("子","水","+") },
+                {"丑", new Jyunisi("丑","土","-") },
+                {"寅", new Jyunisi("寅","木","+") },
+                {"卯", new Jyunisi("卯","木","-") },
+                {"辰", new Jyunisi("辰","土","+") },
+                {"巳", new Jyunisi("巳","火","-") },
+                {"午", new Jyunisi("午","火","+") },
+                {"未", new Jyunisi("未","土","-") },
+                {"申", new Jyunisi("申","金","+") },
+                {"酉", new Jyunisi("酉","金","-") },
+                {"戌", new Jyunisi("戌","土","+") },
+                {"亥", new Jyunisi("亥","水","-") },
             };
 
             //--------------------------------
             //干支            
             //--------------------------------
             string[] tenchusatu = { "戌,亥", "申,酉", "午,未", "辰,巳", "寅,卯", "子,丑" };//天中殺
-            dicKansi = new Dictionary<int, Kansi>();
+            kansiMng.dicKansi = new Dictionary<int, Kansi>();
+            var lstJyukan = dicJyukan.Values.ToList();
+            var lstJyunisi = dicJyunisi.Values.ToList();
             for (int i=0; i<60; i++)
             {
-                string kan = lstJyukan[i % lstJyukan.Count].name;
-                string si= lstJyunisi[i % lstJyunisi.Count].name;
+                string kan = lstJyukan[i % dicJyukan.Count].name;
+                string si= lstJyunisi[i % dicJyunisi.Count].name;
                 string techu = tenchusatu[i / 10];
 
                 int No = i + 1;
-                dicKansi.Add(No, new Kansi(No, kan, si, techu));
+                kansiMng.dicKansi.Add(No, new Kansi(No, kan, si, techu));
  
             }
 
@@ -119,14 +166,13 @@ namespace WinFormsApp2
                 new JudaiShuseiItem("貫索星","木","陽","濁", new string[]{"甲","乙","丙","丁","戊","己","庚","辛","壬","癸" }),
                 new JudaiShuseiItem("石門星","木","陰","濁", new string[]{"乙","甲","丁","丙","己","戊","辛","庚","癸","壬" }),
                 new JudaiShuseiItem("鳳閣星","火","陽","純", new string[]{"丙","丁","戊","己","庚","辛","壬","癸","甲","乙" }),
-                new JudaiShuseiItem("調舒星","火","陰","濁", new string[]{"丁","戊","己","庚","辛","壬","癸","甲","乙","丙" }),
+                new JudaiShuseiItem("調舒星","火","陰","濁", new string[]{"丁","丙","己","戊","辛","庚","癸","壬","乙","甲" }),
                 new JudaiShuseiItem("禄存星","土","陽","純", new string[]{"戊","己","庚","辛","壬","癸","甲","乙","丙","丁" }),
                 new JudaiShuseiItem("司禄星","土","陰","純", new string[]{"己","戊","辛","庚","癸","壬","乙","甲","丁","丙" }),
                 new JudaiShuseiItem("車騎星","金","陽","濁", new string[]{"庚","辛","壬","癸","甲","乙","丙","丁","戊","己" }),
                 new JudaiShuseiItem("牽牛星","金","陰","純", new string[]{"辛","庚","癸","壬","乙","甲","丁","丙","己","戊" }),
                 new JudaiShuseiItem("龍高星","水","陽","濁", new string[]{"壬","癸","甲","乙","丙","丁","戊","己","庚","辛" }),
                 new JudaiShuseiItem("玉堂星","水","陰","純", new string[]{"癸","壬","乙","甲","丁","丙","己","戊","辛","庚" }),
-
             };
 
             //--------------------------------

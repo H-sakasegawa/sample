@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace WinFormsApp2
 {
@@ -46,6 +48,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 干支 データ
     /// </summary>
+
     class Kansi
     {
         public int no;
@@ -60,6 +63,10 @@ namespace WinFormsApp2
             si = _si;
             tenchusatu = _tenchusatu;
 
+        }
+        public string[] GetArray()
+        {
+            return new string[] { kan, si };
         }
         public override string ToString()
         {
@@ -93,6 +100,10 @@ namespace WinFormsApp2
 
         public enmGensoType GetTargetGensoType(int dayNumFromSetuiribi )
         {
+            //dayNumFromSetuiribiは、節入り日からの経過日数（節入り日は含まない）
+            //ここで使用する日数は、節入り日も含めるるため、＋１する
+            dayNumFromSetuiribi++;
+
             //節入日                                 次月の節入り日
             //  |---------------------------------------|-----------
             //  |------->  初元
@@ -270,6 +281,50 @@ namespace WinFormsApp2
             jukan2 = _jukan2;
         }
     }
+
+
+    //天中殺
+    class TenchusatuLabelPair
+    {
+        public TenchusatuLabelPair(Label[] _aryLabel, Label[] _zokanLabel)
+        {
+            aryLabel = _aryLabel;
+            aryZoukanLabel = _zokanLabel;
+        }
+        public bool IsExist(string s)
+        {
+            for (int i = 0; i < aryLabel.Length; i++)
+            {
+                if (aryLabel[i].Text == s) return true;
+            }
+            return false;
+        }
+        public Label GetSameLabel(string s)
+        {
+            for (int i = 0; i < aryLabel.Length; i++)
+            {
+                if (aryLabel[i].Text == s) return aryLabel[i];
+            }
+            return null;
+        }
+        public void SetColor(Color color)
+        {
+            for (int i = 0; i < aryLabel.Length; i++)
+            {
+                aryLabel[i].ForeColor = color;
+            }
+            for (int i = 0; i < aryZoukanLabel.Length; i++)
+            {
+                aryZoukanLabel[i].ForeColor = color;
+            }
+        }
+
+
+        public Label[] aryLabel;
+        public Label[] aryZoukanLabel;
+    };
+
+
 
 
 }

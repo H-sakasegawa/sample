@@ -67,7 +67,7 @@ namespace WinFormsApp2
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblNIkkansiNo = new System.Windows.Forms.Label();
+            this.lblNikkansiNo = new System.Windows.Forms.Label();
             this.lblGekkansiNo = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNenkansiNo = new System.Windows.Forms.Label();
@@ -103,6 +103,18 @@ namespace WinFormsApp2
             this.radMan = new System.Windows.Forms.RadioButton();
             this.radWoman = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lvTaiun = new System.Windows.Forms.ListView();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lvNenun = new System.Windows.Forms.ListView();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -613,13 +625,13 @@ namespace WinFormsApp2
             this.label1.TabIndex = 13;
             this.label1.Text = "日干支番号：";
             // 
-            // lblNIkkansiNo
+            // lblNikkansiNo
             // 
-            this.lblNIkkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNIkkansiNo.Location = new System.Drawing.Point(440, 77);
-            this.lblNIkkansiNo.Name = "lblNIkkansiNo";
-            this.lblNIkkansiNo.Size = new System.Drawing.Size(37, 16);
-            this.lblNIkkansiNo.TabIndex = 14;
+            this.lblNikkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblNikkansiNo.Location = new System.Drawing.Point(440, 77);
+            this.lblNikkansiNo.Name = "lblNikkansiNo";
+            this.lblNikkansiNo.Size = new System.Drawing.Size(37, 16);
+            this.lblNikkansiNo.TabIndex = 14;
             // 
             // lblGekkansiNo
             // 
@@ -1023,11 +1035,106 @@ namespace WinFormsApp2
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "性別";
             // 
+            // lvTaiun
+            // 
+            this.lvTaiun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lvTaiun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4});
+            this.lvTaiun.FullRowSelect = true;
+            this.lvTaiun.HideSelection = false;
+            this.lvTaiun.Location = new System.Drawing.Point(27, 420);
+            this.lvTaiun.Name = "lvTaiun";
+            this.lvTaiun.Size = new System.Drawing.Size(319, 226);
+            this.lvTaiun.TabIndex = 40;
+            this.lvTaiun.UseCompatibleStateImageBehavior = false;
+            this.lvTaiun.View = System.Windows.Forms.View.Details;
+            this.lvTaiun.SelectedIndexChanged += new System.EventHandler(this.lvTaiun_SelectedIndexChanged);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "旬";
+            this.columnHeader1.Width = 80;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "干支";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "十大主星";
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "十二大主星";
+            this.columnHeader4.Width = 75;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label11.Location = new System.Drawing.Point(352, 396);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 20);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "年運：";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label12.Location = new System.Drawing.Point(27, 396);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(54, 20);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "大運：";
+            // 
+            // lvNenun
+            // 
+            this.lvNenun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lvNenun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8});
+            this.lvNenun.FullRowSelect = true;
+            this.lvNenun.HideSelection = false;
+            this.lvNenun.Location = new System.Drawing.Point(352, 420);
+            this.lvNenun.Name = "lvNenun";
+            this.lvNenun.Size = new System.Drawing.Size(308, 226);
+            this.lvNenun.TabIndex = 41;
+            this.lvNenun.UseCompatibleStateImageBehavior = false;
+            this.lvNenun.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "旬";
+            this.columnHeader5.Width = 80;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "干支";
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "十大主星";
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "十二大主星";
+            this.columnHeader8.Width = 75;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 430);
+            this.ClientSize = new System.Drawing.Size(793, 658);
+            this.Controls.Add(this.lvNenun);
+            this.Controls.Add(this.lvTaiun);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tableLayoutPanel8);
             this.Controls.Add(this.groupBox1);
@@ -1035,7 +1142,9 @@ namespace WinFormsApp2
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblGekkansiNo);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblNIkkansiNo);
+            this.Controls.Add(this.lblNikkansiNo);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
@@ -1116,7 +1225,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblNIkkansiNo;
+        private System.Windows.Forms.Label lblNikkansiNo;
         private System.Windows.Forms.Label lblGekkansiNo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblNenkansiNo;
@@ -1152,6 +1261,18 @@ namespace WinFormsApp2
         private System.Windows.Forms.RadioButton radMan;
         private System.Windows.Forms.RadioButton radWoman;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListView lvTaiun;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ListView lvNenun;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }
 
