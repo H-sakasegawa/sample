@@ -116,26 +116,6 @@ namespace WinFormsApp2
         public int GetGekkansiNo(int year, int month, int day)
         {
             int value = 0;
-            //if (month == 1)
-            //{
-            //    var yearItem = dicSetuiribiTbl[year];
-            //    int seturibi = yearItem.dicSetuiribi[month];
-            //    //１月の節入り日前の日は、前年の１２月の月干支番号となる
-            //    if (day < seturibi)
-            //    {
-            //        year = year - 1;
-            //        month = 12;
-            //    }
-            //}
-            //else
-            //{
-            //    var yearItem = dicSetuiribiTbl[year];
-            //    int seturibi = yearItem.dicSetuiribi[month];
-            //    if (day < seturibi)
-            //    {
-            //        month = month -1;
-            //    }
-            // }
             month = CorrectMonthBySetuiribi(ref year, ref month, day);
 
             DateTime dateFrom = new System.DateTime(baseYear, baseMonth, 1);
@@ -162,15 +142,19 @@ namespace WinFormsApp2
             return value;
         }
 
-        //生年月日に日も付く月の節入り日からの経過日数
+        //生年月日に紐付く月の節入り日からの経過日数
         public int CalcPassedDayFromSetuiribi(int year, int month, int day)
         {
-            int correctMonth = CorrectMonthBySetuiribi(ref year, ref month, day);
-            var yearItem = dicSetuiribiTbl[year];
-            int seturibi = yearItem.dicSetuiribi[correctMonth];
+            int orgYear = year;
+            int orgMonth = month;
+            int orgDay = day;
 
-            DateTime dateFrom = new DateTime(year, correctMonth, seturibi);
-            DateTime dateTo = new DateTime(year, month, day);
+            CorrectMonthBySetuiribi(ref year, ref month, day);
+            var yearItem = dicSetuiribiTbl[year];
+            int seturibi = yearItem.dicSetuiribi[month];
+
+            DateTime dateFrom = new DateTime(year, month, seturibi);
+            DateTime dateTo = new DateTime(orgYear, orgMonth, orgDay);
 
             return (int)(dateTo - dateFrom).TotalDays;
 
@@ -178,27 +162,43 @@ namespace WinFormsApp2
 
         private int CorrectMonthBySetuiribi(ref int year, ref int month, int day)
         {
-            if (month == 1)
+            if (dicSetuiribiTbl.ContainsKey(year))
             {
-                var yearItem = dicSetuiribiTbl[year];
-                int seturibi = yearItem.dicSetuiribi[month];
-                //１月の節入り日前の日は、前年の１２月の月干支番号となる
-                if (day < seturibi)
+                if (month == 1)
                 {
-                    year = year - 1;
-                    month = 12;
+                    var yearItem = dicSetuiribiTbl[year];
+                    int seturibi = yearItem.dicSetuiribi[month];
+                    //１月の節入り日前の日は、前年の１２月の月干支番号となる
+                    if (day < seturibi)
+                    {
+                        year = year - 1;
+                        month = 12;
+                    }
                 }
-            }
-            else
-            {
-                var yearItem = dicSetuiribiTbl[year];
-                int seturibi = yearItem.dicSetuiribi[month];
-                if (day < seturibi)
+                else
                 {
-                    month = month - 1;
+
+                    var yearItem = dicSetuiribiTbl[year];
+                    int seturibi = yearItem.dicSetuiribi[month];
+                    if (day < seturibi)
+                    {
+                        month = month - 1;
+                    }
                 }
+                return month;
             }
-            return month;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// 読み込んだ節入り日テーブルに指定年度の情報がふくまれているか？
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public bool IsContainsYear( int year )
+        {
+            return dicSetuiribiTbl.ContainsKey(year);
         }
 
     }

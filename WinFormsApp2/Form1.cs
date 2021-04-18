@@ -84,6 +84,7 @@ namespace WinFormsApp2
             dataMng = new TableMng();
 
 
+
             //----------------------------------------------
             //ラベルの組み合わせを登録
             //----------------------------------------------
@@ -104,7 +105,7 @@ namespace WinFormsApp2
             //月干支 二十八元素 ラベル
             List<Label> lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
             //年干支 二十八元素 ラベル
-            List<Label> lstLblNenkasiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+            List<Label> lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
 
             int baseYear = int.Parse(txtBaseYear.Text);
@@ -119,6 +120,12 @@ namespace WinFormsApp2
             int Month = int.Parse(txtMonth.Text);
             int Day = int.Parse(txtDay.Text);
 
+            //節入り日テーブル有効範囲チェック
+            if( !setuiribiTbl.IsContainsYear(Year))
+            {
+                MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
+                return;
+            }
             setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
             int NikkansiNo = setuiribiTbl.GetNikkansiNo(Year, Month, Day);
@@ -128,30 +135,43 @@ namespace WinFormsApp2
             lblGekkansiNo.Text = GekkansiNo.ToString();
             lblNenkansiNo.Text = NenkansiNo.ToString();
 
+            //============================================================
+            //陰占
+            //============================================================
+
+            //------------------
             //日干支
+            //------------------
             var Nikkansi = dataMng.dicKansi[NikkansiNo];
 
             lblNikkansi1.Text = Nikkansi.kan;
             lblNikkansi2.Text = Nikkansi.si;
 
-            if(setuiribiTbl.CalcPassedDayFromSetuiribi(Year, Month, Day)>7)
-            {
+            //誕生日に該当する節入り日から誕生日までの経過日数
+            int dayNumFromSetuiribi = setuiribiTbl.CalcPassedDayFromSetuiribi(Year, Month, Day);
 
-                lblNikkansi2.Font = new Font(lblNikkansi2.Font, FontStyle.Bold);
+            //節理日から７日を超える日数の日干支を太字にする
+            if (dayNumFromSetuiribi > 7)
+            {
+                Common.SetBold(lblNikkansi2, true);
             }
             else
             {
-                lblNikkansi2.Font = new Font(lblNikkansi2.Font, FontStyle.Regular);
+                Common.SetBold(lblNikkansi2, false);
             }
 
 
+            //------------------
             //月干支
+            //------------------
             var Gekkansi = dataMng.dicKansi[GekkansiNo];
 
             lblGekkansi1.Text = Gekkansi.kan;
             lblGekkansi2.Text = Gekkansi.si;
 
+            //------------------
             //年干支
+            //------------------
             var Nenkansi = dataMng.dicKansi[NenkansiNo];
 
             lblNenkansi1.Text = Nenkansi.kan;
@@ -171,34 +191,57 @@ namespace WinFormsApp2
                 lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen
             };
 
+            //------------------
             //二十八元表
-            NijuhachiGenso gensoNIkkansi = dataMng.lstNijuhachiGenso[lblNikkansi2.Text];
+            //------------------
+            NijuhachiGenso gensoNikkansi = dataMng.lstNijuhachiGenso[lblNikkansi2.Text];
             NijuhachiGenso gensoGekkansi = dataMng.lstNijuhachiGenso[lblGekkansi2.Text];
             NijuhachiGenso gensoNenkansi = dataMng.lstNijuhachiGenso[lblNenkansi2.Text];
-            for (int i = 0; i < 3; i++)
+
+            //十大主星判定用基準元素
+            var idxNikkansiGensoType = (int)gensoNikkansi.GetTargetGensoType(dayNumFromSetuiribi);
+            var idxGekkansiGensoType = (int)gensoGekkansi.GetTargetGensoType(dayNumFromSetuiribi);
+            var idxNenkaisiGensoType = (int)gensoNenkansi.GetTargetGensoType(dayNumFromSetuiribi);
+
+            foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
             {
-                aryLblNikkansiZougan[i].Text = gensoNIkkansi.genso[i];
-                aryLblGekkansiZougan[i].Text = gensoGekkansi.genso[i];
-                aryLblNenkansiZougan[i].Text = gensoNenkansi.genso[i];
+                Label label = aryLblNikkansiZougan[(int)Value];
+                label.Text = gensoNikkansi.genso[(int)Value].name;
+                if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
+                else Common.SetBold(label, false);
+
+                label = aryLblGekkansiZougan[(int)Value];
+                label.Text = gensoGekkansi.genso[(int)Value].name;
+                if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
+                else Common.SetBold(label, false);
+
+                label = aryLblNenkansiZougan[(int)Value];
+                label.Text = gensoNenkansi.genso[(int)Value].name;
+                if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
+                else Common.SetBold(label, false);
             }
 
-            //-----------------------------
+            //============================================================
             //陽占
-            //-----------------------------
+            //============================================================
 
+            //------------------
             //十大主星
+            //------------------
             //干1 → 蔵13
-            lblJudaiShuseiA.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblNikkansiHongen.Text);
+            lblJudaiShuseiA.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNikkansiNijuhachiGenso[ idxNikkansiGensoType ].Text);
             //干1 → 蔵23
-            lblJudaiShuseiB.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblGekkansiHongen.Text);
+            lblJudaiShuseiB.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblGekkansiNijuhachiGenso[ idxGekkansiGensoType ].Text);
             //干1 → 蔵33
-            lblJudaiShuseiC.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblNenkansiHongen.Text);
+            lblJudaiShuseiC.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lstLblNenkansiNijuhachiGenso[idxNenkaisiGensoType ].Text);
             //干1 → 干3
             lblJudaiShuseiD.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblNenkansi1.Text);
             //干1 → 干2
             lblJudaiShuseiE.Text = dataMng.juudaiShusei.GetJudaiShuseiName(lblNikkansi1.Text, lblGekkansi1.Text);
 
+            //------------------
             //十二大主星
+            //------------------
             //干1 → 支3
             lblJunidaiJuseiA.Text = dataMng.junidaiJusei.GetJunidaiJuseiName(lblNikkansi1.Text, lblNenkansi2.Text);
             //干1 → 支2

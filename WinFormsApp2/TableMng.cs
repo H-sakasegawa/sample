@@ -94,18 +94,18 @@ namespace WinFormsApp2
             //--------------------------------
             lstNijuhachiGenso = new Dictionary<string, NijuhachiGenso>
             {
-                { "子",new NijuhachiGenso("子",""    ,""    ,"癸") },
-                { "丑",new NijuhachiGenso("丑","癸"  ,"辛"  ,"己") },
-                { "寅",new NijuhachiGenso("寅","戊"  ,"丙"  ,"甲") },
-                { "卯",new NijuhachiGenso("卯",""    ,""    ,"乙") },
-                { "辰",new NijuhachiGenso("辰","乙"  ,"癸"  ,"戊") },
-                { "巳",new NijuhachiGenso("巳","戊"  ,"庚"  ,"丙") },
-                { "午",new NijuhachiGenso("午",""    ,"己"  ,"丁") },
-                { "未",new NijuhachiGenso("未","丁"  ,"乙"  ,"己") },
-                { "申",new NijuhachiGenso("申","戊"  ,"壬"  ,"庚") },
-                { "酉",new NijuhachiGenso("酉",""    ,""    ,"辛") },
-                { "戌",new NijuhachiGenso("戌","辛"  ,"丁"  ,"戊") },
-                { "亥",new NijuhachiGenso("亥","甲"  ,""    ,"壬") },
+                { "子",new NijuhachiGenso(null               ,null               ,new Genso("癸") ) },
+                { "丑",new NijuhachiGenso(new Genso("癸", 9) ,new Genso("辛", 3) ,new Genso("己") ) },
+                { "寅",new NijuhachiGenso(new Genso("戊", 7) ,new Genso("丙", 7) ,new Genso("甲") ) },
+                { "卯",new NijuhachiGenso(null               ,null               ,new Genso("乙") ) },
+                { "辰",new NijuhachiGenso(new Genso("乙", 9) ,new Genso("癸", 3) ,new Genso("戊") ) },
+                { "巳",new NijuhachiGenso(new Genso("戊", 5) ,new Genso("庚", 9) ,new Genso("丙") ) },
+                { "午",new NijuhachiGenso(null               ,new Genso("己",19) ,new Genso("丁") ) },
+                { "未",new NijuhachiGenso(new Genso("丁",9)  ,new Genso("乙", 3) ,new Genso("己") ) },
+                { "申",new NijuhachiGenso(new Genso("戊",10) ,new Genso("壬", 3) ,new Genso("庚") ) },
+                { "酉",new NijuhachiGenso(null               ,null               ,new Genso("辛") ) },
+                { "戌",new NijuhachiGenso(new Genso("辛", 9) ,new Genso("丁", 3) ,new Genso("戊") ) },
+                { "亥",new NijuhachiGenso(new Genso("甲",12) ,null               ,new Genso("壬") ) },
             };
 
             //--------------------------------

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace WinFormsApp2
@@ -30,6 +32,14 @@ namespace WinFormsApp2
                 // それ以外の場合は、その月を満了していないとみなす
                 // (例:1月30日→3月29日以前の場合は(3-1)ヶ月未満、よって満(3-1-1)ヶ月)
                 return elapsedMonths - 1;
+        }
+
+        public static void SetBold(Label label, bool bBold)
+        {
+            FontStyle fontStyle = FontStyle.Regular;
+            if (bBold) fontStyle = FontStyle.Bold;
+
+            label.Font = new Font(label.Font, fontStyle);
         }
     }
 }

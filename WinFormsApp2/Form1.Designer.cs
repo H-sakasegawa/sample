@@ -100,6 +100,9 @@ namespace WinFormsApp2
             this.lblJudaiShuseiA = new System.Windows.Forms.Label();
             this.lblJudaiShuseiD = new System.Windows.Forms.Label();
             this.lblJunidaiJuseiA = new System.Windows.Forms.Label();
+            this.radMan = new System.Windows.Forms.RadioButton();
+            this.radWoman = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -109,11 +112,12 @@ namespace WinFormsApp2
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(373, 38);
+            this.button1.Location = new System.Drawing.Point(373, 51);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(257, 23);
             this.button1.TabIndex = 0;
@@ -133,7 +137,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel1.Controls.Add(this.lblNikkansi1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblGekkansi1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblNenkansi1, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(424, 93);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(424, 106);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -270,12 +274,12 @@ namespace WinFormsApp2
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.Controls.Add(this.lblNikkansiTenchusatu2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.lblNikkansiTenchusatu1, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(369, 103);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(366, 127);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(45, 88);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(45, 69);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // lblNikkansiTenchusatu2
@@ -285,9 +289,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiTenchusatu2.AutoSize = true;
             this.lblNikkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNikkansiTenchusatu2.Location = new System.Drawing.Point(3, 44);
+            this.lblNikkansiTenchusatu2.Location = new System.Drawing.Point(3, 34);
             this.lblNikkansiTenchusatu2.Name = "lblNikkansiTenchusatu2";
-            this.lblNikkansiTenchusatu2.Size = new System.Drawing.Size(39, 44);
+            this.lblNikkansiTenchusatu2.Size = new System.Drawing.Size(39, 35);
             this.lblNikkansiTenchusatu2.TabIndex = 3;
             this.lblNikkansiTenchusatu2.Text = "A";
             this.lblNikkansiTenchusatu2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -301,7 +305,7 @@ namespace WinFormsApp2
             this.lblNikkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNikkansiTenchusatu1.Location = new System.Drawing.Point(3, 0);
             this.lblNikkansiTenchusatu1.Name = "lblNikkansiTenchusatu1";
-            this.lblNikkansiTenchusatu1.Size = new System.Drawing.Size(39, 44);
+            this.lblNikkansiTenchusatu1.Size = new System.Drawing.Size(39, 34);
             this.lblNikkansiTenchusatu1.TabIndex = 0;
             this.lblNikkansiTenchusatu1.Text = "A";
             this.lblNikkansiTenchusatu1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -351,12 +355,12 @@ namespace WinFormsApp2
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.lblNenkansiTenchusatu2, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.lblNenkansiTenchusatu1, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(591, 103);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(591, 127);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(49, 88);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(49, 69);
             this.tableLayoutPanel5.TabIndex = 3;
             // 
             // lblNenkansiTenchusatu2
@@ -366,9 +370,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiTenchusatu2.AutoSize = true;
             this.lblNenkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNenkansiTenchusatu2.Location = new System.Drawing.Point(3, 44);
+            this.lblNenkansiTenchusatu2.Location = new System.Drawing.Point(3, 34);
             this.lblNenkansiTenchusatu2.Name = "lblNenkansiTenchusatu2";
-            this.lblNenkansiTenchusatu2.Size = new System.Drawing.Size(43, 44);
+            this.lblNenkansiTenchusatu2.Size = new System.Drawing.Size(43, 35);
             this.lblNenkansiTenchusatu2.TabIndex = 3;
             this.lblNenkansiTenchusatu2.Text = "A";
             this.lblNenkansiTenchusatu2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -382,7 +386,7 @@ namespace WinFormsApp2
             this.lblNenkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNenkansiTenchusatu1.Location = new System.Drawing.Point(3, 0);
             this.lblNenkansiTenchusatu1.Name = "lblNenkansiTenchusatu1";
-            this.lblNenkansiTenchusatu1.Size = new System.Drawing.Size(43, 44);
+            this.lblNenkansiTenchusatu1.Size = new System.Drawing.Size(43, 34);
             this.lblNenkansiTenchusatu1.TabIndex = 0;
             this.lblNenkansiTenchusatu1.Text = "A";
             this.lblNenkansiTenchusatu1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -402,7 +406,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel6.Controls.Add(this.lblNikkansiShogen, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblGekkansiShogen, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblNenkansiShogen, 2, 0);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(427, 224);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(427, 237);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 3;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
@@ -540,7 +544,7 @@ namespace WinFormsApp2
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(369, 9);
+            this.label24.Location = new System.Drawing.Point(369, 22);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(55, 15);
             this.label24.TabIndex = 6;
@@ -548,7 +552,7 @@ namespace WinFormsApp2
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(436, 5);
+            this.txtYear.Location = new System.Drawing.Point(436, 18);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(56, 23);
             this.txtYear.TabIndex = 7;
@@ -557,7 +561,7 @@ namespace WinFormsApp2
             // 
             // txtMonth
             // 
-            this.txtMonth.Location = new System.Drawing.Point(522, 5);
+            this.txtMonth.Location = new System.Drawing.Point(522, 18);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
             this.txtMonth.TabIndex = 8;
@@ -566,7 +570,7 @@ namespace WinFormsApp2
             // 
             // txtDay
             // 
-            this.txtDay.Location = new System.Drawing.Point(578, 5);
+            this.txtDay.Location = new System.Drawing.Point(578, 18);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(33, 23);
             this.txtDay.TabIndex = 9;
@@ -576,7 +580,7 @@ namespace WinFormsApp2
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(497, 8);
+            this.label25.Location = new System.Drawing.Point(497, 21);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(19, 15);
             this.label25.TabIndex = 10;
@@ -585,7 +589,7 @@ namespace WinFormsApp2
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(556, 8);
+            this.label26.Location = new System.Drawing.Point(556, 21);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(19, 15);
             this.label26.TabIndex = 11;
@@ -594,7 +598,7 @@ namespace WinFormsApp2
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(617, 8);
+            this.label27.Location = new System.Drawing.Point(617, 21);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(19, 15);
             this.label27.TabIndex = 12;
@@ -603,7 +607,7 @@ namespace WinFormsApp2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(366, 66);
+            this.label1.Location = new System.Drawing.Point(366, 79);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 15);
             this.label1.TabIndex = 13;
@@ -612,7 +616,7 @@ namespace WinFormsApp2
             // lblNIkkansiNo
             // 
             this.lblNIkkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNIkkansiNo.Location = new System.Drawing.Point(440, 64);
+            this.lblNIkkansiNo.Location = new System.Drawing.Point(440, 77);
             this.lblNIkkansiNo.Name = "lblNIkkansiNo";
             this.lblNIkkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNIkkansiNo.TabIndex = 14;
@@ -620,7 +624,7 @@ namespace WinFormsApp2
             // lblGekkansiNo
             // 
             this.lblGekkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGekkansiNo.Location = new System.Drawing.Point(556, 64);
+            this.lblGekkansiNo.Location = new System.Drawing.Point(556, 77);
             this.lblGekkansiNo.Name = "lblGekkansiNo";
             this.lblGekkansiNo.Size = new System.Drawing.Size(37, 15);
             this.lblGekkansiNo.TabIndex = 16;
@@ -628,7 +632,7 @@ namespace WinFormsApp2
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(483, 64);
+            this.label3.Location = new System.Drawing.Point(483, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 15);
             this.label3.TabIndex = 15;
@@ -637,7 +641,7 @@ namespace WinFormsApp2
             // lblNenkansiNo
             // 
             this.lblNenkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNenkansiNo.Location = new System.Drawing.Point(675, 65);
+            this.lblNenkansiNo.Location = new System.Drawing.Point(675, 78);
             this.lblNenkansiNo.Name = "lblNenkansiNo";
             this.lblNenkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNenkansiNo.TabIndex = 18;
@@ -645,7 +649,7 @@ namespace WinFormsApp2
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(599, 65);
+            this.label4.Location = new System.Drawing.Point(599, 78);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 17;
@@ -986,11 +990,45 @@ namespace WinFormsApp2
             this.lblJunidaiJuseiA.Text = "A";
             this.lblJunidaiJuseiA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // radMan
+            // 
+            this.radMan.AutoSize = true;
+            this.radMan.Checked = true;
+            this.radMan.Location = new System.Drawing.Point(8, 15);
+            this.radMan.Name = "radMan";
+            this.radMan.Size = new System.Drawing.Size(37, 19);
+            this.radMan.TabIndex = 37;
+            this.radMan.TabStop = true;
+            this.radMan.Text = "男";
+            this.radMan.UseVisualStyleBackColor = true;
+            // 
+            // radWoman
+            // 
+            this.radWoman.AutoSize = true;
+            this.radWoman.Location = new System.Drawing.Point(51, 15);
+            this.radWoman.Name = "radWoman";
+            this.radWoman.Size = new System.Drawing.Size(37, 19);
+            this.radWoman.TabIndex = 38;
+            this.radWoman.Text = "女";
+            this.radWoman.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.radMan);
+            this.groupBox2.Controls.Add(this.radWoman);
+            this.groupBox2.Location = new System.Drawing.Point(652, 2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(97, 36);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "性別";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(793, 430);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tableLayoutPanel8);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblNenkansiNo);
@@ -1031,6 +1069,8 @@ namespace WinFormsApp2
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1109,6 +1149,9 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label lblJudaiShuseiA;
         private System.Windows.Forms.Label lblJudaiShuseiD;
         private System.Windows.Forms.Label lblJunidaiJuseiA;
+        private System.Windows.Forms.RadioButton radMan;
+        private System.Windows.Forms.RadioButton radWoman;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 

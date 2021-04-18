@@ -73,16 +73,53 @@ namespace WinFormsApp2
     /// </summary>
     class NijuhachiGenso
     {
-        public string name;
-        public string[] genso =new string[3];
-
-        public NijuhachiGenso(string _junisi, string _shogen, string _chuugen, string _hongen)
+        public enum enmGensoType
         {
-            name = _junisi;
+            GENSO_SHOGEN = 0,   //初元
+            GENSO_CHUGEN,       //中元
+            GENSO_HONGEN,       //本元
+        }
+        public Genso[] genso = new Genso[3];
+
+        public NijuhachiGenso(Genso _shogen, Genso _chugen, Genso _hongen)
+        {
+            if (_shogen == null) _shogen = new Genso("");
+            if (_chugen == null) _chugen = new Genso("");
+            if (_hongen == null) _hongen = new Genso("");
             genso[0] = _shogen;
-            genso[1] = _chuugen;
+            genso[1] = _chugen;
             genso[2] = _hongen;
         }
+
+        public enmGensoType GetTargetGensoType(int dayNumFromSetuiribi )
+        {
+            //節入日                                 次月の節入り日
+            //  |---------------------------------------|-----------
+            //  |------->  初元
+            //           |------------->中元
+            //                         |--------------->本元
+            if (genso[0] != null)
+            {
+                if (genso[0].dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_SHOGEN;
+            }
+            if (genso[1] != null)
+            {
+                if (genso[1].dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_CHUGEN;
+            }
+
+            return enmGensoType.GENSO_HONGEN;
+        }
+    }
+    class Genso
+    {
+        public Genso(string _name, int _dayNum = -1)
+        {
+            name = _name;
+            dayNum = _dayNum;
+        }
+        public new string ToString() { return name; }
+        public string name;
+        public int dayNum;
     }
 
     /// <summary>
