@@ -102,7 +102,14 @@ namespace WinFormsApp2
                     value = cell.StringCellValue;
                     break;
                 case CellType.Numeric:
-                    value = cell.NumericCellValue.ToString();
+                    if (DateUtil.IsCellDateFormatted(cell))
+                    {
+                        value = cell.DateCellValue.ToString("yyyy/MM/dd HH:mm:ss");
+                    }
+                    else
+                    {
+                        value = cell.NumericCellValue.ToString();
+                    }
                     break;
                 case CellType.Boolean:
                     value = cell.BooleanCellValue.ToString();

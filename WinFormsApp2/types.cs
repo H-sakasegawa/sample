@@ -54,17 +54,17 @@ namespace WinFormsApp2
         public int no;
         public string kan;
         public string si;
-        public string tenchusatu;
+        public Tenchusatu tenchusatu;
 
         public Kansi(int _no, string _kan, string _si, string _tenchusatu)
         {
             no = _no;
             kan = _kan;
             si = _si;
-            tenchusatu = _tenchusatu;
+            tenchusatu = new Tenchusatu(_tenchusatu);
 
         }
-        public string[] GetArray()
+        public string[] ToArray()
         {
             return new string[] { kan, si };
         }
@@ -73,6 +73,26 @@ namespace WinFormsApp2
             return kan + si;
         }
 
+    }
+
+    class Tenchusatu
+    {
+        public Tenchusatu(string _tenchusatu)
+        {
+            tencusatu = _tenchusatu;
+        }
+        public string tencusatu;
+        public string this[int index]
+        {
+            get
+            {
+                return ToArray()[index];
+            }
+        }
+        public string[] ToArray()
+        {
+            return tencusatu.Split(",");
+        }
     }
 
     /// <summary>
@@ -136,14 +156,14 @@ namespace WinFormsApp2
     /// <summary>
     /// 十大主星 データ
     /// </summary>
-    class JudaiShusei
+    class JudaiShuseiTbl
     {
 
         /// <summary>
         /// 主キー
         /// </summary>
         public string[] jukan1;
-        public List<JudaiShuseiItem> lstJudaiShusei;
+        public List<JudaiShusei> lstJudaiShusei;
 
         public string GetJudaiShuseiName(string key1, string key2)
         {
@@ -153,7 +173,7 @@ namespace WinFormsApp2
             return value.name;
         }
 
-        public JudaiShuseiItem GetJudaiShusei(string key1, string key2)
+        public JudaiShusei GetJudaiShusei(string key1, string key2)
         { 
             //主キーのインデックス番号取得
             for( int idxItem=0; idxItem < jukan1.Length; idxItem++)
@@ -175,7 +195,7 @@ namespace WinFormsApp2
 
 
     }
-    class JudaiShuseiItem
+    class JudaiShusei
     {
         /// <summary>
         /// 名称
@@ -198,7 +218,7 @@ namespace WinFormsApp2
         /// </summary>
         public string[] jukan2;
 
-        public JudaiShuseiItem(string _name, string _gogyou, string _inyou, string _juntaku, string[] _jukan2)
+        public JudaiShusei(string _name, string _gogyou, string _inyou, string _juntaku, string[] _jukan2)
         {
             name = _name;
             gogyou = _gogyou;
@@ -211,13 +231,13 @@ namespace WinFormsApp2
     /// <summary>
     /// 十二大従星
     /// </summary>
-    class JunidaiJusei
+    class JunidaiJuseiTbl
     {
         /// <summary>
         /// 主キー
         /// </summary>
         public string[] jukan1;
-        public List<JunidaiJuseiItem> lstJunidaiJusei;
+        public List<JunidaiJusei> lstJunidaiJusei;
 
 
         public string GetJunidaiJuseiName(string key1, string key2)
@@ -227,7 +247,7 @@ namespace WinFormsApp2
 
             return value.name;
         }
-        public JunidaiJuseiItem GetJunidaiJusei(string key1, string key2)
+        public JunidaiJusei GetJunidaiJusei(string key1, string key2)
         {
 
             //主キーのインデックス番号取得
@@ -249,7 +269,7 @@ namespace WinFormsApp2
         }
 
     }
-    class JunidaiJuseiItem
+    class JunidaiJusei
     {
         /// <summary>
         /// 名称
@@ -272,7 +292,7 @@ namespace WinFormsApp2
         /// </summary>
         public string[] jukan2;
 
-        public JunidaiJuseiItem(string _name, string _jidai, int _tensuu,  string _kyojaku, string[] _jukan2)
+        public JunidaiJusei(string _name, string _jidai, int _tensuu,  string _kyojaku, string[] _jukan2)
         {
             name = _name;
             jidai = _jidai;

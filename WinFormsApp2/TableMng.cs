@@ -61,7 +61,7 @@ namespace WinFormsApp2
                 Kansi kansi = GetKansi(kansiNo);
                 if (kansi == null) return null;
 
-                return kansi.GetArray();
+                return kansi.ToArray();
             }
 
         }
@@ -75,11 +75,11 @@ namespace WinFormsApp2
         /// <summary>
         /// 十大主星
         /// </summary>
-        public JudaiShusei juudaiShusei = null;
+        public JudaiShuseiTbl juudaiShusei = null;
         /// <summary>
         /// 十二大従星
         /// </summary>
-        public JunidaiJusei junidaiJusei = null;
+        public JunidaiJuseiTbl junidaiJusei = null;
 
         public TableMng()
         {
@@ -159,43 +159,56 @@ namespace WinFormsApp2
             //十大主星
             //--------------------------------
             //主キーを登録
-            juudaiShusei = new JudaiShusei();
+            juudaiShusei = new JudaiShuseiTbl();
             juudaiShusei.jukan1 = new string[] { "甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸" };
-            juudaiShusei.lstJudaiShusei = new List<JudaiShuseiItem>
+            juudaiShusei.lstJudaiShusei = new List<JudaiShusei>
             {   //サブキーを登録
-                new JudaiShuseiItem("貫索星","木","陽","濁", new string[]{"甲","乙","丙","丁","戊","己","庚","辛","壬","癸" }),
-                new JudaiShuseiItem("石門星","木","陰","濁", new string[]{"乙","甲","丁","丙","己","戊","辛","庚","癸","壬" }),
-                new JudaiShuseiItem("鳳閣星","火","陽","純", new string[]{"丙","丁","戊","己","庚","辛","壬","癸","甲","乙" }),
-                new JudaiShuseiItem("調舒星","火","陰","濁", new string[]{"丁","丙","己","戊","辛","庚","癸","壬","乙","甲" }),
-                new JudaiShuseiItem("禄存星","土","陽","純", new string[]{"戊","己","庚","辛","壬","癸","甲","乙","丙","丁" }),
-                new JudaiShuseiItem("司禄星","土","陰","純", new string[]{"己","戊","辛","庚","癸","壬","乙","甲","丁","丙" }),
-                new JudaiShuseiItem("車騎星","金","陽","濁", new string[]{"庚","辛","壬","癸","甲","乙","丙","丁","戊","己" }),
-                new JudaiShuseiItem("牽牛星","金","陰","純", new string[]{"辛","庚","癸","壬","乙","甲","丁","丙","己","戊" }),
-                new JudaiShuseiItem("龍高星","水","陽","濁", new string[]{"壬","癸","甲","乙","丙","丁","戊","己","庚","辛" }),
-                new JudaiShuseiItem("玉堂星","水","陰","純", new string[]{"癸","壬","乙","甲","丁","丙","己","戊","辛","庚" }),
+                new JudaiShusei("貫索星","木","陽","濁", new string[]{"甲","乙","丙","丁","戊","己","庚","辛","壬","癸" }),
+                new JudaiShusei("石門星","木","陰","濁", new string[]{"乙","甲","丁","丙","己","戊","辛","庚","癸","壬" }),
+                new JudaiShusei("鳳閣星","火","陽","純", new string[]{"丙","丁","戊","己","庚","辛","壬","癸","甲","乙" }),
+                new JudaiShusei("調舒星","火","陰","濁", new string[]{"丁","丙","己","戊","辛","庚","癸","壬","乙","甲" }),
+                new JudaiShusei("禄存星","土","陽","純", new string[]{"戊","己","庚","辛","壬","癸","甲","乙","丙","丁" }),
+                new JudaiShusei("司禄星","土","陰","純", new string[]{"己","戊","辛","庚","癸","壬","乙","甲","丁","丙" }),
+                new JudaiShusei("車騎星","金","陽","濁", new string[]{"庚","辛","壬","癸","甲","乙","丙","丁","戊","己" }),
+                new JudaiShusei("牽牛星","金","陰","純", new string[]{"辛","庚","癸","壬","乙","甲","丁","丙","己","戊" }),
+                new JudaiShusei("龍高星","水","陽","濁", new string[]{"壬","癸","甲","乙","丙","丁","戊","己","庚","辛" }),
+                new JudaiShusei("玉堂星","水","陰","純", new string[]{"癸","壬","乙","甲","丁","丙","己","戊","辛","庚" }),
             };
 
             //--------------------------------
             //十二大従星
             //--------------------------------
-            junidaiJusei = new JunidaiJusei();
+            junidaiJusei = new JunidaiJuseiTbl();
             junidaiJusei.jukan1 = new string[] { "甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸" };
-            junidaiJusei.lstJunidaiJusei = new List<JunidaiJuseiItem>
+            junidaiJusei.lstJunidaiJusei = new List<JunidaiJusei>
             {    //サブキーを登録
-                new JunidaiJuseiItem("天報星","胎児",3 ,"弱"     ,new string[]{"酉","申","子","亥","子","亥","卯","寅","午","巳"}),
-                new JunidaiJuseiItem("天印星","赤子",6 ,"中(弱)" ,new string[]{"戌","未","丑","戌","丑","戌","辰","丑","未","辰"}),
-                new JunidaiJuseiItem("天貴星","児童",9 ,"中"     ,new string[]{"亥","午","寅","酉","寅","酉","巳","子","申","卯"}),
-                new JunidaiJuseiItem("天恍星","少年",7 ,"中"     ,new string[]{"子","巳","卯","申","卯","申","午","亥","酉","寅"}),
-                new JunidaiJuseiItem("天南星","青年",10,"強"     ,new string[]{"丑","辰","辰","未","辰","未","未","戌","戌","丑"}),
-                new JunidaiJuseiItem("天禄星","壮年",11,"強"     ,new string[]{"寅","卯","巳","午","巳","午","申","酉","亥","子"}),
-                new JunidaiJuseiItem("天将星","家長",12,"強"     ,new string[]{"卯","寅","午","巳","午","巳","酉","申","子","亥"}),
-                new JunidaiJuseiItem("天堂星","老人",8 ,"中"     ,new string[]{"辰","丑","未","辰","未","辰","戌","未","丑","戌"}),
-                new JunidaiJuseiItem("天胡星","病人",4 ,"弱"     ,new string[]{"巳","子","申","卯","申","卯","亥","午","寅","酉"}),
-                new JunidaiJuseiItem("天極星","死人",2 ,"弱"     ,new string[]{"午","亥","酉","寅","酉","寅","子","巳","卯","申"}),
-                new JunidaiJuseiItem("天庫星","入墓",5 ,"中(弱)" ,new string[]{"未","戌","戌","丑","戌","丑","丑","辰","辰","未"}),
-                new JunidaiJuseiItem("天馳星","彼世",1 ,"弱"     ,new string[]{"申","酉","亥","子","亥","子","寅","卯","巳","午"}),
+                new JunidaiJusei("天報星","胎児",3 ,"弱"     ,new string[]{"酉","申","子","亥","子","亥","卯","寅","午","巳"}),
+                new JunidaiJusei("天印星","赤子",6 ,"中(弱)" ,new string[]{"戌","未","丑","戌","丑","戌","辰","丑","未","辰"}),
+                new JunidaiJusei("天貴星","児童",9 ,"中"     ,new string[]{"亥","午","寅","酉","寅","酉","巳","子","申","卯"}),
+                new JunidaiJusei("天恍星","少年",7 ,"中"     ,new string[]{"子","巳","卯","申","卯","申","午","亥","酉","寅"}),
+                new JunidaiJusei("天南星","青年",10,"強"     ,new string[]{"丑","辰","辰","未","辰","未","未","戌","戌","丑"}),
+                new JunidaiJusei("天禄星","壮年",11,"強"     ,new string[]{"寅","卯","巳","午","巳","午","申","酉","亥","子"}),
+                new JunidaiJusei("天将星","家長",12,"強"     ,new string[]{"卯","寅","午","巳","午","巳","酉","申","子","亥"}),
+                new JunidaiJusei("天堂星","老人",8 ,"中"     ,new string[]{"辰","丑","未","辰","未","辰","戌","未","丑","戌"}),
+                new JunidaiJusei("天胡星","病人",4 ,"弱"     ,new string[]{"巳","子","申","卯","申","卯","亥","午","寅","酉"}),
+                new JunidaiJusei("天極星","死人",2 ,"弱"     ,new string[]{"午","亥","酉","寅","酉","寅","子","巳","卯","申"}),
+                new JunidaiJusei("天庫星","入墓",5 ,"中(弱)" ,new string[]{"未","戌","戌","丑","戌","丑","丑","辰","辰","未"}),
+                new JunidaiJusei("天馳星","彼世",1 ,"弱"     ,new string[]{"申","酉","亥","子","亥","子","寅","卯","巳","午"}),
             };
          }
 
     }
+
+    class DataAccessor
+    {
+        TableMng tblMng;
+
+        public DataAccessor( TableMng mng)
+        {
+            tblMng = mng;
+        }
+
+
+    }
+
 }
