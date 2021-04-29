@@ -49,6 +49,17 @@ namespace WinFormsApp2
         private TableMng tblMng;
         private SetuiribiTable tblSetuiribi;
 
+        public Person(string _name, int year, int month, int day, Gender _gender)
+        {
+            name = _name;
+
+
+            birthday = new Birthday(year, month, day);
+            gender = _gender;
+            group = "";
+
+
+        }
         public Person(string _name, Birthday _birthday, Gender _gender, string _group)
         {
             name = _name;
@@ -165,6 +176,14 @@ namespace WinFormsApp2
             year = int.Parse(items[0]);
             month = int.Parse(items[1]);
             day = int.Parse(items[2]);
+
+        }
+        public Birthday(int _year, int _month, int _day)
+        {
+            birthday = string.Format("{0}/{1}/{2}", _year, _month, _day);
+            year = _year;
+            month = _month;
+            day = _day;
 
         }
 

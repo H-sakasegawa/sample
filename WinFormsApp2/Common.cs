@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading.Tasks;
 
-
-//test
 namespace WinFormsApp2
 {
     class Common

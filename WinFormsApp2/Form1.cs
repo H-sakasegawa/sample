@@ -111,9 +111,19 @@ namespace WinFormsApp2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Person person = new Person(cmbPerson.Text,
+                                        int.Parse(txtYear.Text),
+                                        int.Parse(txtMonth.Text),
+                                        int.Parse(txtDay.Text),
+                                        radMan.Checked ? Gender.NAN : Gender.WOMAN
+                                        );
+            MainProc(person);
+        }
+        s
+        private void MainProc(Person person)
+        { 
 
             dataMng = new TableMng();
-            Person person = (Person)cmbPerson.SelectedItem;
 
             int baseYear = int.Parse(txtBaseYear.Text);
             int baseMonth = int.Parse(txtBaseMonth.Text);
@@ -123,12 +133,12 @@ namespace WinFormsApp2
             int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
             int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
 
-            int Year = person.birthday.year;
-            int Month = person.birthday.month;
-            int Day = person.birthday.day;
+            int Year = int.Parse(txtYear.Text);
+            int Month = int.Parse(txtMonth.Text);
+            int Day = int.Parse(txtDay.Text);
 
             //節入り日テーブル有効範囲チェック
-            if( !setuiribiTbl.IsContainsYear(Year))
+            if ( !setuiribiTbl.IsContainsYear(Year))
             {
                 MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
                 return;
@@ -579,7 +589,7 @@ namespace WinFormsApp2
             if (person.gender == Gender.NAN) radMan.Checked = true;
             else radWoman.Checked = true;
 
-            button1_Click(null, null);
+            MainProc(person);
 
 
         }
