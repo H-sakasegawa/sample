@@ -119,7 +119,7 @@ namespace WinFormsApp2
                                         );
             MainProc(person);
         }
-        s
+
         private void MainProc(Person person)
         { 
 
