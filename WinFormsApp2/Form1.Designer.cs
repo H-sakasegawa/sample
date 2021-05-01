@@ -108,14 +108,20 @@ namespace WinFormsApp2
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader10 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader11 = new System.Windows.Forms.ColumnHeader();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.lvNenun = new System.Windows.Forms.ListView();
-            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
             this.cmbPerson = new System.Windows.Forms.ComboBox();
+            this.lvNenun = new System.Windows.Forms.ListView();
+            this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader18 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -1044,12 +1050,16 @@ namespace WinFormsApp2
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader9,
+            this.columnHeader10,
+            this.columnHeader11});
             this.lvTaiun.FullRowSelect = true;
             this.lvTaiun.HideSelection = false;
             this.lvTaiun.Location = new System.Drawing.Point(27, 420);
+            this.lvTaiun.MultiSelect = false;
             this.lvTaiun.Name = "lvTaiun";
-            this.lvTaiun.Size = new System.Drawing.Size(319, 226);
+            this.lvTaiun.Size = new System.Drawing.Size(418, 266);
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
@@ -1058,7 +1068,7 @@ namespace WinFormsApp2
             // columnHeader1
             // 
             this.columnHeader1.Text = "旬";
-            this.columnHeader1.Width = 80;
+            this.columnHeader1.Width = 70;
             // 
             // columnHeader2
             // 
@@ -1067,17 +1077,33 @@ namespace WinFormsApp2
             // columnHeader3
             // 
             this.columnHeader3.Text = "十大主星";
+            this.columnHeader3.Width = 40;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "十二大主星";
-            this.columnHeader4.Width = 75;
+            this.columnHeader4.Text = "十二大従星";
+            this.columnHeader4.Width = 40;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "日";
+            this.columnHeader9.Width = 70;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "月";
+            this.columnHeader10.Width = 70;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "年";
+            this.columnHeader11.Width = 70;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(352, 396);
+            this.label11.Location = new System.Drawing.Point(451, 397);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 20);
             this.label11.TabIndex = 13;
@@ -1093,42 +1119,6 @@ namespace WinFormsApp2
             this.label12.TabIndex = 13;
             this.label12.Text = "大運：";
             // 
-            // lvNenun
-            // 
-            this.lvNenun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lvNenun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8});
-            this.lvNenun.FullRowSelect = true;
-            this.lvNenun.HideSelection = false;
-            this.lvNenun.Location = new System.Drawing.Point(352, 420);
-            this.lvNenun.Name = "lvNenun";
-            this.lvNenun.Size = new System.Drawing.Size(308, 226);
-            this.lvNenun.TabIndex = 41;
-            this.lvNenun.UseCompatibleStateImageBehavior = false;
-            this.lvNenun.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "旬";
-            this.columnHeader5.Width = 80;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "干支";
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "十大主星";
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "十二大主星";
-            this.columnHeader8.Width = 75;
-            // 
             // cmbPerson
             // 
             this.cmbPerson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1139,13 +1129,69 @@ namespace WinFormsApp2
             this.cmbPerson.TabIndex = 42;
             this.cmbPerson.SelectedIndexChanged += new System.EventHandler(this.cmbPerson_SelectedIndexChanged);
             // 
+            // lvNenun
+            // 
+            this.lvNenun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lvNenun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader15,
+            this.columnHeader16,
+            this.columnHeader17,
+            this.columnHeader18,
+            this.columnHeader19,
+            this.columnHeader20,
+            this.columnHeader21});
+            this.lvNenun.FullRowSelect = true;
+            this.lvNenun.HideSelection = false;
+            this.lvNenun.Location = new System.Drawing.Point(451, 420);
+            this.lvNenun.MultiSelect = false;
+            this.lvNenun.Name = "lvNenun";
+            this.lvNenun.Size = new System.Drawing.Size(418, 266);
+            this.lvNenun.TabIndex = 43;
+            this.lvNenun.UseCompatibleStateImageBehavior = false;
+            this.lvNenun.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader15
+            // 
+            this.columnHeader15.Text = "歳";
+            this.columnHeader15.Width = 70;
+            // 
+            // columnHeader16
+            // 
+            this.columnHeader16.Text = "干支";
+            // 
+            // columnHeader17
+            // 
+            this.columnHeader17.Text = "十大主星";
+            this.columnHeader17.Width = 40;
+            // 
+            // columnHeader18
+            // 
+            this.columnHeader18.Text = "十二大従星";
+            this.columnHeader18.Width = 40;
+            // 
+            // columnHeader19
+            // 
+            this.columnHeader19.Text = "日";
+            this.columnHeader19.Width = 70;
+            // 
+            // columnHeader20
+            // 
+            this.columnHeader20.Text = "月";
+            this.columnHeader20.Width = 70;
+            // 
+            // columnHeader21
+            // 
+            this.columnHeader21.Text = "年";
+            this.columnHeader21.Width = 70;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 658);
-            this.Controls.Add(this.cmbPerson);
+            this.ClientSize = new System.Drawing.Size(953, 698);
             this.Controls.Add(this.lvNenun);
+            this.Controls.Add(this.cmbPerson);
             this.Controls.Add(this.lvTaiun);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tableLayoutPanel8);
@@ -1280,12 +1326,18 @@ namespace WinFormsApp2
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ListView lvNenun;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ComboBox cmbPerson;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ListView lvNenun;
+        private System.Windows.Forms.ColumnHeader columnHeader15;
+        private System.Windows.Forms.ColumnHeader columnHeader16;
+        private System.Windows.Forms.ColumnHeader columnHeader17;
+        private System.Windows.Forms.ColumnHeader columnHeader18;
+        private System.Windows.Forms.ColumnHeader columnHeader19;
+        private System.Windows.Forms.ColumnHeader columnHeader20;
+        private System.Windows.Forms.ColumnHeader columnHeader21;
     }
 }
 

@@ -237,6 +237,9 @@ namespace WinFormsApp2
             //============================================================
             DispTaiun(person);
 
+            lvNenun.Items.Add("ssssss");
+            lvNenun.Items.Add("bbbbb");
+
 
         }
 
@@ -505,6 +508,8 @@ namespace WinFormsApp2
                              nenkansiNo);
                 nenkansiNo += 1;
             }
+            lvNenun.Items[0].Selected = false;
+            lvNenun.Items[0].Focused = true;
 
         }
 
@@ -515,6 +520,7 @@ namespace WinFormsApp2
         /// <param name="kansiNo"></param>
         private void AddNenunItem(Person person , string title, int nenkansiNo)
         {
+
             Kansi nenunKansi = person.GetKansi( nenkansiNo );
 
             var lvItem = lvNenun.Items.Add(title);

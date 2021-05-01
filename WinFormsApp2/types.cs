@@ -130,12 +130,12 @@ namespace WinFormsApp2
             //  |------->  初元
             //           |------------->中元
             //                         |--------------->本元
-            if (genso[0].dayNum != -1l)
+            if (genso[0].dayNum != -1)
             {
                 dayNum += genso[0].dayNum;
                 if (dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_SHOGEN;
             }
-            if (genso[1].dayNum != -1l)
+            if (genso[1].dayNum != -1)
             {
                 dayNum += genso[1].dayNum;
                 if (dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_CHUGEN;
