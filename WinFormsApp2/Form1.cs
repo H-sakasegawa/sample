@@ -133,12 +133,8 @@ namespace WinFormsApp2
             int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
             int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
 
-            int Year = int.Parse(txtYear.Text);
-            int Month = int.Parse(txtMonth.Text);
-            int Day = int.Parse(txtDay.Text);
-
             //節入り日テーブル有効範囲チェック
-            if ( !setuiribiTbl.IsContainsYear(Year))
+            if ( !setuiribiTbl.IsContainsYear(person.birthday.year))
             {
                 MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
                 return;
@@ -388,7 +384,8 @@ namespace WinFormsApp2
             }
             else
             {
-                dayCnt = person.CalcDayCountFromSetuiribi();
+                //CalcDayCountFromSetuiribi()は節入り日を含めないので、＋１する
+                dayCnt = person.CalcDayCountFromSetuiribi()+1;
             }
             int countStartNen = (int)Math.Ceiling(dayCnt / 3.0);
             if (countStartNen > 10) countStartNen = 10;
@@ -497,7 +494,7 @@ namespace WinFormsApp2
             //選択された10年度の開始干支番号
             nenkansiNo += year - person.birthday.year;
             nenkansiNo = nenkansiNo % 60;
-            if (nenkansiNo == 0) nenkansiNo = 1;
+            if (nenkansiNo == 0) nenkansiNo = 60;
 
             for (int i = 0; i < 10+1; i++)
             {

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
-   enum Gender
+    /// <summary>
+    /// 性別
+    /// </summary>
+    enum Gender
     {
         NAN = 0,
         WOMAN
@@ -198,12 +201,15 @@ namespace WinFormsApp2
     /// </summary>
     class Persons
     {
+        /// <summary>
+        /// ユーザ情報登録ファイルの項目順定義
+        /// </summary>
         enum PersonListCol
         {
-           COL_NAME=0,
-           COL_BIRTHDAY,
-           COL_GENDER,
-           COL_GROUP
+           COL_NAME=0,  //氏名
+           COL_BIRTHDAY,//誕生日
+           COL_GENDER,  //性別
+           COL_GROUP    //グループ
         };
 
         private Dictionary<string, Person> dicPersons = null;
@@ -236,6 +242,11 @@ namespace WinFormsApp2
             get { return dicPersons.Count; }
         }
 
+        /// <summary>
+        /// エクセルファイルからのユーザ情報読み込み
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public int ReadPersonList(string filePath)
         {
             var version = "xls";

@@ -124,18 +124,21 @@ namespace WinFormsApp2
             //ここで使用する日数は、節入り日も含めるるため、＋１する
             dayNumFromSetuiribi++;
 
+            int dayNum = 0;
             //節入日                                 次月の節入り日
             //  |---------------------------------------|-----------
             //  |------->  初元
             //           |------------->中元
             //                         |--------------->本元
-            if (genso[0] != null)
+            if (genso[0].dayNum != -1l)
             {
-                if (genso[0].dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_SHOGEN;
+                dayNum += genso[0].dayNum;
+                if (dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_SHOGEN;
             }
-            if (genso[1] != null)
+            if (genso[1].dayNum != -1l)
             {
-                if (genso[1].dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_CHUGEN;
+                dayNum += genso[1].dayNum;
+                if (dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_CHUGEN;
             }
 
             return enmGensoType.GENSO_HONGEN;
