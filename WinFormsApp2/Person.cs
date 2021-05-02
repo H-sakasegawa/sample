@@ -93,14 +93,14 @@ namespace WinFormsApp2
             nenkansiNo = tblSetuiribi.GetNenKansiNo(birthday.year, birthday.month, birthday.day);
 
             //干支
-            nikkansi = tblMng.kansiMng.GetKansi(nikkansiNo);
-            gekkansi = tblMng.kansiMng.GetKansi(gekkansiNo);
-            nenkansi = tblMng.kansiMng.GetKansi(nenkansiNo);
+            nikkansi = tblMng.kansiTbl.GetKansi(nikkansiNo);
+            gekkansi = tblMng.kansiTbl.GetKansi(gekkansiNo);
+            nenkansi = tblMng.kansiTbl.GetKansi(nenkansiNo);
 
             //二十八元表
-            nijuhachiGensoNikkansi = tblMng.lstNijuhachiGenso[nikkansi.si];
-            nijuhachiGensoGekkansi = tblMng.lstNijuhachiGenso[gekkansi.si];
-            nijuhachiGensoNenkansi = tblMng.lstNijuhachiGenso[nenkansi.si];
+            nijuhachiGensoNikkansi = tblMng.dicNijuhachiGenso[nikkansi.si];
+            nijuhachiGensoGekkansi = tblMng.dicNijuhachiGenso[gekkansi.si];
+            nijuhachiGensoNenkansi = tblMng.dicNijuhachiGenso[nenkansi.si];
 
 
             NijuhachiGenso gensoNikkansi = nijuhachiGensoNikkansi;
@@ -136,6 +136,9 @@ namespace WinFormsApp2
             junidaiJuseiB = tblMng.junidaiJusei.GetJunidaiJusei(nikkansi.kan, gekkansi.si);
             //干1 → 支1
             junidaiJuseiC = tblMng.junidaiJusei.GetJunidaiJusei(nikkansi.kan, nikkansi.si);
+
+
+
             return 0;
         }
 
@@ -154,17 +157,121 @@ namespace WinFormsApp2
         //干支番号に該当する干支を取得
         public Kansi GetKansi( int kansiNo )
         {
-            return tblMng.kansiMng.GetKansi(kansiNo);
+            return tblMng.kansiTbl.GetKansi(kansiNo);
         }
 
+        //十大主星 取得
         public JudaiShusei GetJudaiShusei(string kan, string si)
         {
             return tblMng.juudaiShusei.GetJudaiShusei(kan, si);
         }
+        //十二大従星 取得
         public JunidaiJusei GetJunidaiShusei(string kan, string si)
         {
             return tblMng.junidaiJusei.GetJunidaiJusei(kan, si);
         }
+
+        //合法・散法
+        public string[] GetGouhouSanpou(Kansi nenunKansi, Kansi kansi)
+        {
+            return GetGouhouSanpou(nenunKansi.si, kansi.si);
+        }
+        public string[] GetGouhouSanpou(string nenunKansiSi, string kansiSi)
+        {
+            return tblMng.gouhouSanpouTbl.GetGouhouSanpou(nenunKansiSi, kansiSi);
+        }
+        public string GetGouhouSanpouString(Kansi nenunKansi, Kansi kansi)
+        {
+            return GetGouhouSanpouString(nenunKansi.si, kansi.si);
+        }
+        public string GetGouhouSanpouString(string nenunKansiSi, string kansiSi)
+        {
+            return tblMng.gouhouSanpouTbl.GetGouhouSanpouString(nenunKansiSi, kansiSi);
+        }
+        //納音、準納音
+        public string GetNentin(Kansi nenunKansi, Kansi kansi)
+        {
+            int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
+            int kansiNo = tblMng.kansiTbl.GetKansiNo(kansi);
+
+            int dif = 0;
+            if (nenunKansiNo <= kansiNo) dif = kansiNo - nenunKansiNo;
+            else dif = nenunKansiNo - kansiNo;
+
+            if (dif == 30) return "納音";
+            if (dif == 29 || dif == 31)
+            {
+                //nenunKansiの干とkansiの干が同じ五行の陰陽の関係か？
+                var nenunKansiJyukan = tblMng.jyukanTbl[nenunKansi.kan];
+                var kansiJyukan = tblMng.jyukanTbl[kansi.kan];
+
+                if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準納音";
+
+            }
+
+            return "";
+        }
+        //律音、準律音
+        public string GetNittin(Kansi nenunKansi, Kansi kansi)
+        {
+            int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
+            int kansiNo = tblMng.kansiTbl.GetKansiNo(kansi);
+
+            if (nenunKansiNo == kansiNo) return "律音";
+            else
+            {
+                int dif = Math.Abs(kansiNo - nenunKansiNo);
+                if ( kansiNo==1 && nenunKansiNo == 60 ||
+                    kansiNo == 60 && nenunKansiNo == 1 ||
+                    dif == 1)
+                {
+                    //nenunKansiの干とkansiの干が同じ五行の陰陽の関係か？
+                    var nenunKansiJyukan = tblMng.jyukanTbl[nenunKansi.kan];
+                    var kansiJyukan = tblMng.jyukanTbl[kansi.kan];
+
+                    if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準律音";
+                }
+
+            }
+
+            return "";
+        }
+        //七殺
+        public Nanasatsu GetNanasatu(Kansi taiunKansi, Kansi kansi)
+        {
+            return GetNanasatu(taiunKansi.kan, kansi.kan);
+        }
+        public Nanasatsu GetNanasatu(string taiunKan, string kan)
+        {
+            return tblMng.nanasatsuTbl.GetNanasatsu(taiunKan, kan);
+        }
+        public bool IsNanasatu(Kansi taiunKansi, Kansi kansi)
+        {
+            return IsNanasatu(taiunKansi.kan, kansi.kan);
+        }
+        public bool IsNanasatu(string taiunKan, string kan)
+        {
+            return GetNanasatu(taiunKan, kan)!=null?true:false;
+        }
+        //天殺
+        public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
+        {
+            return IsNanasatu(taiunKansi, kansi) ? "天殺" : "";
+        }
+        //地冲
+        public string GetTichuString(Kansi taiunKansi, Kansi kansi)
+        {
+            var values = GetGouhouSanpou(taiunKansi, kansi);
+            if (values != null)
+            {
+                foreach (var item in values)
+                {
+                    if (item.IndexOf("冲動") >= 0) return "地冲";
+                }
+            }
+            return "";
+        }
+
 
     }
     /// <summary>

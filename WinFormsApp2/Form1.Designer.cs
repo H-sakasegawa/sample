@@ -136,7 +136,7 @@ namespace WinFormsApp2
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(373, 71);
+            this.button1.Location = new System.Drawing.Point(13, 70);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(257, 23);
             this.button1.TabIndex = 0;
@@ -156,12 +156,12 @@ namespace WinFormsApp2
             this.tableLayoutPanel1.Controls.Add(this.lblNikkansi1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblGekkansi1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblNenkansi1, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(424, 126);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(76, 147);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(155, 107);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(155, 86);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // lblNenkansi2
@@ -170,10 +170,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansi2.AutoSize = true;
-            this.lblNenkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNenkansi2.Location = new System.Drawing.Point(105, 53);
+            this.lblNenkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansi2.Location = new System.Drawing.Point(105, 43);
             this.lblNenkansi2.Name = "lblNenkansi2";
-            this.lblNenkansi2.Size = new System.Drawing.Size(47, 54);
+            this.lblNenkansi2.Size = new System.Drawing.Size(47, 43);
             this.lblNenkansi2.TabIndex = 5;
             this.lblNenkansi2.Text = "A";
             this.lblNenkansi2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -184,10 +184,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGekkansi2.AutoSize = true;
-            this.lblGekkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGekkansi2.Location = new System.Drawing.Point(54, 53);
+            this.lblGekkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGekkansi2.Location = new System.Drawing.Point(54, 43);
             this.lblGekkansi2.Name = "lblGekkansi2";
-            this.lblGekkansi2.Size = new System.Drawing.Size(45, 54);
+            this.lblGekkansi2.Size = new System.Drawing.Size(45, 43);
             this.lblGekkansi2.TabIndex = 4;
             this.lblGekkansi2.Text = "A";
             this.lblGekkansi2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,10 +198,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansi2.AutoSize = true;
-            this.lblNikkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNikkansi2.Location = new System.Drawing.Point(3, 53);
+            this.lblNikkansi2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansi2.Location = new System.Drawing.Point(3, 43);
             this.lblNikkansi2.Name = "lblNikkansi2";
-            this.lblNikkansi2.Size = new System.Drawing.Size(45, 54);
+            this.lblNikkansi2.Size = new System.Drawing.Size(45, 43);
             this.lblNikkansi2.TabIndex = 3;
             this.lblNikkansi2.Text = "A";
             this.lblNikkansi2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -212,10 +212,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansi1.AutoSize = true;
-            this.lblNikkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNikkansi1.Location = new System.Drawing.Point(3, 0);
             this.lblNikkansi1.Name = "lblNikkansi1";
-            this.lblNikkansi1.Size = new System.Drawing.Size(45, 53);
+            this.lblNikkansi1.Size = new System.Drawing.Size(45, 43);
             this.lblNikkansi1.TabIndex = 0;
             this.lblNikkansi1.Text = "A";
             this.lblNikkansi1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -226,10 +226,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGekkansi1.AutoSize = true;
-            this.lblGekkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGekkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblGekkansi1.Location = new System.Drawing.Point(54, 0);
             this.lblGekkansi1.Name = "lblGekkansi1";
-            this.lblGekkansi1.Size = new System.Drawing.Size(45, 53);
+            this.lblGekkansi1.Size = new System.Drawing.Size(45, 43);
             this.lblGekkansi1.TabIndex = 2;
             this.lblGekkansi1.Text = "A";
             this.lblGekkansi1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -240,10 +240,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansi1.AutoSize = true;
-            this.lblNenkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansi1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNenkansi1.Location = new System.Drawing.Point(105, 0);
             this.lblNenkansi1.Name = "lblNenkansi1";
-            this.lblNenkansi1.Size = new System.Drawing.Size(47, 53);
+            this.lblNenkansi1.Size = new System.Drawing.Size(47, 43);
             this.lblNenkansi1.TabIndex = 1;
             this.lblNenkansi1.Text = "A";
             this.lblNenkansi1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -293,7 +293,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.Controls.Add(this.lblNikkansiTenchusatu2, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.lblNikkansiTenchusatu1, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(366, 147);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(18, 156);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -307,7 +307,7 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiTenchusatu2.AutoSize = true;
-            this.lblNikkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNikkansiTenchusatu2.Location = new System.Drawing.Point(3, 34);
             this.lblNikkansiTenchusatu2.Name = "lblNikkansiTenchusatu2";
             this.lblNikkansiTenchusatu2.Size = new System.Drawing.Size(39, 35);
@@ -321,7 +321,7 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiTenchusatu1.AutoSize = true;
-            this.lblNikkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNikkansiTenchusatu1.Location = new System.Drawing.Point(3, 0);
             this.lblNikkansiTenchusatu1.Name = "lblNikkansiTenchusatu1";
             this.lblNikkansiTenchusatu1.Size = new System.Drawing.Size(39, 34);
@@ -374,7 +374,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.lblNenkansiTenchusatu2, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.lblNenkansiTenchusatu1, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(591, 147);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(243, 156);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -388,7 +388,7 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiTenchusatu2.AutoSize = true;
-            this.lblNenkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansiTenchusatu2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNenkansiTenchusatu2.Location = new System.Drawing.Point(3, 34);
             this.lblNenkansiTenchusatu2.Name = "lblNenkansiTenchusatu2";
             this.lblNenkansiTenchusatu2.Size = new System.Drawing.Size(43, 35);
@@ -402,7 +402,7 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiTenchusatu1.AutoSize = true;
-            this.lblNenkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansiTenchusatu1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNenkansiTenchusatu1.Location = new System.Drawing.Point(3, 0);
             this.lblNenkansiTenchusatu1.Name = "lblNenkansiTenchusatu1";
             this.lblNenkansiTenchusatu1.Size = new System.Drawing.Size(43, 34);
@@ -425,13 +425,13 @@ namespace WinFormsApp2
             this.tableLayoutPanel6.Controls.Add(this.lblNikkansiShogen, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblGekkansiShogen, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblNenkansiShogen, 2, 0);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(427, 246);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(79, 246);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 3;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(152, 151);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(152, 129);
             this.tableLayoutPanel6.TabIndex = 4;
             // 
             // lblNikkansiHongen
@@ -440,10 +440,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiHongen.AutoSize = true;
-            this.lblNikkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNikkansiHongen.Location = new System.Drawing.Point(3, 100);
+            this.lblNikkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansiHongen.Location = new System.Drawing.Point(3, 85);
             this.lblNikkansiHongen.Name = "lblNikkansiHongen";
-            this.lblNikkansiHongen.Size = new System.Drawing.Size(44, 51);
+            this.lblNikkansiHongen.Size = new System.Drawing.Size(44, 44);
             this.lblNikkansiHongen.TabIndex = 8;
             this.lblNikkansiHongen.Text = "A";
             this.lblNikkansiHongen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -454,10 +454,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGekkansiHongen.AutoSize = true;
-            this.lblGekkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGekkansiHongen.Location = new System.Drawing.Point(53, 100);
+            this.lblGekkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGekkansiHongen.Location = new System.Drawing.Point(53, 85);
             this.lblGekkansiHongen.Name = "lblGekkansiHongen";
-            this.lblGekkansiHongen.Size = new System.Drawing.Size(44, 51);
+            this.lblGekkansiHongen.Size = new System.Drawing.Size(44, 44);
             this.lblGekkansiHongen.TabIndex = 7;
             this.lblGekkansiHongen.Text = "A";
             this.lblGekkansiHongen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -468,10 +468,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiHongen.AutoSize = true;
-            this.lblNenkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNenkansiHongen.Location = new System.Drawing.Point(103, 100);
+            this.lblNenkansiHongen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansiHongen.Location = new System.Drawing.Point(103, 85);
             this.lblNenkansiHongen.Name = "lblNenkansiHongen";
-            this.lblNenkansiHongen.Size = new System.Drawing.Size(46, 51);
+            this.lblNenkansiHongen.Size = new System.Drawing.Size(46, 44);
             this.lblNenkansiHongen.TabIndex = 6;
             this.lblNenkansiHongen.Text = "A";
             this.lblNenkansiHongen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -482,10 +482,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiChugen.AutoSize = true;
-            this.lblNenkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNenkansiChugen.Location = new System.Drawing.Point(103, 50);
+            this.lblNenkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansiChugen.Location = new System.Drawing.Point(103, 42);
             this.lblNenkansiChugen.Name = "lblNenkansiChugen";
-            this.lblNenkansiChugen.Size = new System.Drawing.Size(46, 50);
+            this.lblNenkansiChugen.Size = new System.Drawing.Size(46, 43);
             this.lblNenkansiChugen.TabIndex = 5;
             this.lblNenkansiChugen.Text = "A";
             this.lblNenkansiChugen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -496,10 +496,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGekkansiChugen.AutoSize = true;
-            this.lblGekkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGekkansiChugen.Location = new System.Drawing.Point(53, 50);
+            this.lblGekkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGekkansiChugen.Location = new System.Drawing.Point(53, 42);
             this.lblGekkansiChugen.Name = "lblGekkansiChugen";
-            this.lblGekkansiChugen.Size = new System.Drawing.Size(44, 50);
+            this.lblGekkansiChugen.Size = new System.Drawing.Size(44, 43);
             this.lblGekkansiChugen.TabIndex = 4;
             this.lblGekkansiChugen.Text = "A";
             this.lblGekkansiChugen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -510,10 +510,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiChugen.AutoSize = true;
-            this.lblNikkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNikkansiChugen.Location = new System.Drawing.Point(3, 50);
+            this.lblNikkansiChugen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansiChugen.Location = new System.Drawing.Point(3, 42);
             this.lblNikkansiChugen.Name = "lblNikkansiChugen";
-            this.lblNikkansiChugen.Size = new System.Drawing.Size(44, 50);
+            this.lblNikkansiChugen.Size = new System.Drawing.Size(44, 43);
             this.lblNikkansiChugen.TabIndex = 3;
             this.lblNikkansiChugen.Text = "A";
             this.lblNikkansiChugen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -524,10 +524,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNikkansiShogen.AutoSize = true;
-            this.lblNikkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNikkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNikkansiShogen.Location = new System.Drawing.Point(3, 0);
             this.lblNikkansiShogen.Name = "lblNikkansiShogen";
-            this.lblNikkansiShogen.Size = new System.Drawing.Size(44, 50);
+            this.lblNikkansiShogen.Size = new System.Drawing.Size(44, 42);
             this.lblNikkansiShogen.TabIndex = 0;
             this.lblNikkansiShogen.Text = "A";
             this.lblNikkansiShogen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -538,10 +538,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGekkansiShogen.AutoSize = true;
-            this.lblGekkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblGekkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblGekkansiShogen.Location = new System.Drawing.Point(53, 0);
             this.lblGekkansiShogen.Name = "lblGekkansiShogen";
-            this.lblGekkansiShogen.Size = new System.Drawing.Size(44, 50);
+            this.lblGekkansiShogen.Size = new System.Drawing.Size(44, 42);
             this.lblGekkansiShogen.TabIndex = 2;
             this.lblGekkansiShogen.Text = "A";
             this.lblGekkansiShogen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -552,10 +552,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNenkansiShogen.AutoSize = true;
-            this.lblNenkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNenkansiShogen.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNenkansiShogen.Location = new System.Drawing.Point(103, 0);
             this.lblNenkansiShogen.Name = "lblNenkansiShogen";
-            this.lblNenkansiShogen.Size = new System.Drawing.Size(46, 50);
+            this.lblNenkansiShogen.Size = new System.Drawing.Size(46, 42);
             this.lblNenkansiShogen.TabIndex = 1;
             this.lblNenkansiShogen.Text = "A";
             this.lblNenkansiShogen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -563,7 +563,7 @@ namespace WinFormsApp2
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(369, 42);
+            this.label24.Location = new System.Drawing.Point(9, 41);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(55, 15);
             this.label24.TabIndex = 6;
@@ -571,7 +571,7 @@ namespace WinFormsApp2
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(436, 38);
+            this.txtYear.Location = new System.Drawing.Point(76, 37);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(56, 23);
             this.txtYear.TabIndex = 7;
@@ -580,7 +580,7 @@ namespace WinFormsApp2
             // 
             // txtMonth
             // 
-            this.txtMonth.Location = new System.Drawing.Point(522, 38);
+            this.txtMonth.Location = new System.Drawing.Point(162, 37);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
             this.txtMonth.TabIndex = 8;
@@ -589,7 +589,7 @@ namespace WinFormsApp2
             // 
             // txtDay
             // 
-            this.txtDay.Location = new System.Drawing.Point(578, 38);
+            this.txtDay.Location = new System.Drawing.Point(218, 37);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(33, 23);
             this.txtDay.TabIndex = 9;
@@ -599,7 +599,7 @@ namespace WinFormsApp2
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(497, 41);
+            this.label25.Location = new System.Drawing.Point(137, 40);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(19, 15);
             this.label25.TabIndex = 10;
@@ -608,7 +608,7 @@ namespace WinFormsApp2
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(556, 41);
+            this.label26.Location = new System.Drawing.Point(196, 40);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(19, 15);
             this.label26.TabIndex = 11;
@@ -617,7 +617,7 @@ namespace WinFormsApp2
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(617, 41);
+            this.label27.Location = new System.Drawing.Point(257, 40);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(19, 15);
             this.label27.TabIndex = 12;
@@ -626,7 +626,7 @@ namespace WinFormsApp2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(366, 99);
+            this.label1.Location = new System.Drawing.Point(6, 98);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 15);
             this.label1.TabIndex = 13;
@@ -635,7 +635,7 @@ namespace WinFormsApp2
             // lblNikkansiNo
             // 
             this.lblNikkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNikkansiNo.Location = new System.Drawing.Point(440, 97);
+            this.lblNikkansiNo.Location = new System.Drawing.Point(80, 96);
             this.lblNikkansiNo.Name = "lblNikkansiNo";
             this.lblNikkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNikkansiNo.TabIndex = 14;
@@ -643,7 +643,7 @@ namespace WinFormsApp2
             // lblGekkansiNo
             // 
             this.lblGekkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGekkansiNo.Location = new System.Drawing.Point(556, 97);
+            this.lblGekkansiNo.Location = new System.Drawing.Point(196, 96);
             this.lblGekkansiNo.Name = "lblGekkansiNo";
             this.lblGekkansiNo.Size = new System.Drawing.Size(37, 15);
             this.lblGekkansiNo.TabIndex = 16;
@@ -651,7 +651,7 @@ namespace WinFormsApp2
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(483, 97);
+            this.label3.Location = new System.Drawing.Point(123, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 15);
             this.label3.TabIndex = 15;
@@ -660,7 +660,7 @@ namespace WinFormsApp2
             // lblNenkansiNo
             // 
             this.lblNenkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNenkansiNo.Location = new System.Drawing.Point(675, 98);
+            this.lblNenkansiNo.Location = new System.Drawing.Point(315, 97);
             this.lblNenkansiNo.Name = "lblNenkansiNo";
             this.lblNenkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNenkansiNo.TabIndex = 18;
@@ -668,7 +668,7 @@ namespace WinFormsApp2
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(599, 98);
+            this.label4.Location = new System.Drawing.Point(239, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 17;
@@ -826,7 +826,7 @@ namespace WinFormsApp2
             this.groupBox1.Controls.Add(this.txtBaseNenkansiNo);
             this.groupBox1.Controls.Add(this.label28);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(9, 5);
+            this.groupBox1.Location = new System.Drawing.Point(414, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(329, 147);
             this.groupBox1.TabIndex = 35;
@@ -888,13 +888,13 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.Controls.Add(this.lblJudaiShuseiA, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.lblJudaiShuseiD, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.lblJunidaiJuseiA, 2, 0);
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(24, 224);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(13, 420);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 3;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33332F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(325, 151);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(325, 117);
             this.tableLayoutPanel8.TabIndex = 36;
             // 
             // lblJunidaiJuseiC
@@ -903,10 +903,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJunidaiJuseiC.AutoSize = true;
-            this.lblJunidaiJuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJunidaiJuseiC.Location = new System.Drawing.Point(3, 100);
+            this.lblJunidaiJuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJunidaiJuseiC.Location = new System.Drawing.Point(3, 77);
             this.lblJunidaiJuseiC.Name = "lblJunidaiJuseiC";
-            this.lblJunidaiJuseiC.Size = new System.Drawing.Size(102, 51);
+            this.lblJunidaiJuseiC.Size = new System.Drawing.Size(102, 40);
             this.lblJunidaiJuseiC.TabIndex = 8;
             this.lblJunidaiJuseiC.Text = "A";
             this.lblJunidaiJuseiC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -917,10 +917,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiE.AutoSize = true;
-            this.lblJudaiShuseiE.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiE.Location = new System.Drawing.Point(111, 100);
+            this.lblJudaiShuseiE.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJudaiShuseiE.Location = new System.Drawing.Point(111, 77);
             this.lblJudaiShuseiE.Name = "lblJudaiShuseiE";
-            this.lblJudaiShuseiE.Size = new System.Drawing.Size(102, 51);
+            this.lblJudaiShuseiE.Size = new System.Drawing.Size(102, 40);
             this.lblJudaiShuseiE.TabIndex = 7;
             this.lblJudaiShuseiE.Text = "A";
             this.lblJudaiShuseiE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -931,10 +931,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJunidaiJuseiB.AutoSize = true;
-            this.lblJunidaiJuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJunidaiJuseiB.Location = new System.Drawing.Point(219, 100);
+            this.lblJunidaiJuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJunidaiJuseiB.Location = new System.Drawing.Point(219, 77);
             this.lblJunidaiJuseiB.Name = "lblJunidaiJuseiB";
-            this.lblJunidaiJuseiB.Size = new System.Drawing.Size(103, 51);
+            this.lblJunidaiJuseiB.Size = new System.Drawing.Size(103, 40);
             this.lblJunidaiJuseiB.TabIndex = 6;
             this.lblJunidaiJuseiB.Text = "A";
             this.lblJunidaiJuseiB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -945,10 +945,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiC.AutoSize = true;
-            this.lblJudaiShuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiC.Location = new System.Drawing.Point(219, 50);
+            this.lblJudaiShuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJudaiShuseiC.Location = new System.Drawing.Point(219, 38);
             this.lblJudaiShuseiC.Name = "lblJudaiShuseiC";
-            this.lblJudaiShuseiC.Size = new System.Drawing.Size(103, 50);
+            this.lblJudaiShuseiC.Size = new System.Drawing.Size(103, 39);
             this.lblJudaiShuseiC.TabIndex = 5;
             this.lblJudaiShuseiC.Text = "A";
             this.lblJudaiShuseiC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -959,10 +959,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiB.AutoSize = true;
-            this.lblJudaiShuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiB.Location = new System.Drawing.Point(111, 50);
+            this.lblJudaiShuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJudaiShuseiB.Location = new System.Drawing.Point(111, 38);
             this.lblJudaiShuseiB.Name = "lblJudaiShuseiB";
-            this.lblJudaiShuseiB.Size = new System.Drawing.Size(102, 50);
+            this.lblJudaiShuseiB.Size = new System.Drawing.Size(102, 39);
             this.lblJudaiShuseiB.TabIndex = 4;
             this.lblJudaiShuseiB.Text = "A";
             this.lblJudaiShuseiB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -973,10 +973,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiA.AutoSize = true;
-            this.lblJudaiShuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiA.Location = new System.Drawing.Point(3, 50);
+            this.lblJudaiShuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJudaiShuseiA.Location = new System.Drawing.Point(3, 38);
             this.lblJudaiShuseiA.Name = "lblJudaiShuseiA";
-            this.lblJudaiShuseiA.Size = new System.Drawing.Size(102, 50);
+            this.lblJudaiShuseiA.Size = new System.Drawing.Size(102, 39);
             this.lblJudaiShuseiA.TabIndex = 3;
             this.lblJudaiShuseiA.Text = "A";
             this.lblJudaiShuseiA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -987,10 +987,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiD.AutoSize = true;
-            this.lblJudaiShuseiD.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJudaiShuseiD.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblJudaiShuseiD.Location = new System.Drawing.Point(111, 0);
             this.lblJudaiShuseiD.Name = "lblJudaiShuseiD";
-            this.lblJudaiShuseiD.Size = new System.Drawing.Size(102, 50);
+            this.lblJudaiShuseiD.Size = new System.Drawing.Size(102, 38);
             this.lblJudaiShuseiD.TabIndex = 2;
             this.lblJudaiShuseiD.Text = "A";
             this.lblJudaiShuseiD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1001,10 +1001,10 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJunidaiJuseiA.AutoSize = true;
-            this.lblJunidaiJuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblJunidaiJuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblJunidaiJuseiA.Location = new System.Drawing.Point(219, 0);
             this.lblJunidaiJuseiA.Name = "lblJunidaiJuseiA";
-            this.lblJunidaiJuseiA.Size = new System.Drawing.Size(103, 50);
+            this.lblJunidaiJuseiA.Size = new System.Drawing.Size(103, 38);
             this.lblJunidaiJuseiA.TabIndex = 1;
             this.lblJunidaiJuseiA.Text = "A";
             this.lblJunidaiJuseiA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1035,7 +1035,7 @@ namespace WinFormsApp2
             // 
             this.groupBox2.Controls.Add(this.radMan);
             this.groupBox2.Controls.Add(this.radWoman);
-            this.groupBox2.Location = new System.Drawing.Point(652, 22);
+            this.groupBox2.Location = new System.Drawing.Point(292, 21);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(97, 36);
             this.groupBox2.TabIndex = 39;
@@ -1044,8 +1044,6 @@ namespace WinFormsApp2
             // 
             // lvTaiun
             // 
-            this.lvTaiun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.lvTaiun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -1056,10 +1054,10 @@ namespace WinFormsApp2
             this.columnHeader11});
             this.lvTaiun.FullRowSelect = true;
             this.lvTaiun.HideSelection = false;
-            this.lvTaiun.Location = new System.Drawing.Point(27, 420);
+            this.lvTaiun.Location = new System.Drawing.Point(429, 174);
             this.lvTaiun.MultiSelect = false;
             this.lvTaiun.Name = "lvTaiun";
-            this.lvTaiun.Size = new System.Drawing.Size(418, 266);
+            this.lvTaiun.Size = new System.Drawing.Size(527, 240);
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
@@ -1087,23 +1085,23 @@ namespace WinFormsApp2
             // columnHeader9
             // 
             this.columnHeader9.Text = "日";
-            this.columnHeader9.Width = 70;
+            this.columnHeader9.Width = 100;
             // 
             // columnHeader10
             // 
             this.columnHeader10.Text = "月";
-            this.columnHeader10.Width = 70;
+            this.columnHeader10.Width = 100;
             // 
             // columnHeader11
             // 
             this.columnHeader11.Text = "年";
-            this.columnHeader11.Width = 70;
+            this.columnHeader11.Width = 100;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(451, 397);
+            this.label11.Location = new System.Drawing.Point(369, 417);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 20);
             this.label11.TabIndex = 13;
@@ -1113,7 +1111,7 @@ namespace WinFormsApp2
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(27, 396);
+            this.label12.Location = new System.Drawing.Point(369, 174);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 20);
             this.label12.TabIndex = 13;
@@ -1123,7 +1121,7 @@ namespace WinFormsApp2
             // 
             this.cmbPerson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPerson.FormattingEnabled = true;
-            this.cmbPerson.Location = new System.Drawing.Point(373, 5);
+            this.cmbPerson.Location = new System.Drawing.Point(13, 4);
             this.cmbPerson.Name = "cmbPerson";
             this.cmbPerson.Size = new System.Drawing.Size(218, 23);
             this.cmbPerson.TabIndex = 42;
@@ -1131,8 +1129,6 @@ namespace WinFormsApp2
             // 
             // lvNenun
             // 
-            this.lvNenun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.lvNenun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader15,
             this.columnHeader16,
@@ -1143,10 +1139,10 @@ namespace WinFormsApp2
             this.columnHeader21});
             this.lvNenun.FullRowSelect = true;
             this.lvNenun.HideSelection = false;
-            this.lvNenun.Location = new System.Drawing.Point(451, 420);
+            this.lvNenun.Location = new System.Drawing.Point(426, 420);
             this.lvNenun.MultiSelect = false;
             this.lvNenun.Name = "lvNenun";
-            this.lvNenun.Size = new System.Drawing.Size(418, 266);
+            this.lvNenun.Size = new System.Drawing.Size(530, 240);
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
@@ -1173,23 +1169,23 @@ namespace WinFormsApp2
             // columnHeader19
             // 
             this.columnHeader19.Text = "日";
-            this.columnHeader19.Width = 70;
+            this.columnHeader19.Width = 100;
             // 
             // columnHeader20
             // 
             this.columnHeader20.Text = "月";
-            this.columnHeader20.Width = 70;
+            this.columnHeader20.Width = 100;
             // 
             // columnHeader21
             // 
             this.columnHeader21.Text = "年";
-            this.columnHeader21.Width = 70;
+            this.columnHeader21.Width = 100;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 698);
+            this.ClientSize = new System.Drawing.Size(965, 672);
             this.Controls.Add(this.lvNenun);
             this.Controls.Add(this.cmbPerson);
             this.Controls.Add(this.lvTaiun);

@@ -10,21 +10,85 @@ namespace WinFormsApp2
     {
 
         /// <summary>
-        /// 十干
+        /// 十干 管理テーブル
         /// </summary>
-        public Dictionary<string, Jyukan> dicJyukan = null;
-        /// <summary>
-        /// 十二支
-        /// </summary>
-        public Dictionary<string, Jyunisi> dicJyunisi = null;
+        public class JyukanTbl
+        {
+            public Dictionary<string, Jyukan> dicJyukan = null;
+
+            public Jyukan this[string name]
+            {
+                get
+                {
+                    if (!dicJyukan.ContainsKey(name)) return null;
+                    return dicJyukan[name];
+                }
+            }
+            public int Count { get { return dicJyukan.Count; } }
+            public List<Jyukan> ToList()
+            {
+                return dicJyukan.Values.ToList();
+            }
+            /// <summary>
+            /// 指定した２の十干名称の組み合わせが陰陽の関係かチェック
+            /// </summary>
+            /// <param name="item1"></param>
+            /// <param name="item2"></param>
+            /// <returns></returns>
+            public bool IsInyou(string name1, string name2)
+            {
+                var jyukan1 = this[name1];
+                var jyukan2 = this[name2];
+                if (jyukan1 == null || jyukan2 == null) return false;
+
+                if (jyukan1.inyou != jyukan2.inyou) return false;
+
+                return true;
+
+            }
+        }
+        public JyukanTbl jyukanTbl = new JyukanTbl();
+
 
         /// <summary>
-        /// 干支
+        /// 十二支 管理テーブル
         /// </summary>
-        public class KansiMng
+        public class JyunisiTbl
+        {
+            public Dictionary<string, Jyunisi> dicJyunisi = null;
+
+            public Jyunisi this[string name]
+            {
+                get
+                {
+                    if (!dicJyunisi.ContainsKey(name)) return null;
+                    return dicJyunisi[name];
+                }
+            }
+            public int Count { get { return dicJyunisi.Count; } }
+            public List<Jyunisi> ToList()
+            {
+                return dicJyunisi.Values.ToList();
+            }
+        }
+        public JyunisiTbl jyunisiTbl = new JyunisiTbl();
+
+        /// <summary>
+        /// 干支 管理テーブル
+        /// </summary>
+        public class KansiTbl
         {
             public Dictionary<int, Kansi> dicKansi = null;
 
+            public Kansi this[int kansiNo]
+            {
+                get
+                {
+                    if (!dicKansi.ContainsKey(kansiNo)) return null;
+                    return dicKansi[kansiNo];
+                }
+            }
+            public int Count { get { return dicKansi.Count; } }
 
             /// <summary>
             /// 干支文字列から干支番号取得
@@ -32,9 +96,13 @@ namespace WinFormsApp2
             /// <param name="kan"></param>
             /// <param name="si"></param>
             /// <returns></returns>
+            public int GetKansiNo(Kansi kansi)
+            {
+                return GetKansiNo(kansi.kan, kansi.si);
+            }
             public int GetKansiNo(string[] kansi)
             {
-                return GetKansiNo( kansi[0], kansi[1]);
+                return GetKansiNo(kansi[0], kansi[1]);
             }
             public int GetKansiNo(string kan, string si)
             {
@@ -65,13 +133,13 @@ namespace WinFormsApp2
             }
 
         }
-        public KansiMng kansiMng = new KansiMng();
+        public KansiTbl kansiTbl = new KansiTbl();
 
 
         /// <summary>
         /// 二十八元表
         /// </summary>
-        public Dictionary<string, NijuhachiGenso> lstNijuhachiGenso = null;
+        public Dictionary<string, NijuhachiGenso> dicNijuhachiGenso = null;
         /// <summary>
         /// 十大主星
         /// </summary>
@@ -81,12 +149,145 @@ namespace WinFormsApp2
         /// </summary>
         public JunidaiJuseiTbl junidaiJusei = null;
 
+ 
+        /// <summary>
+        /// 干合テーブル管理
+        /// </summary>
+        public class KangouTbl
+        {
+            public List<Kangou> lstKangou = null;
+
+            public Kangou GetKangou(string name1, string name2)
+            {
+                foreach (var val in lstKangou)
+                {
+                    if (val.kan == name1 && val.gou == name2 ||
+                        val.kan == name2 && val.gou == name1)
+                    {
+                        return val;
+                    }
+                }
+                return null;
+            }
+            public bool IsKangou(string name1, string name2)
+            {
+                return GetKangou(name1, name2) != null ? true : false;
+
+            }
+        }
+        public KangouTbl kangouTbl = new KangouTbl();
+   
+        /// <summary>
+        /// 七殺テーブル
+        /// </summary>
+        public class NanasatsuTbl
+        {
+            public List<Nanasatsu> lstNanasatsu = null;
+
+            public Nanasatsu GetNanasatsu(string name1, string name2)
+            {
+                foreach (var val in lstNanasatsu)
+                {
+                    if (val.name1 == name1 && val.name2 == name2)
+                    {
+                        return val;
+                    }
+                }
+                return null;
+            }
+            public bool IsNanasastsu(string name1, string name2)
+            {
+                return GetNanasatsu(name1, name2) != null ? true : false;
+
+            }
+
+        }
+        public NanasatsuTbl nanasatsuTbl = new NanasatsuTbl();
+
+        /// <summary>
+        /// 合法・散法 テーブル
+        /// </summary>
+        public class GouhouSanpouTbl
+        {
+            /// <summary>
+            /// 主キー
+            /// </summary>
+            public string[] jyunisi;
+            public Dictionary<string, string[]> dicGouhouSanpou;
+
+            public string[] GetGouhouSanpou(string name1, string name2)
+            {
+                int idx = 0;
+                for (idx = 0; idx < jyunisi.Length; idx++)
+                {
+                    if (name1 == jyunisi[idx])
+                    {
+                        break;
+                    }
+                }
+                if (idx >= jyunisi.Length) return null;
+
+                if (!dicGouhouSanpou.ContainsKey(name2)) return null;
+
+                string value = dicGouhouSanpou[name2][idx];
+
+                return value.Split(",");
+
+
+            }
+            public string GetGouhouSanpouString(string name1, string name2)
+            {
+                var values = GetGouhouSanpou(name1, name2);
+                string s = "";
+                if (values != null)
+                {
+                    foreach (var item in values)
+                    {
+                        if (s != "") s += ",";
+                        s += item;
+                    }
+                }
+                return s;
+            }
+
+        }
+        public GouhouSanpouTbl gouhouSanpouTbl = null;
+
+
+        /// <summary>
+        /// 三合会局 テーブル
+        /// </summary>
+        public class SangouKaikyokuTbl
+        {
+            public List<SangouKaikyoku> lstSangouKaikyoku = null;
+        }
+        public SangouKaikyokuTbl sangouKaikyokuTbl = new SangouKaikyokuTbl();
+
+        /// <summary>
+        /// 方三位 テーブル
+        /// </summary>
+        public class HouSanniTbl
+        {
+            public List<HouSanni> lstHousanni = null;
+        }
+        public HouSanniTbl housanniTbl = new HouSanniTbl();
+
+        /// <summary>
+        /// 支合 テーブル
+        /// </summary>
+        public class SigouTbl
+        {
+            public List<Sigou> lstSigou = null;
+        }
+        public SigouTbl sigouTbl = new SigouTbl();
+
+
         public TableMng()
         {
             //--------------------------------
             //十干
             //--------------------------------
-            dicJyukan = new Dictionary<string, Jyukan>
+            jyukanTbl.dicJyukan = new Dictionary<string, Jyukan>
             {
                 {"甲", new Jyukan("甲","木","+") },
                 {"乙", new Jyukan("乙","木","-") },
@@ -102,7 +303,7 @@ namespace WinFormsApp2
             //--------------------------------
             //十二支
             //--------------------------------
-            dicJyunisi = new Dictionary<string, Jyunisi>
+            jyunisiTbl.dicJyunisi = new Dictionary<string, Jyunisi>
             {
                 {"子", new Jyunisi("子","水","+") },
                 {"丑", new Jyunisi("丑","土","-") },
@@ -122,24 +323,24 @@ namespace WinFormsApp2
             //干支            
             //--------------------------------
             string[] tenchusatu = { "戌,亥", "申,酉", "午,未", "辰,巳", "寅,卯", "子,丑" };//天中殺
-            kansiMng.dicKansi = new Dictionary<int, Kansi>();
-            var lstJyukan = dicJyukan.Values.ToList();
-            var lstJyunisi = dicJyunisi.Values.ToList();
-            for (int i=0; i<60; i++)
+            kansiTbl.dicKansi = new Dictionary<int, Kansi>();
+            var lstJyukan = jyukanTbl.ToList();
+            var lstJyunisi = jyunisiTbl.ToList();
+            for (int i = 0; i < 60; i++)
             {
-                string kan = lstJyukan[i % dicJyukan.Count].name;
-                string si= lstJyunisi[i % dicJyunisi.Count].name;
+                string kan = lstJyukan[i % jyukanTbl.Count].name;
+                string si = lstJyunisi[i % jyunisiTbl.Count].name;
                 string techu = tenchusatu[i / 10];
 
                 int No = i + 1;
-                kansiMng.dicKansi.Add(No, new Kansi(No, kan, si, techu));
- 
+                kansiTbl.dicKansi.Add(No, new Kansi(No, kan, si, techu));
+
             }
 
             //--------------------------------
             //二十八元表
             //--------------------------------
-            lstNijuhachiGenso = new Dictionary<string, NijuhachiGenso>
+            dicNijuhachiGenso = new Dictionary<string, NijuhachiGenso>
             {
                 { "子",new NijuhachiGenso(null               ,null               ,new Genso("癸") ) },
                 { "丑",new NijuhachiGenso(new Genso("癸", 9) ,new Genso("辛", 3) ,new Genso("己") ) },
@@ -195,9 +396,99 @@ namespace WinFormsApp2
                 new JunidaiJusei("天庫星","入墓",5 ,"中(弱)" ,new string[]{"未","戌","戌","丑","戌","丑","丑","辰","辰","未"}),
                 new JunidaiJusei("天馳星","彼世",1 ,"弱"     ,new string[]{"申","酉","亥","子","亥","子","寅","卯","巳","午"}),
             };
-         }
 
+            //--------------------------------
+            //干合
+            //--------------------------------
+            kangouTbl.lstKangou = new List<Kangou>
+            {
+                new Kangou("甲","己","土性","戊","己","甲己火土"),
+                new Kangou("乙","庚","金性","辛","庚","乙庚化金"),
+                new Kangou("丙","辛","水性","壬","癸","丙辛化水"),
+                new Kangou("壬","丁","木性","甲","乙","壬丁化木"),
+                new Kangou("戊","癸","火性","丙","丁","戊癸化火"),
+
+            };
+            //--------------------------------
+            //七殺
+            //--------------------------------
+            nanasatsuTbl.lstNanasatsu = new List<Nanasatsu>
+            {
+                new Nanasatsu("甲","戊"),
+                new Nanasatsu("乙","己"),
+                new Nanasatsu("丙","庚"),
+                new Nanasatsu("丁","辛"),
+                new Nanasatsu("戊","壬"),
+                new Nanasatsu("己","癸"),
+                new Nanasatsu("庚","甲"),
+                new Nanasatsu("辛","乙"),
+                new Nanasatsu("壬","丙"),
+                new Nanasatsu("癸","丁"),
+
+            };
+
+
+            //--------------------------------
+            //合法・散法 テーブル
+            //--------------------------------
+            gouhouSanpouTbl = new GouhouSanpouTbl();
+            gouhouSanpouTbl.jyunisi = new string[] { "子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥" };
+            gouhouSanpouTbl.dicGouhouSanpou = new Dictionary<string, string[]>
+            {
+                { "子", new string[]{""      ,"支合"       ,""           ,"旺気刑","半会",""              ,"冲動","害"         ,"半会"          ,"破"  , ""         ,""         }},
+                { "丑", new string[]{"支合"  ,""           ,""           ,""      ,"破"  ,"半会"          ,"害"  ,"冲動,庫気刑",""              ,"半会", "庫気刑"   ,""         }},
+                { "寅", new string[]{""      ,""           ,""           ,""      ,""    ,"生貴刑,害"     ,"半会", ""          ,"冲動,生貴刑"   ,""    , "半会"     ,"支合,破"  }},
+                { "卯", new string[]{"旺気刑",""           ,""           ,""      ,"害"  ,""              ,"破"  ,"半会"       ,""              ,"冲動", "支合"     ,"半会"     }},
+                { "辰", new string[]{"半会"  ,"破"         ,""           ,"害"    ,"自刑",""              ,""    ,""           ,"半会,破,生貴刑","支合", " 冲動"    ,""         }},
+                { "巳", new string[]{""      ,"半会"       ,"生貴刑,害"  ,""      ,""    ,""              ,""    ,""           ,""              ,"半会", ""         ,"冲動"     }},
+                { "午", new string[]{"冲動"  ,"害"         ,"半会"       ,"破"    ,""    ,""              ,"自刑","支合"       ,""              ,""    , "半会"     ,""         }},
+                { "未", new string[]{"害"    ,"冲動,庫気刑",""           ,"半会"  ,""    ,""              ,"支合",""           ,""              ,""    , "庫気刑,破"," 半会"    }},
+                { "申", new string[]{"半会"  ,""           ,"冲動,生貴刑",""      ,"半会","支合,破,生貴刑",""    ,""           ,""              ,""    , ""         ,"害"       }},
+                { "酉", new string[]{"破"    ,"半会"       ,""           ,"冲動"  ,"支合","半会"          ,""    ,""           ,""              ,"自刑","害"        ,""         }},
+                { "戌", new string[]{""      ,"庫気刑"     ,"半会"       ,"支合"  ,"冲動",""              ,"半会","庫気刑,破"  ,""              ,"害"  , ""         ,""         }},
+                { "亥", new string[]{""      ,""           ,"支合,破"    ,"半会"  ,""    ,"冲動"          ,""    ,"半会"       ,"害"            ,""    , ""         ,"自刑"     }},
+
+            };
+            //--------------------------------
+            //三合会局 テーブル
+            //--------------------------------
+            sangouKaikyokuTbl.lstSangouKaikyoku = new List<SangouKaikyoku>()
+            {
+                new SangouKaikyoku(new string[]{"申","子","辰"},"水性"),
+                new SangouKaikyoku(new string[]{"亥","卯","未"},"木性"),
+                new SangouKaikyoku(new string[]{"寅","午","戌"},"火性"),
+                new SangouKaikyoku(new string[]{"巳","酉","丑"},"金性"),
+            };
+            //--------------------------------
+            //方三位 テーブル
+            //--------------------------------
+            housanniTbl.lstHousanni = new List<HouSanni>()
+            {
+                new HouSanni(new string[]{"亥","子","丑"},"水性"),
+                new HouSanni(new string[]{"寅","卯","辰"},"木性"),
+                new HouSanni(new string[]{"巳","午","未"},"火性"),
+                new HouSanni(new string[]{"申","酉","戌"},"金性"),
+
+            };
+            //--------------------------------
+            //支合 テーブル
+            //--------------------------------
+            sigouTbl.lstSigou = new List<Sigou>()
+            {
+                new Sigou(new string[]{"子","丑"},"水性"),
+                new Sigou(new string[]{"亥","寅"},"木性"),
+                new Sigou(new string[]{"戌","卯"},"木性 or 土性"),//この五行はいつか対応が必要
+                new Sigou(new string[]{"酉","辰"},"金性 or 土性"),//この五行はいつか対応が必要
+                new Sigou(new string[]{"申","巳"},"金性"),
+                new Sigou(new string[]{"未","午"},"火性"),
+
+            };
+
+        }
     }
+
+
+
 
     class DataAccessor
     {

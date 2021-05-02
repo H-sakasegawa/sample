@@ -157,11 +157,10 @@ namespace WinFormsApp2
     }
 
     /// <summary>
-    /// 十大主星 データ
+    /// 十大主星  管理テーブル
     /// </summary>
     class JudaiShuseiTbl
     {
-
         /// <summary>
         /// 主キー
         /// </summary>
@@ -232,7 +231,7 @@ namespace WinFormsApp2
     }
 
     /// <summary>
-    /// 十二大従星
+    /// 十二大従星 管理テーブル
     /// </summary>
     class JunidaiJuseiTbl
     {
@@ -348,6 +347,85 @@ namespace WinFormsApp2
     };
 
 
+
+    //干合
+    class Kangou
+    {
+        public Kangou(string _kan, string _gou, string _kaki, string _kyoki1, string _kyoki2, string _yomi)
+        {
+            kan = _kan;
+            gou = _gou;
+            kaki = _kaki;
+            kyoki = new string[] { _kyoki1, _kyoki2 };
+            yojm = _yomi;
+        }
+        /// <summary>
+        /// 干
+        /// </summary>
+        public string kan { get; set; }
+        /// <summary>
+        /// 合
+        /// </summary>
+        public string gou { get; set; }
+        /// <summary>
+        /// 化気
+        /// </summary>
+        public string kaki { get; set; }
+        /// <summary>
+        /// 虚気
+        /// </summary>
+        public string[] kyoki { get; set; }
+        /// 読み
+        /// </summary>
+        public string yojm { get; set; }
+    }
+
+    //七殺
+    class Nanasatsu
+    {
+        public Nanasatsu( string _name1, string _name2)
+        {
+            name1 = _name1;
+            name2 = _name2;
+        }
+        public string name1;
+        public string name2;
+    }
+
+
+    //三合会局
+    class SangouKaikyoku
+    {
+        public SangouKaikyoku( string[] _names, string _gogyou)
+        {
+            names = _names;
+            gogyou = _gogyou;
+        }
+        string[] names;
+        string gogyou;
+    }
+    //方三位
+    class HouSanni
+    {
+        public HouSanni(string[] _names, string _gogyou)
+        {
+            names = _names;
+            gogyou = _gogyou;
+        }
+        string[] names;
+        string gogyou;
+    }
+    //支合
+    class Sigou
+    {
+        public Sigou(string[] _names, string _gogyou)
+        {
+            names = _names;
+            gogyou = _gogyou;
+        }
+        string[] names;
+        string gogyou;
+    }
 
 
 }

@@ -233,12 +233,10 @@ namespace WinFormsApp2
             DispTenchusatu(person); 
 
             //============================================================
-            //大運
+            //後天運：大運
             //============================================================
             DispTaiun(person);
 
-            lvNenun.Items.Add("ssssss");
-            lvNenun.Items.Add("bbbbb");
 
 
         }
@@ -426,12 +424,12 @@ namespace WinFormsApp2
             //性別
             if (radMan.Checked)
             {   //男性
-                if (dataMng.dicJyukan[Nenkansi.kan].inyou == "+") return 1;
+                if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return 1;
                 else return -1;
             }
             else
             {   //女性
-                if (dataMng.dicJyukan[Nenkansi.kan].inyou == "+") return -1;
+                if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return -1;
                 else return 1;
             }
         }
@@ -457,8 +455,36 @@ namespace WinFormsApp2
             lvItem.SubItems.Add(judai); //十大主星
             lvItem.SubItems.Add(junidai); //十二大従星
 
+            //日
+            string gouhou = person.GetGouhouSanpouString(taiunKansi, person.nikkansi); //合法・散法            
+            string tensatu = person.GetTensatuString(taiunKansi, person.nikkansi);//天殺
+            string tichu = person.GetTichuString(taiunKansi, person.nikkansi);//地冲
+            string value = tensatu + tichu+ " " +gouhou;
+            lvItem.SubItems.Add(value.Trim());
+
+            //月
+            gouhou = person.GetGouhouSanpouString(taiunKansi.si, person.gekkansi.si); //合法・散法
+            tensatu = person.GetTensatuString(taiunKansi, person.gekkansi);//天殺
+            tichu = person.GetTichuString(taiunKansi, person.gekkansi);//地冲
+            value = tensatu + tichu + " " + gouhou; ;
+            lvItem.SubItems.Add(value.Trim());
+
+            //年
+            gouhou = person.GetGouhouSanpouString(taiunKansi.si, person.nenkansi.si);//合法・散法
+            tensatu = person.GetTensatuString(taiunKansi, person.nenkansi);//天殺
+            tichu = person.GetTichuString(taiunKansi, person.nenkansi);//地冲
+            value = tensatu + tichu + " " + gouhou; ;
+            lvItem.SubItems.Add(value.Trim());
+
+
+
+
             //行のサブ情報として、開始年を保持させておく
             lvItem.Tag = startNen;
+
+
+
+
 
             //天中殺
             Color color = Color.Black;
@@ -475,6 +501,7 @@ namespace WinFormsApp2
             lvItem.ForeColor = color;
 
         }
+
 
         //====================================================
         // 年運 表示処理
@@ -494,11 +521,12 @@ namespace WinFormsApp2
             //0才 干支番号
             int nenkansiNo = person.nenkansiNo;
 
-            //選択された10年度の開始干支番号
+            //選択された大運年度の開始干支番号
             nenkansiNo += year - person.birthday.year;
             nenkansiNo = nenkansiNo % 60;
             if (nenkansiNo == 0) nenkansiNo = 60;
 
+            //11年分を表示
             for (int i = 0; i < 10+1; i++)
             {
                 //順行のみなので、60超えたら1にするだけ
@@ -518,10 +546,10 @@ namespace WinFormsApp2
         /// </summary>
         /// <param name="title"></param>
         /// <param name="kansiNo"></param>
-        private void AddNenunItem(Person person , string title, int nenkansiNo)
+        private void AddNenunItem(Person person , string title, int nenunkansiNo)
         {
 
-            Kansi nenunKansi = person.GetKansi( nenkansiNo );
+            Kansi nenunKansi = person.GetKansi( nenunkansiNo );
 
             var lvItem = lvNenun.Items.Add(title);
             lvItem.SubItems.Add(string.Format("{0}{1}", nenunKansi.kan, nenunKansi.si)); //干支
@@ -536,6 +564,28 @@ namespace WinFormsApp2
 
             lvItem.SubItems.Add(judai); //十大主星
             lvItem.SubItems.Add(junidai); //十二大従星
+
+            //日
+            string nentin = person.GetNentin(nenunKansi, person.nikkansi); //納音、準納音
+            string rittin = person.GetNittin(nenunKansi, person.nikkansi); //律音、準律音
+            string gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.nikkansi.si);//合法・散法
+            string value = nentin + " " + rittin +" "+ gouhou;
+            lvItem.SubItems.Add(value.Trim());
+
+            //月
+            nentin = person.GetNentin(nenunKansi, person.gekkansi); //納音、準納音
+            rittin = person.GetNittin(nenunKansi, person.gekkansi); //律音、準律音
+            gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.gekkansi.si);//合法・散法
+            value = nentin + " " + rittin + " " + gouhou;
+            lvItem.SubItems.Add(value);
+
+            //年
+            nentin = person.GetNentin(nenunKansi, person.nenkansi); //納音、準納音
+            rittin = person.GetNittin(nenunKansi, person.nenkansi); //律音、準律音
+            gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.nenkansi.si);//合法・散法
+            value = nentin + " " + rittin + " " + gouhou;
+            lvItem.SubItems.Add(value); 
+
 
             //天中殺
             Color color = Color.Black;
