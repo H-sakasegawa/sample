@@ -162,15 +162,15 @@ namespace WinFormsApp2
             ////誕生日に該当する節入り日から誕生日までの経過日数
             //int dayNumFromSetuiribi = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
 
-            //節理日から７日を超える日数の日干支を太字にする
-            if (person.dayNumFromSetuiribi > 7)
-            {
-                Common.SetBold(lblNikkansi2, true);
-            }
-            else
-            {
-                Common.SetBold(lblNikkansi2, false);
-            }
+            ////節入日から７日を超える日数の日干支を太字にする
+            //if (person.dayNumFromSetuiribi > 7)
+            //{
+            //    Common.SetBold(lblNikkansi2, true);
+            //}
+            //else
+            //{
+            //    Common.SetBold(lblNikkansi2, false);
+            //}
 
 
             //------------------
