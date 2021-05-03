@@ -622,7 +622,11 @@ namespace WinFormsApp2
 
 
         }
-
+        /// <summary>
+        /// 大運リストビュー選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvTaiun_SelectedIndexChanged(object sender, EventArgs e)
         {
             Person person = (Person)cmbPerson.SelectedItem;
@@ -633,17 +637,28 @@ namespace WinFormsApp2
 
             TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
 
+            //年運リスト表示更新
             DispNenun(person, itemData.startNen);
-     
+
+            //後天運 図の表示更新
             DispKoutenUn(person);
         }
+        /// <summary>
+        /// 年運リストビュー選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvNenun_SelectedIndexChanged(object sender, EventArgs e)
         {
             Person person = (Person)cmbPerson.SelectedItem;
-
+            //後天運 図の表示更新
             DispKoutenUn(person);
-         }
-
+        }
+        /// <summary>
+        /// 人コンボボックス選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
         {
             Person person = (Person)cmbPerson.SelectedItem;
@@ -660,12 +675,17 @@ namespace WinFormsApp2
 
         }
 
+        /// <summary>
+        /// 大運リストビューアイテムデータクラス
+        /// </summary>
         class TaiunLvItemData
         {
             public int startNen; //開始年
             public Kansi kansi; //干支
         }
-
+        /// <summary>
+        /// 年運リストビューアイテムデータクラス
+        /// </summary>
         class NenunLvItemData
         {
             public Kansi kansi; //干支
@@ -777,6 +797,9 @@ namespace WinFormsApp2
 
             }
         }
+        /// <summary>
+        /// 宿命 表示用クラス
+        /// </summary>
         class ShukumeiDraw : IsouhouBase
         {
 
@@ -883,14 +906,14 @@ namespace WinFormsApp2
                 if (bInyouNitiGetsuKan)
                 {
                     DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽", "あい", "8" });
+                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽" });
                     matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
 
                 }
                 else if (bInyouGetsuNenKan)
                 {
                     DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽", "あい", "8" });
+                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽"});
                     matrix[idxMtx] |= bitFlgGetu | bitFlgNen;
 
                 }
@@ -934,8 +957,26 @@ namespace WinFormsApp2
                 }
                 //七殺
                 //-------------------
-                bool bNanasatu = person.IsNanasatuNitiNenKan();
-                if (bNanasatu)
+                bool bNanasatuNitGetu = person.IsNanasatuNitiGetuKan();
+                bool bNanasatuGetuNen = person.IsNanasatuGetuNenKan();
+                bool bNanasatuNitNen = person.IsNanasatuNitiNenKan();
+                if (bNanasatuNitGetu)
+                {
+                    if ((matrix[idxMtx] & bitFlgNiti) != 0) idxMtx++;
+                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, new string[] { "七殺" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+
+                }
+                if (bNanasatuGetuNen)
+                {
+                    if ((matrix[idxMtx] & bitFlgNen) != 0) idxMtx++;
+                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "七殺" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+
+                }
+                if (bNanasatuNitNen)
                 {
                     if ((matrix[idxMtx]) != 0) idxMtx++;
                     DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
@@ -980,6 +1021,9 @@ namespace WinFormsApp2
                 }
 
         }
+        /// <summary>
+        /// 後天運 表示用クラス
+        /// </summary>
         class KoutenUnDraw : IsouhouBase
         {
 

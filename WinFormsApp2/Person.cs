@@ -315,11 +315,19 @@ namespace WinFormsApp2
             return GetNanasatu(taiunKan, kan)!=null?true:false;
         }
 
+        public bool IsNanasatuNitiGetuKan()
+        {
+            return GetNanasatu(nikkansi.kan, gekkansi.kan) != null ? true : false;
+        }
+        public bool IsNanasatuGetuNenKan()
+        {
+            return GetNanasatu(gekkansi.kan, nenkansi.kan) != null ? true : false;
+        }
         public bool IsNanasatuNitiNenKan()
         {
             return GetNanasatu(nikkansi.kan, nenkansi.kan) != null ? true : false;
         }
-        
+
         //天殺
         public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
         {
