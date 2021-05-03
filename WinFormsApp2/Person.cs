@@ -83,7 +83,7 @@ namespace WinFormsApp2
             tblMng = _tblMng;
             tblSetuiribi = _tblSetuiribi;
 
-            //誕生日に該当する節入り日から誕生日までの経過日数
+            //誕生日に該当する節入り日から誕生日までの経過日数(節入り日はカウントされません）
             dayNumFromSetuiribi = tblSetuiribi.CalcDayCountFromSetuiribi(birthday.year, birthday.month, birthday.day);
 
 
@@ -93,14 +93,14 @@ namespace WinFormsApp2
             nenkansiNo = tblSetuiribi.GetNenKansiNo(birthday.year, birthday.month, birthday.day);
 
             //干支
-            nikkansi = tblMng.kansiTbl.GetKansi(nikkansiNo);
-            gekkansi = tblMng.kansiTbl.GetKansi(gekkansiNo);
-            nenkansi = tblMng.kansiTbl.GetKansi(nenkansiNo);
+            nikkansi = tblMng.kansiTbl[nikkansiNo];
+            gekkansi = tblMng.kansiTbl[gekkansiNo];
+            nenkansi = tblMng.kansiTbl[nenkansiNo];
 
             //二十八元表
-            nijuhachiGensoNikkansi = tblMng.dicNijuhachiGenso[nikkansi.si];
-            nijuhachiGensoGekkansi = tblMng.dicNijuhachiGenso[gekkansi.si];
-            nijuhachiGensoNenkansi = tblMng.dicNijuhachiGenso[nenkansi.si];
+            nijuhachiGensoNikkansi = tblMng.nijuhachiGensoTbl[nikkansi.si];
+            nijuhachiGensoGekkansi = tblMng.nijuhachiGensoTbl[gekkansi.si];
+            nijuhachiGensoNenkansi = tblMng.nijuhachiGensoTbl[nenkansi.si];
 
 
             NijuhachiGenso gensoNikkansi = nijuhachiGensoNikkansi;
@@ -165,6 +165,34 @@ namespace WinFormsApp2
         {
             return tblMng.juudaiShusei.GetJudaiShusei(kan, si);
         }
+        //十大主星 陰陽関係判定（干）
+        public bool IsInyouNitiGetsuKan()
+        {
+            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
+        }
+        public bool IsInyouGetsuNenKan()
+        {
+            return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
+        }
+        public bool IsInyouNitiNenKan()
+        {
+            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
+        }
+        //十大主星 陰陽関係判定（支）
+        public bool IsInyouNitiGetsuSi()
+        {
+            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
+        }
+        public bool IsInyouGetsuNenSi()
+        {
+            return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
+        }
+        public bool IsInyouNitiNenSi()
+        {
+            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
+        }
+
+
         //十二大従星 取得
         public JunidaiJusei GetJunidaiShusei(string kan, string si)
         {
@@ -176,18 +204,32 @@ namespace WinFormsApp2
         {
             return GetGouhouSanpou(nenunKansi.si, kansi.si);
         }
-        public string[] GetGouhouSanpou(string nenunKansiSi, string kansiSi)
+        public string[] GetGouhouSanpou(string siName1, string siName2)
         {
-            return tblMng.gouhouSanpouTbl.GetGouhouSanpou(nenunKansiSi, kansiSi);
+            return tblMng.gouhouSanpouTbl.GetGouhouSanpou(siName1, siName2);
         }
         public string GetGouhouSanpouString(Kansi nenunKansi, Kansi kansi)
         {
             return GetGouhouSanpouString(nenunKansi.si, kansi.si);
         }
-        public string GetGouhouSanpouString(string nenunKansiSi, string kansiSi)
+        public string GetGouhouSanpouString(string siName1, string siName2)
         {
-            return tblMng.gouhouSanpouTbl.GetGouhouSanpouString(nenunKansiSi, kansiSi);
+            return tblMng.gouhouSanpouTbl.GetGouhouSanpouString(siName1, siName2);
         }
+
+        public string[] GetGouhouSanpouNitiGetu()
+        {
+            return GetGouhouSanpou(nikkansi.si, gekkansi.si);
+        }
+        public string[] GetGouhouSanpouiGetuNen()
+        {
+            return GetGouhouSanpou(gekkansi.si, nenkansi.si);
+        }
+        public string[] GetGouhouSanpouiNitiNen()
+        {
+            return GetGouhouSanpou(nikkansi.si, nenkansi.si);
+        }
+
         //納音、準納音
         public string GetNentin(Kansi nenunKansi, Kansi kansi)
         {
@@ -211,6 +253,7 @@ namespace WinFormsApp2
 
             return "";
         }
+        
         //律音、準律音
         public string GetNittin(Kansi nenunKansi, Kansi kansi)
         {
@@ -236,6 +279,24 @@ namespace WinFormsApp2
 
             return "";
         }
+
+        //干合 関係（干）
+        public bool IsKangouNitiGetsuKan()
+        {
+            return tblMng.kangouTbl.IsKangou(nikkansi.kan, gekkansi.kan);
+        }
+        public bool IsKangoGetsuNenKan()
+        {
+            return tblMng.kangouTbl.IsKangou(gekkansi.kan, nenkansi.kan);
+        }
+        public bool IsKangoNitiNenKan()
+        {
+            return tblMng.kangouTbl.IsKangou(nikkansi.kan, nenkansi.kan);
+        }
+
+
+
+
         //七殺
         public Nanasatsu GetNanasatu(Kansi taiunKansi, Kansi kansi)
         {
@@ -253,11 +314,18 @@ namespace WinFormsApp2
         {
             return GetNanasatu(taiunKan, kan)!=null?true:false;
         }
+
+        public bool IsNanasatuNitiNenKan()
+        {
+            return GetNanasatu(nikkansi.kan, nenkansi.kan) != null ? true : false;
+        }
+        
         //天殺
         public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
         {
             return IsNanasatu(taiunKansi, kansi) ? "天殺" : "";
         }
+        
         //地冲
         public string GetTichuString(Kansi taiunKansi, Kansi kansi)
         {
@@ -274,6 +342,9 @@ namespace WinFormsApp2
 
 
     }
+
+
+
     /// <summary>
     /// 誕生日情報クラス
     /// </summary>

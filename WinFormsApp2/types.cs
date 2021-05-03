@@ -157,46 +157,8 @@ namespace WinFormsApp2
     }
 
     /// <summary>
-    /// 十大主星  管理テーブル
+    /// 十大主星
     /// </summary>
-    class JudaiShuseiTbl
-    {
-        /// <summary>
-        /// 主キー
-        /// </summary>
-        public string[] jukan1;
-        public List<JudaiShusei> lstJudaiShusei;
-
-        public string GetJudaiShuseiName(string key1, string key2)
-        {
-            var value = GetJudaiShusei(key1, key2);
-            if (value == null) return null;
-            
-            return value.name;
-        }
-
-        public JudaiShusei GetJudaiShusei(string key1, string key2)
-        { 
-            //主キーのインデックス番号取得
-            for( int idxItem=0; idxItem < jukan1.Length; idxItem++)
-            {
-                if(jukan1[idxItem] == key1)
-                {
-                    for (int i = 0; i < lstJudaiShusei.Count; i++)
-                    {
-                        if(lstJudaiShusei[i].jukan2[idxItem] == key2)
-                        {
-                            return lstJudaiShusei[i];
-                        }
-                    }
-                }
-
-            }
-            return null;
-        }
-
-
-    }
     class JudaiShusei
     {
         /// <summary>
@@ -231,46 +193,8 @@ namespace WinFormsApp2
     }
 
     /// <summary>
-    /// 十二大従星 管理テーブル
+    /// 十二大従星
     /// </summary>
-    class JunidaiJuseiTbl
-    {
-        /// <summary>
-        /// 主キー
-        /// </summary>
-        public string[] jukan1;
-        public List<JunidaiJusei> lstJunidaiJusei;
-
-
-        public string GetJunidaiJuseiName(string key1, string key2)
-        {
-            var value = GetJunidaiJusei(key1, key2);
-            if (value == null) return null;
-
-            return value.name;
-        }
-        public JunidaiJusei GetJunidaiJusei(string key1, string key2)
-        {
-
-            //主キーのインデックス番号取得
-            for (int idxItem = 0; idxItem < jukan1.Length; idxItem++)
-            {
-                if (jukan1[idxItem] == key1)
-                {
-                    for (int i = 0; i < lstJunidaiJusei.Count; i++)
-                    {
-                        if (lstJunidaiJusei[i].jukan2[idxItem] == key2)
-                        {
-                            return lstJunidaiJusei[i];
-                        }
-                    }
-                }
-
-            }
-            return null;
-        }
-
-    }
     class JunidaiJusei
     {
         /// <summary>

@@ -103,7 +103,6 @@ namespace WinFormsApp2
             if (cmbPerson.Items.Count > 0)
             {
                 cmbPerson.SelectedIndex = 0;
-                cmbPerson_SelectedIndexChanged(null, null);
             }
 
         }
@@ -238,8 +237,14 @@ namespace WinFormsApp2
             DispTaiun(person);
 
 
+            //============================================================
+            //位相法
+            //============================================================
+            DispShukumei(person);
 
         }
+
+ 
 
         /// <summary>
         /// 陽占 表示
@@ -475,17 +480,6 @@ namespace WinFormsApp2
             tichu = person.GetTichuString(taiunKansi, person.nenkansi);//地冲
             value = tensatu + tichu + " " + gouhou; ;
             lvItem.SubItems.Add(value.Trim());
-
-
-
-
-            //行のサブ情報として、開始年を保持させておく
-            lvItem.Tag = startNen;
-
-
-
-
-
             //天中殺
             Color color = Color.Black;
             for(int i=0; i< person.nikkansi.tenchusatu.ToArray().Length; i++)
@@ -499,6 +493,14 @@ namespace WinFormsApp2
             }
 
             lvItem.ForeColor = color;
+
+            TaiunLvItemData itemData = new TaiunLvItemData();
+            itemData.startNen = startNen;   //開始年
+            itemData.kansi = taiunKansi;    //干支
+
+            //行のサブ情報を保持させておく
+            lvItem.Tag = itemData;
+
 
         }
 
@@ -536,7 +538,7 @@ namespace WinFormsApp2
                              nenkansiNo);
                 nenkansiNo += 1;
             }
-            lvNenun.Items[0].Selected = false;
+            lvNenun.Items[0].Selected = true;
             lvNenun.Items[0].Focused = true;
 
         }
@@ -601,9 +603,12 @@ namespace WinFormsApp2
 
             lvItem.ForeColor = color;
 
+            NenunLvItemData itemData = new NenunLvItemData();
+            itemData.kansi = nenunKansi;    //干支
+            //行のサブ情報を保持させておく
+            lvItem.Tag = itemData;
+
         }
-
-
 
         private void txtNikkansiSanshutuSu_TextChanged(object sender, EventArgs e)
         {
@@ -626,10 +631,18 @@ namespace WinFormsApp2
             var selectedItem = lvTaiun.SelectedItems;
             if (selectedItem.Count == 0) return;
 
-            int startNen = (int)selectedItem[0].Tag;
+            TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
 
-            DispNenun(person,  startNen);
+            DispNenun(person, itemData.startNen);
+     
+            DispKoutenUn(person);
         }
+        private void lvNenun_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Person person = (Person)cmbPerson.SelectedItem;
+
+            DispKoutenUn(person);
+         }
 
         private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -646,6 +659,546 @@ namespace WinFormsApp2
 
 
         }
+
+        class TaiunLvItemData
+        {
+            public int startNen; //開始年
+            public Kansi kansi; //干支
+        }
+
+        class NenunLvItemData
+        {
+            public Kansi kansi; //干支
+        }
+
+
+        //============================================================
+        //位相法
+        //============================================================
+        class IsouhouBase : IDisposable
+        {
+            public Person person;
+            Font fnt = null;
+            Font fntSmall = null;
+            Pen blackPen = null;
+            StringFormat stringFormat = null;
+            StringFormat smallStringFormat = null;
+            Graphics g;
+            int offsetY = 20;
+
+            public IsouhouBase(Person _person, Graphics _g)
+            {
+                person = _person;
+                g = _g;
+
+                blackPen = new Pen(Color.Black, 1); ;
+
+                fnt = new Font("MS Gothic", 14, FontStyle.Regular);
+                fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
+
+                //干支文字センタリング表示用フォーマット
+                stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+
+                smallStringFormat = new StringFormat();
+                smallStringFormat.Alignment = StringAlignment.Center;
+                smallStringFormat.LineAlignment = StringAlignment.Center;
+
+            }
+
+            public int GetFontHeight()
+            {
+                return fnt.Height;
+            }
+            public int GetSmallFontHeight()
+            {
+                return fntSmall.Height;
+            }
+
+            public void Dispose()
+            {
+                blackPen.Dispose();
+                fnt.Dispose();
+            }
+
+
+            protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi)
+            {
+                g.DrawString(kansi.kan, fnt, Brushes.Black, rectKan, stringFormat);
+                g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
+                g.DrawRectangle(blackPen, rectKan);
+                g.DrawRectangle(blackPen, rectSi);
+            }
+
+            protected void DrawLine( int mtxIndex, int fromX, int toX, int baseY, int dirc)
+            {
+                Point start = new Point(fromX, baseY);
+                Point end = new Point(toX, baseY);
+                Point startOfs = new Point(start.X, start.Y + ((mtxIndex + 1) * offsetY) * dirc);
+                Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
+
+                g.DrawLine(blackPen, start, startOfs);
+                g.DrawLine(blackPen, startOfs, endOfs);
+                g.DrawLine(blackPen, endOfs, end);
+
+            }
+
+            protected void DrawString(Rectangle rect, string s)
+            {
+                g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+            }
+            protected void DrawString( int mtxIndex, int from, int to, int baseY, int dirc, string[] strs)
+            {
+                float maxWidth = 0f;
+                float sumHeight = 0f;
+                //文字列の最大幅,高さ取得
+                foreach (var s in strs)
+                {
+                    SizeF w = g.MeasureString(s, fntSmall);
+                    if (maxWidth < w.Width) maxWidth = w.Width;
+
+                    sumHeight += w.Height;
+                }
+
+                int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
+                int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
+
+
+                foreach (var s in strs)
+                {
+
+                    Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
+                    g.FillRectangle(Brushes.WhiteSmoke, rect);
+
+                    g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+                    y += fntSmall.Height;
+                }
+
+            }
+        }
+        class ShukumeiDraw : IsouhouBase
+        {
+
+            public Point nikkansi;
+            public Point gekkansi;
+            public Point nenkansi;
+
+            public int nikkansiCenterX;
+            public int gekkansiCenterX;
+            public int nenkansiCenterX;
+
+            public int drawTopKan;      //干文字表示領域TOP
+            public int drawTopSi;       //支文字表示領域TOP
+            public int drawBottomSi;    //支文字表示領域BOTTOM
+            public int rangeHeight;     //干支文字領域高さ
+            public int rangeWidth;      //干支文字領域幅
+
+
+
+            //干支文字表示領域
+            Rectangle rectNikansiKan;
+            Rectangle rectNikansiSi;
+            Rectangle rectGekkansiKan;
+            Rectangle rectGekkansiSi;
+            Rectangle rectNenkansiKan;
+            Rectangle rectNenkansiSi;
+
+
+            const int bitFlgNiti = 0x04;
+            const int bitFlgGetu = 0x02;
+            const int bitFlgNen = 0x01;
+
+            // 4:[ ][ ][ ] 
+            // 3:[ ][ ][ ]  (設定例）
+            // 2:[ ][ ][ ]  日年[1][0][1]  (bitFlgNiti | bitFlgNen) 
+            // 1:[ ][ ][ ]  月年[0][1][1]  (bitFlgGetu | bitFlgNen) 
+            // 0:[ ][ ][ ]  日月[1][1][0]  (bitFlgNiti | bitFlgGetu)
+            int[] matrix = null;
+            int[] matrixBottom = null;
+
+            public ShukumeiDraw(Person person, Graphics _g) :
+                base(person, _g)
+            {
+                matrix = new int[5];
+                matrixBottom = new int[5];
+
+
+
+                rangeHeight = GetFontHeight() * 2;
+                rangeWidth = 45;
+
+
+                nikkansi.X = 5;
+                nikkansi.Y = 50;
+                nikkansiCenterX = nikkansi.X + rangeWidth / 2;
+
+                gekkansi.X = nikkansi.X + rangeWidth;
+                gekkansi.Y = nikkansi.Y;
+                gekkansiCenterX = gekkansi.X + rangeWidth / 2;
+
+                nenkansi.X = gekkansi.X + rangeWidth;
+                nenkansi.Y = gekkansi.Y;
+                nenkansiCenterX = nenkansi.X + rangeWidth / 2;
+
+                drawTopKan = nikkansi.Y;
+                drawTopSi = drawTopKan + rangeHeight;
+                drawBottomSi = drawTopSi + rangeHeight;
+
+
+                //干支表示領域
+                rectNikansiKan = new Rectangle(nikkansi.X, nikkansi.Y, rangeWidth, rangeHeight);
+                rectNikansiSi = new Rectangle(nikkansi.X, drawTopSi, rangeWidth, rangeHeight);
+                rectGekkansiKan = new Rectangle(gekkansi.X, gekkansi.Y, rangeWidth, rangeHeight);
+                rectGekkansiSi = new Rectangle(gekkansi.X, drawTopSi, rangeWidth, rangeHeight);
+                rectNenkansiKan = new Rectangle(nenkansi.X, nenkansi.Y, rangeWidth, rangeHeight);
+                rectNenkansiSi = new Rectangle(nenkansi.X, drawTopSi, rangeWidth, rangeHeight);
+
+
+            }
+
+
+            public void Draw()
+            {
+                if (person == null) return;
+
+                //干支表示
+                DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);
+                DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
+                DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
+
+                //陰陽
+                //-------------------
+                //干（日-月) の関係
+                bool bInyouNitiGetsuKan = person.IsInyouNitiGetsuKan();
+                //干（月-年) の関係
+                bool bInyouGetsuNenKan = person.IsInyouGetsuNenKan();
+                //干（日-年) の関係
+                bool bInyouNiItiNenKan = person.IsInyouNitiNenKan();
+
+                int idxMtx = 0;
+                int idxMtxButtom = 0;
+                int dircUp = -1;
+                int dircDown = +1;
+                if (bInyouNitiGetsuKan)
+                {
+                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽", "あい", "8" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+
+                }
+                else if (bInyouGetsuNenKan)
+                {
+                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽", "あい", "8" });
+                    matrix[idxMtx] |= bitFlgGetu | bitFlgNen;
+
+                }
+                else if (bInyouNiItiNenKan)
+                {
+                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "陰陽" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
+                }
+                //干合
+                //-------------------
+                //干合（日-月) の関係
+                bool bKangouNitiGetsuKan = person.IsKangouNitiGetsuKan();
+                //干合（月-年) の関係
+                bool bKangouGetsuNenKan = person.IsKangoGetsuNenKan();
+                //干合（日-年) の関係
+                bool bKangouNiItiNenKan = person.IsKangoNitiNenKan();
+
+                if (bKangouNitiGetsuKan)
+                {
+                    if ((matrix[idxMtx] & bitFlgNiti) != 0) idxMtx++;
+                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, new string[] { "干合" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+
+                }
+                else if (bKangouGetsuNenKan)
+                {
+                    if ((matrix[idxMtx] & bitFlgNen) != 0) idxMtx++;
+                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "干合" });
+                    matrix[idxMtx] |= bitFlgGetu | bitFlgNen;
+
+                }
+                else if (bKangouNiItiNenKan)
+                {
+                    if ((matrix[idxMtx] & (bitFlgNiti | bitFlgNen)) != 0) idxMtx++;
+                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "干合" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
+                }
+                //七殺
+                //-------------------
+                bool bNanasatu = person.IsNanasatuNitiNenKan();
+                if (bNanasatu)
+                {
+                    if ((matrix[idxMtx]) != 0) idxMtx++;
+                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, new string[] { "七殺" });
+                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
+
+                }
+
+                //合法・散法
+                //-------------------
+                string[] gouhouSanpouNitiGetu = person.GetGouhouSanpouNitiGetu();
+                string[] gouhouSanpouGetuNen = person.GetGouhouSanpouiGetuNen();
+                string[] gouhouSanpouNitiNen = person.GetGouhouSanpouiNitiNen();
+
+                if (gouhouSanpouNitiGetu != null)
+                {
+                    if ((matrixBottom[idxMtxButtom] & bitFlgNiti) != 0) idxMtxButtom++;
+                    DrawLine(idxMtxButtom, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiGetu);
+                    matrixBottom[idxMtxButtom] |= bitFlgNiti | bitFlgGetu;
+
+                }
+                if (gouhouSanpouGetuNen != null)
+                {
+                    if ((matrixBottom[idxMtxButtom] & bitFlgNen) != 0) idxMtx++;
+                    DrawLine(idxMtxButtom, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouGetuNen);
+                    matrixBottom[idxMtxButtom] |= bitFlgGetu | bitFlgNen;
+
+                }
+
+                if (gouhouSanpouNitiNen != null)
+                {
+                    if ((matrixBottom[idxMtxButtom] & (bitFlgNiti | bitFlgNen)) != 0) idxMtxButtom++;
+                    DrawLine(idxMtxButtom, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiNen);
+                    matrixBottom[idxMtxButtom] |= bitFlgNiti | bitFlgNen;
+
+                }
+
+ 
+                }
+
+        }
+        class KoutenUnDraw : IsouhouBase
+        {
+
+            public Point nenun;
+            public Point taiun;
+            public Point nikkansi;
+            public Point gekkansi;
+            public Point nenkansi;
+
+            public int nenunCenterX;
+            public int taiunCenterX;
+            public int nikkansiCenterX;
+            public int gekkansiCenterX;
+            public int nenkansiCenterX;
+
+            public int drawTopKan;      //干文字表示領域TOP
+            public int drawTopSi;       //支文字表示領域TOP
+            public int drawBottomSi;    //支文字表示領域BOTTOM
+            public int rangeHeight;     //干支文字領域高さ
+            public int rangeWidth;      //干支文字領域幅
+
+
+
+            //干支文字表示領域
+            Rectangle rectNenunTitle;
+            Rectangle rectNenunKan;
+            Rectangle rectNenunSi;
+
+            Rectangle rectTaiunTitle;
+            Rectangle rectTaiunKan;
+            Rectangle rectTaiunSi;
+
+            Rectangle rectNikansiKan;
+            Rectangle rectNikansiSi;
+            Rectangle rectGekkansiKan;
+            Rectangle rectGekkansiSi;
+            Rectangle rectNenkansiKan;
+            Rectangle rectNenkansiSi;
+
+
+            const int bitFlgNiti = 0x04;
+            const int bitFlgGetu = 0x02;
+            const int bitFlgNen = 0x01;
+
+
+            public KoutenUnDraw(Person person, Graphics _g) :
+                base(person, _g)
+            {
+
+                rangeHeight = GetFontHeight() * 2;
+                rangeWidth = 45;
+
+
+                //年運表示開始位置
+                nenun.X = 5;
+                nenun.Y = 20;
+                nenunCenterX = nenun.X + rangeWidth / 2;
+
+                taiun.X = nenun.X + rangeWidth;
+                taiun.Y = nenun.Y;
+                taiunCenterX = taiun.X + rangeWidth / 2;
+
+                nikkansi.X = taiun.X + rangeWidth +10;
+                nikkansi.Y = taiun.Y;
+                nikkansiCenterX = nikkansi.X + rangeWidth / 2;
+
+                gekkansi.X = nikkansi.X + rangeWidth;
+                gekkansi.Y = nikkansi.Y;
+                gekkansiCenterX = gekkansi.X + rangeWidth / 2;
+
+                nenkansi.X = gekkansi.X + rangeWidth;
+                nenkansi.Y = gekkansi.Y;
+                nenkansiCenterX = nenkansi.X + rangeWidth / 2;
+
+                drawTopKan = nikkansi.Y;
+                drawTopSi = drawTopKan + rangeHeight;
+                drawBottomSi = drawTopSi + rangeHeight;
+
+
+                //干支表示領域
+                rectNenunTitle = new Rectangle(nenun.X, nenun.Y - GetSmallFontHeight(), rangeWidth, GetSmallFontHeight());
+                rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - GetSmallFontHeight(), rangeWidth, GetSmallFontHeight());
+                rectNenunKan = new Rectangle(nenun.X, nenun.Y, rangeWidth, rangeHeight);
+                rectNenunSi = new Rectangle(nenun.X, drawTopSi, rangeWidth, rangeHeight);
+                rectTaiunKan = new Rectangle(taiun.X, taiun.Y, rangeWidth, rangeHeight);
+                rectTaiunSi = new Rectangle(taiun.X, drawTopSi, rangeWidth, rangeHeight);
+                rectNikansiKan = new Rectangle(nikkansi.X, nikkansi.Y, rangeWidth, rangeHeight);
+                rectNikansiSi = new Rectangle(nikkansi.X, drawTopSi, rangeWidth, rangeHeight);
+                rectGekkansiKan = new Rectangle(gekkansi.X, gekkansi.Y, rangeWidth, rangeHeight);
+                rectGekkansiSi = new Rectangle(gekkansi.X, drawTopSi, rangeWidth, rangeHeight);
+                rectNenkansiKan = new Rectangle(nenkansi.X, nenkansi.Y, rangeWidth, rangeHeight);
+                rectNenkansiSi = new Rectangle(nenkansi.X, drawTopSi, rangeWidth, rangeHeight);
+
+
+            }
+
+
+            public void Draw(Kansi taiunKansi, Kansi nenunKansi)
+            {
+                if (person == null) return;
+
+                int idxMtxButtom = 0;
+                int dircDown = +1;
+
+                //干支表示
+                DrawString(rectNenunTitle, "年運");
+                DrawString(rectTaiunTitle, "大運");
+                DrawKansi(nenunKansi, rectNenunKan, rectNenunSi);
+                DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi);
+
+                DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);
+                DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
+                DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
+
+
+                //合法・散法
+                //-------------------
+                string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi);
+                string[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi);
+                string[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi);
+
+                if (gouhouSanpouTaiunNiti != null)
+                {
+                    DrawLine(idxMtxButtom, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
+                    idxMtxButtom++;
+
+                }
+                if (gouhouSanpouTaiunGetu != null)
+                {
+                    DrawLine(idxMtxButtom, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
+                    idxMtxButtom++;
+                }
+
+                if (gouhouSanpouTaiunNen != null)
+                {
+                    DrawLine(idxMtxButtom, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
+                    idxMtxButtom++;
+                }
+
+                string[] gouhouSanpouTaiunNenuni = person.GetGouhouSanpou(taiunKansi, nenunKansi);
+                string[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi);
+                string[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi);
+                string[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi);
+
+                if (gouhouSanpouTaiunNenuni != null)
+                {
+                    DrawLine(idxMtxButtom, nenunCenterX, taiunCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNenuni);
+                    idxMtxButtom++;
+                }
+                if (gouhouSanpouNenunNiti != null)
+                {
+                    DrawLine(idxMtxButtom, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
+                    idxMtxButtom++;
+                }
+                if (gouhouSanpouNenunGetu != null)
+                {
+                    DrawLine(idxMtxButtom, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
+                    idxMtxButtom++;
+                }
+
+                if (gouhouSanpouNenunNen != null)
+                {
+                    DrawLine(idxMtxButtom, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxMtxButtom, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
+                    idxMtxButtom++;
+                }
+
+            }
+
+        }
+
+        ShukumeiDraw drawItem = null;
+        KoutenUnDraw drawItem2 = null;
+        private void DispShukumei(Person person)
+        {
+
+            Bitmap canvas = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            // Graphicsオブジェクトの作成
+            Graphics g = Graphics.FromImage(canvas);
+            if (drawItem != null) drawItem.Dispose();
+            drawItem = new ShukumeiDraw(person, g);
+            drawItem.Draw();
+            pictureBox1.Image = canvas;
+
+        }
+
+        private void DispKoutenUn(Person person)
+        {
+
+            //大運の選択行の干支取得
+            var selectedItem = lvTaiun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+
+            TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
+
+            //年運の選択行の干支取得
+            selectedItem = lvNenun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+
+            NenunLvItemData itemData2 = (NenunLvItemData)selectedItem[0].Tag;
+
+
+            Bitmap canvas2 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            // Graphicsオブジェクトの作成
+            Graphics g2 = Graphics.FromImage(canvas2);
+            if (drawItem2 != null) drawItem2.Dispose();
+            drawItem2 = new KoutenUnDraw(person, g2);
+            drawItem2.Draw(itemData.kansi, itemData2.kansi);
+            pictureBox2.Image = canvas2;
+
+
+        }
+
 
     }
 }

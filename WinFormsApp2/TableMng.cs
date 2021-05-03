@@ -32,18 +32,21 @@ namespace WinFormsApp2
             /// <summary>
             /// 指定した２の十干名称の組み合わせが陰陽の関係かチェック
             /// </summary>
-            /// <param name="item1"></param>
-            /// <param name="item2"></param>
+            /// <param name="kan1">干名称1</param>
+            /// <param name="kan2">干名称2</param>
             /// <returns></returns>
-            public bool IsInyou(string name1, string name2)
+            public bool IsInyou(string kan1, string kan2)
             {
-                var jyukan1 = this[name1];
-                var jyukan2 = this[name2];
+                var jyukan1 = this[kan1];
+                var jyukan2 = this[kan2];
                 if (jyukan1 == null || jyukan2 == null) return false;
 
-                if (jyukan1.inyou != jyukan2.inyou) return false;
+                //同じ五行か？
+                if (jyukan1.gogyou != jyukan2.gogyou) return false;
+                //陰陽の関係か？
+                if (jyukan1.inyou != jyukan2.inyou) return true;
 
-                return true;
+                return false;
 
             }
         }
@@ -51,7 +54,7 @@ namespace WinFormsApp2
 
 
         /// <summary>
-        /// 十二支 管理テーブル
+        /// 十二支 テーブル管理
         /// </summary>
         public class JyunisiTbl
         {
@@ -74,7 +77,7 @@ namespace WinFormsApp2
         public JyunisiTbl jyunisiTbl = new JyunisiTbl();
 
         /// <summary>
-        /// 干支 管理テーブル
+        /// 干支 テーブル管理
         /// </summary>
         public class KansiTbl
         {
@@ -84,8 +87,7 @@ namespace WinFormsApp2
             {
                 get
                 {
-                    if (!dicKansi.ContainsKey(kansiNo)) return null;
-                    return dicKansi[kansiNo];
+                    return GetKansi(kansiNo);
                 }
             }
             public int Count { get { return dicKansi.Count; } }
@@ -93,17 +95,27 @@ namespace WinFormsApp2
             /// <summary>
             /// 干支文字列から干支番号取得
             /// </summary>
-            /// <param name="kan"></param>
-            /// <param name="si"></param>
+            /// <param name="kansi">干支</param>
             /// <returns></returns>
             public int GetKansiNo(Kansi kansi)
             {
                 return GetKansiNo(kansi.kan, kansi.si);
             }
+            /// <summary>
+            /// 干支文字列から干支番号取得
+            /// </summary>
+            /// <param name="kansi">干支の名称文字列配列</param>
+            /// <returns></returns>
             public int GetKansiNo(string[] kansi)
             {
                 return GetKansiNo(kansi[0], kansi[1]);
             }
+            /// <summary>
+            /// 干支文字列から干支番号取得
+            /// </summary>
+            /// <param name="kan">干名称</param>
+            /// <param name="si">支名称</param>
+            /// <returns></returns>
             public int GetKansiNo(string kan, string si)
             {
                 return dicKansi.First(x => x.Value.kan == kan && x.Value.si == si).Key;
@@ -122,7 +134,7 @@ namespace WinFormsApp2
             /// <summary>
             /// 干支番号から干支文字取得
             /// </summary>
-            /// <param name="kansiNo"></param>
+            /// <param name="kansiNo">干支No</param>
             /// <returns></returns>
             public string[] GetKansiStr(int kansiNo)
             {
@@ -139,14 +151,106 @@ namespace WinFormsApp2
         /// <summary>
         /// 二十八元表
         /// </summary>
-        public Dictionary<string, NijuhachiGenso> dicNijuhachiGenso = null;
+        public class NijuhaciGensoTbl
+        {
+            public Dictionary<string, NijuhachiGenso> dicNijuhachiGenso = null;
+
+            public NijuhachiGenso this[string siName]
+            {
+                get
+                {
+                    if (!dicNijuhachiGenso.ContainsKey(siName)) return null;
+                    return dicNijuhachiGenso[siName];
+                }
+            }
+
+        }
+        public NijuhaciGensoTbl nijuhachiGensoTbl = null;
+
         /// <summary>
-        /// 十大主星
+        /// 十大主星  管理テーブル
         /// </summary>
+        public class JudaiShuseiTbl
+        {
+            /// <summary>
+            /// 主キー
+            /// </summary>
+            public string[] jukan1;
+            public List<JudaiShusei> lstJudaiShusei;
+
+            public string GetJudaiShuseiName(string key1, string key2)
+            {
+                var value = GetJudaiShusei(key1, key2);
+                if (value == null) return null;
+
+                return value.name;
+            }
+
+            public JudaiShusei GetJudaiShusei(string key1, string key2)
+            {
+                //主キーのインデックス番号取得
+                for (int idxItem = 0; idxItem < jukan1.Length; idxItem++)
+                {
+                    if (jukan1[idxItem] == key1)
+                    {
+                        for (int i = 0; i < lstJudaiShusei.Count; i++)
+                        {
+                            if (lstJudaiShusei[i].jukan2[idxItem] == key2)
+                            {
+                                return lstJudaiShusei[i];
+                            }
+                        }
+                    }
+
+                }
+                return null;
+            }
+
+
+        }
         public JudaiShuseiTbl juudaiShusei = null;
+       
         /// <summary>
-        /// 十二大従星
+        /// 十二大従星 管理テーブル 管理
         /// </summary>
+        public class JunidaiJuseiTbl
+        {
+            /// <summary>
+            /// 主キー
+            /// </summary>
+            public string[] jukan1;
+            public List<JunidaiJusei> lstJunidaiJusei;
+
+
+            public string GetJunidaiJuseiName(string key1, string key2)
+            {
+                var value = GetJunidaiJusei(key1, key2);
+                if (value == null) return null;
+
+                return value.name;
+            }
+            public JunidaiJusei GetJunidaiJusei(string key1, string key2)
+            {
+
+                //主キーのインデックス番号取得
+                for (int idxItem = 0; idxItem < jukan1.Length; idxItem++)
+                {
+                    if (jukan1[idxItem] == key1)
+                    {
+                        for (int i = 0; i < lstJunidaiJusei.Count; i++)
+                        {
+                            if (lstJunidaiJusei[i].jukan2[idxItem] == key2)
+                            {
+                                return lstJunidaiJusei[i];
+                            }
+                        }
+                    }
+
+                }
+                return null;
+            }
+
+        }
         public JunidaiJuseiTbl junidaiJusei = null;
 
  
@@ -157,47 +261,59 @@ namespace WinFormsApp2
         {
             public List<Kangou> lstKangou = null;
 
-            public Kangou GetKangou(string name1, string name2)
+            public Kangou GetKangou(string kan1, string kan2)
             {
                 foreach (var val in lstKangou)
                 {
-                    if (val.kan == name1 && val.gou == name2 ||
-                        val.kan == name2 && val.gou == name1)
+                    if (val.kan == kan1 && val.gou == kan2 ||
+                        val.kan == kan2 && val.gou == kan1)
                     {
                         return val;
                     }
                 }
                 return null;
             }
-            public bool IsKangou(string name1, string name2)
+            public bool IsKangou(string kan1, string kan2)
             {
-                return GetKangou(name1, name2) != null ? true : false;
+                return GetKangou(kan1, kan2) != null ? true : false;
 
             }
         }
         public KangouTbl kangouTbl = new KangouTbl();
-   
+
         /// <summary>
-        /// 七殺テーブル
+        /// 七殺テーブル 管理
         /// </summary>
         public class NanasatsuTbl
         {
             public List<Nanasatsu> lstNanasatsu = null;
 
-            public Nanasatsu GetNanasatsu(string name1, string name2)
+            /// <summary>
+            /// 七殺 取得
+            /// </summary>
+            /// <param name="kan1">干名称1</param>
+            /// <param name="kan2">干名称2</param>
+            /// <returns></returns>
+            public Nanasatsu GetNanasatsu(string kan1, string kan2)
             {
                 foreach (var val in lstNanasatsu)
                 {
-                    if (val.name1 == name1 && val.name2 == name2)
+                    if (val.name1 == kan1 && val.name2 == kan2)
                     {
                         return val;
                     }
                 }
                 return null;
             }
-            public bool IsNanasastsu(string name1, string name2)
+            /// <summary>
+            /// 七殺に該当するかを判定
+            /// </summary>
+            /// <param name="kan1">干名称1</param>
+            /// <param name="kan2">干名称2</param>
+            /// <returns>true...七殺  false...該当なし</returns>
+            public bool IsNanasastsu(string kan1, string kan2)
             {
-                return GetNanasatsu(name1, name2) != null ? true : false;
+                return GetNanasatsu(kan1, kan2) != null ? true : false;
 
             }
 
@@ -205,7 +321,7 @@ namespace WinFormsApp2
         public NanasatsuTbl nanasatsuTbl = new NanasatsuTbl();
 
         /// <summary>
-        /// 合法・散法 テーブル
+        /// 合法・散法 テーブル　管理
         /// </summary>
         public class GouhouSanpouTbl
         {
@@ -214,30 +330,42 @@ namespace WinFormsApp2
             /// </summary>
             public string[] jyunisi;
             public Dictionary<string, string[]> dicGouhouSanpou;
-
-            public string[] GetGouhouSanpou(string name1, string name2)
+            /// <summary>
+            /// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列を取得
+            /// </summary>
+            /// <param name="siName1">支名称1</param>
+            /// <param name="siName2">支名称2</param>
+            /// <returns></returns>
+            public string[] GetGouhouSanpou(string siName1, string siName2)
             {
                 int idx = 0;
                 for (idx = 0; idx < jyunisi.Length; idx++)
                 {
-                    if (name1 == jyunisi[idx])
+                    if (siName1 == jyunisi[idx])
                     {
                         break;
                     }
                 }
                 if (idx >= jyunisi.Length) return null;
 
-                if (!dicGouhouSanpou.ContainsKey(name2)) return null;
+                if (!dicGouhouSanpou.ContainsKey(siName2)) return null;
 
-                string value = dicGouhouSanpou[name2][idx];
+                string value = dicGouhouSanpou[siName2][idx];
 
+                if(value=="") return null;
                 return value.Split(",");
 
 
             }
-            public string GetGouhouSanpouString(string name1, string name2)
+            /// <summary>
+            /// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列をカンマ区切りで取得
+            /// </summary>
+            /// <param name="siName1">支名称1</param>
+            /// <param name="siName2">支名称2</param>
+            /// <returns></returns>
+            public string GetGouhouSanpouString(string siName1, string siName2)
             {
-                var values = GetGouhouSanpou(name1, name2);
+                var values = GetGouhouSanpou(siName1, siName2);
                 string s = "";
                 if (values != null)
                 {
@@ -255,7 +383,7 @@ namespace WinFormsApp2
 
 
         /// <summary>
-        /// 三合会局 テーブル
+        /// 三合会局 テーブル 管理
         /// </summary>
         public class SangouKaikyokuTbl
         {
@@ -264,7 +392,7 @@ namespace WinFormsApp2
         public SangouKaikyokuTbl sangouKaikyokuTbl = new SangouKaikyokuTbl();
 
         /// <summary>
-        /// 方三位 テーブル
+        /// 方三位 テーブル　管理
         /// </summary>
         public class HouSanniTbl
         {
@@ -340,7 +468,8 @@ namespace WinFormsApp2
             //--------------------------------
             //二十八元表
             //--------------------------------
-            dicNijuhachiGenso = new Dictionary<string, NijuhachiGenso>
+            nijuhachiGensoTbl = new NijuhaciGensoTbl();
+            nijuhachiGensoTbl.dicNijuhachiGenso = new Dictionary<string, NijuhachiGenso>
             {
                 { "子",new NijuhachiGenso(null               ,null               ,new Genso("癸") ) },
                 { "丑",new NijuhachiGenso(new Genso("癸", 9) ,new Genso("辛", 3) ,new Genso("己") ) },
