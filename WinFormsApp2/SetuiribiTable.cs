@@ -9,6 +9,14 @@ namespace WinFormsApp2
     //節入り日データテーブル管理クラス
     class SetuiribiTable
     {
+        //桑原さん提供の節入り日テーブルには、節入り日しか情報がない
+        //節入り日テーブルの最初の年度２月の基準干支を求めるための基準
+        int calcBaseYear = 1936;
+        int calcBaseMonth = 2;
+        int calcBaseSetuiribi = 5;
+        int calcBaseNenkansi = 13;
+        int calcBaseGekkansi = 27;
+        int calcBaseNikkansiSanshutuSu = 49;
 
         /// <summary>
         /// 年毎データ
@@ -95,6 +103,144 @@ namespace WinFormsApp2
             return 0;
         }
 
+        public void GetBaseSetuiribiData(ref int baseYear,
+                                          ref int baseMonth,
+                                          ref int baseDay,
+                                          ref int baseNenkansi,
+                                          ref int baseGekkansi,
+                                          ref int baseNikkansiSanshutuSu
+            )
+        {
+            var value = dicSetuiribiTbl.ToArray()[0];
+
+            YearItem yearItem = value.Value;
+            baseYear = yearItem.year;
+            var item = yearItem.dicSetuiribi.ToArray()[0];
+            baseMonth = item.Key;
+            baseDay = item.Value;
+            baseNenkansi = CalcNenkansi( baseYear, baseMonth);
+            baseGekkansi = CalcGekkansi(baseYear, baseMonth);
+            baseNikkansiSanshutuSu = CalcNikkansiSanshutuSu(baseYear, baseMonth, baseDay);
+
+            /*
+                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"G:\Temp\test.csv",false) )
+                        {
+                            for (int y = 1937; y >= baseYear; y--)
+                            {
+                                int year = y;
+
+                                int m = 2;
+                                for (int i = 0; i < 12; i++)
+                                {
+                                    if (m == 0)
+                                    {
+                                        m = 12;
+                                        year = y - 1;
+                                    }
+
+                                    var baseNenkansiWk = CalcNenkansi(year, m);
+                                    var baseGekkansiWk = CalcGekkansi(year, m);
+                                    var baseNikkansiSanshutuSuWk = CalcNikkansiSanshutuSu(year, m);
+
+                                    sw.WriteLine(string.Format("{0}/{1}, {2},{3},{4}", year, m, baseNenkansiWk, baseGekkansiWk, baseNikkansiSanshutuSuWk));
+                                    m--;
+                                }
+                            }
+                        }
+            */
+        }
+        private int CalcNenkansi(int targetYear, int targetMonth)
+        {
+            int nenkansi = calcBaseNenkansi;
+            if (calcBaseYear > targetYear)
+            {
+                for (int i = calcBaseYear - 1; i >= targetYear; i--)
+                {
+                    nenkansi--;
+                    if (nenkansi == 0) nenkansi = 60;
+                }
+                if (targetMonth == 1)
+                {
+                    nenkansi--;
+                    if (nenkansi == 0) nenkansi = 60;
+                }
+            }
+            else
+            {
+                for (int i = calcBaseYear+1; i <= targetYear; i++)
+                {
+                    nenkansi++;
+                    if (nenkansi == 61) nenkansi = 1;
+                }
+                if (targetMonth == 1)
+                {
+                    nenkansi--;
+                    if (nenkansi == 0) nenkansi = 60;
+                }
+            }
+            return nenkansi;
+        }
+
+        private int CalcGekkansi(int targetYear, int targetMonth)
+        {
+            int gekkansi = calcBaseGekkansi;
+            DateTime dateFrom = new System.DateTime(calcBaseYear, calcBaseMonth, 1);
+            DateTime dateTo = new System.DateTime(targetYear, targetMonth, 1);
+
+            if(dateFrom>dateTo)
+            {
+                int monthNum = Common.GetElapsedMonths(dateTo, dateFrom);
+
+                for (int i = 0; i < monthNum; i++)
+                {
+                    gekkansi--;
+                    if (gekkansi == 0) gekkansi = 60;
+                }
+            }
+            else
+            {
+                int monthNum = Common.GetElapsedMonths(dateFrom, dateTo);
+
+                for (int i = 0; i < monthNum; i++)
+                {
+                    gekkansi++;
+                    if (gekkansi == 61) gekkansi = 1;
+                }
+            }
+                
+ 
+            return gekkansi;
+        }
+
+        private int CalcNikkansiSanshutuSu(int targetYear, int targetMonth, int targetDay)
+        {
+            int nikkansiSanshutu = calcBaseNikkansiSanshutuSu;
+            DateTime dateFrom = new System.DateTime(calcBaseYear, calcBaseMonth, calcBaseSetuiribi);
+            DateTime dateTo = new System.DateTime(targetYear, targetMonth, targetDay);
+
+            int dayNum = 0;
+            if (dateFrom > dateTo)
+            {
+                dayNum = (int)(dateFrom - dateTo).TotalDays;
+                for (int i = 0; i < dayNum; i++)
+                {
+                    nikkansiSanshutu--;
+                    if (nikkansiSanshutu == 0) nikkansiSanshutu = 60;
+                }
+            }
+            else
+            {
+                dayNum = (int)(dateTo - dateFrom).TotalDays;
+                for (int i = 0; i < dayNum; i++)
+                {
+                    nikkansiSanshutu++;
+                    if (nikkansiSanshutu == 61) nikkansiSanshutu = 1;
+                }
+            }
+            return nikkansiSanshutu;
+        }
+
+
         //年干支番号取得
         public int GetNenKansiNo(int year, int month, int day)
         {
@@ -108,8 +254,10 @@ namespace WinFormsApp2
             {   //2月～12月
                 value = (year - baseYear) + baseNenkansiNo;
             }
-            if (value >= 61) value -= 60;
-
+            if (value >= 61)
+            {
+                value = value % 60;
+            }
             return value;
         }
         //月干支番号取得

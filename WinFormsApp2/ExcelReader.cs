@@ -23,24 +23,31 @@ namespace WinFormsApp2
         // Workbook読み込む関数
         public static IWorkbook GetWorkbook(string filename, string version)
         {
-            // ファイルストリームを生成する。
-            using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            try
             {
-                // 標準エクセル.xls
-                if ("xls".Equals(version))
+                // ファイルストリームを生成する。
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    // 標準エクセルWorkbookを割当
-                    return new HSSFWorkbook(stream);
+                    // 標準エクセル.xls
+                    if ("xls".Equals(version))
+                    {
+                        // 標準エクセルWorkbookを割当
+                        return new HSSFWorkbook(stream);
+                    }
+                    // 拡張エクセル.xlsx
+                    else if ("xlsx".Equals(version))
+                    {
+                        // 拡張エクセルWorkbookを割当
+                        return new XSSFWorkbook(stream);
+                    }
+                    // xlsとxlsxじゃなければ、エラー発生
+                    throw new NotSupportedException();
                 }
-                // 拡張エクセル.xlsx
-                else if ("xlsx".Equals(version))
-                {
-                    // 拡張エクセルWorkbookを割当
-                    return new XSSFWorkbook(stream);
-                }
-                // xlsとxlsxじゃなければ、エラー発生
-                throw new NotSupportedException();
+            }catch( Exception e)
+            {
+                throw e;
             }
+
         }
         // シート(Sheet)から行を取得関数
         public static IRow GetRow(ISheet sheet, int rownum)

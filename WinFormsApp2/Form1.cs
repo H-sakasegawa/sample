@@ -58,13 +58,30 @@ namespace WinFormsApp2
 
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
-            setuiribiTbl = new SetuiribiTable();
-            setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
-
             personList = new Persons();
-            personList.ReadPersonList(exePath + @"\名簿.xls");
+            setuiribiTbl = new SetuiribiTable();
+            try
+            {
+                setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
+                return;
+            }
 
- 
+            try
+            {
+                personList.ReadPersonList(exePath + @"\名簿.xls");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
+                return;
+            }
+
+
+
 
             //----------------------------------------------
             //ラベルの組み合わせを登録
@@ -104,6 +121,21 @@ namespace WinFormsApp2
             {
                 cmbPerson.SelectedIndex = 0;
             }
+
+            int baseYear = 0;
+            int baseMonth = 0;
+            int baseDay = 0;
+            int baseNenkansi = 0;
+            int baseGekkansi = 0;
+            int baseNikkansiSanshutusuu = 0;
+            setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
+                                              ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
+            txtBaseYear.Text = baseYear.ToString();
+            txtBaseMonth.Text = baseMonth.ToString();
+            txtBaseDay.Text = baseDay.ToString();
+            txtBaseNenkansiNo.Text = baseNenkansi.ToString();
+            txtBaseGekkansiNo.Text = baseGekkansi.ToString();
+            txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
 
         }
 
