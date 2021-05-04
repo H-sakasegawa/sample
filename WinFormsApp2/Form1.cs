@@ -493,24 +493,43 @@ namespace WinFormsApp2
             lvItem.SubItems.Add(junidai); //十二大従星
 
             //日
-            string gouhou = person.GetGouhouSanpouString(taiunKansi, person.nikkansi); //合法・散法            
-            string tensatu = person.GetTensatuString(taiunKansi, person.nikkansi);//天殺
-            string tichu = person.GetTichuString(taiunKansi, person.nikkansi);//地冲
-            string value = tensatu + tichu+ " " +gouhou;
+            string nentin = person.GetNentin(taiunKansi, person.nikkansi); //納音、準納音
+            string rittin = person.GetNittin(taiunKansi, person.nikkansi); //律音、準律音
+            string tensatu = person.GetTensatuTichuString(taiunKansi, person.nikkansi);//天殺地冲
+            bool bExistNentin = (nentin == "" ? false : true);
+            bool bExistTensatuTichu = (tensatu == "" ? false : true);
+
+            string gouhou = person.GetGouhouSanpouString(taiunKansi, person.nikkansi, bExistTensatuTichu, bExistNentin); //合法・散法
+            if(gouhou.IndexOf("半会")>=0)
+            {
+
+            }
+            string kangou = person.GetKangoStr(taiunKansi, person.nikkansi); //干合            
+            string value = nentin + " " + rittin + " "+tensatu+ " " + kangou + " " + gouhou;
             lvItem.SubItems.Add(value.Trim());
 
             //月
-            gouhou = person.GetGouhouSanpouString(taiunKansi.si, person.gekkansi.si); //合法・散法
-            tensatu = person.GetTensatuString(taiunKansi, person.gekkansi);//天殺
-            tichu = person.GetTichuString(taiunKansi, person.gekkansi);//地冲
-            value = tensatu + tichu + " " + gouhou; ;
+            nentin = person.GetNentin(taiunKansi, person.gekkansi); //納音、準納音
+            rittin = person.GetNittin(taiunKansi, person.gekkansi); //律音、準律音
+            tensatu = person.GetTensatuTichuString(taiunKansi, person.gekkansi);//天殺地冲
+            bExistNentin = (nentin == "" ? false : true);
+            bExistTensatuTichu = (tensatu == "" ? false : true);
+
+            gouhou = person.GetGouhouSanpouString(taiunKansi, person.gekkansi, bExistTensatuTichu, bExistNentin); //合法・散法
+            kangou = person.GetKangoStr(taiunKansi, person.gekkansi); //干合            
+            value = nentin + " " + rittin + " " + tensatu + " " + kangou + " " + gouhou;
             lvItem.SubItems.Add(value.Trim());
 
             //年
-            gouhou = person.GetGouhouSanpouString(taiunKansi.si, person.nenkansi.si);//合法・散法
-            tensatu = person.GetTensatuString(taiunKansi, person.nenkansi);//天殺
-            tichu = person.GetTichuString(taiunKansi, person.nenkansi);//地冲
-            value = tensatu + tichu + " " + gouhou; ;
+            nentin = person.GetNentin(taiunKansi, person.nenkansi); //納音、準納音
+            rittin = person.GetNittin(taiunKansi, person.nenkansi); //律音、準律音
+            tensatu = person.GetTensatuTichuString(taiunKansi, person.nenkansi);//天殺地冲
+            bExistNentin = (nentin == "" ? false : true);
+            bExistTensatuTichu = (tensatu == "" ? false : true);
+
+            gouhou = person.GetGouhouSanpouString(taiunKansi, person.nenkansi, bExistTensatuTichu, bExistNentin);//合法・散法
+            kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合            
+            value = nentin + " " + rittin + " " + tensatu + " " + kangou + " " + gouhou;
             lvItem.SubItems.Add(value.Trim());
             //天中殺
             Color color = Color.Black;
@@ -602,22 +621,37 @@ namespace WinFormsApp2
             //日
             string nentin = person.GetNentin(nenunKansi, person.nikkansi); //納音、準納音
             string rittin = person.GetNittin(nenunKansi, person.nikkansi); //律音、準律音
-            string gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.nikkansi.si);//合法・散法
-            string value = nentin + " " + rittin +" "+ gouhou;
+            string tensatu = person.GetTensatuTichuString(nenunKansi, person.nikkansi);//天殺地冲
+            bool bExistNentin = (nentin == "" ? false : true);
+            bool bExistTensatuTichu = tensatu == "" ? false : true;
+
+            string gouhou = person.GetGouhouSanpouString(nenunKansi, person.nikkansi, bExistTensatuTichu, bExistNentin);//合法・散法
+            string kangou = person.GetKangoStr(nenunKansi, person.nikkansi); //干合            
+            string value = nentin + " " + rittin + " " + tensatu + " " + kangou+" "+gouhou; ;
             lvItem.SubItems.Add(value.Trim());
 
             //月
             nentin = person.GetNentin(nenunKansi, person.gekkansi); //納音、準納音
             rittin = person.GetNittin(nenunKansi, person.gekkansi); //律音、準律音
-            gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.gekkansi.si);//合法・散法
-            value = nentin + " " + rittin + " " + gouhou;
+            tensatu = person.GetTensatuTichuString(nenunKansi, person.gekkansi);//天殺地冲
+            bExistNentin = (nentin == "" ? false : true);
+            bExistTensatuTichu = (tensatu==""?false:true);
+
+            gouhou = person.GetGouhouSanpouString(nenunKansi, person.gekkansi, bExistTensatuTichu, bExistNentin);//合法・散法
+            kangou = person.GetKangoStr(nenunKansi, person.gekkansi); //干合            
+            value = nentin + " " + rittin + " " + tensatu + " " + kangou + " " + gouhou; ;
             lvItem.SubItems.Add(value);
 
             //年
             nentin = person.GetNentin(nenunKansi, person.nenkansi); //納音、準納音
             rittin = person.GetNittin(nenunKansi, person.nenkansi); //律音、準律音
-            gouhou = person.GetGouhouSanpouString(nenunKansi.si, person.nenkansi.si);//合法・散法
-            value = nentin + " " + rittin + " " + gouhou;
+            tensatu = person.GetTensatuTichuString(nenunKansi, person.nenkansi);//天殺地冲
+            bExistNentin = (nentin == "" ? false : true);
+            bExistTensatuTichu = (tensatu == "" ? false : true);
+
+            gouhou = person.GetGouhouSanpouString(nenunKansi, person.nenkansi, bExistTensatuTichu, bExistNentin);//合法・散法
+            kangou = person.GetKangoStr(nenunKansi, person.nenkansi); //干合            
+            value = nentin + " " + rittin + " " + tensatu + " " + kangou + " " + gouhou; ;
             lvItem.SubItems.Add(value); 
 
 
@@ -1173,9 +1207,9 @@ namespace WinFormsApp2
 
                 //合法・散法
                 //-------------------
-                string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi);
-                string[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi);
-                string[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi);
+                string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi,false, false);
+                string[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi, false, false);
+                string[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi, false, false);
 
                 if (gouhouSanpouTaiunNiti != null)
                 {
@@ -1198,10 +1232,10 @@ namespace WinFormsApp2
                     idxMtxButtom++;
                 }
 
-                string[] gouhouSanpouTaiunNenuni = person.GetGouhouSanpou(taiunKansi, nenunKansi);
-                string[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi);
-                string[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi);
-                string[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi);
+                string[] gouhouSanpouTaiunNenuni = person.GetGouhouSanpou(taiunKansi, nenunKansi, false, false);
+                string[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi, false, false);
+                string[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi, false, false);
+                string[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi, false, false);
 
                 if (gouhouSanpouTaiunNenuni != null)
                 {

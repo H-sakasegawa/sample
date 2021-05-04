@@ -278,6 +278,11 @@ namespace WinFormsApp2
                 return GetKangou(kan1, kan2) != null ? true : false;
 
             }
+            public string GetKangouStr(string kan1, string kan2)
+            {
+                return IsKangou(kan1, kan2) ? "干合" : "";
+
+            }
         }
         public KangouTbl kangouTbl = new KangouTbl();
 
@@ -336,7 +341,7 @@ namespace WinFormsApp2
             /// <param name="siName1">支名称1</param>
             /// <param name="siName2">支名称2</param>
             /// <returns></returns>
-            public string[] GetGouhouSanpou(string siName1, string siName2)
+            public string[] GetGouhouSanpou(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
             {
                 int idx = 0;
                 for (idx = 0; idx < jyunisi.Length; idx++)
@@ -353,30 +358,39 @@ namespace WinFormsApp2
                 string value = dicGouhouSanpou[siName2][idx];
 
                 if(value=="") return null;
-                return value.Split(",");
-
-
-            }
-            /// <summary>
-            /// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列をカンマ区切りで取得
-            /// </summary>
-            /// <param name="siName1">支名称1</param>
-            /// <param name="siName2">支名称2</param>
-            /// <returns></returns>
-            public string GetGouhouSanpouString(string siName1, string siName2)
-            {
-                var values = GetGouhouSanpou(siName1, siName2);
-                string s = "";
-                if (values != null)
+                
+                var items = value.Split(",").ToList();
+                for(int i=items.Count-1; i>=0; i--)
                 {
-                    foreach (var item in values)
-                    {
-                        if (s != "") s += ",";
-                        s += item;
+                    if ((bExistTensatuTichu || bExistNentin) && items[i] == "冲動")
+                    {   //天殺地冲または、納音がある場合は、"冲動"は不要
+                        items.RemoveAt(i);
                     }
+
                 }
-                return s;
+                return items.ToArray();
+
             }
+            ///// <summary>
+            ///// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列をカンマ区切りで取得
+            ///// </summary>
+            ///// <param name="siName1">支名称1</param>
+            ///// <param name="siName2">支名称2</param>
+            ///// <returns></returns>
+            //public string GetGouhouSanpouString(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
+            //{
+            //    var values = GetGouhouSanpou(siName1, siName2, bExistTensatuTichu, bExistNentin);
+            //    string s = "";
+            //    if (values != null)
+            //    {
+            //        foreach (var item in values)
+            //        {
+            //            if (s != "") s += ",";
+            //            s += item;
+            //        }
+            //    }
+            //    return s;
+            //}
 
         }
         public GouhouSanpouTbl gouhouSanpouTbl = null;

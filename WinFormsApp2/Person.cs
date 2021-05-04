@@ -200,34 +200,61 @@ namespace WinFormsApp2
         }
 
         //合法・散法
-        public string[] GetGouhouSanpou(Kansi nenunKansi, Kansi kansi)
+        public string[] GetGouhouSanpou(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
-            return GetGouhouSanpou(nenunKansi.si, kansi.si);
+            var items = tblMng.gouhouSanpouTbl.GetGouhouSanpou(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
+            if (items != null)
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if (items[i] == "半会")
+                    {
+                        //大半会判定
+                        int no1 = tblMng.kansiTbl.GetKansiNo(nenunTaiunKansi);
+                        int no2 = tblMng.kansiTbl.GetKansiNo(kansi);
+                        if (Math.Abs(no1 - no2) == 20)
+                        {
+                            items[i] = "大半会";
+                        }
+                    }
+                }
+            }
+            return items;
         }
-        public string[] GetGouhouSanpou(string siName1, string siName2)
+        //public string[] GetGouhouSanpou(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
+        //{
+        //    return tblMng.gouhouSanpouTbl.GetGouhouSanpou(siName1, siName2, bExistTensatuTichu, bExistNentin);
+        //}
+        public string GetGouhouSanpouString(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
-            return tblMng.gouhouSanpouTbl.GetGouhouSanpou(siName1, siName2);
+            var items =  GetGouhouSanpou(nenunTaiunKansi, kansi, bExistTensatuTichu, bExistNentin);
+            string s = "";
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    if (s != "") s += ",";
+                    s += item;
+                }
+            }
+            return s;
         }
-        public string GetGouhouSanpouString(Kansi nenunKansi, Kansi kansi)
-        {
-            return GetGouhouSanpouString(nenunKansi.si, kansi.si);
-        }
-        public string GetGouhouSanpouString(string siName1, string siName2)
-        {
-            return tblMng.gouhouSanpouTbl.GetGouhouSanpouString(siName1, siName2);
-        }
+        //public string GetGouhouSanpouString(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
+        //{
+        //   return  tblMng.gouhouSanpouTbl.GetGouhouSanpouString(siName1, siName2, bExistTensatuTichu, bExistNentin);
+        //}
 
         public string[] GetGouhouSanpouNitiGetu()
         {
-            return GetGouhouSanpou(nikkansi.si, gekkansi.si);
+            return GetGouhouSanpou(nikkansi, gekkansi, false, false);
         }
         public string[] GetGouhouSanpouiGetuNen()
         {
-            return GetGouhouSanpou(gekkansi.si, nenkansi.si);
+            return GetGouhouSanpou(gekkansi, nenkansi, false, false);
         }
         public string[] GetGouhouSanpouiNitiNen()
         {
-            return GetGouhouSanpou(nikkansi.si, nenkansi.si);
+            return GetGouhouSanpou(nikkansi, nenkansi, false, false);
         }
 
         //納音、準納音
@@ -293,6 +320,10 @@ namespace WinFormsApp2
         {
             return tblMng.kangouTbl.IsKangou(nikkansi.kan, nenkansi.kan);
         }
+        public string GetKangoStr(Kansi taiunKansi, Kansi kansi)
+        {
+            return tblMng.kangouTbl.GetKangouStr(taiunKansi.kan, kansi.kan);
+        }
 
 
 
@@ -337,7 +368,7 @@ namespace WinFormsApp2
         //地冲
         public string GetTichuString(Kansi taiunKansi, Kansi kansi)
         {
-            var values = GetGouhouSanpou(taiunKansi, kansi);
+            var values = GetGouhouSanpou(taiunKansi, kansi, false, false);
             if (values != null)
             {
                 foreach (var item in values)
@@ -345,6 +376,15 @@ namespace WinFormsApp2
                     if (item.IndexOf("冲動") >= 0) return "地冲";
                 }
             }
+            return "";
+        }
+        //天殺地冲
+        public string GetTensatuTichuString(Kansi taiunKansi, Kansi kansi)
+        {
+            string tensatu = GetTensatuString(taiunKansi, kansi);
+            string tichu = GetTichuString(taiunKansi, kansi);
+            if (tensatu != "" && tichu != "") return tensatu + tichu;
+
             return "";
         }
 
