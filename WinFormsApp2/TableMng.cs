@@ -303,9 +303,10 @@ namespace WinFormsApp2
             {
                 foreach (var val in lstNanasatsu)
                 {
-                    if (val.name1 == kan1 && val.name2 == kan2)
+                    if (val.name1 == kan1 && val.name2 == kan2 ||
+                        val.name1 == kan2 && val.name2 == kan1)
                     {
-                        return val;
+                            return val;
                     }
                 }
                 return null;

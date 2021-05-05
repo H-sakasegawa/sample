@@ -166,31 +166,40 @@ namespace WinFormsApp2
             return tblMng.juudaiShusei.GetJudaiShusei(kan, si);
         }
         //十大主星 陰陽関係判定（干）
+        //日→月
         public bool IsInyouNitiGetsuKan()
         {
             return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
         }
+        //月→年
         public bool IsInyouGetsuNenKan()
         {
             return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
         }
+        //日→年
         public bool IsInyouNitiNenKan()
         {
             return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
         }
-        //十大主星 陰陽関係判定（支）
-        public bool IsInyouNitiGetsuSi()
+        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        public bool IsInyou(Kansi kansi1, Kansi kansi2)
         {
-            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
+            return tblMng.jyukanTbl.IsInyou(kansi1.kan, kansi2.kan);
         }
-        public bool IsInyouGetsuNenSi()
-        {
-            return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
-        }
-        public bool IsInyouNitiNenSi()
-        {
-            return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
-        }
+ 
+        ////十大主星 陰陽関係判定（支）
+        //public bool IsInyouNitiGetsuSi()
+        //{
+        //    return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
+        //}
+        //public bool IsInyouGetsuNenSi()
+        //{
+        //    return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
+        //}
+        //public bool IsInyouNitiNenSi()
+        //{
+        //    return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
+        //}
 
 
         //十二大従星 取得
@@ -222,11 +231,34 @@ namespace WinFormsApp2
                         //大半会判定
                         int no1 = tblMng.kansiTbl.GetKansiNo(nenunTaiunKansi);
                         int no2 = tblMng.kansiTbl.GetKansiNo(kansi);
-                        if (Math.Abs(no1 - no2) == 20)
+
+                        //no1に+20、または-20した地点のどちらかがno2と同じなら大半会
+                        //1～60のリング状態をベースに前後方向の20差をチェックする必要がある。
+                        //前方検索
+                        int no = no1 + 20;
+                        if (no > 60)
+                        {
+                            no = no % 60;
+                            if (no == 0) no = 60;
+                        }
+                        if (no == no2)
                         {
                             items[i] = "大半会";
                         }
-                    }
+                        else
+                        {
+                            //後方検索
+                            no = no1 - 20;
+                            if(no<0)
+                            {
+                                no += 60;
+                            }
+                            if (no == no2)
+                            {
+                                items[i] = "大半会";
+                            }
+                        }
+                     }
                 }
             }
             return items;
@@ -329,17 +361,25 @@ namespace WinFormsApp2
         }
 
         //干合 関係（干）
+        //日→月
         public bool IsKangouNitiGetsuKan()
         {
             return tblMng.kangouTbl.IsKangou(nikkansi.kan, gekkansi.kan);
         }
+        //月→年
         public bool IsKangoGetsuNenKan()
         {
             return tblMng.kangouTbl.IsKangou(gekkansi.kan, nenkansi.kan);
         }
+        //日→年
         public bool IsKangoNitiNenKan()
         {
             return tblMng.kangouTbl.IsKangou(nikkansi.kan, nenkansi.kan);
+        }
+        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        public bool IsKango(Kansi kansi1, Kansi kansi2)
+        {
+            return tblMng.kangouTbl.IsKangou(kansi1.kan, kansi2.kan);
         }
         public string GetKangoStr(Kansi taiunKansi, Kansi kansi)
         {
@@ -358,26 +398,31 @@ namespace WinFormsApp2
         {
             return tblMng.nanasatsuTbl.GetNanasatsu(taiunKan, kan);
         }
-        public bool IsNanasatu(Kansi taiunKansi, Kansi kansi)
-        {
-            return IsNanasatu(taiunKansi.kan, kansi.kan);
-        }
-        public bool IsNanasatu(string taiunKan, string kan)
-        {
-            return GetNanasatu(taiunKan, kan)!=null?true:false;
-        }
 
+        //日→月
         public bool IsNanasatuNitiGetuKan()
         {
             return GetNanasatu(nikkansi.kan, gekkansi.kan) != null ? true : false;
         }
+        //月→年
         public bool IsNanasatuGetuNenKan()
         {
             return GetNanasatu(gekkansi.kan, nenkansi.kan) != null ? true : false;
         }
+        //日→年
         public bool IsNanasatuNitiNenKan()
         {
             return GetNanasatu(nikkansi.kan, nenkansi.kan) != null ? true : false;
+        }
+
+        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        public bool IsNanasatu(Kansi kansi1, Kansi kansi2)
+        {
+            return IsNanasatu(kansi1.kan, kansi2.kan);
+        }
+        public bool IsNanasatu(string kan1, string kan2)
+        {
+            return GetNanasatu(kan1, kan2) != null ? true : false;
         }
 
         //天殺

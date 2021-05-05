@@ -1258,7 +1258,7 @@ namespace WinFormsApp2
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Location = new System.Drawing.Point(168, 471);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(252, 238);
+            this.pictureBox2.Size = new System.Drawing.Size(252, 330);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             // 
@@ -1276,7 +1276,7 @@ namespace WinFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 721);
+            this.ClientSize = new System.Drawing.Size(966, 813);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
