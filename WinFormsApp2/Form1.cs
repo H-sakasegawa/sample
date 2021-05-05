@@ -919,7 +919,7 @@ namespace WinFormsApp2
 
 
                 nikkansi.X = 5;
-                nikkansi.Y = 50;
+                nikkansi.Y = 65;
                 nikkansiCenterX = nikkansi.X + rangeWidth / 2;
 
                 gekkansi.X = nikkansi.X + rangeWidth;

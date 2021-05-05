@@ -65,6 +65,8 @@ namespace WinFormsApp2
             this.txtNikkansiSanshutuSu = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -128,8 +130,6 @@ namespace WinFormsApp2
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -508,6 +508,23 @@ namespace WinFormsApp2
             this.groupBox1.TabIndex = 35;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "算出基準値（命令式算出表より）";
+            // 
+            // label18
+            // 
+            this.label18.Location = new System.Drawing.Point(304, 70);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(232, 60);
+            this.label18.TabIndex = 35;
+            this.label18.Text = "1936年2月の年干支、月干支、日干支算出数を基準に節日テーブルの先頭データから計算して設定しています。";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(304, 33);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(232, 15);
+            this.label17.TabIndex = 35;
+            this.label17.Text = "節入り日テーブルの先頭年度を設定しています。";
             // 
             // tableLayoutPanel7
             // 
@@ -1222,7 +1239,7 @@ namespace WinFormsApp2
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(15, 471);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(147, 189);
+            this.pictureBox1.Size = new System.Drawing.Size(147, 238);
             this.pictureBox1.TabIndex = 46;
             this.pictureBox1.TabStop = false;
             // 
@@ -1254,23 +1271,6 @@ namespace WinFormsApp2
             this.label14.Size = new System.Drawing.Size(69, 20);
             this.label14.TabIndex = 47;
             this.label14.Text = "後天運：";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(304, 33);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(232, 15);
-            this.label17.TabIndex = 35;
-            this.label17.Text = "節入り日テーブルの先頭年度を設定しています。";
-            // 
-            // label18
-            // 
-            this.label18.Location = new System.Drawing.Point(304, 70);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(232, 60);
-            this.label18.TabIndex = 35;
-            this.label18.Text = "1936年2月の年干支、月干支、日干支算出数を基準に節日テーブルの先頭データから計算して設定しています。";
             // 
             // Form1
             // 

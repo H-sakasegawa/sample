@@ -337,29 +337,21 @@ namespace WinFormsApp2
             public Dictionary<string, string[]> dicGouhouSanpou;
             /// <summary>
             /// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列を取得
+            /// 天殺地冲または、納音がある場合は、"冲動"は除外されます。
             /// </summary>
             /// <param name="siName1">支名称1</param>
             /// <param name="siName2">支名称2</param>
+            /// <param name="bExistTensatuTichu">true...天殺地冲あり</param>
+            /// <param name="bExistNentin">true...納音あり</param>
             /// <returns></returns>
-            public string[] GetGouhouSanpou(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
+            public string[] GetGouhouSanpouEx(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
             {
-                int idx = 0;
-                for (idx = 0; idx < jyunisi.Length; idx++)
-                {
-                    if (siName1 == jyunisi[idx])
-                    {
-                        break;
-                    }
-                }
-                if (idx >= jyunisi.Length) return null;
 
-                if (!dicGouhouSanpou.ContainsKey(siName2)) return null;
+                var aryStr= GetGouhouSanpou(siName1, siName2);
+                if (aryStr == null) return null;
 
-                string value = dicGouhouSanpou[siName2][idx];
+                var items = aryStr.ToList();
 
-                if(value=="") return null;
-                
-                var items = value.Split(",").ToList();
                 for(int i=items.Count-1; i>=0; i--)
                 {
                     if ((bExistTensatuTichu || bExistNentin) && items[i] == "冲動")
@@ -369,6 +361,35 @@ namespace WinFormsApp2
 
                 }
                 return items.ToArray();
+
+            }
+            /// <summary>
+            /// 干支の支名称の組み合わせから合法・散法テーブルに登録されている文字列を取得
+            /// </summary>
+            /// <param name="siName1">支名称1</param>
+            /// <param name="siName2">支名称2</param>
+            /// <returns></returns>
+            public string[] GetGouhouSanpou(string siName1, string siName2)
+            {
+                int idx = 0;
+                for (idx = 0; idx < jyunisi.Length; idx++)
+                {
+                    if (siName1 == jyunisi[idx])
+                    {
+                        break;
+                    }
+                }
+                if (idx >= jyunisi.Length) 
+                    return null;
+
+                if (!dicGouhouSanpou.ContainsKey(siName2)) 
+                    return null;
+
+                string value = dicGouhouSanpou[siName2][idx];
+
+                if (value == "") 
+                    return null;
+                return value.Split(",");
 
             }
             ///// <summary>

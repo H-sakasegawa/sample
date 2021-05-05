@@ -200,9 +200,19 @@ namespace WinFormsApp2
         }
 
         //合法・散法
+        /// <summary>
+        /// 合法・散法 文字の配列を取得します。
+        /// ・天殺地冲または、納音がある場合は、"冲動"は除外されます。
+        /// ・半会の場合、２つの干支番号に20の差異があれば"大半会"に置き換えます。
+        /// </summary>
+        /// <param name="nenunTaiunKansi">年運、大運 干支</param>
+        /// <param name="kansi">宿命干支（日、月、年）</param>
+        /// <param name="bExistTensatuTichu">true...天殺地冲あり</param>
+        /// <param name="bExistNentin">true...納音あり</param>
+        /// <returns></returns>
         public string[] GetGouhouSanpou(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
-            var items = tblMng.gouhouSanpouTbl.GetGouhouSanpou(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
+            var items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
             if (items != null)
             {
                 for (int i = 0; i < items.Length; i++)
@@ -221,10 +231,21 @@ namespace WinFormsApp2
             }
             return items;
         }
+
         //public string[] GetGouhouSanpou(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
         //{
         //    return tblMng.gouhouSanpouTbl.GetGouhouSanpou(siName1, siName2, bExistTensatuTichu, bExistNentin);
         //}
+        /// <summary>
+        /// 合法・散法 文字をカンマ区切りで接続した１つの文字列で取得します。
+        /// ・天殺地冲または、納音がある場合は、"冲動"は除外されます。
+        /// ・半会の場合、２つの干支番号に20の差異があれば"大半会"に置き換えます。
+        /// </summary>
+        /// <param name="nenunTaiunKansi">年運、大運 干支</param>
+        /// <param name="kansi">宿命干支（日、月、年）</param>
+        /// <param name="bExistTensatuTichu">true...天殺地冲あり</param>
+        /// <param name="bExistNentin">true...納音あり</param>
+        /// <returns></returns>
         public string GetGouhouSanpouString(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
             var items =  GetGouhouSanpou(nenunTaiunKansi, kansi, bExistTensatuTichu, bExistNentin);

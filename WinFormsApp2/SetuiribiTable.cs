@@ -254,10 +254,10 @@ namespace WinFormsApp2
             {   //2月～12月
                 value = (year - baseYear) + baseNenkansiNo;
             }
-            if (value >= 61)
-            {
-                value = value % 60;
-            }
+
+            value = value % 60;
+            if (value == 0) value = 60;
+
             return value;
         }
         //月干支番号取得
@@ -271,7 +271,8 @@ namespace WinFormsApp2
 
             int monthNum = Common.GetElapsedMonths(dateFrom, dateTo);
             value = (int)monthNum % 60 + baseGekkansiNo;
-            if (value >= 61) value -= 60;
+            value = value % 60;
+            if (value == 0) value = 60;
 
             return value;
         }
@@ -285,7 +286,8 @@ namespace WinFormsApp2
 
             int dayNum = (int)(dateTo - dateFrom).TotalDays;
             value = (dayNum % 60) + baseNikkansiNo;
-            if (value >= 61) value -= 60;
+            value = value % 60;
+            if (value == 0) value = 60;
 
             return value;
         }
