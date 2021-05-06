@@ -51,6 +51,11 @@ namespace WinFormsApp2
         //年干支 二十八元素 ラベル
         List<Label> lstLblNenkansiNijuhachiGenso;
 
+        //宿命 描画オブジェクト
+        ShukumeiDraw drawItem = null;
+        //後天運 描画オブジェクト
+        KoutenUnDraw drawItem2 = null;
+
 
         public Form1()
         {
@@ -128,6 +133,7 @@ namespace WinFormsApp2
             int baseNenkansi = 0;
             int baseGekkansi = 0;
             int baseNikkansiSanshutusuu = 0;
+            //節入り日テーブルの先頭データを基準に基準情報を取得
             setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
                                               ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
             txtBaseYear.Text = baseYear.ToString();
@@ -676,70 +682,6 @@ namespace WinFormsApp2
 
         }
 
-        private void txtNikkansiSanshutuSu_TextChanged(object sender, EventArgs e)
-        {
-            if (txtNikkansiSanshutuSu.Text == "") return;
-            if (txtBaseDay.Text == "") return;
-
-            int baseDay = int.Parse(txtBaseDay.Text);
-            int no = int.Parse(txtNikkansiSanshutuSu.Text)+ baseDay;
-
-            txtBaseNikkansiNo.Text = no.ToString();
-
-
-        }
-        /// <summary>
-        /// 大運リストビュー選択イベント
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lvTaiun_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Person person = (Person)cmbPerson.SelectedItem;
-            int Year = int.Parse(txtYear.Text);
-
-            var selectedItem = lvTaiun.SelectedItems;
-            if (selectedItem.Count == 0) return;
-
-            TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
-
-            //年運リスト表示更新
-            DispNenun(person, itemData.startNen);
-
-            //後天運 図の表示更新
-            DispKoutenUn(person);
-        }
-        /// <summary>
-        /// 年運リストビュー選択イベント
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lvNenun_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Person person = (Person)cmbPerson.SelectedItem;
-            //後天運 図の表示更新
-            DispKoutenUn(person);
-        }
-        /// <summary>
-        /// 人コンボボックス選択イベント
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Person person = (Person)cmbPerson.SelectedItem;
-            Birthday birthday = person.birthday;
-            txtYear.Text = birthday.year.ToString();
-            txtMonth.Text = birthday.month.ToString();
-            txtDay.Text = birthday.day.ToString();
-
-            if (person.gender == Gender.NAN) radMan.Checked = true;
-            else radWoman.Checked = true;
-
-            MainProc(person);
-
-
-        }
 
         /// <summary>
         /// 大運リストビューアイテムデータクラス
@@ -1471,8 +1413,6 @@ namespace WinFormsApp2
 
         }
 
-        ShukumeiDraw drawItem = null;
-        KoutenUnDraw drawItem2 = null;
         private void DispShukumei(Person person)
         {
 
@@ -1505,5 +1445,108 @@ namespace WinFormsApp2
         }
 
 
+        //====================================================
+        // イベントハンドラ
+        //====================================================
+        /// <summary>
+        /// 日干支算出番号エディットボックス変更イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtNikkansiSanshutuSu_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNikkansiSanshutuSu.Text == "") return;
+            if (txtBaseDay.Text == "") return;
+
+            int baseDay = int.Parse(txtBaseDay.Text);
+            int no = int.Parse(txtNikkansiSanshutuSu.Text) + baseDay;
+
+            txtBaseNikkansiNo.Text = no.ToString();
+
+
+        }
+        /// <summary>
+        /// 大運リストビュー選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvTaiun_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Person person = (Person)cmbPerson.SelectedItem;
+            int Year = int.Parse(txtYear.Text);
+
+            var selectedItem = lvTaiun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+
+            TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
+
+            //年運リスト表示更新
+            DispNenun(person, itemData.startNen);
+
+            //後天運 図の表示更新
+            DispKoutenUn(person);
+        }
+        /// <summary>
+        /// 年運リストビュー選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvNenun_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Person person = (Person)cmbPerson.SelectedItem;
+            //後天運 図の表示更新
+            DispKoutenUn(person);
+        }
+        /// <summary>
+        /// 人コンボボックス選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Person person = (Person)cmbPerson.SelectedItem;
+            Birthday birthday = person.birthday;
+            txtYear.Text = birthday.year.ToString();
+            txtMonth.Text = birthday.month.ToString();
+            txtDay.Text = birthday.day.ToString();
+
+            if (person.gender == Gender.NAN) radMan.Checked = true;
+            else radWoman.Checked = true;
+
+            MainProc(person);
+
+
+        }
+
+        private void lvNenun_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            var idxNenun = lvNenun.SelectedItems[0].Index;
+            switch (e.KeyData)
+            {
+                case Keys.Down:
+                    if (idxNenun >= lvNenun.Items.Count-1)
+                    {
+                        //次の旬に移動
+                        var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                        if (idxTaiun >= lvTaiun.Items.Count-1) return;
+
+                        lvTaiun.Items[idxTaiun+1].Selected = true;
+                        lvNenun.Items[01].Selected = true;
+                        lvNenun.Items[0].Focused = true;
+                    }
+                    break;
+                case Keys.Up:
+                    if (idxNenun <= 0)
+                    {
+                        var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                        if (idxTaiun <=0) return;
+                        lvTaiun.Items[idxTaiun - 1].Selected = true;
+                        lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
+                        lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
+                    }
+                    break;
+            }
+    
+        }
     }
 }

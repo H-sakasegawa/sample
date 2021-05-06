@@ -705,6 +705,7 @@ namespace WinFormsApp2
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
             this.lvNenun.SelectedIndexChanged += new System.EventHandler(this.lvNenun_SelectedIndexChanged);
+            this.lvNenun.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.lvNenun_PreviewKeyDown);
             // 
             // columnHeader15
             // 
