@@ -11,6 +11,13 @@ namespace WinFormsApp2
     class Common
     {
 
+        /// <summary>
+        /// 経過月数計算
+        /// （流用）https://smdn.jp/programming/netfx/tips/calc_elapsed_years/
+        /// </summary>
+        /// <param name="baseDay"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public static int GetElapsedMonths(DateTime baseDay, DateTime day)
         {
             if (day < baseDay)
@@ -34,6 +41,11 @@ namespace WinFormsApp2
                 return elapsedMonths - 1;
         }
 
+        /// <summary>
+        /// ラベル表示のBold設定
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="bBold"></param>
         public static void SetBold(Label label, bool bBold)
         {
             FontStyle fontStyle = FontStyle.Regular;

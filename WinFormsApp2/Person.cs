@@ -160,6 +160,23 @@ namespace WinFormsApp2
             return tblMng.kansiTbl.GetKansi(kansiNo);
         }
 
+        /// <summary>
+        /// 日、月、年の干支の支に引数で指定された文字が含まれるかを判定
+        /// </summary>
+        /// <param name="si"></param>
+        /// <returns></returns>
+        public bool IsExistStrInKansiSi( string[] si)
+        {
+            foreach (var s in si)
+            {
+                if (nikkansi.si == s) return true;
+                if (gekkansi.si == s) return true;
+                if (nenkansi.si == s) return true;
+            }
+            return false;
+
+        }
+
         //十大主星 取得
         public JudaiShusei GetJudaiShusei(string kan, string si)
         {

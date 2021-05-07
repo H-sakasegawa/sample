@@ -705,7 +705,7 @@ namespace WinFormsApp2
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
             this.lvNenun.SelectedIndexChanged += new System.EventHandler(this.lvNenun_SelectedIndexChanged);
-            this.lvNenun.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.lvNenun_PreviewKeyDown);
+            this.lvNenun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvNenun_KeyDown);
             // 
             // columnHeader15
             // 
@@ -1256,12 +1256,15 @@ namespace WinFormsApp2
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Location = new System.Drawing.Point(168, 471);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(252, 330);
+            this.pictureBox2.Size = new System.Drawing.Size(252, 238);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
             // 
             // label14
             // 
@@ -1277,7 +1280,7 @@ namespace WinFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 813);
+            this.ClientSize = new System.Drawing.Size(966, 721);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);

@@ -56,10 +56,17 @@ namespace WinFormsApp2
         //後天運 描画オブジェクト
         KoutenUnDraw drawItem2 = null;
 
+        //表示対象データ
+        Person curPerson = null;
+
 
         public Form1()
         {
             InitializeComponent();
+
+            lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
+            lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
+
 
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -158,7 +165,8 @@ namespace WinFormsApp2
         }
 
         private void MainProc(Person person)
-        { 
+        {
+            curPerson = person;
 
             dataMng = new TableMng();
 
@@ -246,17 +254,17 @@ namespace WinFormsApp2
                 Label label = lstLblNikkansiZougan[(int)Value];
                 label.Text = gensoNikkansi.genso[(int)Value].name;
                 if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
-                else Common.SetBold(label, false);
+                else                                  Common.SetBold(label, false);
 
                 label = lstLblGekkansiZougan[(int)Value];
                 label.Text = gensoGekkansi.genso[(int)Value].name;
                 if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
-                else Common.SetBold(label, false);
+                else                                    Common.SetBold(label, false);
 
                 label = lstLblNenkansiZougan[(int)Value];
                 label.Text = gensoNenkansi.genso[(int)Value].name;
                 if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
-                else Common.SetBold(label, false);
+                else                                    Common.SetBold(label, false);
             }
 
             //============================================================
@@ -708,6 +716,7 @@ namespace WinFormsApp2
             public Person person;
             Font fnt = null;
             Font fntSmall = null;
+            Font fntSmallDisable = null;
             Pen blackPen = null;
             StringFormat stringFormat = null;
             StringFormat smallStringFormat = null;
@@ -719,6 +728,15 @@ namespace WinFormsApp2
             public string[] strKangou = new string[] { "干合" };
             public string[] strNanasatu = new string[] { "七殺" };
 
+            // 4:[ ][ ][ ] 
+            // 3:[ ][ ][ ]  (設定例）
+            // 2:[ ][ ][ ]  日年[1][0][1]  (bitFlgNiti | bitFlgNen) 
+            // 1:[ ][ ][ ]  月年[0][1][1]  (bitFlgGetu | bitFlgNen) 
+            // 0:[ ][ ][ ]  日月[1][1][0]  (bitFlgNiti | bitFlgGetu)
+            protected List<int> matrix = new List<int>();
+            protected List<int> matrixBottom = new List<int>();
+            protected int idxMtx = 0;
+            protected int idxMtxButtom = 0;
 
             public IsouhouBase(Person _person, PictureBox _pictureBox)
             {
@@ -730,6 +748,8 @@ namespace WinFormsApp2
 
                 fnt = new Font("MS Gothic", 14, FontStyle.Regular);
                 fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
+                fntSmallDisable = new Font("MS Gothic", 8, FontStyle.Regular| FontStyle.Strikeout);
+
 
                 //干支文字センタリング表示用フォーマット
                 stringFormat = new StringFormat();
@@ -740,6 +760,8 @@ namespace WinFormsApp2
                 smallStringFormat.Alignment = StringAlignment.Center;
                 smallStringFormat.LineAlignment = StringAlignment.Center;
 
+                matrix.Add(0);
+                matrixBottom.Add(0);
             }
 
             public Size GetDrawArea()
@@ -805,9 +827,17 @@ namespace WinFormsApp2
 
             protected void DrawString(Rectangle rect, string s)
             {
+                SizeF w = g.MeasureString(s, fntSmall);
+                Rectangle fillRect = rect;
+                if (fillRect.Width > w.Width)
+                {
+                    fillRect.X = (int)(fillRect.X + (rect.Width - w.Width) / 2);
+                    fillRect.Width = (int)w.Width;
+                }
+                g.FillRectangle(Brushes.WhiteSmoke, fillRect);
                 g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
             }
-            protected void DrawString( int mtxIndex, int from, int to, int baseY, int dirc, string[] strs)
+            protected void DrawString( int mtxIndex, int from, int to, int baseY, int dirc, string[] strs, int enableBit=0xFFFF)
             {
                 float maxWidth = 0f;
                 float sumHeight = 0f;
@@ -823,17 +853,53 @@ namespace WinFormsApp2
                 int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
                 int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
 
-
+                int bit= 0x01;
                 foreach (var s in strs)
                 {
 
                     Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
                     g.FillRectangle(Brushes.WhiteSmoke, rect);
 
-                    g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+                    if ((enableBit & bit)!=0)
+                    {
+                        g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+                    }
+                    else
+                    {
+                        g.DrawString(s, fntSmallDisable, Brushes.Gray, rect, smallStringFormat);
+                    }
+                    bit <<= 1;
+
                     y += fntSmall.Height;
                 }
 
+            }
+
+            public int SetMatrixUp(bool bFlg, int mtxCheckBits, int mtxSetBits)
+            {
+                return SetMatrix(bFlg, mtxCheckBits, mtxSetBits, ref matrix, ref idxMtx);
+            }
+            public int SetMatrixDown(bool bFlg, int mtxCheckBits, int mtxSetBits)
+            {
+                return SetMatrix(bFlg, mtxCheckBits, mtxSetBits, ref matrixBottom, ref idxMtxButtom);
+            }
+            public int SetMatrix(bool bFlg, int mtxCheckBits, int mtxSetBits, ref List<int> matrix, ref int idxMtx)
+            {
+                if (bFlg)
+                {
+                    for (int i = 0; i < matrix.Count; i++)
+                    {
+                        if ((matrix[i] & mtxCheckBits) == 0)
+                        {
+                            matrix[i] |= mtxSetBits;
+                            return i;
+                        }
+                    }
+                    matrix.Add(0);
+                    idxMtx++;
+                    matrix[idxMtx] |= mtxSetBits;
+                }
+                return idxMtx;
             }
         }
         /// <summary>
@@ -871,27 +937,23 @@ namespace WinFormsApp2
             const int bitFlgGetu = 0x02;
             const int bitFlgNen = 0x01;
 
-            // 4:[ ][ ][ ] 
-            // 3:[ ][ ][ ]  (設定例）
-            // 2:[ ][ ][ ]  日年[1][0][1]  (bitFlgNiti | bitFlgNen) 
-            // 1:[ ][ ][ ]  月年[0][1][1]  (bitFlgGetu | bitFlgNen) 
-            // 0:[ ][ ][ ]  日月[1][1][0]  (bitFlgNiti | bitFlgGetu)
-            List<int> matrix = new List<int>();
-            List<int> matrixBottom = new List<int>();
 
 
 
 
-            public ShukumeiDraw(Person person,PictureBox pictureBox) :
+            public ShukumeiDraw(Person person, PictureBox pictureBox) :
                 base(person, pictureBox)
             {
 
                 rangeHeight = GetFontHeight() * 2;
                 rangeWidth = 45;
 
-
+            }
+            private void CalcCoord()
+            { 
                 nikkansi.X = 5;
-                nikkansi.Y = GetDrawArea().Height/2 - rangeHeight;
+                //nikkansi.Y = GetDrawArea().Height / 2 - rangeHeight;
+                nikkansi.Y = (idxMtx+1) * GetLineOffsetY()+10;
                 nikkansiCenterX = nikkansi.X + rangeWidth / 2;
 
                 gekkansi.X = nikkansi.X + rangeWidth;
@@ -919,100 +981,105 @@ namespace WinFormsApp2
             }
 
 
+
             public override void DrawItem(Graphics g)
             {
                 if (person == null) return;
 
-                int idxMtx = 0;
-                int idxMtxButtom = 0;
                 int dircUp = -1;
                 int dircDown = +1;
-                matrix.Add(0);
-                matrixBottom.Add(0);
 
-                //干支表示
-                DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);
-                DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
-                DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
+                //干支表示領域の上部表示エリア必要サイズ計算
 
                 //陰陽
                 //-------------------
                 bool bInyouNitiGetsuKan = person.IsInyouNitiGetsuKan(); //干（日-月) の関係
                 bool bInyouGetsuNenKan = person.IsInyouGetsuNenKan();//干（月-年) の関係
                 bool bInyouNiItiNenKan = person.IsInyouNitiNenKan();//干（日-年) の関係
+                int idxInyouNitiGetsuKan = SetMatrixUp(bInyouNitiGetsuKan, bitFlgNiti, (bitFlgNiti | bitFlgGetu));//日 - 月
+                int idxInyouGetsuNenKan = SetMatrixUp(bInyouGetsuNenKan, bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
+                int idxInyouNiItiNenKan = SetMatrixUp(bInyouNiItiNenKan, (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
 
-
-                if (bInyouNitiGetsuKan)//日 - 月
-                {
-                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
-                }
-                if (bInyouGetsuNenKan)//月 - 年
-                {
-                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
-                    matrix[idxMtx] |= bitFlgGetu | bitFlgNen;
-                }
-                if (bInyouNiItiNenKan)//日 - 年
-                {
-                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
-                }
                 //干合
                 //-------------------
-                
+
                 bool bKangouNitiGetsuKan = person.IsKangouNitiGetsuKan();//干合（日-月) の関係
                 bool bKangouGetsuNenKan = person.IsKangoGetsuNenKan(); //干合（月-年) の関係
                 bool bKangouNiItiNenKan = person.IsKangoNitiNenKan(); //干合（日-年) の関係
+                int idxKangouNitiGetsuKan = SetMatrixUp(bKangouNitiGetsuKan, bitFlgNiti, (bitFlgNiti | bitFlgGetu));//日 - 月
+                int idxKangouGetsuNenKan = SetMatrixUp(bKangouGetsuNenKan, bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
+                int idxKangouNiItiNenKan = SetMatrixUp(bKangouNiItiNenKan, (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
 
-                if (bKangouNitiGetsuKan)//日 - 月
-                {
-                    if ((matrix[idxMtx] & bitFlgNiti) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
-                }
-                if (bKangouGetsuNenKan)//月 - 年
-                {
-                    if ((matrix[idxMtx] & bitFlgNen) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-                    matrix[idxMtx] |= bitFlgGetu | bitFlgNen;
-                }
-                if (bKangouNiItiNenKan)//日 - 年
-                {
-                    if ((matrix[idxMtx] & (bitFlgNiti | bitFlgNen)) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
-                }
                 //七殺
                 //-------------------
                 bool bNanasatuNitGetu = person.IsNanasatuNitiGetuKan();
                 bool bNanasatuGetuNen = person.IsNanasatuGetuNenKan();
                 bool bNanasatuNitNen = person.IsNanasatuNitiNenKan();
+                int idxNanasatuNitGetu = SetMatrixUp(bNanasatuNitGetu, bitFlgNiti, (bitFlgNiti | bitFlgGetu));//日 - 月
+                int idxNanasatuGetuNen = SetMatrixUp(bNanasatuGetuNen, bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
+                int idxNanasatuNitNen = SetMatrixUp(bNanasatuNitNen, (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
+
+
+                //干支の上部に表示する情報の段数から干支表示基準座標を計算
+                CalcCoord();
+
+                //干支表示
+                DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);
+                DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
+                DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
+
+                //ライン描画
+                //陰陽
+                //-------------------
+
+                if (bInyouNitiGetsuKan)//日 - 月
+                {
+                    DrawLine(idxInyouNitiGetsuKan, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNitiGetsuKan, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouGetsuNenKan)//月 - 年
+                {
+                    DrawLine(idxInyouGetsuNenKan, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouGetsuNenKan, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouNiItiNenKan)//日 - 年
+                {
+                    DrawLine(idxInyouNiItiNenKan, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNiItiNenKan, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                //干合
+                //-------------------
+                if (bKangouNitiGetsuKan)//日 - 月
+                {
+                    DrawLine(idxKangouNitiGetsuKan, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNitiGetsuKan, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouGetsuNenKan)//月 - 年
+                {
+                    DrawLine(idxKangouGetsuNenKan, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouGetsuNenKan, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouNiItiNenKan)//日 - 年
+                {
+                    DrawLine(idxKangouNiItiNenKan, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNiItiNenKan, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                //七殺
+                //-------------------
                 if (bNanasatuNitGetu)//日 - 月
                 {
-                    if ((matrix[idxMtx] & bitFlgNiti) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+                    DrawLine(idxNanasatuNitGetu, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNitGetu, nikkansiCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuGetuNen)//月 - 年
                 {
-                    if ((matrix[idxMtx] & bitFlgNen) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgGetu;
+                    DrawLine(idxNanasatuGetuNen, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuGetuNen, gekkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuNitNen)//日 - 年
                 {
-                    if ((matrix[idxMtx]) != 0) { matrix.Add(0); idxMtx++; }
-                    DrawLine(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    matrix[idxMtx] |= bitFlgNiti | bitFlgNen;
+                    DrawLine(idxNanasatuNitNen, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNitNen, nikkansiCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
 
                 //合法・散法
@@ -1021,27 +1088,25 @@ namespace WinFormsApp2
                 string[] gouhouSanpouGetuNen = person.GetGouhouSanpouiGetuNen();
                 string[] gouhouSanpouNitiNen = person.GetGouhouSanpouiNitiNen();
 
+                int idxGouhouSanpouNitiGetu = SetMatrixDown((gouhouSanpouNitiGetu != null), bitFlgNiti, (bitFlgNiti | bitFlgGetu));//日 - 月
+                int idxGouhouSanpouGetuNen = SetMatrixDown((gouhouSanpouGetuNen != null), bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
+                int idxGouhouSanpouNitiNen = SetMatrixDown((gouhouSanpouNitiNen != null), (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
+
                 if (gouhouSanpouNitiGetu != null)
                 {
-                    if ((matrixBottom[idxMtxButtom] & bitFlgNiti) != 0) { matrixBottom.Add(0); idxMtxButtom++; }
-                    DrawLine(idxMtxButtom, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiGetu);
-                    matrixBottom[idxMtxButtom] |= bitFlgNiti | bitFlgGetu;
+                    DrawLine(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiGetu);
                 }
                 if (gouhouSanpouGetuNen != null)
                 {
-                    if ((matrixBottom[idxMtxButtom] & bitFlgNen) != 0) { matrixBottom.Add(0); idxMtxButtom++; }
-                    DrawLine(idxMtxButtom, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouGetuNen);
-                    matrixBottom[idxMtxButtom] |= bitFlgGetu | bitFlgNen;
+                    DrawLine(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouGetuNen);
                 }
 
                 if (gouhouSanpouNitiNen != null)
                 {
-                    if ((matrixBottom[idxMtxButtom] & (bitFlgNiti | bitFlgNen)) != 0) { matrixBottom.Add(0); idxMtxButtom++; }
-                    DrawLine(idxMtxButtom, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiNen);
-                    matrixBottom[idxMtxButtom] |= bitFlgNiti | bitFlgNen;
+                    DrawLine(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiNen);
                 } 
             }
         }
@@ -1087,6 +1152,8 @@ namespace WinFormsApp2
             Rectangle rectNenkansiKan;
             Rectangle rectNenkansiSi;
 
+            const int bitFlgNenun = 0x20;
+            const int bitFlgTaiun = 0x10;
 
             const int bitFlgNiti = 0x04;
             const int bitFlgGetu = 0x02;
@@ -1105,11 +1172,14 @@ namespace WinFormsApp2
                 rangeHeight = GetFontHeight() * 2;
                 rangeWidth = 45;
 
-
+            }
+            void CalcCoord()
+            { 
                 //年運表示開始位置
                 nenun.X = 5;
-                nenun.Y = 80;
-                nenun.Y = (int)(GetDrawArea().Height / 2.0 - rangeHeight*1.5); //上表示部分を少し少なめに
+                //nenun.Y = 80;
+                //nenun.Y = (int)(GetDrawArea().Height / 2.0 - rangeHeight*1.5); //上表示部分を少し少なめに
+                nenun.Y = (idxMtx + 1) * GetLineOffsetY() + 10;
 
                 nenunCenterX = nenun.X + rangeWidth / 2;
 
@@ -1154,11 +1224,89 @@ namespace WinFormsApp2
             {
                 if (person == null) return;
 
-                int idxMtx = 0;
-                int idxMtxButtom = 0;
                 int dircUp = -1;
                 int dircDown = +1;
 
+
+
+                //陰陽(年運→大運）
+                //-------------------               
+                bool bInyouTNenunTaiun = person.IsInyou(nenunKansi, taiunKansi); //（年運 - 大運) の関係
+                int idxInyouTNenunTaiun = SetMatrixUp(bInyouTNenunTaiun, bitFlgNenun, (bitFlgNenun | bitFlgTaiun));//日 - 月
+
+
+                int bitFlgNitiGetuNen = (bitFlgNiti | bitFlgGetu | bitFlgNen);
+                //陰陽(大運→＊）
+                //-------------------               
+                bool bInyouTaiunNiti  = person.IsInyou(taiunKansi, person.nikkansi); //（大運-日) の関係
+                bool bInyouTaiunGetu  = person.IsInyou(taiunKansi, person.gekkansi); //（大運-月) の関係
+                bool bInyouTaiunNen   = person.IsInyou(taiunKansi, person.nenkansi);//（大運-年) の関係
+                int idxInyouTaiunNiti = SetMatrixUp(bInyouTaiunNiti, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNiti));//大運 - 日
+                int idxInyouTaiunGetu = SetMatrixUp(bInyouTaiunGetu, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgGetu));//大運 - 月
+                int idxInyouTaiunNen  = SetMatrixUp(bInyouTaiunNen,  bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNen));//大運 - 年
+
+
+                //陰陽(年運→＊）
+                //-------------------               
+                bool bInyouNenunNiti = person.IsInyou(nenunKansi, person.nikkansi); //（年運-日) の関係
+                bool bInyouNenunGetu  = person.IsInyou(nenunKansi, person.gekkansi);//（年運-月) の関係
+                bool bInyouNenunNen   = person.IsInyou(nenunKansi, person.nenkansi);//（年運-年) の関係
+                int idxInyouNenunNiti = SetMatrixUp(bInyouNenunNiti, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNiti));//年運 - 日
+                int idxInyouNenunGetu = SetMatrixUp(bInyouNenunGetu, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgGetu));//年運 - 月
+                int idxInyouNenunNen  = SetMatrixUp(bInyouNenunNen,  bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNen));//年運 - 年
+
+
+                //干合(年運→大運）
+                //-------------------               
+                bool bKangouTNenunTaiun = person.IsKango(nenunKansi, taiunKansi); //（年運 - 大運) の関係
+                int idxKangouTNenunTaiun = SetMatrixUp(bKangouTNenunTaiun, bitFlgNenun, (bitFlgNenun | bitFlgTaiun));//年運 - 大運
+
+
+                //干合(大運→＊）
+                //-------------------
+                bool bKangouTaiunNiti  = person.IsKango(taiunKansi, person.nikkansi);//（大運-日) の関係
+                bool bKangouTaiunGetu  = person.IsKango(taiunKansi, person.gekkansi);//（大運-月) の関係
+                bool bKangouTaiunNen   = person.IsKango(taiunKansi, person.nenkansi);//（大運-年) の関係
+                int idxKangouTaiunNiti = SetMatrixUp(bKangouTaiunNiti, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNiti));//大運 - 日
+                int idxKangouTaiunGetu = SetMatrixUp(bKangouTaiunGetu, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgGetu));//大運 - 月
+                int idxKangouTaiunNen  = SetMatrixUp(bKangouTaiunNen,  bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNen));//大運 - 年
+
+
+                //干合(年運→＊）
+                //-------------------
+                bool bKangouNenunNiti  = person.IsKango(nenunKansi, person.nikkansi);//（年運-日) の関係
+                bool bKangouNenunGetu  = person.IsKango(nenunKansi, person.gekkansi);//（年運-月) の関係
+                bool bKangouNenunNen   = person.IsKango(nenunKansi, person.nenkansi);//（年運-年) の関係
+                int idxKangouNenunNiti = SetMatrixUp(bKangouNenunNiti, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNiti));//年運 - 日
+                int idxKangouNenunGetu = SetMatrixUp(bKangouNenunGetu, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgGetu));//年運 - 月
+                int idxKangouNenunNen  = SetMatrixUp(bKangouNenunNen,  bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNen));//年運 - 年
+
+                //七殺(年運→大運）
+                //-------------------               
+                bool bNanasatuTNenunTaiun = person.IsNanasatu(nenunKansi, taiunKansi); //（年運 - 大運) の関係
+                int idxNanasatuTNenunTaiun = SetMatrixUp(bNanasatuTNenunTaiun, bitFlgNenun, (bitFlgNenun | bitFlgTaiun));//年運 - 大運
+
+                //七殺(大運→＊）
+                //-------------------
+                bool bNanasatuTaiunNiti  = person.IsNanasatu(taiunKansi, person.nikkansi);//（大運-日) の関係
+                bool bNanasatuTaiunGetu  = person.IsNanasatu(taiunKansi, person.gekkansi);//（大運-月) の関係
+                bool bNanasatuTaiunNen   = person.IsNanasatu(taiunKansi, person.nenkansi);//（大運-年) の関係
+                int idxNanasatuTaiunNiti = SetMatrixUp(bNanasatuTaiunNiti, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNiti));//大運 - 日
+                int idxNanasatuTaiunGetu = SetMatrixUp(bNanasatuTaiunGetu, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgGetu));//大運 - 月
+                int idxNanasatuTaiunNen  = SetMatrixUp(bNanasatuTaiunNen,  bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNen));//大運 - 年
+
+                //七殺(年運→＊）
+                //-------------------
+                bool bNanasatuNenunNiti  = person.IsNanasatu(nenunKansi, person.nikkansi);//（年運-日) の関係
+                bool bNanasatuNenunGetu  = person.IsNanasatu(nenunKansi, person.gekkansi);//（年運-月) の関係
+                bool bNanasatuNenunNen   = person.IsNanasatu(nenunKansi, person.nenkansi);//（年運-年) の関係
+                int idxNanasatuNenunNiti = SetMatrixUp(bNanasatuNenunNiti, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNiti));//年運 - 日
+                int idxNanasatuNenunGetu = SetMatrixUp(bNanasatuNenunGetu, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgGetu));//年運 - 月
+                int idxNanasatuNenunNen  = SetMatrixUp(bNanasatuNenunNen,  bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNen));//年運 - 年
+
+
+                //干支の上部に表示する情報の段数から干支表示基準座標を計算
+                CalcCoord();
 
                 //干支表示
                 DrawKansi(nenunKansi, rectNenunKan, rectNenunSi);
@@ -1168,251 +1316,286 @@ namespace WinFormsApp2
                 DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
                 DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
 
+                rectNenunTitle = new Rectangle(nenun.X, nenun.Y - GetSmallFontHeight()/2, rangeWidth, GetSmallFontHeight());
+                rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - GetSmallFontHeight()/2, rangeWidth, GetSmallFontHeight());
+                DrawString(rectNenunTitle, "<年運>");
+                DrawString(rectTaiunTitle, "<大運>");
+
                 //陰陽(年運→大運）
                 //-------------------               
-                bool bInyouTNenunTaiun = person.IsInyou(nenunKansi, taiunKansi); //（年運 - 大運) の関係
                 if (bInyouTNenunTaiun)//大運 - 年運
                 {
-                    DrawLine(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strInyou);
                 }
 
 
                 //陰陽(大運→＊）
                 //-------------------               
-                bool bInyouTaiunNiti = person.IsInyou(taiunKansi, person.nikkansi); //（大運-日) の関係
-                bool bInyouTaiunGetu = person.IsInyou(taiunKansi, person.gekkansi); //（大運-月) の関係
-                bool bInyouTaiunNen = person.IsInyou(taiunKansi, person.nenkansi);//（大運-年) の関係
-
                 if (bInyouTaiunNiti)//大運 - 日
                 {
-                    DrawLine(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
                 if (bInyouTaiunGetu)//大運 - 月
                 {
-                    DrawLine(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
                 if (bInyouTaiunNen)//大運 - 年
                 {
-                    DrawLine(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
 
                 //陰陽(年運→＊）
                 //-------------------               
-                bool bInyouNenunNiti = person.IsInyou(nenunKansi, person.nikkansi); //（年運-日) の関係
-                bool bInyouNenunGetu = person.IsInyou(nenunKansi, person.gekkansi);//（年運-月) の関係
-                bool bInyouNenunNen = person.IsInyou(nenunKansi, person.nenkansi);//（年運-年) の関係
-
                 if (bInyouNenunNiti)//年運 - 日
                 {
-                    DrawLine(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
                 if (bInyouNenunGetu)//年運 - 月
                 {
-                    DrawLine(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
                 if (bInyouNenunNen)//年運 - 年
                 {
-                    DrawLine(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
-                    idxMtx++;
+                    DrawLine(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
                 }
 
 
                 //干合(年運→大運）
                 //-------------------               
-                bool bKangouTNenunTaiun = person.IsKango(nenunKansi, taiunKansi); //（年運 - 大運) の関係
                 if (bKangouTNenunTaiun)//大運 - 年運
                 {
-                    DrawLine(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strKangou);
                 }
                 //干合(大運→＊）
                 //-------------------
-                bool bKangouTaiunNiti = person.IsKango(taiunKansi, person.nikkansi);//（大運-日) の関係
-                bool bKangouTaiunGetu = person.IsKango(taiunKansi, person.gekkansi);//（大運-月) の関係
-                bool bKangouTaiunNen = person.IsKango(taiunKansi, person.nenkansi);//（大運-年) の関係
-
                 if (bKangouTaiunNiti)//大運 - 日
                 {
-                    DrawLine(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
                 if (bKangouTaiunGetu)//大運 - 月
                 {
-                    DrawLine(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
                 if (bKangouTaiunNen)//大運 - 年
                 {
-                    DrawLine(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
 
                 //干合(年運→＊）
                 //-------------------
-                bool bKangouNenunNiti = person.IsKango(nenunKansi, person.nikkansi);//（年運-日) の関係
-                bool bKangouNenunGetu = person.IsKango(nenunKansi, person.gekkansi);//（年運-月) の関係
-                bool bKangouNenunNen = person.IsKango(nenunKansi, person.nenkansi);//（年運-年) の関係
-
                 if (bKangouNenunNiti)//年運 - 日
                 {
-                    DrawLine(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
                 if (bKangouNenunGetu)//年運 - 月
                 {
-                    DrawLine(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
                 if (bKangouNenunNen)//年運 - 年
                 {
-                    DrawLine(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-                    idxMtx++;
+                    DrawLine(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
                 }
+
                 //七殺(年運→大運）
                 //-------------------               
-                bool bNanasatuTNenunTaiun = person.IsNanasatu(nenunKansi, taiunKansi); //（年運 - 大運) の関係
                 if (bNanasatuTNenunTaiun)//大運 - 年運
                 { 
-                    DrawLine(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 //七殺(大運→＊）
                 //-------------------
-                bool bNanasatuTaiunNiti = person.IsNanasatu(taiunKansi, person.nikkansi);//（大運-日) の関係
-                bool bNanasatuTaiunGetu = person.IsNanasatu(taiunKansi, person.gekkansi);//（大運-月) の関係
-                bool bNanasatuTaiunNen = person.IsNanasatu(taiunKansi, person.nenkansi);//（大運-年) の関係
                 if (bNanasatuTaiunNiti)//大運 - 日
                 {
-                    DrawLine(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuTaiunGetu)//大運 - 月
                 {
-                    DrawLine(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuTaiunNen)//大運 - 年
                 {
-                    DrawLine(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 //七殺(年運→＊）
                 //-------------------
-                bool bNanasatuNenunNiti = person.IsNanasatu(nenunKansi, person.nikkansi);//（年運-日) の関係
-                bool bNanasatuNenunGetu = person.IsNanasatu(nenunKansi, person.gekkansi);//（年運-月) の関係
-                bool bNanasatuNenunNen = person.IsNanasatu(nenunKansi, person.nenkansi);//（年運-年) の関係
                 if (bNanasatuNenunNiti)//年運 - 日
                 {
-                    DrawLine(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuNenunGetu)//年運 - 月
                 {
-                    DrawLine(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuNenunNen)//年運 - 年
                 {
-                    DrawLine(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                    DrawString(idxMtx, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
-                    idxMtx++;
+                    DrawLine(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
 
                 }
-
-                rectNenunTitle = new Rectangle(nenun.X, nenun.Y - (idxMtx* GetLineOffsetY()) -GetSmallFontHeight()-5, rangeWidth, GetSmallFontHeight());
-                rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - (idxMtx * GetLineOffsetY()) - GetSmallFontHeight() - 5, rangeWidth, GetSmallFontHeight());
-                DrawString(rectNenunTitle, "年運");
-                DrawString(rectTaiunTitle, "大運");
 
 
                 //合法・散法
                 //-------------------
-                string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi,false, false);
+                string[] gouhouSanpouTaiunNenun = person.GetGouhouSanpou(taiunKansi, nenunKansi, false, false);
+
+                if (gouhouSanpouTaiunNenun != null)//大運 - 年運
+                {
+                    int enableFlag = CheckExceptionValue(person, taiunKansi, nenunKansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNenun);
+
+                    int idx = SetMatrixDown(true, bitFlgNenun, (bitFlgNenun | bitFlgTaiun));//年運 - 大運
+                    DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNenun);
+
+                }
+
+                string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi, false, false);
                 string[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi, false, false);
                 string[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi, false, false);
 
                 if (gouhouSanpouTaiunNiti != null)//大運 - 日
                 {
-                    DrawLine(idxMtxButtom, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue( person, taiunKansi, person.nikkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNiti);
+
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNiti));
+                    DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti, enableFlag);
 
                 }
                 if (gouhouSanpouTaiunGetu != null)//大運 - 月
                 {
-                    DrawLine(idxMtxButtom, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue(person, taiunKansi, person.gekkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunGetu);
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgGetu));
+                    DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu, enableFlag);
                 }
 
                 if (gouhouSanpouTaiunNen != null)//大運 - 年
                 {
-                    DrawLine(idxMtxButtom, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue(person, taiunKansi, person.nenkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNen);
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNen));
+                    DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen, enableFlag);
                 }
 
-                string[] gouhouSanpouTaiunNenun = person.GetGouhouSanpou(taiunKansi, nenunKansi, false, false);
                 string[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi, false, false);
                 string[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi, false, false);
                 string[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi, false, false);
 
-                if (gouhouSanpouTaiunNenun != null)//大運 - 年運
-                {
-                    DrawLine(idxMtxButtom, nenunCenterX, taiunCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNenun);
-                    idxMtxButtom++;
-                }
                 if (gouhouSanpouNenunNiti != null)//年運 - 日
                 {
-                    DrawLine(idxMtxButtom, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue(person, nenunKansi, person.nikkansi, taiunKansi, nenunKansi, gouhouSanpouNenunNiti);
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNiti));
+                    DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti, enableFlag);
                 }
                 if (gouhouSanpouNenunGetu != null)//年運 - 月
                 {
-                    DrawLine(idxMtxButtom, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue(person, nenunKansi, person.gekkansi, taiunKansi, nenunKansi, gouhouSanpouNenunGetu);
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgNenun | bitFlgGetu));
+                    DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu, enableFlag);
                 }
 
                 if (gouhouSanpouNenunNen != null)//年運 - 年
                 {
-                    DrawLine(idxMtxButtom, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                    DrawString(idxMtxButtom, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
-                    idxMtxButtom++;
+                    int enableFlag = CheckExceptionValue(person, nenunKansi, person.nenkansi, taiunKansi, nenunKansi, gouhouSanpouNenunNen);
+                    int idx = SetMatrixDown(true, bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNen));
+                    DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
+                    DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen, enableFlag);
                 }
 
             }
+            int CheckExceptionValue(Person person, Kansi kansi1, Kansi kansi2, Kansi taiun, Kansi nenun, string[] values)
+            {
+                int retValue = 0xFFFF;
+                if (kansi1.si == "亥" && kansi2.si == "寅" ||
+                    kansi1.si == "寅" && kansi2.si == "亥")
+                {
+                    retValue = 0;
+                    bool bHit = false;
+                    if (taiun.si == "申" || taiun.si == "巳") bHit = true;
+                    else if (nenun.si == "申" || nenun.si == "巳") bHit = true;
+                    else if (person.IsExistStrInKansiSi(new string[] { "申", "巳" })) bHit = true;
 
+                    if (bHit)
+                    {
+                        int bit = 0x1;
+                        foreach (var v in values)
+                        {
+                            if (v == "破") retValue |= bit;
+                            bit <<= 1;
+                        }
+
+                    }
+                    else
+                    {
+                        int bit = 0x1;
+                        foreach (var v in values)
+                        {
+                            if (v == "支合") retValue |= bit;
+                            bit <<= 1;
+                        }
+                    }
+                }
+                else if (kansi1.si == "申" && kansi2.si == "巳" ||
+                         kansi1.si == "巳" && kansi2.si == "申")
+                {
+                    retValue = 0;
+                    bool bHit = false;
+                    if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
+                    else if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
+                    else if (person.IsExistStrInKansiSi(new string[] { "亥", "寅" })) bHit = true;
+
+                    if (bHit)
+                    {
+                        int bit = 0x1;
+                        foreach (var v in values)
+                        {
+                            if (v == "破") retValue |= bit;
+                            if (v == "生貴刑") retValue |= bit;
+                            bit <<= 1;
+                        }
+                    }
+                    else
+                    {
+                        int bit = 0x1;
+                        foreach (var v in values)
+                        {
+                            if (v == "支合") retValue |= bit;
+                            bit <<= 1;
+                        }
+                    }
+                }
+                return retValue;
+
+            }
         }
 
+       
+        /// <summary>
+        /// 宿命図表示
+        /// </summary>
+        /// <param name="person"></param>
         private void DispShukumei(Person person)
         {
 
@@ -1420,7 +1603,10 @@ namespace WinFormsApp2
             drawItem.Draw();
 
         }
-
+        /// <summary>
+        /// 後天運図表示
+        /// </summary>
+        /// <param name="person"></param>
         private void DispKoutenUn(Person person)
         {
 
@@ -1472,7 +1658,6 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void lvTaiun_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Person person = (Person)cmbPerson.SelectedItem;
             int Year = int.Parse(txtYear.Text);
 
             var selectedItem = lvTaiun.SelectedItems;
@@ -1481,10 +1666,10 @@ namespace WinFormsApp2
             TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
 
             //年運リスト表示更新
-            DispNenun(person, itemData.startNen);
+            DispNenun(curPerson, itemData.startNen);
 
             //後天運 図の表示更新
-            DispKoutenUn(person);
+            DispKoutenUn(curPerson);
         }
         /// <summary>
         /// 年運リストビュー選択イベント
@@ -1493,9 +1678,8 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void lvNenun_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Person person = (Person)cmbPerson.SelectedItem;
             //後天運 図の表示更新
-            DispKoutenUn(person);
+            DispKoutenUn(curPerson);
         }
         /// <summary>
         /// 人コンボボックス選択イベント
@@ -1517,36 +1701,118 @@ namespace WinFormsApp2
 
 
         }
-
-        private void lvNenun_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        /// <summary>
+        /// 後天運リストビューでの上下キー押下イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvNenun_KeyDown(object sender, KeyEventArgs e)
         {
             var idxNenun = lvNenun.SelectedItems[0].Index;
             switch (e.KeyData)
             {
                 case Keys.Down:
-                    if (idxNenun >= lvNenun.Items.Count-1)
+                    if (idxNenun >= lvNenun.Items.Count - 1)
                     {
                         //次の旬に移動
                         var idxTaiun = lvTaiun.SelectedItems[0].Index;
-                        if (idxTaiun >= lvTaiun.Items.Count-1) return;
+                        if (idxTaiun >= lvTaiun.Items.Count - 1) return;
 
-                        lvTaiun.Items[idxTaiun+1].Selected = true;
-                        lvNenun.Items[01].Selected = true;
+                        lvTaiun.Items[idxTaiun + 1].Selected = true;
+                        lvNenun.Items[0].Selected = true;
                         lvNenun.Items[0].Focused = true;
+                        e.Handled = true;
                     }
                     break;
                 case Keys.Up:
                     if (idxNenun <= 0)
                     {
                         var idxTaiun = lvTaiun.SelectedItems[0].Index;
-                        if (idxTaiun <=0) return;
+                        if (idxTaiun <= 0) return;
                         lvTaiun.Items[idxTaiun - 1].Selected = true;
                         lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
                         lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
+                        e.Handled = true;
                     }
                     break;
             }
-    
+        }
+        /// <summary>
+        /// 大運リストビューのホイール操作イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvTaiun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            var idxTaiun = lvTaiun.SelectedItems[0].Index;
+            if (e.Delta > 0)
+            {   //↑
+                if (idxTaiun <= 0) return;
+                lvTaiun.Items[idxTaiun - 1].Selected = true;
+            }
+            else
+            {
+                //↓
+                if (idxTaiun >= lvTaiun.Items.Count-1) return;
+                lvTaiun.Items[idxTaiun + 1].Selected = true;
+            }
+        }
+        /// <summary>
+        /// 後天運リストビューのホイール操作イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvNenun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            var idxNenun = lvNenun.SelectedItems[0].Index;
+            if (e.Delta > 0)
+            {
+                //↑
+                if (idxNenun > 0)
+                {
+                    lvNenun.Items[idxNenun - 1].Selected = true;
+                }
+                else
+                {
+                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                    if (idxTaiun <= 0) return;
+                    lvTaiun.Items[idxTaiun - 1].Selected = true;
+                    lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
+                    lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
+                }
+
+
+            }
+            else
+            {
+                //↓
+                if(idxNenun < lvNenun.Items.Count - 1)
+                {
+                    lvNenun.Items[idxNenun + 1].Selected = true;
+                }
+                else
+                {
+                    //次の旬に移動
+                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                    if (idxTaiun >= lvTaiun.Items.Count - 1) return;
+
+                    lvTaiun.Items[idxTaiun + 1].Selected = true;
+                    lvNenun.Items[0].Selected = true;
+                    lvNenun.Items[0].Focused = true;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// 後天運ピクチャーボックスサイズ変更イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox2_SizeChanged(object sender, EventArgs e)
+        {
+            DispKoutenUn(curPerson);
+
         }
     }
 }
