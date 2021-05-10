@@ -16,6 +16,23 @@ namespace WinFormsApp2
     }
 
     /// <summary>
+    /// 合法・三法の検索結果情報
+    /// </summary>
+    class GouhouSannpouResult
+    {
+
+        public bool bEnable;        //true...有効  false...無効
+        public string orgName;      //テーブルに登録されている名称
+        public string convertedName;//条件によって変換された名称
+
+        public GouhouSannpouResult(string _orgName)
+        {
+            bEnable = true;
+            orgName = _orgName;
+        }
+    }
+
+    /// <summary>
     /// ユーザ情報
     /// </summary>
     class Person
@@ -236,9 +253,78 @@ namespace WinFormsApp2
         /// <param name="bExistTensatuTichu">true...天殺地冲あり</param>
         /// <param name="bExistNentin">true...納音あり</param>
         /// <returns></returns>
+        //public GouhouSannpouResult[] GetGouhouSanpou(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
+        //{
+        //    List<GouhouSannpouResult> lstResult = new List<GouhouSannpouResult>();
+        //    string[] items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
+        //    if (items != null)
+        //    {
+        //        for (int i = 0; i < items.Length; i++)
+        //        {
+        //            GouhouSannpouResult result = new GouhouSannpouResult(items[i]);
+        //            if (items[i] == "半会")
+        //            {
+        //                //大半会判定
+        //                int no1 = tblMng.kansiTbl.GetKansiNo(nenunTaiunKansi);
+        //                int no2 = tblMng.kansiTbl.GetKansiNo(kansi);
+
+        //                //no1に+20、または-20した地点のどちらかがno2と同じなら大半会
+        //                //1～60のリング状態をベースに前後方向の20差をチェックする必要がある。
+        //                //前方検索
+        //                int no = no1 + 20;
+        //                if (no > 60)
+        //                {
+        //                    no = no % 60;
+        //                    if (no == 0) no = 60;
+        //                }
+        //                if (no == no2)
+        //                {
+        //                    result.convertedName = "大半会";
+        //                }
+        //                else
+        //                {
+        //                    //後方検索
+        //                    no = no1 - 20;
+        //                    if (no < 0)
+        //                    {
+        //                        no += 60;
+        //                    }
+        //                    if (no == no2)
+        //                    {
+        //                        result.convertedName = "大半会";
+        //                    }
+        //                }
+        //                //if (Math.Abs( no1 - no2)== 20)
+        //                //{
+        //                //    items[i] = "大半会";
+        //                //}
+        //                //else
+        //                //{
+        //                //    if( no1 < no2)
+        //                //    {
+        //                //        if( no2 + 20 == no1 + 60)
+        //                //        {
+        //                //            items[i] = "大半会";
+        //                //        }
+        //                //    }
+        //                //    else
+        //                //    {
+        //                //        if (no1 + 20 == no2 + 60)
+        //                //        {
+        //                //            items[i] = "大半会";
+        //                //        }
+        //                //    }
+        //                //}
+        //             }
+
+        //            lstResult.Add(result);
+        //        }
+        //    }
+        //    return lstResult.ToArray();
+        //}
         public string[] GetGouhouSanpou(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
-            var items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
+            string[] items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
             if (items != null)
             {
                 for (int i = 0; i < items.Length; i++)
@@ -266,7 +352,7 @@ namespace WinFormsApp2
                         {
                             //後方検索
                             no = no1 - 20;
-                            if(no<0)
+                            if (no < 0)
                             {
                                 no += 60;
                             }
@@ -275,11 +361,35 @@ namespace WinFormsApp2
                                 items[i] = "大半会";
                             }
                         }
-                     }
+                        //if (Math.Abs( no1 - no2)== 20)
+                        //{
+                        //    items[i] = "大半会";
+                        //}
+                        //else
+                        //{
+                        //    if( no1 < no2)
+                        //    {
+                        //        if( no2 + 20 == no1 + 60)
+                        //        {
+                        //            items[i] = "大半会";
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        if (no1 + 20 == no2 + 60)
+                        //        {
+                        //            items[i] = "大半会";
+                        //        }
+                        //    }
+                        //}
+                    }
+
                 }
             }
             return items;
         }
+
+
 
         //public string[] GetGouhouSanpou(string siName1, string siName2, bool bExistTensatuTichu, bool bExistNentin)
         //{
@@ -295,9 +405,25 @@ namespace WinFormsApp2
         /// <param name="bExistTensatuTichu">true...天殺地冲あり</param>
         /// <param name="bExistNentin">true...納音あり</param>
         /// <returns></returns>
+        //public string GetGouhouSanpouString(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
+        //{
+        //    var items =  GetGouhouSanpou(nenunTaiunKansi, kansi, bExistTensatuTichu, bExistNentin);
+        //    string s = "";
+        //    if (items != null)
+        //    {
+        //        foreach (var item in items)
+        //        {
+        //            if (!item.bEnable) continue;
+        //            if (s != "") s += ",";
+        //            s += item.orgName;
+        //        }
+        //    }
+        //    return s;
+        //}
+
         public string GetGouhouSanpouString(Kansi nenunTaiunKansi, Kansi kansi, bool bExistTensatuTichu, bool bExistNentin)
         {
-            var items =  GetGouhouSanpou(nenunTaiunKansi, kansi, bExistTensatuTichu, bExistNentin);
+            var items = GetGouhouSanpou(nenunTaiunKansi, kansi, bExistTensatuTichu, bExistNentin);
             string s = "";
             if (items != null)
             {
@@ -316,14 +442,17 @@ namespace WinFormsApp2
 
         public string[] GetGouhouSanpouNitiGetu()
         {
+            //            return GetGouhouSanpou(nikkansi, gekkansi, false, false).Select(x => x.orgName).ToArray();
             return GetGouhouSanpou(nikkansi, gekkansi, false, false);
         }
         public string[] GetGouhouSanpouiGetuNen()
         {
+            //           return GetGouhouSanpou(gekkansi, nenkansi, false, false).Select(x => x.orgName).ToArray();
             return GetGouhouSanpou(gekkansi, nenkansi, false, false);
         }
         public string[] GetGouhouSanpouiNitiNen()
         {
+            //           return GetGouhouSanpou(nikkansi, nenkansi, false, false).Select(x => x.orgName).ToArray();
             return GetGouhouSanpou(nikkansi, nenkansi, false, false);
         }
 
@@ -456,6 +585,7 @@ namespace WinFormsApp2
             {
                 foreach (var item in values)
                 {
+                    //if (item.orgName.IndexOf("冲動") >= 0) return "地冲";
                     if (item.IndexOf("冲動") >= 0) return "地冲";
                 }
             }
