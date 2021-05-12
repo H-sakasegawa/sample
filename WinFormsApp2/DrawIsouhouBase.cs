@@ -168,17 +168,48 @@ namespace WinFormsApp2
         /// <param name="dirc">描画方向</param>
         /// <param name="strs">描画文字列配列</param>
         /// <param name="enableBit">文字列配列有効無効指定Bit情報</param>
-        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, GouhouSannpouResult[] gsr, int enableBit = 0xFFFF)
-        {
-            string[] strs = gsr.Select(x => x.orgName).ToArray();
-            DrawString(mtxIndex, from, to, baseY, dirc, strs, enableBit);
-        }
-        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, string[] strs, int enableBit = 0xFFFF)
+        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, GouhouSannpouResult[] gsr)
         {
             float maxWidth = 0f;
             float sumHeight = 0f;
             //文字列の最大幅,高さ取得
-            foreach (var s in strs)
+            foreach (var s in gsr)
+            {
+                SizeF w = g.MeasureString(s.displayName, fntSmall);
+                if (maxWidth < w.Width) maxWidth = w.Width;
+
+                sumHeight += w.Height;
+            }
+
+            int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
+            int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
+
+            foreach (var s in gsr)
+            {
+
+                Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
+                g.FillRectangle(Brushes.WhiteSmoke, rect);
+
+                if (s.bEnable)
+                {
+                    g.DrawString(s.displayName, fntSmall, Brushes.Black, rect, smallStringFormat);
+                }
+                else
+                {
+                    g.DrawString(s.displayName, fntSmallDisable, Brushes.Gray, rect, smallStringFormat);
+                }
+
+                y += fntSmall.Height;
+            }
+
+        }
+
+        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, string[] aryStr)
+        {
+            float maxWidth = 0f;
+            float sumHeight = 0f;
+            //文字列の最大幅,高さ取得
+            foreach (var s in aryStr)
             {
                 SizeF w = g.MeasureString(s, fntSmall);
                 if (maxWidth < w.Width) maxWidth = w.Width;
@@ -189,23 +220,13 @@ namespace WinFormsApp2
             int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
             int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
 
-            int bit = 0x01;
-            foreach (var s in strs)
+            foreach (var s in aryStr)
             {
 
                 Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
                 g.FillRectangle(Brushes.WhiteSmoke, rect);
 
-                if ((enableBit & bit) != 0)
-                {
-                    g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
-                }
-                else
-                {
-                    g.DrawString(s, fntSmallDisable, Brushes.Gray, rect, smallStringFormat);
-                }
-                bit <<= 1;
-
+                g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
                 y += fntSmall.Height;
             }
 

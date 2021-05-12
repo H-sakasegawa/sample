@@ -352,15 +352,12 @@ namespace WinFormsApp2
             }
 
 
-            //合法・散法
+            //合法・散法,干合
             //-------------------
-            //GouhouSannpouResult[] gouhouSanpouTaiunNenun = person.GetGouhouSanpou(taiunKansi, nenunKansi, false, false);
-            string[] gouhouSanpouTaiunNenun = person.GetGouhouSanpou(taiunKansi, nenunKansi, false, false);
+            GouhouSannpouResult[] gouhouSanpouTaiunNenun = person.GetGouhouSanpouEx(taiunKansi, nenunKansi, taiunKansi, nenunKansi);
 
             if (gouhouSanpouTaiunNenun != null && gouhouSanpouTaiunNenun.Length > 0)//大運 - 年運
             {
-                int enableFlag = CheckExceptionValue(person, taiunKansi, nenunKansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNenun);
-
                 int idx = SetMatrixDown(true, bitFlgNenun, (bitFlgNenun | bitFlgTaiun));//年運 - 大運
                 DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown);
                 DrawString(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNenun);
@@ -368,211 +365,55 @@ namespace WinFormsApp2
             }
 
             //大運 →＊
-            //GouhouSannpouResult[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi, false, false);
-            //GouhouSannpouResult[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi, false, false);
-            //GouhouSannpouResult[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi, false, false);
-            string[] gouhouSanpouTaiunNiti = person.GetGouhouSanpou(taiunKansi, person.nikkansi, false, false);
-            string[] gouhouSanpouTaiunGetu = person.GetGouhouSanpou(taiunKansi, person.gekkansi, false, false);
-            string[] gouhouSanpouTaiunNen = person.GetGouhouSanpou(taiunKansi, person.nenkansi, false, false);
+            GouhouSannpouResult[] gouhouSanpouTaiunNiti = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, taiunKansi, nenunKansi);
+            GouhouSannpouResult[] gouhouSanpouTaiunGetu = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, taiunKansi, nenunKansi);
+            GouhouSannpouResult[] gouhouSanpouTaiunNen = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, taiunKansi, nenunKansi);
 
             if (gouhouSanpouTaiunNiti != null && gouhouSanpouTaiunNiti.Length>0)//大運 - 日
             {
-                int enableFlag = CheckExceptionValue(person, taiunKansi, person.nikkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNiti);
-
                 int idx = SetMatrixDown(true, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNiti));
                 DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti, enableFlag);
+                DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
 
             }
             if (gouhouSanpouTaiunGetu != null && gouhouSanpouTaiunGetu.Length > 0)//大運 - 月
             {
-                int enableFlag = CheckExceptionValue(person, taiunKansi, person.gekkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunGetu);
                 int idx = SetMatrixDown(true, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgGetu));
                 DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu, enableFlag);
+                DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
             }
 
             if (gouhouSanpouTaiunNen != null && gouhouSanpouTaiunNen.Length > 0)//大運 - 年
             {
-                int enableFlag = CheckExceptionValue(person, taiunKansi, person.nenkansi, taiunKansi, nenunKansi, gouhouSanpouTaiunNen);
                 int idx = SetMatrixDown(true, bitFlgTaiun | bitFlgNitiGetuNen, (bitFlgTaiun | bitFlgNen));
                 DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen, enableFlag);
+                DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
             }
 
             //年運 →＊
-            //GouhouSannpouResult[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi, false, false);
-            //GouhouSannpouResult[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi, false, false);
-            //GouhouSannpouResult[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi, false, false);
-            string[] gouhouSanpouNenunNiti = person.GetGouhouSanpou(nenunKansi, person.nikkansi, false, false);
-            string[] gouhouSanpouNenunGetu = person.GetGouhouSanpou(nenunKansi, person.gekkansi, false, false);
-            string[] gouhouSanpouNenunNen = person.GetGouhouSanpou(nenunKansi, person.nenkansi, false, false);
+            GouhouSannpouResult[] gouhouSanpouNenunNiti = person.GetGouhouSanpouEx(nenunKansi, person.nikkansi, taiunKansi, nenunKansi);
+            GouhouSannpouResult[] gouhouSanpouNenunGetu = person.GetGouhouSanpouEx(nenunKansi, person.gekkansi, taiunKansi, nenunKansi);
+            GouhouSannpouResult[] gouhouSanpouNenunNen = person.GetGouhouSanpouEx(nenunKansi, person.nenkansi, taiunKansi, nenunKansi);
 
             if (gouhouSanpouNenunNiti != null && gouhouSanpouNenunNiti.Length > 0)//年運 - 日
             {
-                int enableFlag = CheckExceptionValue(person, nenunKansi, person.nikkansi, taiunKansi, nenunKansi, gouhouSanpouNenunNiti);
                 int idx = SetMatrixDown(true, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNiti));
                 DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti, enableFlag);
+                DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
             }
             if (gouhouSanpouNenunGetu != null && gouhouSanpouNenunGetu.Length > 0)//年運 - 月
             {
-                int enableFlag = CheckExceptionValue(person, nenunKansi, person.gekkansi, taiunKansi, nenunKansi, gouhouSanpouNenunGetu);
                 int idx = SetMatrixDown(true, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgGetu));
                 DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu, enableFlag);
+                DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
             }
 
             if (gouhouSanpouNenunNen != null && gouhouSanpouNenunNen.Length > 0)//年運 - 年
             {
-                int enableFlag = CheckExceptionValue(person, nenunKansi, person.nenkansi, taiunKansi, nenunKansi, gouhouSanpouNenunNen);
                 int idx = SetMatrixDown(true, bitFlgNenun | bitFlgNitiGetuNen, (bitFlgNenun | bitFlgNen));
                 DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen, enableFlag);
+                DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
             }
-
-        }
-        /// <summary>
-        /// 例外表示処理
-        /// </summary>
-        /// <param name="person"></param>
-        /// <param name="kansi1">干支1</param>
-        /// <param name="kansi2">干支2</param>
-        /// <param name="taiun">大運干支</param>
-        /// <param name="nenun">年運干支</param>
-        /// <param name="values">表示文字列配列</param>
-        /// <returns>表示文字列の配列の要素に対する有効、無効ビットフラグ
-        ///         0x01 ... values[0]は有効
-        ///         0x02 ... values[1]は有効
-        ///         0x05 ... values[0]と[2]は有効
-        ///         0xFFFF ...valuesのすべての配列文字が有効
-        /// </returns>
-        //int CheckExceptionValue(Person person, Kansi kansi1, Kansi kansi2, Kansi taiun, Kansi nenun, GouhouSannpouResult[] values)
-        //{
-        //    int retValue = 0xFFFF;
-        //    if (kansi1.si == "亥" && kansi2.si == "寅" ||
-        //        kansi1.si == "寅" && kansi2.si == "亥")
-        //    {
-        //        retValue = 0;
-        //        bool bHit = false;
-        //        if (taiun.si == "申" || taiun.si == "巳") bHit = true;
-        //        else if (nenun.si == "申" || nenun.si == "巳") bHit = true;
-        //        else if (person.IsExistStrInKansiSi(new string[] { "申", "巳" })) bHit = true;
-
-        //        if (bHit)
-        //        {
-        //            int bit = 0x1;
-        //            foreach (var v in values)
-        //            {
-        //                if (v.orgName == "破") retValue |= bit;
-        //                bit <<= 1;
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            int bit = 0x1;
-        //            foreach (var v in values)
-        //            {
-        //                if (v.orgName == "支合") retValue |= bit;
-        //                bit <<= 1;
-        //            }
-        //        }
-        //    }
-        //    else if (kansi1.si == "申" && kansi2.si == "巳" ||
-        //             kansi1.si == "巳" && kansi2.si == "申")
-        //    {
-        //        retValue = 0;
-        //        bool bHit = false;
-        //        if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
-        //        else if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
-        //        else if (person.IsExistStrInKansiSi(new string[] { "亥", "寅" })) bHit = true;
-
-        //        if (bHit)
-        //        {
-        //            int bit = 0x1;
-        //            foreach (var v in values)
-        //            {
-        //                if (v.orgName == "破") retValue |= bit;
-        //                if (v.orgName == "生貴刑") retValue |= bit;
-        //                bit <<= 1;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            int bit = 0x1;
-        //            foreach (var v in values)
-        //            {
-        //                if (v.orgName == "支合") retValue |= bit;
-        //                bit <<= 1;
-        //            }
-        //        }
-        //    }
-        //    return retValue;
-
-        //}
-        int CheckExceptionValue(Person person, Kansi kansi1, Kansi kansi2, Kansi taiun, Kansi nenun, string[] values)
-        {
-            int retValue = 0xFFFF;
-            if (kansi1.si == "亥" && kansi2.si == "寅" ||
-                kansi1.si == "寅" && kansi2.si == "亥")
-            {
-                retValue = 0;
-                bool bHit = false;
-                if (taiun.si == "申" || taiun.si == "巳") bHit = true;
-                else if (nenun.si == "申" || nenun.si == "巳") bHit = true;
-                else if (person.IsExistStrInKansiSi(new string[] { "申", "巳" })) bHit = true;
-
-                if (bHit)
-                {
-                    int bit = 0x1;
-                    foreach (var v in values)
-                    {
-                        if (v == "破") retValue |= bit;
-                        bit <<= 1;
-                    }
-
-                }
-                else
-                {
-                    int bit = 0x1;
-                    foreach (var v in values)
-                    {
-                        if (v == "支合") retValue |= bit;
-                        bit <<= 1;
-                    }
-                }
-            }
-            else if (kansi1.si == "申" && kansi2.si == "巳" ||
-                     kansi1.si == "巳" && kansi2.si == "申")
-            {
-                retValue = 0;
-                bool bHit = false;
-                if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
-                else if (taiun.si == "亥" || taiun.si == "寅") bHit = true;
-                else if (person.IsExistStrInKansiSi(new string[] { "亥", "寅" })) bHit = true;
-
-                if (bHit)
-                {
-                    int bit = 0x1;
-                    foreach (var v in values)
-                    {
-                        if (v == "破") retValue |= bit;
-                        if (v == "生貴刑") retValue |= bit;
-                        bit <<= 1;
-                    }
-                }
-                else
-                {
-                    int bit = 0x1;
-                    foreach (var v in values)
-                    {
-                        if (v == "支合") retValue |= bit;
-                        bit <<= 1;
-                    }
-                }
-            }
-            return retValue;
 
         }
     }
