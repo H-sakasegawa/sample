@@ -64,9 +64,6 @@ namespace WinFormsApp2
             this.label2 = new System.Windows.Forms.Label();
             this.txtNikkansiSanshutuSu = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -130,9 +127,21 @@ namespace WinFormsApp2
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lvGetuUn = new System.Windows.Forms.ListView();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
+            this.label17 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -144,11 +153,14 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 70);
+            this.button1.Location = new System.Drawing.Point(10, 79);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(257, 23);
             this.button1.TabIndex = 0;
@@ -237,7 +249,7 @@ namespace WinFormsApp2
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(9, 41);
+            this.label24.Location = new System.Drawing.Point(6, 50);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(55, 15);
             this.label24.TabIndex = 6;
@@ -245,7 +257,7 @@ namespace WinFormsApp2
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(76, 37);
+            this.txtYear.Location = new System.Drawing.Point(73, 46);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(56, 23);
             this.txtYear.TabIndex = 7;
@@ -254,7 +266,7 @@ namespace WinFormsApp2
             // 
             // txtMonth
             // 
-            this.txtMonth.Location = new System.Drawing.Point(162, 37);
+            this.txtMonth.Location = new System.Drawing.Point(159, 46);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
             this.txtMonth.TabIndex = 8;
@@ -263,7 +275,7 @@ namespace WinFormsApp2
             // 
             // txtDay
             // 
-            this.txtDay.Location = new System.Drawing.Point(218, 37);
+            this.txtDay.Location = new System.Drawing.Point(215, 46);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(33, 23);
             this.txtDay.TabIndex = 9;
@@ -273,7 +285,7 @@ namespace WinFormsApp2
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(137, 40);
+            this.label25.Location = new System.Drawing.Point(134, 49);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(19, 15);
             this.label25.TabIndex = 10;
@@ -282,7 +294,7 @@ namespace WinFormsApp2
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(196, 40);
+            this.label26.Location = new System.Drawing.Point(193, 49);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(19, 15);
             this.label26.TabIndex = 11;
@@ -291,7 +303,7 @@ namespace WinFormsApp2
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(257, 40);
+            this.label27.Location = new System.Drawing.Point(254, 49);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(19, 15);
             this.label27.TabIndex = 12;
@@ -300,7 +312,7 @@ namespace WinFormsApp2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 98);
+            this.label1.Location = new System.Drawing.Point(3, 107);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 15);
             this.label1.TabIndex = 13;
@@ -309,7 +321,7 @@ namespace WinFormsApp2
             // lblNikkansiNo
             // 
             this.lblNikkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNikkansiNo.Location = new System.Drawing.Point(80, 96);
+            this.lblNikkansiNo.Location = new System.Drawing.Point(82, 105);
             this.lblNikkansiNo.Name = "lblNikkansiNo";
             this.lblNikkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNikkansiNo.TabIndex = 14;
@@ -317,7 +329,7 @@ namespace WinFormsApp2
             // lblGekkansiNo
             // 
             this.lblGekkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGekkansiNo.Location = new System.Drawing.Point(196, 96);
+            this.lblGekkansiNo.Location = new System.Drawing.Point(199, 105);
             this.lblGekkansiNo.Name = "lblGekkansiNo";
             this.lblGekkansiNo.Size = new System.Drawing.Size(37, 15);
             this.lblGekkansiNo.TabIndex = 16;
@@ -325,7 +337,7 @@ namespace WinFormsApp2
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(123, 96);
+            this.label3.Location = new System.Drawing.Point(120, 105);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 15);
             this.label3.TabIndex = 15;
@@ -334,7 +346,7 @@ namespace WinFormsApp2
             // lblNenkansiNo
             // 
             this.lblNenkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNenkansiNo.Location = new System.Drawing.Point(315, 97);
+            this.lblNenkansiNo.Location = new System.Drawing.Point(312, 106);
             this.lblNenkansiNo.Name = "lblNenkansiNo";
             this.lblNenkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNenkansiNo.TabIndex = 18;
@@ -342,7 +354,7 @@ namespace WinFormsApp2
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(239, 97);
+            this.label4.Location = new System.Drawing.Point(236, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 17;
@@ -351,7 +363,7 @@ namespace WinFormsApp2
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(263, 35);
+            this.label28.Location = new System.Drawing.Point(262, 13);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(19, 15);
             this.label28.TabIndex = 26;
@@ -360,7 +372,7 @@ namespace WinFormsApp2
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(202, 35);
+            this.label29.Location = new System.Drawing.Point(201, 13);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(19, 15);
             this.label29.TabIndex = 25;
@@ -369,7 +381,7 @@ namespace WinFormsApp2
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(143, 35);
+            this.label30.Location = new System.Drawing.Point(142, 13);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(19, 15);
             this.label30.TabIndex = 24;
@@ -377,7 +389,7 @@ namespace WinFormsApp2
             // 
             // txtBaseDay
             // 
-            this.txtBaseDay.Location = new System.Drawing.Point(224, 32);
+            this.txtBaseDay.Location = new System.Drawing.Point(223, 10);
             this.txtBaseDay.Name = "txtBaseDay";
             this.txtBaseDay.Size = new System.Drawing.Size(33, 23);
             this.txtBaseDay.TabIndex = 23;
@@ -386,7 +398,7 @@ namespace WinFormsApp2
             // 
             // txtBaseMonth
             // 
-            this.txtBaseMonth.Location = new System.Drawing.Point(168, 32);
+            this.txtBaseMonth.Location = new System.Drawing.Point(167, 10);
             this.txtBaseMonth.Name = "txtBaseMonth";
             this.txtBaseMonth.Size = new System.Drawing.Size(33, 23);
             this.txtBaseMonth.TabIndex = 22;
@@ -395,7 +407,7 @@ namespace WinFormsApp2
             // 
             // txtBaseYear
             // 
-            this.txtBaseYear.Location = new System.Drawing.Point(82, 32);
+            this.txtBaseYear.Location = new System.Drawing.Point(81, 10);
             this.txtBaseYear.Name = "txtBaseYear";
             this.txtBaseYear.Size = new System.Drawing.Size(56, 23);
             this.txtBaseYear.TabIndex = 21;
@@ -405,7 +417,7 @@ namespace WinFormsApp2
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(15, 36);
+            this.label31.Location = new System.Drawing.Point(14, 14);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(67, 15);
             this.label31.TabIndex = 20;
@@ -414,7 +426,7 @@ namespace WinFormsApp2
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 66);
+            this.label5.Location = new System.Drawing.Point(14, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 15);
             this.label5.TabIndex = 27;
@@ -422,7 +434,7 @@ namespace WinFormsApp2
             // 
             // txtBaseNenkansiNo
             // 
-            this.txtBaseNenkansiNo.Location = new System.Drawing.Point(124, 63);
+            this.txtBaseNenkansiNo.Location = new System.Drawing.Point(123, 41);
             this.txtBaseNenkansiNo.Name = "txtBaseNenkansiNo";
             this.txtBaseNenkansiNo.Size = new System.Drawing.Size(33, 23);
             this.txtBaseNenkansiNo.TabIndex = 28;
@@ -432,7 +444,7 @@ namespace WinFormsApp2
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 91);
+            this.label6.Location = new System.Drawing.Point(14, 69);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(91, 15);
             this.label6.TabIndex = 29;
@@ -440,7 +452,7 @@ namespace WinFormsApp2
             // 
             // txtBaseGekkansiNo
             // 
-            this.txtBaseGekkansiNo.Location = new System.Drawing.Point(124, 88);
+            this.txtBaseGekkansiNo.Location = new System.Drawing.Point(123, 66);
             this.txtBaseGekkansiNo.Name = "txtBaseGekkansiNo";
             this.txtBaseGekkansiNo.Size = new System.Drawing.Size(33, 23);
             this.txtBaseGekkansiNo.TabIndex = 30;
@@ -449,7 +461,7 @@ namespace WinFormsApp2
             // 
             // txtBaseNikkansiNo
             // 
-            this.txtBaseNikkansiNo.Location = new System.Drawing.Point(257, 115);
+            this.txtBaseNikkansiNo.Location = new System.Drawing.Point(256, 93);
             this.txtBaseNikkansiNo.Name = "txtBaseNikkansiNo";
             this.txtBaseNikkansiNo.ReadOnly = true;
             this.txtBaseNikkansiNo.Size = new System.Drawing.Size(33, 23);
@@ -458,7 +470,7 @@ namespace WinFormsApp2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 115);
+            this.label2.Location = new System.Drawing.Point(14, 93);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 15);
             this.label2.TabIndex = 31;
@@ -466,7 +478,7 @@ namespace WinFormsApp2
             // 
             // txtNikkansiSanshutuSu
             // 
-            this.txtNikkansiSanshutuSu.Location = new System.Drawing.Point(124, 115);
+            this.txtNikkansiSanshutuSu.Location = new System.Drawing.Point(123, 93);
             this.txtNikkansiSanshutuSu.Name = "txtNikkansiSanshutuSu";
             this.txtNikkansiSanshutuSu.Size = new System.Drawing.Size(33, 23);
             this.txtNikkansiSanshutuSu.TabIndex = 33;
@@ -477,54 +489,11 @@ namespace WinFormsApp2
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(163, 118);
+            this.label32.Location = new System.Drawing.Point(162, 96);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(91, 15);
             this.label32.TabIndex = 34;
             this.label32.Text = "基準日干支番号";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label32);
-            this.groupBox1.Controls.Add(this.label31);
-            this.groupBox1.Controls.Add(this.txtNikkansiSanshutuSu);
-            this.groupBox1.Controls.Add(this.txtBaseYear);
-            this.groupBox1.Controls.Add(this.txtBaseNikkansiNo);
-            this.groupBox1.Controls.Add(this.txtBaseMonth);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtBaseDay);
-            this.groupBox1.Controls.Add(this.txtBaseGekkansiNo);
-            this.groupBox1.Controls.Add(this.label30);
-            this.groupBox1.Controls.Add(this.label29);
-            this.groupBox1.Controls.Add(this.txtBaseNenkansiNo);
-            this.groupBox1.Controls.Add(this.label28);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(414, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(542, 147);
-            this.groupBox1.TabIndex = 35;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "算出基準値（命令式算出表より）";
-            // 
-            // label18
-            // 
-            this.label18.Location = new System.Drawing.Point(304, 70);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(232, 60);
-            this.label18.TabIndex = 35;
-            this.label18.Text = "1936年2月の年干支、月干支、日干支算出数を基準に節日テーブルの先頭データから計算して設定しています。";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(304, 33);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(232, 15);
-            this.label17.TabIndex = 35;
-            this.label17.Text = "節入り日テーブルの先頭年度を設定しています。";
             // 
             // tableLayoutPanel7
             // 
@@ -593,7 +562,7 @@ namespace WinFormsApp2
             // 
             this.groupBox2.Controls.Add(this.radMan);
             this.groupBox2.Controls.Add(this.radWoman);
-            this.groupBox2.Location = new System.Drawing.Point(292, 21);
+            this.groupBox2.Location = new System.Drawing.Point(275, 32);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(97, 36);
             this.groupBox2.TabIndex = 39;
@@ -612,13 +581,17 @@ namespace WinFormsApp2
             this.columnHeader11});
             this.lvTaiun.FullRowSelect = true;
             this.lvTaiun.HideSelection = false;
-            this.lvTaiun.Location = new System.Drawing.Point(429, 174);
+            this.lvTaiun.Location = new System.Drawing.Point(477, 26);
             this.lvTaiun.MultiSelect = false;
             this.lvTaiun.Name = "lvTaiun";
+            this.lvTaiun.OwnerDraw = true;
             this.lvTaiun.Size = new System.Drawing.Size(527, 240);
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
+            this.lvTaiun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvTaiun_DrawColumnHeader);
+            this.lvTaiun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvTaiun_DrawItem);
+            this.lvTaiun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvTaiun_DrawSubItem);
             this.lvTaiun.SelectedIndexChanged += new System.EventHandler(this.lvTaiun_SelectedIndexChanged);
             // 
             // columnHeader1
@@ -659,7 +632,7 @@ namespace WinFormsApp2
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label11.Location = new System.Drawing.Point(369, 417);
+            this.label11.Location = new System.Drawing.Point(477, 267);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 20);
             this.label11.TabIndex = 13;
@@ -669,7 +642,7 @@ namespace WinFormsApp2
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(369, 174);
+            this.label12.Location = new System.Drawing.Point(477, 5);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 20);
             this.label12.TabIndex = 13;
@@ -679,7 +652,7 @@ namespace WinFormsApp2
             // 
             this.cmbPerson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPerson.FormattingEnabled = true;
-            this.cmbPerson.Location = new System.Drawing.Point(13, 4);
+            this.cmbPerson.Location = new System.Drawing.Point(10, 13);
             this.cmbPerson.Name = "cmbPerson";
             this.cmbPerson.Size = new System.Drawing.Size(218, 23);
             this.cmbPerson.TabIndex = 42;
@@ -697,13 +670,17 @@ namespace WinFormsApp2
             this.columnHeader21});
             this.lvNenun.FullRowSelect = true;
             this.lvNenun.HideSelection = false;
-            this.lvNenun.Location = new System.Drawing.Point(426, 420);
+            this.lvNenun.Location = new System.Drawing.Point(477, 290);
             this.lvNenun.MultiSelect = false;
             this.lvNenun.Name = "lvNenun";
+            this.lvNenun.OwnerDraw = true;
             this.lvNenun.Size = new System.Drawing.Size(530, 240);
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
+            this.lvNenun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvNenun_DrawColumnHeader);
+            this.lvNenun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvNenun_DrawItem);
+            this.lvNenun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvNenun_DrawSubItem);
             this.lvNenun.SelectedIndexChanged += new System.EventHandler(this.lvNenun_SelectedIndexChanged);
             this.lvNenun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvNenun_KeyDown);
             // 
@@ -748,7 +725,7 @@ namespace WinFormsApp2
             this.panel1.Controls.Add(this.tableLayoutPanel5);
             this.panel1.Controls.Add(this.tableLayoutPanel3);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Location = new System.Drawing.Point(10, 119);
+            this.panel1.Location = new System.Drawing.Point(7, 177);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(304, 205);
             this.panel1.TabIndex = 44;
@@ -1095,7 +1072,7 @@ namespace WinFormsApp2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tableLayoutPanel8);
-            this.panel2.Location = new System.Drawing.Point(9, 333);
+            this.panel2.Location = new System.Drawing.Point(6, 391);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(305, 104);
             this.panel2.TabIndex = 45;
@@ -1238,7 +1215,7 @@ namespace WinFormsApp2
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(15, 471);
+            this.pictureBox1.Location = new System.Drawing.Point(8, 535);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(147, 238);
             this.pictureBox1.TabIndex = 46;
@@ -1248,7 +1225,7 @@ namespace WinFormsApp2
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label13.Location = new System.Drawing.Point(13, 448);
+            this.label13.Location = new System.Drawing.Point(6, 512);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 20);
             this.label13.TabIndex = 47;
@@ -1259,9 +1236,9 @@ namespace WinFormsApp2
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(168, 471);
+            this.pictureBox2.Location = new System.Drawing.Point(161, 535);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(252, 238);
+            this.pictureBox2.Size = new System.Drawing.Size(308, 274);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
@@ -1270,17 +1247,160 @@ namespace WinFormsApp2
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label14.Location = new System.Drawing.Point(182, 448);
+            this.label14.Location = new System.Drawing.Point(175, 512);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 20);
             this.label14.TabIndex = 47;
             this.label14.Text = "後天運：";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(7, 2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(392, 169);
+            this.tabControl1.TabIndex = 49;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.cmbPerson);
+            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.label24);
+            this.tabPage1.Controls.Add(this.txtYear);
+            this.tabPage1.Controls.Add(this.txtMonth);
+            this.tabPage1.Controls.Add(this.txtDay);
+            this.tabPage1.Controls.Add(this.label25);
+            this.tabPage1.Controls.Add(this.label26);
+            this.tabPage1.Controls.Add(this.label27);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.lblNikkansiNo);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.lblNenkansiNo);
+            this.tabPage1.Controls.Add(this.lblGekkansiNo);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(384, 141);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "生年月日";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.label32);
+            this.tabPage2.Controls.Add(this.txtBaseYear);
+            this.tabPage2.Controls.Add(this.label31);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.txtNikkansiSanshutuSu);
+            this.tabPage2.Controls.Add(this.label28);
+            this.tabPage2.Controls.Add(this.txtBaseNenkansiNo);
+            this.tabPage2.Controls.Add(this.txtBaseNikkansiNo);
+            this.tabPage2.Controls.Add(this.label29);
+            this.tabPage2.Controls.Add(this.txtBaseMonth);
+            this.tabPage2.Controls.Add(this.label30);
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.txtBaseGekkansiNo);
+            this.tabPage2.Controls.Add(this.txtBaseDay);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(384, 141);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "算出基準値";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lvGetuUn
+            // 
+            this.lvGetuUn.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader12,
+            this.columnHeader13,
+            this.columnHeader14});
+            this.lvGetuUn.FullRowSelect = true;
+            this.lvGetuUn.HideSelection = false;
+            this.lvGetuUn.Location = new System.Drawing.Point(477, 555);
+            this.lvGetuUn.MultiSelect = false;
+            this.lvGetuUn.Name = "lvGetuUn";
+            this.lvGetuUn.OwnerDraw = true;
+            this.lvGetuUn.Size = new System.Drawing.Size(530, 240);
+            this.lvGetuUn.TabIndex = 51;
+            this.lvGetuUn.UseCompatibleStateImageBehavior = false;
+            this.lvGetuUn.View = System.Windows.Forms.View.Details;
+            this.lvGetuUn.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvGetuUn_DrawColumnHeader);
+            this.lvGetuUn.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvGetuUn_DrawItem);
+            this.lvGetuUn.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvGetuUn_DrawSubItem);
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "歳";
+            this.columnHeader5.Width = 70;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "干支";
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "十大主星";
+            this.columnHeader7.Width = 40;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "十二大従星";
+            this.columnHeader8.Width = 40;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "日";
+            this.columnHeader12.Width = 100;
+            // 
+            // columnHeader13
+            // 
+            this.columnHeader13.Text = "月";
+            this.columnHeader13.Width = 100;
+            // 
+            // columnHeader14
+            // 
+            this.columnHeader14.Text = "年";
+            this.columnHeader14.Width = 100;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label17.Location = new System.Drawing.Point(477, 532);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 20);
+            this.label17.TabIndex = 50;
+            this.label17.Text = "月運：";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(395, 515);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(74, 19);
+            this.checkBox1.TabIndex = 52;
+            this.checkBox1.Text = "月運表示";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 721);
+            this.ClientSize = new System.Drawing.Size(1014, 814);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.lvGetuUn);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -1288,34 +1408,15 @@ namespace WinFormsApp2
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lvNenun);
-            this.Controls.Add(this.cmbPerson);
             this.Controls.Add(this.lvTaiun);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblNenkansiNo);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.lblGekkansiNo);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lblNikkansiNo);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label27);
-            this.Controls.Add(this.label26);
-            this.Controls.Add(this.label25);
-            this.Controls.Add(this.txtDay);
-            this.Controls.Add(this.txtMonth);
-            this.Controls.Add(this.txtYear);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1334,6 +1435,11 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1376,7 +1482,6 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNikkansiSanshutuSu;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
@@ -1440,8 +1545,19 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView lvGetuUn;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.ColumnHeader columnHeader13;
+        private System.Windows.Forms.ColumnHeader columnHeader14;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

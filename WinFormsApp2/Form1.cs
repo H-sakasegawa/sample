@@ -822,6 +822,7 @@ namespace WinFormsApp2
                         if (idxTaiun >= lvTaiun.Items.Count - 1) return;
 
                         lvTaiun.Items[idxTaiun + 1].Selected = true;
+                        lvTaiun.Items[idxTaiun + 1].Focused = true;
                         lvNenun.Items[0].Selected = true;
                         lvNenun.Items[0].Focused = true;
                         e.Handled = true;
@@ -833,6 +834,7 @@ namespace WinFormsApp2
                         var idxTaiun = lvTaiun.SelectedItems[0].Index;
                         if (idxTaiun <= 0) return;
                         lvTaiun.Items[idxTaiun - 1].Selected = true;
+                        lvTaiun.Items[idxTaiun - 1].Focused = true;
                         lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
                         lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
                         e.Handled = true;
@@ -874,12 +876,14 @@ namespace WinFormsApp2
                 if (idxNenun > 0)
                 {
                     lvNenun.Items[idxNenun - 1].Selected = true;
+                    lvNenun.Items[idxNenun - 1].Focused = true;
                 }
                 else
                 {
                     var idxTaiun = lvTaiun.SelectedItems[0].Index;
                     if (idxTaiun <= 0) return;
                     lvTaiun.Items[idxTaiun - 1].Selected = true;
+                    lvTaiun.Items[idxTaiun - 1].Focused = true;
                     lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
                     lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
                 }
@@ -892,6 +896,7 @@ namespace WinFormsApp2
                 if(idxNenun < lvNenun.Items.Count - 1)
                 {
                     lvNenun.Items[idxNenun + 1].Selected = true;
+                    lvNenun.Items[idxNenun + 1].Focused = true;
                 }
                 else
                 {
@@ -900,6 +905,7 @@ namespace WinFormsApp2
                     if (idxTaiun >= lvTaiun.Items.Count - 1) return;
 
                     lvTaiun.Items[idxTaiun + 1].Selected = true;
+                    lvTaiun.Items[idxTaiun + 1].Focused = true;
                     lvNenun.Items[0].Selected = true;
                     lvNenun.Items[0].Focused = true;
                 }
@@ -917,6 +923,104 @@ namespace WinFormsApp2
             if (this.WindowState == FormWindowState.Minimized) return;
             DispKoutenUn(curPerson, pictureBox2);
 
+        }
+
+        //----------------------------------------
+        // 大運 ListView OwnerDraw処理
+        //----------------------------------------
+        private void lvTaiun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+        private void lvTaiun_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+            {
+                e.DrawFocusRectangle();
+            }
+            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+            if (lvTaiun.View != View.Details)
+            {
+                e.DrawText();
+            }
+        }
+        private void lvTaiun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            Brush brush = new SolidBrush(e.Item.ForeColor);
+            if (e.Item.Selected)
+            {
+                // Hightlightで範囲を塗りつぶす
+                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+            }
+            // 上で設定した,brushとdrawFormatを利用して文字を描画する
+            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+            brush.Dispose();
+        }
+        //----------------------------------------
+        // 年運 ListView OwnerDraw処理
+        //----------------------------------------
+        private void lvNenun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lvNenun_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+            {
+                e.DrawFocusRectangle();
+            }
+            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+            if (lvTaiun.View != View.Details)
+            {
+                e.DrawText();
+            }
+        }
+
+        private void lvNenun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            Brush brush = new SolidBrush(e.Item.ForeColor);
+            if (e.Item.Selected)
+            {
+                // Hightlightで範囲を塗りつぶす
+                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+            }
+            // 上で設定した,brushとdrawFormatを利用して文字を描画する
+            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+            brush.Dispose();
+        }
+        //----------------------------------------
+        // 月運 ListView OwnerDraw処理
+        //----------------------------------------
+        private void lvGetuUn_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lvGetuUn_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+            {
+                e.DrawFocusRectangle();
+            }
+            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+            if (lvTaiun.View != View.Details)
+            {
+                e.DrawText();
+            }
+        }
+
+        private void lvGetuUn_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            Brush brush = new SolidBrush(e.Item.ForeColor);
+            if (e.Item.Selected)
+            {
+                // Hightlightで範囲を塗りつぶす
+                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+            }
+            // 上で設定した,brushとdrawFormatを利用して文字を描画する
+            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+            brush.Dispose();
         }
     }
 }
