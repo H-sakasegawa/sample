@@ -130,7 +130,7 @@ namespace WinFormsApp2
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lvGetuUn = new System.Windows.Forms.ListView();
+            this.lvGetuun = new System.Windows.Forms.ListView();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
@@ -139,7 +139,7 @@ namespace WinFormsApp2
             this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
             this.label17 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1238,7 +1238,7 @@ namespace WinFormsApp2
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Location = new System.Drawing.Point(161, 535);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(308, 274);
+            this.pictureBox2.Size = new System.Drawing.Size(308, 275);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
@@ -1314,9 +1314,9 @@ namespace WinFormsApp2
             this.tabPage2.Text = "算出基準値";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // lvGetuUn
+            // lvGetuun
             // 
-            this.lvGetuUn.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvGetuun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7,
@@ -1324,23 +1324,25 @@ namespace WinFormsApp2
             this.columnHeader12,
             this.columnHeader13,
             this.columnHeader14});
-            this.lvGetuUn.FullRowSelect = true;
-            this.lvGetuUn.HideSelection = false;
-            this.lvGetuUn.Location = new System.Drawing.Point(477, 555);
-            this.lvGetuUn.MultiSelect = false;
-            this.lvGetuUn.Name = "lvGetuUn";
-            this.lvGetuUn.OwnerDraw = true;
-            this.lvGetuUn.Size = new System.Drawing.Size(530, 240);
-            this.lvGetuUn.TabIndex = 51;
-            this.lvGetuUn.UseCompatibleStateImageBehavior = false;
-            this.lvGetuUn.View = System.Windows.Forms.View.Details;
-            this.lvGetuUn.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvGetuUn_DrawColumnHeader);
-            this.lvGetuUn.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvGetuUn_DrawItem);
-            this.lvGetuUn.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvGetuUn_DrawSubItem);
+            this.lvGetuun.FullRowSelect = true;
+            this.lvGetuun.HideSelection = false;
+            this.lvGetuun.Location = new System.Drawing.Point(477, 555);
+            this.lvGetuun.MultiSelect = false;
+            this.lvGetuun.Name = "lvGetuun";
+            this.lvGetuun.OwnerDraw = true;
+            this.lvGetuun.Size = new System.Drawing.Size(530, 256);
+            this.lvGetuun.TabIndex = 51;
+            this.lvGetuun.UseCompatibleStateImageBehavior = false;
+            this.lvGetuun.View = System.Windows.Forms.View.Details;
+            this.lvGetuun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvGetuUn_DrawColumnHeader);
+            this.lvGetuun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvGetuUn_DrawItem);
+            this.lvGetuun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvGetuUn_DrawSubItem);
+            this.lvGetuun.SelectedIndexChanged += new System.EventHandler(this.lvGetuUn_SelectedIndexChanged);
+            this.lvGetuun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvGetuun_KeyDown);
             // 
             // columnHeader5
             // 
-            this.columnHeader5.Text = "歳";
+            this.columnHeader5.Text = "月";
             this.columnHeader5.Width = 70;
             // 
             // columnHeader6
@@ -1382,23 +1384,24 @@ namespace WinFormsApp2
             this.label17.TabIndex = 50;
             this.label17.Text = "月運：";
             // 
-            // checkBox1
+            // chkDispGetuun
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(395, 515);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(74, 19);
-            this.checkBox1.TabIndex = 52;
-            this.checkBox1.Text = "月運表示";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkDispGetuun.AutoSize = true;
+            this.chkDispGetuun.Location = new System.Drawing.Point(395, 515);
+            this.chkDispGetuun.Name = "chkDispGetuun";
+            this.chkDispGetuun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispGetuun.TabIndex = 52;
+            this.chkDispGetuun.Text = "月運表示";
+            this.chkDispGetuun.UseVisualStyleBackColor = true;
+            this.chkDispGetuun.CheckedChanged += new System.EventHandler(this.chkDispGetuun_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1014, 814);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.lvGetuUn);
+            this.ClientSize = new System.Drawing.Size(1014, 815);
+            this.Controls.Add(this.chkDispGetuun);
+            this.Controls.Add(this.lvGetuun);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox2);
@@ -1548,7 +1551,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ListView lvGetuUn;
+        private System.Windows.Forms.ListView lvGetuun;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
@@ -1557,7 +1560,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ColumnHeader columnHeader13;
         private System.Windows.Forms.ColumnHeader columnHeader14;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkDispGetuun;
     }
 }
 

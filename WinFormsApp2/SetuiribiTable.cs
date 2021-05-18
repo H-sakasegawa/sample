@@ -276,6 +276,21 @@ namespace WinFormsApp2
 
             return value;
         }
+        //月干支番号取得(節入り日無視で単純月で取得）
+        public int GetGekkansiNo(int year, int month)
+        {
+            int value = 0;
+
+            DateTime dateFrom = new System.DateTime(baseYear, baseMonth, 1);
+            DateTime dateTo = new System.DateTime(year, month, 1);
+
+            int monthNum = Common.GetElapsedMonths(dateFrom, dateTo);
+            value = (int)monthNum % 60 + baseGekkansiNo;
+            value = value % 60;
+            if (value == 0) value = 60;
+
+            return value;
+        }
 
         //日干支番号取得
         public int GetNikkansiNo(int year, int month, int day)
