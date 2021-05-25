@@ -602,7 +602,9 @@ namespace WinFormsApp2
 
 
 
+        //----------------------------------------------------
         //七殺
+        //----------------------------------------------------
         public Nanasatsu GetNanasatu(Kansi taiunKansi, Kansi kansi)
         {
             return GetNanasatu(taiunKansi.kan, kansi.kan);
@@ -638,7 +640,9 @@ namespace WinFormsApp2
             return GetNanasatu(kan1, kan2) != null ? true : false;
         }
 
+        //----------------------------------------------------
         //天殺
+        //----------------------------------------------------
         public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
         {
             return IsNanasatu(taiunKansi, kansi) ? "天殺" : "";
@@ -667,6 +671,23 @@ namespace WinFormsApp2
             return "";
         }
 
+        //----------------------------------------------------
+        //三合会局
+        //----------------------------------------------------
+        public TableMng.SangouKaikyokuResult GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun)
+        {
+           return  tblMng.sangouKaikyokuTbl.GetSangouKaikyoku(getuun, nenun, taiun,
+                                                nikkansi, gekkansi, nenkansi);
+        }
+
+        //----------------------------------------------------
+        //方三位
+        //----------------------------------------------------
+        public TableMng.HouSaniResult GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun)
+        {
+            return tblMng.housanniTbl.GetHouSani(getuun, nenun, taiun,
+                                                 nikkansi, gekkansi, nenkansi);
+        }
 
     }
 

@@ -325,19 +325,33 @@ namespace WinFormsApp2
             names = _names;
             gogyou = _gogyou;
         }
-        string[] names;
-        string gogyou;
+        public bool IsExist(string name)
+        {
+            if (Array.IndexOf(names,name) >=0)
+                return true;
+            else
+                return false;
+        }
+        public string[] names;
+        public string gogyou;
     }
     //方三位
-    class HouSanni
+    class HouSani
     {
-        public HouSanni(string[] _names, string _gogyou)
+        public HouSani(string[] _names, string _gogyou)
         {
             names = _names;
             gogyou = _gogyou;
         }
-        string[] names;
-        string gogyou;
+        public bool IsExist(string name)
+        {
+            if (Array.IndexOf(names, name) >= 0)
+                return true;
+            else
+                return false;
+        }
+        public string[] names;
+        public string gogyou;
     }
     //支合
     class Sigou

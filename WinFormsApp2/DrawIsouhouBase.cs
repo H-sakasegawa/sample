@@ -15,6 +15,7 @@ namespace WinFormsApp2
         Font fntSmall = null;
         Font fntSmallDisable = null;
         Pen blackPen = null;
+        Pen redPen = null;
         StringFormat stringFormat = null;
         StringFormat smallStringFormat = null;
         PictureBox pictureBox = null;
@@ -45,6 +46,7 @@ namespace WinFormsApp2
 
 
             blackPen = new Pen(Color.Black, 1); ;
+            redPen = new Pen(Color.Red, 1); ;
 
             fnt = new Font("MS Gothic", 14, FontStyle.Regular);
             fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
@@ -100,6 +102,7 @@ namespace WinFormsApp2
         public void Dispose()
         {
             blackPen.Dispose();
+            redPen.Dispose();
             fnt.Dispose();
         }
 
@@ -136,6 +139,39 @@ namespace WinFormsApp2
             g.DrawLine(blackPen, endOfs, end);
 
         }
+
+        protected void DrawLine3Point(int mtxIndex, int[] posX, int baseY, int dirc, int xOfset, Color color = default(Color))
+        {
+            int ofsX = xOfset;
+            Point start = new Point(posX[0], baseY);
+            Point center = new Point(posX[1], baseY);
+            Point end = new Point(posX[2], baseY);
+            Point startOfs = new Point(start.X, start.Y + ((mtxIndex + 1) * offsetY) * dirc);
+            Point centerOfs = new Point(center.X, center.Y + ((mtxIndex + 1) * offsetY) * dirc);
+            Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
+
+
+            start.Offset(ofsX, 0);
+            center.Offset(ofsX, 0);
+            end.Offset(ofsX, 0);
+            startOfs.Offset(ofsX, 0);
+            centerOfs.Offset(ofsX, 0);
+            endOfs.Offset(ofsX, 0);
+            if (color == default(Color)) color = Color.Red;
+
+            Pen pen = new Pen(color);
+            g.DrawLine(pen, start, startOfs);
+            g.DrawLine(pen, startOfs, endOfs);
+            g.DrawLine(pen, endOfs, end);
+            g.DrawLine(pen, center, centerOfs);
+            pen.Dispose();
+
+            SolidBrush brush = new SolidBrush(color);
+            g.FillRectangle(brush, start.X - 2, baseY - 2, 5, 5);
+            g.FillRectangle(brush, center.X - 2, baseY - 2, 5, 5);
+            g.FillRectangle(brush, end.X - 2, baseY - 2, 5, 5);
+            brush.Dispose();
+        }
         /// <summary>
         /// 文字列描画
         /// </summary>
@@ -145,7 +181,7 @@ namespace WinFormsApp2
         {
             DrawString( rect, s.orgName);
         }
-        protected void DrawString(Rectangle rect, string s)
+        protected void DrawString(Rectangle rect, string s, Brush brush = null)
         {
             SizeF w = g.MeasureString(s, fntSmall);
             Rectangle fillRect = rect;
@@ -154,8 +190,16 @@ namespace WinFormsApp2
                 fillRect.X = (int)(fillRect.X + (rect.Width - w.Width) / 2);
                 fillRect.Width = (int)w.Width;
             }
+            if (brush == null) brush = Brushes.Black;
             g.FillRectangle(Brushes.WhiteSmoke, fillRect);
-            g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+            g.DrawString(s, fntSmall, brush, rect, smallStringFormat);
+        }
+
+        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, string str, Brush brush = null)
+        {
+            string[] aryStr = new string[]{ str };
+            DrawString( mtxIndex,  from,  to,  baseY,  dirc,  aryStr, brush);
+
         }
 
         /// <summary>
@@ -204,10 +248,11 @@ namespace WinFormsApp2
 
         }
 
-        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, string[] aryStr)
+        protected void DrawString(int mtxIndex, int from, int to, int baseY, int dirc, string[] aryStr, Brush brush = null)
         {
             float maxWidth = 0f;
             float sumHeight = 0f;
+            if (brush == null) brush = Brushes.Black;
             //文字列の最大幅,高さ取得
             foreach (var s in aryStr)
             {
@@ -226,7 +271,7 @@ namespace WinFormsApp2
                 Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
                 g.FillRectangle(Brushes.WhiteSmoke, rect);
 
-                g.DrawString(s, fntSmall, Brushes.Black, rect, smallStringFormat);
+                g.DrawString(s, fntSmall, brush, rect, smallStringFormat);
                 y += fntSmall.Height;
             }
 

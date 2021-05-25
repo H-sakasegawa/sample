@@ -417,6 +417,16 @@ namespace WinFormsApp2
         }
         public GouhouSanpouTbl gouhouSanpouTbl = null;
 
+        class SiItems
+        {
+            public SiItems(string name, int bit)
+            {
+                si = name;
+                bitFlg = bit;
+            }
+            public string si;
+            public int bitFlg;
+        }
 
         /// <summary>
         /// 三合会局 テーブル 管理
@@ -424,17 +434,119 @@ namespace WinFormsApp2
         public class SangouKaikyokuTbl
         {
             public List<SangouKaikyoku> lstSangouKaikyoku = null;
+
+            public SangouKaikyokuResult GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,
+                                                    Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
+            {
+                SiItems[] arySi = {
+                       new SiItems(getuun.si, Const.bitFlgGetuun),
+                       new SiItems(nenun.si, Const.bitFlgNenun),
+                       new SiItems(taiun.si, Const.bitFlgTaiun),
+                       new SiItems(nikkansi.si, Const.bitFlgNiti),
+                       new SiItems(gekkansi.si, Const.bitFlgGetu),
+                       new SiItems(nenkansi.si, Const.bitFlgNen),
+                };
+
+                SangouKaikyokuResult result = null;
+                for (int i = 0; i < arySi.Length - 2; i++)
+                {
+                    for (int j = i + 1; j < arySi.Length - 1; j++)
+                    {
+                        for (int k = j + 1; k < arySi.Length; k++)
+                        {
+                            if( arySi[i].si == arySi[j].si ||
+                                arySi[i].si == arySi[k].si ||
+                                arySi[j].si == arySi[k].si)
+                            {
+                                //同じ支が1組でもあれば不成立
+                                continue;
+                            }
+                            foreach (var item in lstSangouKaikyoku)
+                            {
+                                if (item.IsExist(arySi[i].si) &&
+                                    item.IsExist(arySi[j].si) &&
+                                    item.IsExist(arySi[k].si) )
+                                {
+                                    result = new SangouKaikyokuResult();
+                                    result.sangouKaikyoku =  item;
+                                    result.hitItemBit = arySi[i].bitFlg | arySi[j].bitFlg | arySi[k].bitFlg;
+
+                                    return result;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+
+        }
+        public class SangouKaikyokuResult
+        {
+            public SangouKaikyoku sangouKaikyoku;
+            public int hitItemBit;
         }
         public SangouKaikyokuTbl sangouKaikyokuTbl = new SangouKaikyokuTbl();
 
         /// <summary>
         /// 方三位 テーブル　管理
         /// </summary>
-        public class HouSanniTbl
+        public class HouSaniTbl
         {
-            public List<HouSanni> lstHousanni = null;
+            public List<HouSani> lstHousani = null;
+            public HouSaniResult GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun,
+                                      Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
+            {
+
+                SiItems[] arySi = {
+                       new SiItems(getuun.si, Const.bitFlgGetuun),
+                       new SiItems(nenun.si, Const.bitFlgNenun),
+                       new SiItems(taiun.si, Const.bitFlgTaiun),
+                       new SiItems(nikkansi.si, Const.bitFlgNiti),
+                       new SiItems(gekkansi.si, Const.bitFlgGetu),
+                       new SiItems(nenkansi.si, Const.bitFlgNen),
+                };
+
+                HouSaniResult result = null;
+                for (int i = 0; i < arySi.Length - 2; i++)
+                {
+                    for (int j = i + 1; j < arySi.Length - 1; j++)
+                    {
+                        for (int k = j + 1; k < arySi.Length; k++)
+                        {
+                            if (arySi[i].si == arySi[j].si ||
+                                arySi[i].si == arySi[k].si ||
+                                arySi[j].si == arySi[k].si)
+                            {
+                                //同じ支が1組でもあれば不成立
+                                continue;
+                            }
+                            foreach (var item in lstHousani)
+                            {
+                                if (item.IsExist(arySi[i].si) &&
+                                    item.IsExist(arySi[j].si) &&
+                                    item.IsExist(arySi[k].si))
+                                {
+                                    result = new HouSaniResult();
+                                    result.houSani = item;
+                                    result.hitItemBit = arySi[i].bitFlg | arySi[j].bitFlg | arySi[k].bitFlg;
+
+                                    return result;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
         }
-        public HouSanniTbl housanniTbl = new HouSanniTbl();
+        public class HouSaniResult
+        {
+            public HouSani houSani;
+            public int hitItemBit;
+        }
+
+        public HouSaniTbl housanniTbl = new HouSaniTbl();
 
         /// <summary>
         /// 支合 テーブル
@@ -627,12 +739,12 @@ namespace WinFormsApp2
             //--------------------------------
             //方三位 テーブル
             //--------------------------------
-            housanniTbl.lstHousanni = new List<HouSanni>()
+            housanniTbl.lstHousani = new List<HouSani>()
             {
-                new HouSanni(new string[]{"亥","子","丑"},"水性"),
-                new HouSanni(new string[]{"寅","卯","辰"},"木性"),
-                new HouSanni(new string[]{"巳","午","未"},"火性"),
-                new HouSanni(new string[]{"申","酉","戌"},"金性"),
+                new HouSani(new string[]{"亥","子","丑"},"水性"),
+                new HouSani(new string[]{"寅","卯","辰"},"木性"),
+                new HouSani(new string[]{"巳","午","未"},"火性"),
+                new HouSani(new string[]{"申","酉","戌"},"金性"),
 
             };
             //--------------------------------
