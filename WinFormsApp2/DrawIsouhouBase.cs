@@ -127,13 +127,20 @@ namespace WinFormsApp2
         /// <param name="toX">ライン描画終了X</param>
         /// <param name="baseY">基準Y座標</param>
         /// <param name="dirc">描画方向</param>
-        protected void DrawLine(int mtxIndex, int fromX, int toX, int baseY, int dirc)
+        protected void DrawLine(int mtxIndex, int fromX, int toX, int baseY, int dirc, int xOfset=0)
         {
             Point start = new Point(fromX, baseY);
             Point end = new Point(toX, baseY);
             Point startOfs = new Point(start.X, start.Y + ((mtxIndex + 1) * offsetY) * dirc);
             Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
 
+            if(xOfset!=0)
+            {
+                start.Offset(xOfset, 0);
+                end.Offset(xOfset, 0);
+                startOfs.Offset(xOfset, 0);
+                endOfs.Offset(xOfset, 0);
+            }
             g.DrawLine(blackPen, start, startOfs);
             g.DrawLine(blackPen, startOfs, endOfs);
             g.DrawLine(blackPen, endOfs, end);
@@ -142,7 +149,6 @@ namespace WinFormsApp2
 
         protected void DrawLine3Point(int mtxIndex, int[] posX, int baseY, int dirc, int xOfset, Color color = default(Color))
         {
-            int ofsX = xOfset;
             Point start = new Point(posX[0], baseY);
             Point center = new Point(posX[1], baseY);
             Point end = new Point(posX[2], baseY);
@@ -150,13 +156,15 @@ namespace WinFormsApp2
             Point centerOfs = new Point(center.X, center.Y + ((mtxIndex + 1) * offsetY) * dirc);
             Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
 
-
-            start.Offset(ofsX, 0);
-            center.Offset(ofsX, 0);
-            end.Offset(ofsX, 0);
-            startOfs.Offset(ofsX, 0);
-            centerOfs.Offset(ofsX, 0);
-            endOfs.Offset(ofsX, 0);
+            if (xOfset != 0)
+            {
+                start.Offset(xOfset, 0);
+                center.Offset(xOfset, 0);
+                end.Offset(xOfset, 0);
+                startOfs.Offset(xOfset, 0);
+                centerOfs.Offset(xOfset, 0);
+                endOfs.Offset(xOfset, 0);
+            }
             if (color == default(Color)) color = Color.Red;
 
             Pen pen = new Pen(color);

@@ -140,6 +140,7 @@ namespace WinFormsApp2
             this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
             this.label17 = new System.Windows.Forms.Label();
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
+            this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1387,6 +1388,8 @@ namespace WinFormsApp2
             // chkDispGetuun
             // 
             this.chkDispGetuun.AutoSize = true;
+            this.chkDispGetuun.Checked = true;
+            this.chkDispGetuun.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDispGetuun.Location = new System.Drawing.Point(395, 515);
             this.chkDispGetuun.Name = "chkDispGetuun";
             this.chkDispGetuun.Size = new System.Drawing.Size(74, 19);
@@ -1395,11 +1398,25 @@ namespace WinFormsApp2
             this.chkDispGetuun.UseVisualStyleBackColor = true;
             this.chkDispGetuun.CheckedChanged += new System.EventHandler(this.chkDispGetuun_CheckedChanged);
             // 
+            // chkSangouKaikyoku
+            // 
+            this.chkSangouKaikyoku.AutoSize = true;
+            this.chkSangouKaikyoku.Checked = true;
+            this.chkSangouKaikyoku.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSangouKaikyoku.Location = new System.Drawing.Point(273, 515);
+            this.chkSangouKaikyoku.Name = "chkSangouKaikyoku";
+            this.chkSangouKaikyoku.Size = new System.Drawing.Size(116, 19);
+            this.chkSangouKaikyoku.TabIndex = 53;
+            this.chkSangouKaikyoku.Text = "三合会局・方三位";
+            this.chkSangouKaikyoku.UseVisualStyleBackColor = true;
+            this.chkSangouKaikyoku.CheckedChanged += new System.EventHandler(this.chkSangouKaikyoku_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1014, 815);
+            this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
             this.Controls.Add(this.lvGetuun);
             this.Controls.Add(this.label17);
@@ -1561,6 +1578,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ColumnHeader columnHeader14;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkDispGetuun;
+        private System.Windows.Forms.CheckBox chkSangouKaikyoku;
     }
 }
 

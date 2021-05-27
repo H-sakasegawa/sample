@@ -435,7 +435,7 @@ namespace WinFormsApp2
         {
             public List<SangouKaikyoku> lstSangouKaikyoku = null;
 
-            public SangouKaikyokuResult GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,
+            public List<SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,
                                                     Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
             {
                 SiItems[] arySi = {
@@ -447,7 +447,7 @@ namespace WinFormsApp2
                        new SiItems(nenkansi.si, Const.bitFlgNen),
                 };
 
-                SangouKaikyokuResult result = null;
+                List<SangouKaikyokuResult> lstResult = new List<SangouKaikyokuResult>() ;
                 for (int i = 0; i < arySi.Length - 2; i++)
                 {
                     for (int j = i + 1; j < arySi.Length - 1; j++)
@@ -467,17 +467,17 @@ namespace WinFormsApp2
                                     item.IsExist(arySi[j].si) &&
                                     item.IsExist(arySi[k].si) )
                                 {
-                                    result = new SangouKaikyokuResult();
+                                    SangouKaikyokuResult result = new SangouKaikyokuResult();
                                     result.sangouKaikyoku =  item;
                                     result.hitItemBit = arySi[i].bitFlg | arySi[j].bitFlg | arySi[k].bitFlg;
 
-                                    return result;
+                                    lstResult.Add(result);
                                 }
                             }
                         }
                     }
                 }
-                return null;
+                return lstResult;
             }
 
         }
@@ -494,7 +494,7 @@ namespace WinFormsApp2
         public class HouSaniTbl
         {
             public List<HouSani> lstHousani = null;
-            public HouSaniResult GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun,
+            public List<HouSaniResult> GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun,
                                       Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
             {
 
@@ -507,7 +507,7 @@ namespace WinFormsApp2
                        new SiItems(nenkansi.si, Const.bitFlgNen),
                 };
 
-                HouSaniResult result = null;
+                List<HouSaniResult> lstResult = new List<HouSaniResult>();
                 for (int i = 0; i < arySi.Length - 2; i++)
                 {
                     for (int j = i + 1; j < arySi.Length - 1; j++)
@@ -527,17 +527,17 @@ namespace WinFormsApp2
                                     item.IsExist(arySi[j].si) &&
                                     item.IsExist(arySi[k].si))
                                 {
-                                    result = new HouSaniResult();
+                                    HouSaniResult result = new HouSaniResult();
                                     result.houSani = item;
                                     result.hitItemBit = arySi[i].bitFlg | arySi[j].bitFlg | arySi[k].bitFlg;
 
-                                    return result;
+                                    lstResult.Add(result);
                                 }
                             }
                         }
                     }
                 }
-                return null;
+                return lstResult;
             }
         }
         public class HouSaniResult

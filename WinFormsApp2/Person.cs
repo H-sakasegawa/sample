@@ -674,7 +674,7 @@ namespace WinFormsApp2
         //----------------------------------------------------
         //三合会局
         //----------------------------------------------------
-        public TableMng.SangouKaikyokuResult GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun)
+        public List<TableMng.SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun)
         {
            return  tblMng.sangouKaikyokuTbl.GetSangouKaikyoku(getuun, nenun, taiun,
                                                 nikkansi, gekkansi, nenkansi);
@@ -683,7 +683,7 @@ namespace WinFormsApp2
         //----------------------------------------------------
         //方三位
         //----------------------------------------------------
-        public TableMng.HouSaniResult GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun)
+        public List<TableMng.HouSaniResult> GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun)
         {
             return tblMng.housanniTbl.GetHouSani(getuun, nenun, taiun,
                                                  nikkansi, gekkansi, nenkansi);
