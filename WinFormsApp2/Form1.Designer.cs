@@ -141,6 +141,7 @@ namespace WinFormsApp2
             this.label17 = new System.Windows.Forms.Label();
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1411,11 +1412,22 @@ namespace WinFormsApp2
             this.chkSangouKaikyoku.UseVisualStyleBackColor = true;
             this.chkSangouKaikyoku.CheckedChanged += new System.EventHandler(this.chkSangouKaikyoku_CheckedChanged);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(853, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(136, 24);
+            this.button2.TabIndex = 54;
+            this.button2.Text = "今日へ移動";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1014, 815);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
             this.Controls.Add(this.lvGetuun);
@@ -1579,6 +1591,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkDispGetuun;
         private System.Windows.Forms.CheckBox chkSangouKaikyoku;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -415,6 +415,7 @@ namespace WinFormsApp2
         class TaiunLvItemData
         {
             public int startNen; //開始年
+            public int startYear; //開始年
             public Kansi kansi; //干支
         }
         /// <summary>
@@ -547,6 +548,7 @@ namespace WinFormsApp2
 
             TaiunLvItemData itemData = new TaiunLvItemData();
             itemData.startNen = startNen;   //開始年
+            itemData.startYear = startNen + person.birthday.year;
             itemData.kansi = taiunKansi;    //干支
 
             //行のサブ情報を保持させておく
@@ -817,7 +819,52 @@ namespace WinFormsApp2
 
             txtBaseNikkansiNo.Text = no.ToString();
 
+        }
 
+        /// <summary>
+        /// 今日へ移動ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var today = DateTime.Now;
+
+            //大運リストビューで年に該当する行を選択
+            for (int i = 0; i < lvTaiun.Items.Count; i++)
+            {
+
+                TaiunLvItemData itemData = (TaiunLvItemData)lvTaiun.Items[i].Tag;
+                if (itemData.startYear > today.Year)
+                {
+                    int index = i - 1;
+                    if (index < 0) index = 0;
+                    lvTaiun.Items[index].Selected = true; ;
+                    break;
+                }
+            }
+            //年運リストビューで年に該当する行を選択
+            for (int i = 0; i < lvNenun.Items.Count; i++)
+            {
+
+                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvNenun.Items[i].Tag;
+                if (itemData.keyValue == today.Year)
+                {
+                    lvNenun.Items[i].Selected = true;
+                    break;
+                }
+            }
+            //月運リストビューで月に該当する行を選択
+            for (int i = 0; i < lvGetuun.Items.Count; i++)
+            {
+
+                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvGetuun.Items[i].Tag;
+                if (itemData.keyValue == today.Month)
+                {
+                    lvGetuun.Items[i].Selected = true;
+                    break;
+                }
+            }
         }
         /// <summary>
         /// 大運リストビュー選択イベント
@@ -1226,6 +1273,7 @@ namespace WinFormsApp2
             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
             brush.Dispose();
         }
+
 
     }
 }
