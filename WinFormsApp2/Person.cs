@@ -216,7 +216,9 @@ namespace WinFormsApp2
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             appPath = System.IO.Path.GetDirectoryName(appPath);
-            string filePath = appPath + @"\Career\" + name + ".csv";
+            string fileName = name.Replace(" ", "");
+            fileName = fileName.Replace("　", "");
+            string filePath = appPath + @"\Career\" + fileName + ".csv";
 
             career = new Career();
             return career.ReaCareerFile(filePath);
