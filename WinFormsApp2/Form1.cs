@@ -129,17 +129,6 @@ namespace WinFormsApp2
 
             txtNikkansiSanshutuSu_TextChanged(null, null);
 
-            //グループコンボボックス設定
-            var groups = personList.GetGroups();
-            cmbGroup.Items.Add("全て");
-            foreach (var group in groups)
-            {
-                cmbGroup.Items.Add(group);
-            }
-            if(cmbGroup.Items.Count>0)
-            {
-                cmbGroup.SelectedIndex = 0;
-            }
 
 
             int baseYear = 0;
@@ -157,6 +146,20 @@ namespace WinFormsApp2
             txtBaseNenkansiNo.Text = baseNenkansi.ToString();
             txtBaseGekkansiNo.Text = baseGekkansi.ToString();
             txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
+
+
+            //グループコンボボックス設定
+            var groups = personList.GetGroups();
+            cmbGroup.Items.Add("全て");
+            foreach (var group in groups)
+            {
+                cmbGroup.Items.Add(group);
+            }
+            if (cmbGroup.Items.Count > 0)
+            {
+                cmbGroup.SelectedIndex = 0;
+            }
+
 
         }
 
@@ -663,10 +666,14 @@ namespace WinFormsApp2
             for (int i = 0; i < 12; i++)
             {
                 int mMonth = GetuunDispStartGetu + i;
-                if (mMonth > 12) mMonth = (i-12);
+                if (mMonth > 12)
+                {
+                    mMonth = (mMonth - 12);
+                    year = nenunItemData.keyValue+1;
+                }
 
                 //月干支番号取得(節入り日無視で単純月で取得）
-                int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
+                    int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
 
 
                 //順行のみなので、60超えたら1にするだけ
