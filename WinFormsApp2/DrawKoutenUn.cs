@@ -61,12 +61,18 @@ namespace WinFormsApp2
         Kansi nenunKansi = null;
         Kansi getuunKansi = null;
 
+        bool bDispTaiun = false; //true..大運表示
+        bool bDispNenun = false; //true..年運表示
         bool bDispGetuun = false; //true..月運表示
         bool bDispSangouKaikyoku = false; 
 
         public DrawKoutenUn(Person person, PictureBox pictureBox, 
-                            Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi, 
-                            bool _bDispGetuun, bool _bDispSangouKaikyoku) :
+                            Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi,
+                            bool _bDispTaiun,
+                            bool _bDispNenun,
+                            bool _bDispGetuun,
+                            bool _bDispSangouKaikyoku
+            ) :
             base(person, pictureBox)
         {
 
@@ -76,6 +82,8 @@ namespace WinFormsApp2
 
             rangeHeight = GetFontHeight() * 2;
             rangeWidth = 45;
+            bDispTaiun = _bDispTaiun;
+            bDispNenun = _bDispNenun;
             bDispGetuun = _bDispGetuun;
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
 
@@ -333,23 +341,26 @@ namespace WinFormsApp2
 
             //陰陽(年運→大運）
             //-------------------               
-            if (bInyouNenunTaiun)//年運→大運
+            if (bDispTaiun && bDispNenun)
             {
-                DrawLine(idxInyouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strInyou);
+                if (bInyouNenunTaiun)//年運→大運
+                {
+                    DrawLine(idxInyouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strInyou);
+                }
             }
             if (bDispGetuun)
             {
                 //陰陽(月運→年運）
                 //-------------------               
-                if (bInyouGetuunNenun)//月運 - 年運
+                if (bInyouGetuunNenun && bDispNenun)//月運 - 年運
                 {
                     DrawLine(idxInyouGetuunNenun, getuunCenterX, nenunCenterX, drawTopKan, dircUp);
                     DrawString(idxInyouGetuunNenun, getuunCenterX, nenunCenterX, drawTopKan, dircUp, strInyou);
                 }
                 //陰陽(月運→大運）
                 //-------------------               
-                if (bInyouGetuunTaiun)//月運 - 年運
+                if (bInyouGetuunTaiun && bDispTaiun)//月運 - 大運
                 {
                     DrawLine(idxInyouGetuunTaiun, getuunCenterX, taiunCenterX, drawTopKan, dircUp);
                     DrawString(idxInyouGetuunTaiun, getuunCenterX, taiunCenterX, drawTopKan, dircUp, strInyou);
@@ -359,44 +370,49 @@ namespace WinFormsApp2
 
             //陰陽(大運→＊）
             //-------------------               
-            if (bInyouTaiunNiti)//大運 - 日
+            if (bDispTaiun)
             {
-                DrawLine(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
-            }
-            if (bInyouTaiunGetu)//大運 - 月
-            {
-                DrawLine(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
-            }
-            if (bInyouTaiunNen)//大運 - 年
-            {
-                DrawLine(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
+                if (bInyouTaiunNiti)//大運 - 日
+                {
+                    DrawLine(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouTaiunGetu)//大運 - 月
+                {
+                    DrawLine(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouTaiunNen)//大運 - 年
+                {
+                    DrawLine(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
             }
 
             //陰陽(年運→＊）
             //-------------------               
-            if (bInyouNenunNiti)//年運 - 日
+            if (bDispNenun)
             {
-                DrawLine(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
+                if (bInyouNenunNiti)//年運 - 日
+                {
+                    DrawLine(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouNenunGetu)//年運 - 月
+                {
+                    DrawLine(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
+                if (bInyouNenunNen)//年運 - 年
+                {
+                    DrawLine(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
+                }
             }
-            if (bInyouNenunGetu)//年運 - 月
-            {
-                DrawLine(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strInyou);
-            }
-            if (bInyouNenunNen)//年運 - 年
-            {
-                DrawLine(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxInyouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strInyou);
-            }
-
+            //陰陽(月運→＊）
+            //-------------------               
             if (bDispGetuun)
             {
-                //陰陽(月運→＊）
-                //-------------------               
                 if (bInyouGetuunNiti)//月運 - 日
                 {
                     DrawLine(idxInyouGetuunNiti, getuunCenterX, nikkansiCenterX, drawTopKan, dircUp);
@@ -415,10 +431,13 @@ namespace WinFormsApp2
             }
             //干合(年運→大運）
             //-------------------               
-            if (bKangouNenunTaiun)//年運 - 大運
+            if (bDispTaiun && bDispNenun)
             {
-                DrawLine(idxKangouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strKangou);
+                if (bKangouNenunTaiun)//年運 - 大運
+                {
+                    DrawLine(idxKangouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strKangou);
+                }
             }
             if (bDispGetuun)
             {
@@ -435,44 +454,48 @@ namespace WinFormsApp2
             }
             //干合(大運→＊）
             //-------------------
-            if (bKangouTaiunNiti)//大運 - 日
+            if (bDispTaiun)
             {
-                DrawLine(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
+                if (bKangouTaiunNiti)//大運 - 日
+                {
+                    DrawLine(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouTaiunGetu)//大運 - 月
+                {
+                    DrawLine(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouTaiunNen)//大運 - 年
+                {
+                    DrawLine(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
             }
-            if (bKangouTaiunGetu)//大運 - 月
-            {
-                DrawLine(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
-            }
-            if (bKangouTaiunNen)//大運 - 年
-            {
-                DrawLine(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-            }
-
             //干合(年運→＊）
+            if (bDispNenun)
+            {
+                //-------------------
+                if (bKangouNenunNiti)//年運 - 日
+                {
+                    DrawLine(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouNenunGetu)//年運 - 月
+                {
+                    DrawLine(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+                if (bKangouNenunNen)//年運 - 年
+                {
+                    DrawLine(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
+                }
+            }
+            //干合(月運→＊）
             //-------------------
-            if (bKangouNenunNiti)//年運 - 日
-            {
-                DrawLine(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strKangou);
-            }
-            if (bKangouNenunGetu)//年運 - 月
-            {
-                DrawLine(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strKangou);
-            }
-            if (bKangouNenunNen)//年運 - 年
-            {
-                DrawLine(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxKangouNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strKangou);
-            }
-
             if (bDispGetuun)
             {
-                //干合(月運→＊）
-                //-------------------
                 if (bKangouGetuunNiti)//年運 - 日
                 {
                     DrawLine(idxKangouGetuunNiti, getuunCenterX, nikkansiCenterX, drawTopKan, dircUp);
@@ -492,10 +515,13 @@ namespace WinFormsApp2
 
             //七殺(年運→大運）
             //-------------------               
-            if (bNanasatuNenunTaiun)//年運 - 大運
+            if (bDispTaiun && bDispNenun)
             {
-                DrawLine(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
+                if (bNanasatuNenunTaiun)//年運 - 大運
+                {
+                    DrawLine(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
+                }
             }
             if (bDispGetuun)
             {
@@ -512,43 +538,49 @@ namespace WinFormsApp2
             }
             //七殺(大運→＊）
             //-------------------
-            if (bNanasatuTaiunNiti)//大運 - 日
+            if (bDispTaiun)
             {
-                DrawLine(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
-            }
-            if (bNanasatuTaiunGetu)//大運 - 月
-            {
-                DrawLine(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
-            }
-            if (bNanasatuTaiunNen)//大運 - 年
-            {
-                DrawLine(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                if (bNanasatuTaiunNiti)//大運 - 日
+                {
+                    DrawLine(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                }
+                if (bNanasatuTaiunGetu)//大運 - 月
+                {
+                    DrawLine(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                }
+                if (bNanasatuTaiunNen)//大運 - 年
+                {
+                    DrawLine(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                }
             }
             //七殺(年運→＊）
             //-------------------
-            if (bNanasatuNenunNiti)//年運 - 日
+            if (bDispNenun)
             {
-                DrawLine(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
-            }
-            if (bNanasatuNenunGetu)//年運 - 月
-            {
-                DrawLine(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
-            }
-            if (bNanasatuNenunNen)//年運 - 年
-            {
-                DrawLine(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
-                DrawString(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                if (bNanasatuNenunNiti)//年運 - 日
+                {
+                    DrawLine(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                }
+                if (bNanasatuNenunGetu)//年運 - 月
+                {
+                    DrawLine(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
+                }
+                if (bNanasatuNenunNen)//年運 - 年
+                {
+                    DrawLine(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    DrawString(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
 
+                }
             }
+            //七殺(月運→＊）
+            //-------------------
             if (bDispGetuun)
             {
-                //七殺(月運→＊）
-                //-------------------
                 if (bNanasatuGetuunNiti)//月運 - 日
                 {
                     DrawLine(idxNanasatuGetuunNiti, getuunCenterX, nikkansiCenterX, drawTopKan, dircUp);
@@ -575,89 +607,100 @@ namespace WinFormsApp2
             GouhouSannpouResult[] gouhouSanpouGetuunTaiun = person.GetGouhouSanpouEx(taiunKansi, getuunKansi, taiunKansi, getuunKansi);
             int idx = 0;
             int dircDownOfsX = -6;
-            if (gouhouSanpouNenunTaiun != null && gouhouSanpouNenunTaiun.Length > 0)//年運 - 大運
+            if (bDispTaiun && bDispNenun)
             {
-                idx = SetMatrixDown(true, Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgNenun | Const.bitFlgTaiun));
-                DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouNenunTaiun);
-
-            }
-
-            if (bDispGetuun)
-            {
-                if (gouhouSanpouGetuunNenun != null && gouhouSanpouGetuunNenun.Length > 0)//月運 - 年運
+                if (gouhouSanpouNenunTaiun != null && gouhouSanpouNenunTaiun.Length > 0)//年運 - 大運
                 {
-                    idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun, (Const.bitFlgGetuun | Const.bitFlgNenun));
-                    DrawLine(idx, getuunCenterX,nenunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, getuunCenterX, nenunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunNenun);
+                    idx = SetMatrixDown(true, Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgNenun | Const.bitFlgTaiun));
+                    DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouNenunTaiun);
 
                 }
-
-                if (gouhouSanpouGetuunTaiun != null && gouhouSanpouGetuunTaiun.Length > 0)//月運 - 大運
+            }
+            if (bDispGetuun)
+            {
+                if ( bDispNenun)
                 {
-                    idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgGetuun | Const.bitFlgTaiun));
-                    DrawLine(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunTaiun);
+                    if (gouhouSanpouGetuunNenun != null && gouhouSanpouGetuunNenun.Length > 0)//月運 - 年運
+                    {
+                        idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun, (Const.bitFlgGetuun | Const.bitFlgNenun));
+                        DrawLine(idx, getuunCenterX, nenunCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                        DrawString(idx, getuunCenterX, nenunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunNenun);
 
+                    }
+                }
+                if (bDispTaiun)
+                {
+                    if (gouhouSanpouGetuunTaiun != null && gouhouSanpouGetuunTaiun.Length > 0)//月運 - 大運
+                    {
+                        idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgGetuun | Const.bitFlgTaiun));
+                        DrawLine(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                        DrawString(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunTaiun);
+
+                    }
                 }
             }
             //大運 →＊
-            GouhouSannpouResult[] gouhouSanpouTaiunNiti = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, taiunKansi, nenunKansi);
-            GouhouSannpouResult[] gouhouSanpouTaiunGetu = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, taiunKansi, nenunKansi);
-            GouhouSannpouResult[] gouhouSanpouTaiunNen = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, taiunKansi, nenunKansi);
-            chkBitFlg = Const.bitFlgTaiun | bitFlgNitiGetuNen;
-
-            if (gouhouSanpouTaiunNiti != null && gouhouSanpouTaiunNiti.Length>0)//大運 - 日
+            if (bDispTaiun)
             {
-                idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNiti));
-                DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
+                GouhouSannpouResult[] gouhouSanpouTaiunNiti = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, taiunKansi, nenunKansi);
+                GouhouSannpouResult[] gouhouSanpouTaiunGetu = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, taiunKansi, nenunKansi);
+                GouhouSannpouResult[] gouhouSanpouTaiunNen = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, taiunKansi, nenunKansi);
+                chkBitFlg = Const.bitFlgTaiun | bitFlgNitiGetuNen;
 
-            }
-            if (gouhouSanpouTaiunGetu != null && gouhouSanpouTaiunGetu.Length > 0)//大運 - 月
-            {
-                idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgGetu));
-                DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
-            }
+                if (gouhouSanpouTaiunNiti != null && gouhouSanpouTaiunNiti.Length > 0)//大運 - 日
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNiti));
+                    DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
 
-            if (gouhouSanpouTaiunNen != null && gouhouSanpouTaiunNen.Length > 0)//大運 - 年
-            {
-                idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNen));
-                DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
-            }
+                }
+                if (gouhouSanpouTaiunGetu != null && gouhouSanpouTaiunGetu.Length > 0)//大運 - 月
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgGetu));
+                    DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
+                }
 
+                if (gouhouSanpouTaiunNen != null && gouhouSanpouTaiunNen.Length > 0)//大運 - 年
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNen));
+                    DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
+                }
+            }
             //年運 →＊
-            GouhouSannpouResult[] gouhouSanpouNenunNiti = person.GetGouhouSanpouEx(nenunKansi, person.nikkansi, taiunKansi, nenunKansi);
-            GouhouSannpouResult[] gouhouSanpouNenunGetu = person.GetGouhouSanpouEx(nenunKansi, person.gekkansi, taiunKansi, nenunKansi);
-            GouhouSannpouResult[] gouhouSanpouNenunNen = person.GetGouhouSanpouEx(nenunKansi, person.nenkansi, taiunKansi, nenunKansi);
-            chkBitFlg = Const.bitFlgTaiun | bitFlgNitiGetuNen;
-
-            if (gouhouSanpouNenunNiti != null && gouhouSanpouNenunNiti.Length > 0)//年運 - 日
+            if (bDispNenun)
             {
-                idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNiti));
-                DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
-            }
-            if (gouhouSanpouNenunGetu != null && gouhouSanpouNenunGetu.Length > 0)//年運 - 月
-            {
-                 idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgGetu));
-                DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
+                GouhouSannpouResult[] gouhouSanpouNenunNiti = person.GetGouhouSanpouEx(nenunKansi, person.nikkansi, taiunKansi, nenunKansi);
+                GouhouSannpouResult[] gouhouSanpouNenunGetu = person.GetGouhouSanpouEx(nenunKansi, person.gekkansi, taiunKansi, nenunKansi);
+                GouhouSannpouResult[] gouhouSanpouNenunNen = person.GetGouhouSanpouEx(nenunKansi, person.nenkansi, taiunKansi, nenunKansi);
+                chkBitFlg = Const.bitFlgTaiun | bitFlgNitiGetuNen;
+
+                if (gouhouSanpouNenunNiti != null && gouhouSanpouNenunNiti.Length > 0)//年運 - 日
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNiti));
+                    DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
+                }
+                if (gouhouSanpouNenunGetu != null && gouhouSanpouNenunGetu.Length > 0)//年運 - 月
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgGetu));
+                    DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
+                }
+
+                if (gouhouSanpouNenunNen != null && gouhouSanpouNenunNen.Length > 0)//年運 - 年
+                {
+                    idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNen));
+                    DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
+                }
             }
 
-            if (gouhouSanpouNenunNen != null && gouhouSanpouNenunNen.Length > 0)//年運 - 年
-            {
-                idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNen));
-                DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
-            }
-
-
+            //月運 →＊
             if (bDispGetuun)
             {
-                //月運 →＊
                 GouhouSannpouResult[] gouhouSanpouGetuunNiti = person.GetGouhouSanpouEx(getuunKansi, person.nikkansi, taiunKansi, nenunKansi);
                 GouhouSannpouResult[] gouhouSanpouuGetuunGetu = person.GetGouhouSanpouEx(getuunKansi, person.gekkansi, taiunKansi, nenunKansi);
                 GouhouSannpouResult[] gouhouSanpouuGetuunNen = person.GetGouhouSanpouEx(getuunKansi, person.nenkansi, taiunKansi, nenunKansi);

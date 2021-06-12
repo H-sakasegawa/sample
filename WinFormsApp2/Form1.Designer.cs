@@ -150,6 +150,8 @@ namespace WinFormsApp2
             this.lvCareer = new System.Windows.Forms.ListView();
             this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
+            this.chkDispNenun = new System.Windows.Forms.CheckBox();
+            this.chkDispTaiun = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1510,11 +1512,39 @@ namespace WinFormsApp2
             this.columnHeader31.Text = "経歴";
             this.columnHeader31.Width = 300;
             // 
+            // chkDispNenun
+            // 
+            this.chkDispNenun.AutoSize = true;
+            this.chkDispNenun.Checked = true;
+            this.chkDispNenun.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDispNenun.Location = new System.Drawing.Point(395, 491);
+            this.chkDispNenun.Name = "chkDispNenun";
+            this.chkDispNenun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispNenun.TabIndex = 56;
+            this.chkDispNenun.Text = "年運表示";
+            this.chkDispNenun.UseVisualStyleBackColor = true;
+            this.chkDispNenun.CheckedChanged += new System.EventHandler(this.chkDispNenun_CheckedChanged);
+            // 
+            // chkDispTaiun
+            // 
+            this.chkDispTaiun.AutoSize = true;
+            this.chkDispTaiun.Checked = true;
+            this.chkDispTaiun.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDispTaiun.Location = new System.Drawing.Point(395, 468);
+            this.chkDispTaiun.Name = "chkDispTaiun";
+            this.chkDispTaiun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispTaiun.TabIndex = 56;
+            this.chkDispTaiun.Text = "大運表示";
+            this.chkDispTaiun.UseVisualStyleBackColor = true;
+            this.chkDispTaiun.CheckedChanged += new System.EventHandler(this.chkDispTaiun_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 815);
+            this.Controls.Add(this.chkDispTaiun);
+            this.Controls.Add(this.chkDispNenun);
             this.Controls.Add(this.lvCareer);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chkSangouKaikyoku);
@@ -1689,6 +1719,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.ListView lvCareer;
         private System.Windows.Forms.ColumnHeader columnHeader30;
         private System.Windows.Forms.ColumnHeader columnHeader31;
+        private System.Windows.Forms.CheckBox chkDispNenun;
+        private System.Windows.Forms.CheckBox chkDispTaiun;
     }
 }
 

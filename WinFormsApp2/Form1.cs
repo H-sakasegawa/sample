@@ -837,6 +837,8 @@ namespace WinFormsApp2
 
             if (drawItem2 != null) drawItem2.Dispose();
             drawItem2 = new DrawKoutenUn(person, pictureBox, itemData.kansi, itemData2.kansi, itemData3.kansi,
+                                        chkDispTaiun.Checked,
+                                        chkDispNenun.Checked,
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked);
             drawItem2.Draw();
@@ -1278,6 +1280,16 @@ namespace WinFormsApp2
             DispKoutenUn(curPerson, pictureBox2);
 
         }
+        //大運表示チェックボックス
+        private void chkDispTaiun_CheckedChanged(object sender, EventArgs e)
+        {
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+        //年運表示チェックボックス
+        private void chkDispNenun_CheckedChanged(object sender, EventArgs e)
+        {
+            DispKoutenUn(curPerson, pictureBox2);
+        }
         //月運表示チェックボックス
         private void chkDispGetuun_CheckedChanged(object sender, EventArgs e)
         {
@@ -1390,5 +1402,5 @@ namespace WinFormsApp2
             brush.Dispose();
         }
 
-    }
+     }
 }
