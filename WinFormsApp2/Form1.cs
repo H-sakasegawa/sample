@@ -196,6 +196,9 @@ namespace WinFormsApp2
             //ユーザ情報初期設定
             person.Init(dataMng, setuiribiTbl);
 
+            //経歴リスト表示
+            DispCarrerList(person);
+
             lblNikkansiNo.Text = person.nikkansiNo.ToString();
             lblGekkansiNo.Text = person.gekkansiNo.ToString();
             lblNenkansiNo.Text = person.nenkansiNo.ToString();
@@ -296,7 +299,17 @@ namespace WinFormsApp2
 
         }
 
- 
+        private void DispCarrerList(Person person)
+        {
+            lvCareer.Items.Clear();
+            foreach (var career in person.career.dicCareer.OrderBy(c => c.Key))
+            {
+                var item =  lvCareer.Items.Add(career.Key.ToString());
+                item.SubItems.Add(career.Value);
+                
+            }
+        }
+
 
         /// <summary>
         /// 陽占 表示
@@ -609,7 +622,7 @@ namespace WinFormsApp2
                 //順行のみなので、60超えたら1にするだけ
                 if (nenkansiNo > 60) nenkansiNo = 1;
 
-                AddNenunGetuunItem( person,
+                AddNenunItem( person,
                                     baseYear + i,
                                     string.Format("{0}歳({1})", (baseYear +i) - person.birthday.year,  baseYear +i),
                                     nenkansiNo,
@@ -667,6 +680,17 @@ namespace WinFormsApp2
             lvGetuun.Items[0].Focused = true;
 
         }
+        enum ColNenunListView
+        {
+            COL_TITLE = 0,
+            COL_KANSI,
+            COL_JUDAISHUSEI,
+            COL_JUNIDAIJUUSEI,
+            COL_GOUHOUSANPOU_NITI,
+            COL_GOUHOUSANPOU_GETU,
+            COL_GOUHOUSANPOU_NEN,
+            COL_CAREER
+        }
 
 
         /// <summary>
@@ -677,42 +701,57 @@ namespace WinFormsApp2
         /// <param name="title">行タイトル文字列</param>
         /// <param name="targetkansiNo">年運干支No</param>
         /// <param name="taiunKansi">大運干支No</param>
+        private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi, ListView lv)
+        {
+
+            AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, lv);
+            var lvItem = lv.Items[lv.Items.Count - 1];
+
+            lvItem.SubItems[(int)ColNenunListView.COL_CAREER].Text = person.career[rowKeyValue]; //経歴
+
+
+        }
+
         private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi, ListView lv)
         {
 
             Kansi taregetKansi = person.GetKansi(targetkansiNo);
 
-            var lvItem = lv.Items.Add(title);
-            lvItem.SubItems.Add(string.Format("{0}{1}", taregetKansi.kan, taregetKansi.si)); //干支
 
             string judai = person.GetJudaiShusei(person.nikkansi.kan, taregetKansi.kan).name;
             string junidai = person.GetJunidaiShusei(person.nikkansi.kan, taregetKansi.si).name;
 
+            var lvItem = lv.Items.Add(title);
+            for (int i=0; i< Enum.GetNames(typeof(ColNenunListView)).Length-1; i++)
+            {
+                lvItem.SubItems.Add("");
+            }
+            lvItem.SubItems[(int)ColNenunListView.COL_KANSI].Text = string.Format("{0}{1}", taregetKansi.kan, taregetKansi.si); //干支
 
             //"星"を削除
             judai = judai.Replace("星", "");
             junidai = junidai.Replace("星", "");
 
-            lvItem.SubItems.Add(judai); //十大主星
-            lvItem.SubItems.Add(junidai); //十二大従星
+            lvItem.SubItems[(int)ColNenunListView.COL_JUDAISHUSEI].Text = judai; //十大主星
+            lvItem.SubItems[(int)ColNenunListView.COL_JUNIDAIJUUSEI].Text = junidai; //十二大従星
 
-            //日
+            //合法三法(日)
             GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nikkansi, taiunKansi, taregetKansi);
             string kangou = person.GetKangoStr(taregetKansi, person.nikkansi); //干合            
             string nanasatu = person.IsNanasatu(taregetKansi, person.nikkansi) ? "七殺" : "";
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NITI].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
-            //月
+            //合法三法(月)
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.gekkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.gekkansi); //干合  
             nanasatu = person.IsNanasatu(taregetKansi, person.gekkansi) ? "七殺" : "";
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_GETU].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
-            //年
+            //合法三法(年ｖ
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nenkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.nenkansi); //干合  
             nanasatu = person.IsNanasatu(taregetKansi, person.nenkansi) ? "七殺" : "";
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NEN].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
 
             //天中殺
@@ -736,7 +775,6 @@ namespace WinFormsApp2
             lvItem.Tag = itemData;
 
         }
-
         string GetListViewItemString(GouhouSannpouResult[] lstGouhouSanpouResult, params string[] ary)
         {
             string result = "";
@@ -922,6 +960,10 @@ namespace WinFormsApp2
                 }
             }
         }
+
+        //------------------------------------------------------------
+        // 大運リストビュー イベント
+        //------------------------------------------------------------
         /// <summary>
         /// 大運リストビュー選択イベント
         /// </summary>
@@ -943,6 +985,31 @@ namespace WinFormsApp2
             DispKoutenUn(curPerson, pictureBox2);
         }
         /// <summary>
+        /// 大運リストビューのホイール操作イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvTaiun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            var idxTaiun = lvTaiun.SelectedItems[0].Index;
+            if (e.Delta > 0)
+            {   //↑
+                if (idxTaiun <= 0) return;
+                lvTaiun.Items[idxTaiun - 1].Selected = true;
+            }
+            else
+            {
+                //↓
+                if (idxTaiun >= lvTaiun.Items.Count - 1) return;
+                lvTaiun.Items[idxTaiun + 1].Selected = true;
+            }
+        }
+
+
+        //------------------------------------------------------------
+        // 年運リストビュー イベント
+        //------------------------------------------------------------
+        /// <summary>
         /// 年運リストビュー選択イベント
         /// </summary>
         /// <param name="sender"></param>
@@ -958,16 +1025,54 @@ namespace WinFormsApp2
             DispKoutenUn(curPerson, pictureBox2);
         }
         /// <summary>
-        /// 月運リストビュー選択イベント
+        /// 年運リストビューのホイール操作イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lvGetuUn_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvNenun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            var selectedItem = lvGetuun.SelectedItems;
-            if (selectedItem.Count == 0) return;
-            //後天運 図の表示更新
-            DispKoutenUn(curPerson, pictureBox2);
+            var idxNenun = lvNenun.SelectedItems[0].Index;
+            if (e.Delta > 0)
+            {
+                //↑
+                if (idxNenun > 0)
+                {
+                    lvNenun.Items[idxNenun - 1].Selected = true;
+                    lvNenun.Items[idxNenun - 1].Focused = true;
+                }
+                else
+                {
+                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                    if (idxTaiun <= 0) return;
+                    lvTaiun.Items[idxTaiun - 1].Selected = true;
+                    lvTaiun.Items[idxTaiun - 1].Focused = true;
+                    lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
+                    lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
+                }
+
+
+            }
+            else
+            {
+                //↓
+                if (idxNenun < lvNenun.Items.Count - 1)
+                {
+                    lvNenun.Items[idxNenun + 1].Selected = true;
+                    lvNenun.Items[idxNenun + 1].Focused = true;
+                }
+                else
+                {
+                    //次の旬に移動
+                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
+                    if (idxTaiun >= lvTaiun.Items.Count - 1) return;
+
+                    lvTaiun.Items[idxTaiun + 1].Selected = true;
+                    lvTaiun.Items[idxTaiun + 1].Focused = true;
+                    lvNenun.Items[0].Selected = true;
+                    lvNenun.Items[0].Focused = true;
+                }
+
+            }
         }
         /// <summary>
         /// 年運リストビューでの上下キー押下イベント
@@ -1009,7 +1114,6 @@ namespace WinFormsApp2
                     break;
             }
         }
-
         private void lvGetuun_KeyDown(object sender, KeyEventArgs e)
         {
             var idxGetuun = lvGetuun.SelectedItems[0].Index;
@@ -1044,7 +1148,7 @@ namespace WinFormsApp2
                     if (idxGetuun >= lvGetuun.Items.Count - 1)
                     {
                         //次の年に移動
-                       // if (idxNenun >= lvNenun.Items.Count - 1) return;
+                        // if (idxNenun >= lvNenun.Items.Count - 1) return;
                         //先に年運の選択行を移動させてしまうと、lvNenun_KeyDownで最終行でDOWNキーが
                         //押下されたとご認識してしまうので、lvNenun_KeyDownコール後に選択行を設定
                         KeyEventArgs eventArgs = new KeyEventArgs(e.KeyData);
@@ -1062,81 +1166,49 @@ namespace WinFormsApp2
                         e.Handled = true;
                     }
                     break;
-           }
+            }
         }
-
         /// <summary>
-        /// 大運リストビューのホイール操作イベント
+        /// 年運リストビュー　ダブルクリック
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lvTaiun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void lvNenun_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var idxTaiun = lvTaiun.SelectedItems[0].Index;
-            if (e.Delta > 0)
-            {   //↑
-                if (idxTaiun <= 0) return;
-                lvTaiun.Items[idxTaiun - 1].Selected = true;
-            }
-            else
+            ListViewItem item = lvNenun.SelectedItems[0];
+
+            GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)item.Tag;
+            //編集画面表示
+            EditCareer frm = new EditCareer(itemData.keyValue, curPerson);
+            if( frm.ShowDialog()==DialogResult.OK)
             {
-                //↓
-                if (idxTaiun >= lvTaiun.Items.Count-1) return;
-                lvTaiun.Items[idxTaiun + 1].Selected = true;
+                //リストビューの経歴表示更新
+                item.SubItems[(int)ColNenunListView.COL_CAREER].Text = curPerson.career[itemData.keyValue];
+                DispCarrerList(curPerson);
             }
+
+
         }
 
 
+
+
+        //------------------------------------------------------------
+        // 月運リストビュー イベント
+        //------------------------------------------------------------
         /// <summary>
-        /// 年運リストビューのホイール操作イベント
+        /// 月運リストビュー選択イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lvNenun_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void lvGetuUn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var idxNenun = lvNenun.SelectedItems[0].Index;
-            if (e.Delta > 0)
-            {
-                //↑
-                if (idxNenun > 0)
-                {
-                    lvNenun.Items[idxNenun - 1].Selected = true;
-                    lvNenun.Items[idxNenun - 1].Focused = true;
-                }
-                else
-                {
-                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
-                    if (idxTaiun <= 0) return;
-                    lvTaiun.Items[idxTaiun - 1].Selected = true;
-                    lvTaiun.Items[idxTaiun - 1].Focused = true;
-                    lvNenun.Items[lvNenun.Items.Count - 1].Selected = true;
-                    lvNenun.Items[lvNenun.Items.Count - 1].Focused = true;
-                }
-
-
-            }
-            else
-            {
-                //↓
-                if(idxNenun < lvNenun.Items.Count - 1)
-                {
-                    lvNenun.Items[idxNenun + 1].Selected = true;
-                    lvNenun.Items[idxNenun + 1].Focused = true;
-                }
-                else
-                {
-                    //次の旬に移動
-                    var idxTaiun = lvTaiun.SelectedItems[0].Index;
-                    if (idxTaiun >= lvTaiun.Items.Count - 1) return;
-
-                    lvTaiun.Items[idxTaiun + 1].Selected = true;
-                    lvTaiun.Items[idxTaiun + 1].Focused = true;
-                    lvNenun.Items[0].Selected = true;
-                    lvNenun.Items[0].Focused = true;
-                }
-
-            }
+            var selectedItem = lvGetuun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+            //後天運 図の表示更新
+            DispKoutenUn(curPerson, pictureBox2);
         }
+
         /// <summary>
         /// 月運リストビューのホイール操作イベント
         /// </summary>
@@ -1191,6 +1263,10 @@ namespace WinFormsApp2
             }
         }
 
+
+        //------------------------------------------------------------
+        //  後天運ピクチャーボックス イベント
+        //------------------------------------------------------------
         /// <summary>
         /// 後天運ピクチャーボックスサイズ変更イベント
         /// </summary>
@@ -1212,6 +1288,10 @@ namespace WinFormsApp2
         {
             DispKoutenUn(curPerson, pictureBox2);
         }
+
+        //=================================================
+        //Owner Draw
+        //=================================================
         //----------------------------------------
         // 大運 ListView OwnerDraw処理
         //----------------------------------------

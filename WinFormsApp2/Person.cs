@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 性別
     /// </summary>
-    enum Gender
+    public enum Gender
     {
         NAN = 0,
         WOMAN
@@ -18,7 +19,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 合法・三法の検索結果情報
     /// </summary>
-    class GouhouSannpouResult
+    public class GouhouSannpouResult
     {
 
         public bool bEnable;        //true...有効  false...無効
@@ -33,15 +34,137 @@ namespace WinFormsApp2
         }
     }
 
+    //===========================================================
+    // ユーザ情報　管理クラス
+    //===========================================================
+    /// <summary>
+    /// ユーザ情報リスト管理クラス
+    /// </summary>
+    public class Persons
+    {
+        /// <summary>
+        /// ユーザ情報登録ファイルの項目順定義
+        /// </summary>
+        enum PersonListCol
+        {
+           COL_NAME=0,  //氏名
+           COL_BIRTHDAY,//誕生日
+           COL_GENDER,  //性別
+           COL_GROUP    //グループ
+        };
+
+        // ユーザ基本データ <人名,　ユーザ情報>
+        private Dictionary<string, Person> dicPersons = null;
+        // グループデータ <グループ名,　グループ情報>
+        private Dictionary<string, Group> dicGroup = null;
+  
+        public Persons( )
+        {
+            dicPersons = new Dictionary<string, Person>();
+            dicGroup = new Dictionary<string, Group>();
+        }
+        public Person this[string name]
+        {
+            get
+            {
+                if (!dicPersons.ContainsKey(name)) return null;
+                return dicPersons[name];
+            }
+        }
+        public Person this[int index]
+        {
+            get
+            {
+                if (dicPersons.Count<index) return null;
+                return dicPersons.Values.ToList()[index];
+            }
+        }
+
+        public int Count
+        {
+            get { return dicPersons.Count; }
+        }
+        public List<Person> GetPersons()
+        {
+            return dicPersons.Values.ToList();
+        }
+
+        /// <summary>
+        /// グループ一覧取得
+        /// </summary>
+        /// <returns></returns>
+        public List<Group> GetGroups()
+        {
+            return dicGroup.Values.ToList();
+        }
+
+        /// <summary>
+        /// エクセルファイルからのユーザ情報読み込み
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public int ReadPersonList(string filePath)
+        {
+            var version = "xls";
+            var workbook = ExcelReader.GetWorkbook(filePath, version);
+            if (workbook == null)
+            {
+                return -1;
+            }
+
+            var sheet = workbook.GetSheetAt(0);
+
+            int iRow =1;
+            while (true)
+            {
+                //氏名
+                string name = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_NAME);
+                if (name == "") break;
+
+                //生年月日
+                string sBirthday = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
+                //時間は不要なので除外
+                sBirthday = sBirthday.Substring(0, sBirthday.IndexOf(" "));
+                Birthday birthday = new Birthday(sBirthday);
+
+                //性別
+                string sGender = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GENDER);
+                Gender gender = (sGender == "男" ? Gender.NAN : Gender.WOMAN);
+
+                //グループ
+                string group = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GROUP);
+
+                var person = new Person(name, birthday, gender, group);
+                dicPersons.Add(name, person);
+
+                //グループディクショナリ
+                if( !dicGroup.ContainsKey(group))
+                {
+                    dicGroup.Add(group, new Group(group));
+                }
+                dicGroup[group].AddMember(person);
+
+
+                iRow++;
+
+            }
+
+            return 0;
+        }
+    }
+
     /// <summary>
     /// ユーザ情報
     /// </summary>
-    class Person
+    public class Person
     {
         public string name { get; }
         public Birthday birthday { get; }
         public Gender gender { get; }
         public string group { get; }
+
+        public Career career { get; private set; }
+
 
         public int dayNumFromSetuiribi { get; set; }
 
@@ -73,13 +196,10 @@ namespace WinFormsApp2
         public Person(string _name, int year, int month, int day, Gender _gender)
         {
             name = _name;
-
-
             birthday = new Birthday(year, month, day);
             gender = _gender;
             group = "";
-
-
+            ReadCareer();
         }
         public Person(string _name, Birthday _birthday, Gender _gender, string _group)
         {
@@ -88,7 +208,18 @@ namespace WinFormsApp2
             gender = _gender;
             group = _group;
 
+            ReadCareer();
 
+        }
+
+        private int ReadCareer()
+        {
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            appPath = System.IO.Path.GetDirectoryName(appPath);
+            string filePath = appPath + @"\Career\" + name + ".csv";
+
+            career = new Career();
+            return career.ReaCareerFile(filePath);
         }
 
         public override string ToString()
@@ -691,12 +822,10 @@ namespace WinFormsApp2
 
     }
 
-
-
     /// <summary>
     /// 誕生日情報クラス
     /// </summary>
-    class Birthday
+    public class Birthday
     {
         public Birthday(string _birthday)
         {
@@ -721,8 +850,10 @@ namespace WinFormsApp2
         public int month;
         public int day;
     }
-
-    class Group
+    /// <summary>
+    /// グループ情報
+    /// </summary>
+    public class Group
     {
         public Group(string name)
         {
@@ -740,120 +871,166 @@ namespace WinFormsApp2
         public List<Person> members = new List<Person>();
     }
 
-    /// <summary>
-    /// ユーザ情報リスト管理クラス
-    /// </summary>
-    class Persons
+    public class Career
     {
         /// <summary>
-        /// ユーザ情報登録ファイルの項目順定義
+        /// 経歴情報登録ファイルの項目順定義
         /// </summary>
-        enum PersonListCol
+        enum CarrerListCol
         {
-           COL_NAME=0,  //氏名
-           COL_BIRTHDAY,//誕生日
-           COL_GENDER,  //性別
-           COL_GROUP    //グループ
+            COL_YEAR = 0,   //年
+            COL_CAREER,     //経歴
         };
 
-        private Dictionary<string, Person> dicPersons = null;
-        private Dictionary<string, Group> dicGroup = null;
+        // 経歴 <Year,経歴文字列>
+        public Dictionary<int, string> dicCareer = new Dictionary<int, string>();
+        public string careerFilePath;
 
-        public Persons( )
-        {
-            dicPersons = new Dictionary<string, Person>();
-            dicGroup = new Dictionary<string, Group>();
-        }
-
-
-        public Person this[string name]
+        public string this[ int year]
         {
             get
             {
-                if (!dicPersons.ContainsKey(name)) return null;
-                return dicPersons[name];
+                if( !dicCareer.ContainsKey(year)) return null;
+                return dicCareer[year];
             }
-        }
-        public Person this[int index]
-        {
-            get
+            set
             {
-                if (dicPersons.Count<index) return null;
-                return dicPersons.Values.ToList()[index];
-            }
-        }
-
-        public int Count
-        {
-            get { return dicPersons.Count; }
-        }
-        public List<Person> GetPersons()
-        {
-            return dicPersons.Values.ToList();
-        }
-
-        /// <summary>
-        /// グループ一覧取得
-        /// </summary>
-        /// <returns></returns>
-        public List<Group> GetGroups()
-        {
-            return dicGroup.Values.ToList();
-        }
-
-        /// <summary>
-        /// エクセルファイルからのユーザ情報読み込み
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public int ReadPersonList(string filePath)
-        {
-            var version = "xls";
-            var workbook = ExcelReader.GetWorkbook(filePath, version);
-            if (workbook == null)
-            {
-                return -1;
-            }
-
-            var sheet = workbook.GetSheetAt(0);
-
-            int iRow =1;
-            while (true)
-            {
-                //氏名
-                string name = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_NAME);
-                if (name == "") break;
-
-                //生年月日
-                string sBirthday = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
-                //時間は不要なので除外
-                sBirthday = sBirthday.Substring(0, sBirthday.IndexOf(" "));
-                Birthday birthday = new Birthday(sBirthday);
-
-                //性別
-                string sGender = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GENDER);
-                Gender gender = (sGender == "男" ? Gender.NAN : Gender.WOMAN);
-
-                //グループ
-                string group = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GROUP);
-
-                var person = new Person(name, birthday, gender, group);
-                dicPersons.Add(name, person);
-
-                //グループディクショナリ
-                if( !dicGroup.ContainsKey(group))
+                if (!dicCareer.ContainsKey(year))
                 {
-                    dicGroup.Add(group, new Group(group));
+                    dicCareer.Add(year, value);
                 }
-                dicGroup[group].AddMember(person);
-
-
-                iRow++;
-
+                else
+                {
+                    dicCareer[year] = value;
+                }
             }
+        }
+        public int ReaCareerFile(string filePath)
+        {
+            if (!System.IO.File.Exists(filePath)) return 0;
+            careerFilePath = filePath;
+
+            try
+            {
+                //ファイルのエンコードタイプ取得
+                //Encoding.GetEncoding()
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using (StreamReader sr = new StreamReader(careerFilePath, Encoding.GetEncoding("shift-jis")))
+                {
+                    // 末尾まで繰り返す
+                    while (!sr.EndOfStream)
+                    {
+                        // CSVファイルの一行を読み込む
+                        string line = sr.ReadLine();
+                        // 読み込んだ一行をカンマ毎に分けて配列に格納する
+                        string[] values = line.Split(',');
+                        //年
+                        string sYear = values[(int)CarrerListCol.COL_YEAR];
+                        if (sYear == "") break;
+                        int year = int.Parse(sYear);
+
+                        //経歴
+                        string sCareer = values[(int)CarrerListCol.COL_CAREER];
+
+                        if (!dicCareer.ContainsKey(year))
+                        {
+                            dicCareer.Add(int.Parse(sYear), sCareer);
+                        }
+                        else
+                        {
+                            dicCareer[year] += ",";
+                            dicCareer[year] += sCareer;
+
+                        }
+                    }
+                }
+            }catch( Exception e)
+            {
+                throw e;
+            }
+
+            //var version = "xls";
+            //var workbook = ExcelReader.GetWorkbook(filePath, version);
+            //if (workbook == null)
+            //{
+            //    return -1;
+            //}
+
+            //var sheet = workbook.GetSheetAt(0);
+
+            //int iRow = 0;
+            //while (true)
+            //{
+            //    //年
+            //    string sYear = ExcelReader.CellValue(sheet, iRow, (int)CarrerListCol.COL_YEAR);
+            //    if (sYear == "") break;
+            //    int year = int.Parse(sYear);
+
+            //    //経歴
+            //    string sCareer = ExcelReader.CellValue(sheet, iRow, (int)CarrerListCol.COL_CAREER);
+
+            //    if (!dicCareer.ContainsKey(year))
+            //    {
+            //        dicCareer.Add(int.Parse(sYear), sCareer);
+            //    }
+            //    else
+            //    {
+            //        dicCareer[year] += ",";
+            //        dicCareer[year] += sCareer;
+
+            //    }
+            //    iRow++;
+            //}
 
             return 0;
         }
+        public int Save()
+        {
+            try
+            {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using (StreamWriter sw = new StreamWriter(careerFilePath, false, Encoding.GetEncoding("shift-jis")))
+                {
+                    foreach (var item in dicCareer.OrderBy(c => c.Key))
+                    {
+                        string s = string.Format("{0},{1}", item.Key, item.Value);
+                        sw.WriteLine(s);
+                    }
+                }
+
+            }catch(Exception e)
+            {
+                throw e;
+            }
+
+            //var version = "xls";
+            //var workbook = ExcelReader.CreateWorkbook();
+            //if (workbook == null)
+            //{
+            //    return -1;
+            //}
+
+            //var sheet = workbook.CreateSheet();
+
+            //int iRow = 0;
+            //foreach(var item in dicCareer.OrderBy(c => c.Key))
+            //{
+            //    //年
+            //    var cell = ExcelReader.GetCell(sheet, iRow, (int)CarrerListCol.COL_YEAR);
+            //    cell.SetCellValue( item.Key );
+
+            //    //経歴
+            //    cell = ExcelReader.GetCell(sheet, iRow, (int)CarrerListCol.COL_CAREER);
+            //    cell.SetCellValue(item.Value);
+
+            //    iRow++;
+            //}
+            //ExcelReader.WriteExcel(workbook, careerFilePath);
+
+            return 0;
+        }
+
     }
 
- }
+}

@@ -11,7 +11,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 十二支 データ
     /// </summary>
-    class Jyunisi
+    public class Jyunisi
     {
         public string name;
         public string gogyou;
@@ -29,7 +29,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 十干 データ
     /// </summary>
-    class Jyukan
+    public class Jyukan
     {
         public string name;
         public string gogyou;
@@ -49,7 +49,7 @@ namespace WinFormsApp2
     /// 干支 データ
     /// </summary>
 
-    class Kansi
+    public class Kansi
     {
         public int no;
         public string kan;
@@ -75,7 +75,7 @@ namespace WinFormsApp2
 
     }
 
-    class Tenchusatu
+    public class Tenchusatu
     {
         public Tenchusatu(string _tenchusatu)
         {
@@ -98,7 +98,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 二十八元表 データ
     /// </summary>
-    class NijuhachiGenso
+    public class NijuhachiGenso
     {
         public enum enmGensoType
         {
@@ -144,7 +144,7 @@ namespace WinFormsApp2
             return enmGensoType.GENSO_HONGEN;
         }
     }
-    class Genso
+    public class Genso
     {
         public Genso(string _name, int _dayNum = -1)
         {
@@ -159,7 +159,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 十大主星
     /// </summary>
-    class JudaiShusei
+    public class JudaiShusei
     {
         /// <summary>
         /// 名称
@@ -195,7 +195,7 @@ namespace WinFormsApp2
     /// <summary>
     /// 十二大従星
     /// </summary>
-    class JunidaiJusei
+    public class JunidaiJusei
     {
         /// <summary>
         /// 名称
@@ -230,7 +230,7 @@ namespace WinFormsApp2
 
 
     //天中殺
-    class TenchusatuLabelPair
+    public class TenchusatuLabelPair
     {
         public TenchusatuLabelPair(Label[] _aryLabel, Label[] _zokanLabel)
         {
@@ -273,7 +273,7 @@ namespace WinFormsApp2
 
 
     //干合
-    class Kangou
+    public class Kangou
     {
         public Kangou(string _kan, string _gou, string _kaki, string _kyoki1, string _kyoki2, string _yomi)
         {
@@ -305,7 +305,7 @@ namespace WinFormsApp2
     }
 
     //七殺
-    class Nanasatsu
+    public class Nanasatsu
     {
         public Nanasatsu( string _name1, string _name2)
         {
@@ -318,7 +318,7 @@ namespace WinFormsApp2
 
 
     //三合会局
-    class SangouKaikyoku
+    public class SangouKaikyoku
     {
         public SangouKaikyoku( string[] _names, string _gogyou)
         {
@@ -336,7 +336,7 @@ namespace WinFormsApp2
         public string gogyou;
     }
     //方三位
-    class HouSani
+    public class HouSani
     {
         public HouSani(string[] _names, string _gogyou)
         {
@@ -354,7 +354,7 @@ namespace WinFormsApp2
         public string gogyou;
     }
     //支合
-    class Sigou
+    public class Sigou
     {
         public Sigou(string[] _names, string _gogyou)
         {
@@ -367,3 +367,4 @@ namespace WinFormsApp2
 
 
 }
+

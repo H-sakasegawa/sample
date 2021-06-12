@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
-    class TableMng
+    public class TableMng
     {
 
         /// <summary>

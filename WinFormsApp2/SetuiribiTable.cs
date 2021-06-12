@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WinFormsApp2
 {
     //節入り日データテーブル管理クラス
-    class SetuiribiTable
+    public class SetuiribiTable
     {
         //桑原さん提供の節入り日テーブルには、節入り日しか情報がない
         //節入り日テーブルの最初の年度２月の基準干支を求めるための基準

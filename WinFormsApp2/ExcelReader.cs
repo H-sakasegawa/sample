@@ -143,5 +143,10 @@ namespace WinFormsApp2
             return value;
         }
 
-    }
+
+        public static IWorkbook CreateWorkbook()
+        {
+            return new HSSFWorkbook();
+        }
+     }
 }

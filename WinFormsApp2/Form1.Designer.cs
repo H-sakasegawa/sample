@@ -89,6 +89,7 @@ namespace WinFormsApp2
             this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.lblNikkansiHongen = new System.Windows.Forms.Label();
@@ -146,7 +147,9 @@ namespace WinFormsApp2
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
+            this.lvCareer = new System.Windows.Forms.ListView();
+            this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -586,6 +589,7 @@ namespace WinFormsApp2
             this.columnHeader10,
             this.columnHeader11});
             this.lvTaiun.FullRowSelect = true;
+            this.lvTaiun.GridLines = true;
             this.lvTaiun.HideSelection = false;
             this.lvTaiun.Location = new System.Drawing.Point(477, 26);
             this.lvTaiun.MultiSelect = false;
@@ -666,6 +670,8 @@ namespace WinFormsApp2
             // 
             // lvNenun
             // 
+            this.lvNenun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvNenun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader15,
             this.columnHeader16,
@@ -676,6 +682,7 @@ namespace WinFormsApp2
             this.columnHeader21,
             this.columnHeader22});
             this.lvNenun.FullRowSelect = true;
+            this.lvNenun.GridLines = true;
             this.lvNenun.HideSelection = false;
             this.lvNenun.Location = new System.Drawing.Point(477, 290);
             this.lvNenun.MultiSelect = false;
@@ -690,6 +697,7 @@ namespace WinFormsApp2
             this.lvNenun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvNenun_DrawSubItem);
             this.lvNenun.SelectedIndexChanged += new System.EventHandler(this.lvNenun_SelectedIndexChanged);
             this.lvNenun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvNenun_KeyDown);
+            this.lvNenun.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseDoubleClick);
             // 
             // columnHeader15
             // 
@@ -724,6 +732,11 @@ namespace WinFormsApp2
             // 
             this.columnHeader21.Text = "年";
             this.columnHeader21.Width = 100;
+            // 
+            // columnHeader22
+            // 
+            this.columnHeader22.Text = "経歴";
+            this.columnHeader22.Width = 200;
             // 
             // panel1
             // 
@@ -1373,6 +1386,7 @@ namespace WinFormsApp2
             this.columnHeader13,
             this.columnHeader14});
             this.lvGetuun.FullRowSelect = true;
+            this.lvGetuun.GridLines = true;
             this.lvGetuun.HideSelection = false;
             this.lvGetuun.Location = new System.Drawing.Point(477, 555);
             this.lvGetuun.MultiSelect = false;
@@ -1468,16 +1482,40 @@ namespace WinFormsApp2
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // columnHeader22
+            // lvCareer
             // 
-            this.columnHeader22.Text = "経歴";
-            this.columnHeader22.Width = 200;
+            this.lvCareer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvCareer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader30,
+            this.columnHeader31});
+            this.lvCareer.FullRowSelect = true;
+            this.lvCareer.GridLines = true;
+            this.lvCareer.HideSelection = false;
+            this.lvCareer.Location = new System.Drawing.Point(1010, 26);
+            this.lvCareer.MultiSelect = false;
+            this.lvCareer.Name = "lvCareer";
+            this.lvCareer.Size = new System.Drawing.Size(201, 240);
+            this.lvCareer.TabIndex = 55;
+            this.lvCareer.UseCompatibleStateImageBehavior = false;
+            this.lvCareer.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader30
+            // 
+            this.columnHeader30.Text = "年";
+            this.columnHeader30.Width = 40;
+            // 
+            // columnHeader31
+            // 
+            this.columnHeader31.Text = "経歴";
+            this.columnHeader31.Width = 300;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 815);
+            this.Controls.Add(this.lvCareer);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
@@ -1648,6 +1686,9 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.ColumnHeader columnHeader22;
+        private System.Windows.Forms.ListView lvCareer;
+        private System.Windows.Forms.ColumnHeader columnHeader30;
+        private System.Windows.Forms.ColumnHeader columnHeader31;
     }
 }
 
