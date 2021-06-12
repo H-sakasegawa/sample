@@ -214,14 +214,9 @@ namespace WinFormsApp2
 
         private int ReadCareer()
         {
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            appPath = System.IO.Path.GetDirectoryName(appPath);
-            string fileName = name.Replace(" ", "");
-            fileName = fileName.Replace("　", "");
-            string filePath = appPath + @"\Career\" + fileName + ".csv";
 
-            career = new Career();
-            return career.ReaCareerFile(filePath);
+            career = new Career( this );
+            return career.ReaCareerFile();
         }
 
         public override string ToString()
@@ -884,9 +879,15 @@ namespace WinFormsApp2
             COL_CAREER,     //経歴
         };
 
+        Person person;
         // 経歴 <Year,経歴文字列>
         public Dictionary<int, string> dicCareer = new Dictionary<int, string>();
         public string careerFilePath;
+
+        public Career(Person _person)
+        {
+            person = _person;
+        }
 
         public string this[ int year]
         {
@@ -907,10 +908,20 @@ namespace WinFormsApp2
                 }
             }
         }
-        public int ReaCareerFile(string filePath)
+        public string GetDataFilePath()
         {
-            if (!System.IO.File.Exists(filePath)) return 0;
-            careerFilePath = filePath;
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            appPath = System.IO.Path.GetDirectoryName(appPath);
+            string fileName = person.name.Replace(" ", "");
+            fileName = fileName.Replace("　", "");
+            return  appPath + @"\Career\" + fileName + ".csv";
+        }
+        public int ReaCareerFile()
+        {
+
+            careerFilePath = GetDataFilePath();
+
+            if (!System.IO.File.Exists(careerFilePath)) return 0;
 
             try
             {
@@ -989,6 +1000,11 @@ namespace WinFormsApp2
         }
         public int Save()
         {
+            if(string.IsNullOrEmpty(careerFilePath))
+            {
+                //読み込み時ファイルがない場合
+                careerFilePath = GetDataFilePath();
+            }
             try
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

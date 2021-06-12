@@ -152,6 +152,7 @@ namespace WinFormsApp2
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
             this.chkDispNenun = new System.Windows.Forms.CheckBox();
             this.chkDispTaiun = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1501,6 +1502,7 @@ namespace WinFormsApp2
             this.lvCareer.TabIndex = 55;
             this.lvCareer.UseCompatibleStateImageBehavior = false;
             this.lvCareer.View = System.Windows.Forms.View.Details;
+            this.lvCareer.SelectedIndexChanged += new System.EventHandler(this.lvCareer_SelectedIndexChanged);
             // 
             // columnHeader30
             // 
@@ -1538,6 +1540,16 @@ namespace WinFormsApp2
             this.chkDispTaiun.UseVisualStyleBackColor = true;
             this.chkDispTaiun.CheckedChanged += new System.EventHandler(this.chkDispTaiun_CheckedChanged);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label21.Location = new System.Drawing.Point(1010, 3);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(69, 20);
+            this.label21.TabIndex = 13;
+            this.label21.Text = "経歴一覧";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1560,6 +1572,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lvNenun);
             this.Controls.Add(this.lvTaiun);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Name = "Form1";
@@ -1721,6 +1734,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ColumnHeader columnHeader31;
         private System.Windows.Forms.CheckBox chkDispNenun;
         private System.Windows.Forms.CheckBox chkDispTaiun;
+        private System.Windows.Forms.Label label21;
     }
 }
 

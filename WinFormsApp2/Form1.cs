@@ -20,6 +20,7 @@ namespace WinFormsApp2
         TableMng dataMng;
         SetuiribiTable setuiribiTbl = null;
         Persons personList = null;
+        int GetuunDispStartGetu = 2;
 
         //----------------------------------------------
         //ラベルの組み合わせを登録
@@ -659,8 +660,11 @@ namespace WinFormsApp2
 
 
             //1月～12月分を表示
-            for (int mMonth = 1; mMonth <= 12; mMonth++)
+            for (int i = 0; i < 12; i++)
             {
+                int mMonth = GetuunDispStartGetu + i;
+                if (mMonth > 12) mMonth = (i-12);
+
                 //月干支番号取得(節入り日無視で単純月で取得）
                 int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
 
@@ -846,6 +850,45 @@ namespace WinFormsApp2
 
         }
 
+        void DispDateView(DateTime today)
+        {
+            //大運リストビューで年に該当する行を選択
+            for (int i = 0; i < lvTaiun.Items.Count; i++)
+            {
+
+                TaiunLvItemData itemData = (TaiunLvItemData)lvTaiun.Items[i].Tag;
+                if (itemData.startYear > today.Year)
+                {
+                    int index = i - 1;
+                    if (index < 0) index = 0;
+                    lvTaiun.Items[index].Selected = true; ;
+                    break;
+                }
+            }
+            //年運リストビューで年に該当する行を選択
+            for (int i = 0; i < lvNenun.Items.Count; i++)
+            {
+
+                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvNenun.Items[i].Tag;
+                if (itemData.keyValue == today.Year)
+                {
+                    lvNenun.Items[i].Selected = true;
+                    break;
+                }
+            }
+            //月運リストビューで月に該当する行を選択
+            for (int i = 0; i < lvGetuun.Items.Count; i++)
+            {
+
+                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvGetuun.Items[i].Tag;
+                if (itemData.keyValue == today.Month)
+                {
+                    lvGetuun.Items[i].Selected = true;
+                    break;
+                }
+            }
+        }
+
 
         //====================================================
         // イベントハンドラ
@@ -924,43 +967,20 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            var today = DateTime.Now;
+            DispDateView(DateTime.Now);
+        }
+        /// <summary>
+        /// 経歴リストビュー選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lvCareer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvCareer.SelectedItems.Count == 0) return;
+            var item = lvCareer.SelectedItems[0];
+            int year = int.Parse(item.SubItems[0].Text);
 
-            //大運リストビューで年に該当する行を選択
-            for (int i = 0; i < lvTaiun.Items.Count; i++)
-            {
-
-                TaiunLvItemData itemData = (TaiunLvItemData)lvTaiun.Items[i].Tag;
-                if (itemData.startYear > today.Year)
-                {
-                    int index = i - 1;
-                    if (index < 0) index = 0;
-                    lvTaiun.Items[index].Selected = true; ;
-                    break;
-                }
-            }
-            //年運リストビューで年に該当する行を選択
-            for (int i = 0; i < lvNenun.Items.Count; i++)
-            {
-
-                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvNenun.Items[i].Tag;
-                if (itemData.keyValue == today.Year)
-                {
-                    lvNenun.Items[i].Selected = true;
-                    break;
-                }
-            }
-            //月運リストビューで月に該当する行を選択
-            for (int i = 0; i < lvGetuun.Items.Count; i++)
-            {
-
-                GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvGetuun.Items[i].Tag;
-                if (itemData.keyValue == today.Month)
-                {
-                    lvGetuun.Items[i].Selected = true;
-                    break;
-                }
-            }
+            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
         }
 
         //------------------------------------------------------------
@@ -1265,7 +1285,7 @@ namespace WinFormsApp2
             }
         }
 
-
+ 
         //------------------------------------------------------------
         //  後天運ピクチャーボックス イベント
         //------------------------------------------------------------
@@ -1402,5 +1422,5 @@ namespace WinFormsApp2
             brush.Dispose();
         }
 
-     }
+    }
 }
