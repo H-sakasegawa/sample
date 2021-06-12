@@ -129,6 +129,10 @@ namespace WinFormsApp2
             this.label14 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.cmbGroup = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lvGetuun = new System.Windows.Forms.ListView();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
@@ -142,6 +146,7 @@ namespace WinFormsApp2
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -162,9 +167,9 @@ namespace WinFormsApp2
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(10, 79);
+            this.button1.Location = new System.Drawing.Point(171, 96);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(257, 23);
+            this.button1.Size = new System.Drawing.Size(96, 27);
             this.button1.TabIndex = 0;
             this.button1.Text = "設定";
             this.button1.UseVisualStyleBackColor = true;
@@ -251,7 +256,7 @@ namespace WinFormsApp2
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(6, 50);
+            this.label24.Location = new System.Drawing.Point(6, 76);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(55, 15);
             this.label24.TabIndex = 6;
@@ -259,7 +264,7 @@ namespace WinFormsApp2
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(73, 46);
+            this.txtYear.Location = new System.Drawing.Point(65, 68);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(56, 23);
             this.txtYear.TabIndex = 7;
@@ -268,7 +273,7 @@ namespace WinFormsApp2
             // 
             // txtMonth
             // 
-            this.txtMonth.Location = new System.Drawing.Point(159, 46);
+            this.txtMonth.Location = new System.Drawing.Point(150, 69);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
             this.txtMonth.TabIndex = 8;
@@ -277,7 +282,7 @@ namespace WinFormsApp2
             // 
             // txtDay
             // 
-            this.txtDay.Location = new System.Drawing.Point(215, 46);
+            this.txtDay.Location = new System.Drawing.Point(203, 69);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(33, 23);
             this.txtDay.TabIndex = 9;
@@ -287,7 +292,7 @@ namespace WinFormsApp2
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(134, 49);
+            this.label25.Location = new System.Drawing.Point(127, 72);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(19, 15);
             this.label25.TabIndex = 10;
@@ -296,7 +301,7 @@ namespace WinFormsApp2
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(193, 49);
+            this.label26.Location = new System.Drawing.Point(183, 72);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(19, 15);
             this.label26.TabIndex = 11;
@@ -305,7 +310,7 @@ namespace WinFormsApp2
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(254, 49);
+            this.label27.Location = new System.Drawing.Point(238, 72);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(19, 15);
             this.label27.TabIndex = 12;
@@ -314,7 +319,7 @@ namespace WinFormsApp2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 107);
+            this.label1.Location = new System.Drawing.Point(273, 71);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 15);
             this.label1.TabIndex = 13;
@@ -323,7 +328,7 @@ namespace WinFormsApp2
             // lblNikkansiNo
             // 
             this.lblNikkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNikkansiNo.Location = new System.Drawing.Point(82, 105);
+            this.lblNikkansiNo.Location = new System.Drawing.Point(352, 69);
             this.lblNikkansiNo.Name = "lblNikkansiNo";
             this.lblNikkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNikkansiNo.TabIndex = 14;
@@ -331,7 +336,7 @@ namespace WinFormsApp2
             // lblGekkansiNo
             // 
             this.lblGekkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGekkansiNo.Location = new System.Drawing.Point(199, 105);
+            this.lblGekkansiNo.Location = new System.Drawing.Point(352, 89);
             this.lblGekkansiNo.Name = "lblGekkansiNo";
             this.lblGekkansiNo.Size = new System.Drawing.Size(37, 15);
             this.lblGekkansiNo.TabIndex = 16;
@@ -339,7 +344,7 @@ namespace WinFormsApp2
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(120, 105);
+            this.label3.Location = new System.Drawing.Point(273, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 15);
             this.label3.TabIndex = 15;
@@ -348,7 +353,7 @@ namespace WinFormsApp2
             // lblNenkansiNo
             // 
             this.lblNenkansiNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblNenkansiNo.Location = new System.Drawing.Point(312, 106);
+            this.lblNenkansiNo.Location = new System.Drawing.Point(352, 108);
             this.lblNenkansiNo.Name = "lblNenkansiNo";
             this.lblNenkansiNo.Size = new System.Drawing.Size(37, 16);
             this.lblNenkansiNo.TabIndex = 18;
@@ -356,7 +361,7 @@ namespace WinFormsApp2
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(236, 106);
+            this.label4.Location = new System.Drawing.Point(273, 108);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 17;
@@ -564,12 +569,11 @@ namespace WinFormsApp2
             // 
             this.groupBox2.Controls.Add(this.radMan);
             this.groupBox2.Controls.Add(this.radWoman);
-            this.groupBox2.Location = new System.Drawing.Point(275, 32);
+            this.groupBox2.Location = new System.Drawing.Point(68, 89);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(97, 36);
             this.groupBox2.TabIndex = 39;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "性別";
             // 
             // lvTaiun
             // 
@@ -654,9 +658,9 @@ namespace WinFormsApp2
             // 
             this.cmbPerson.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPerson.FormattingEnabled = true;
-            this.cmbPerson.Location = new System.Drawing.Point(10, 13);
+            this.cmbPerson.Location = new System.Drawing.Point(65, 39);
             this.cmbPerson.Name = "cmbPerson";
-            this.cmbPerson.Size = new System.Drawing.Size(218, 23);
+            this.cmbPerson.Size = new System.Drawing.Size(202, 23);
             this.cmbPerson.TabIndex = 42;
             this.cmbPerson.SelectedIndexChanged += new System.EventHandler(this.cmbPerson_SelectedIndexChanged);
             // 
@@ -669,14 +673,15 @@ namespace WinFormsApp2
             this.columnHeader18,
             this.columnHeader19,
             this.columnHeader20,
-            this.columnHeader21});
+            this.columnHeader21,
+            this.columnHeader22});
             this.lvNenun.FullRowSelect = true;
             this.lvNenun.HideSelection = false;
             this.lvNenun.Location = new System.Drawing.Point(477, 290);
             this.lvNenun.MultiSelect = false;
             this.lvNenun.Name = "lvNenun";
             this.lvNenun.OwnerDraw = true;
-            this.lvNenun.Size = new System.Drawing.Size(530, 240);
+            this.lvNenun.Size = new System.Drawing.Size(734, 240);
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
@@ -727,7 +732,7 @@ namespace WinFormsApp2
             this.panel1.Controls.Add(this.tableLayoutPanel5);
             this.panel1.Controls.Add(this.tableLayoutPanel3);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Location = new System.Drawing.Point(7, 177);
+            this.panel1.Location = new System.Drawing.Point(8, 169);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(304, 205);
             this.panel1.TabIndex = 44;
@@ -1074,7 +1079,7 @@ namespace WinFormsApp2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tableLayoutPanel8);
-            this.panel2.Location = new System.Drawing.Point(6, 391);
+            this.panel2.Location = new System.Drawing.Point(7, 383);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(305, 104);
             this.panel2.TabIndex = 45;
@@ -1262,11 +1267,15 @@ namespace WinFormsApp2
             this.tabControl1.Location = new System.Drawing.Point(7, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(392, 169);
+            this.tabControl1.Size = new System.Drawing.Size(407, 161);
             this.tabControl1.TabIndex = 49;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label20);
+            this.tabPage1.Controls.Add(this.label19);
+            this.tabPage1.Controls.Add(this.cmbGroup);
+            this.tabPage1.Controls.Add(this.label18);
             this.tabPage1.Controls.Add(this.cmbPerson);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.label24);
@@ -1286,10 +1295,47 @@ namespace WinFormsApp2
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(384, 141);
+            this.tabPage1.Size = new System.Drawing.Size(399, 133);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "生年月日";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(10, 104);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(31, 15);
+            this.label20.TabIndex = 46;
+            this.label20.Text = "性別";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 13);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(43, 15);
+            this.label19.TabIndex = 45;
+            this.label19.Text = "グループ";
+            // 
+            // cmbGroup
+            // 
+            this.cmbGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGroup.FormattingEnabled = true;
+            this.cmbGroup.Location = new System.Drawing.Point(65, 10);
+            this.cmbGroup.Name = "cmbGroup";
+            this.cmbGroup.Size = new System.Drawing.Size(202, 23);
+            this.cmbGroup.TabIndex = 44;
+            this.cmbGroup.SelectedIndexChanged += new System.EventHandler(this.cmbGroup_SelectedIndexChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(31, 15);
+            this.label18.TabIndex = 43;
+            this.label18.Text = "氏名";
             // 
             // tabPage2
             // 
@@ -1311,7 +1357,7 @@ namespace WinFormsApp2
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(384, 141);
+            this.tabPage2.Size = new System.Drawing.Size(399, 133);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "算出基準値";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1422,11 +1468,16 @@ namespace WinFormsApp2
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // columnHeader22
+            // 
+            this.columnHeader22.Text = "経歴";
+            this.columnHeader22.Width = 200;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1014, 815);
+            this.ClientSize = new System.Drawing.Size(1216, 815);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
@@ -1592,6 +1643,11 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox chkDispGetuun;
         private System.Windows.Forms.CheckBox chkSangouKaikyoku;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox cmbGroup;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.ColumnHeader columnHeader22;
     }
 }
 

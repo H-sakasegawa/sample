@@ -722,6 +722,24 @@ namespace WinFormsApp2
         public int day;
     }
 
+    class Group
+    {
+        public Group(string name)
+        {
+            groupName = name;
+        }
+        public void AddMember(Person member)
+        {
+            members.Add(member);
+        }
+        public override string ToString()
+        {
+            return groupName;
+        }
+        public string groupName;
+        public List<Person> members = new List<Person>();
+    }
+
     /// <summary>
     /// ユーザ情報リスト管理クラス
     /// </summary>
@@ -739,10 +757,12 @@ namespace WinFormsApp2
         };
 
         private Dictionary<string, Person> dicPersons = null;
+        private Dictionary<string, Group> dicGroup = null;
 
         public Persons( )
         {
             dicPersons = new Dictionary<string, Person>();
+            dicGroup = new Dictionary<string, Group>();
         }
 
 
@@ -766,6 +786,19 @@ namespace WinFormsApp2
         public int Count
         {
             get { return dicPersons.Count; }
+        }
+        public List<Person> GetPersons()
+        {
+            return dicPersons.Values.ToList();
+        }
+
+        /// <summary>
+        /// グループ一覧取得
+        /// </summary>
+        /// <returns></returns>
+        public List<Group> GetGroups()
+        {
+            return dicGroup.Values.ToList();
         }
 
         /// <summary>
@@ -804,7 +837,16 @@ namespace WinFormsApp2
                 //グループ
                 string group = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GROUP);
 
-                dicPersons.Add(name, new Person(name, birthday, gender, group));
+                var person = new Person(name, birthday, gender, group);
+                dicPersons.Add(name, person);
+
+                //グループディクショナリ
+                if( !dicGroup.ContainsKey(group))
+                {
+                    dicGroup.Add(group, new Group(group));
+                }
+                dicGroup[group].AddMember(person);
+
 
                 iRow++;
 

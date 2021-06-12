@@ -75,6 +75,7 @@ namespace WinFormsApp2
             setuiribiTbl = new SetuiribiTable();
             try
             {
+                //節入り日テーブル読み込み
                 setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
             }
             catch (Exception e)
@@ -85,6 +86,7 @@ namespace WinFormsApp2
 
             try
             {
+                //名簿読み込み
                 personList.ReadPersonList(exePath + @"\名簿.xls");
             }
             catch (Exception e)
@@ -126,14 +128,18 @@ namespace WinFormsApp2
 
             txtNikkansiSanshutuSu_TextChanged(null, null);
 
-            for (int i = 0; i < personList.Count; i++)
+            //グループコンボボックス設定
+            var groups = personList.GetGroups();
+            cmbGroup.Items.Add("全て");
+            foreach (var group in groups)
             {
-                cmbPerson.Items.Add(personList[i]);
+                cmbGroup.Items.Add(group);
             }
-            if (cmbPerson.Items.Count > 0)
+            if(cmbGroup.Items.Count>0)
             {
-                cmbPerson.SelectedIndex = 0;
+                cmbGroup.SelectedIndex = 0;
             }
+
 
             int baseYear = 0;
             int baseMonth = 0;
@@ -805,6 +811,56 @@ namespace WinFormsApp2
         // イベントハンドラ
         //====================================================
         /// <summary>
+        /// グループコンボボックス
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<Person> persons = null;
+            if (cmbGroup.SelectedIndex == 0)
+            {
+                //全て
+                persons = personList.GetPersons();
+            }
+            else
+            {
+                var item = (Group)cmbGroup.SelectedItem;
+                persons = item.members;
+
+            }
+            cmbPerson.Items.Clear();
+            for (int i = 0; i < persons.Count; i++)
+            {
+                cmbPerson.Items.Add(persons[i]);
+            }
+            if (cmbPerson.Items.Count > 0)
+            {
+                cmbPerson.SelectedIndex = 0;
+            }
+
+        }
+        /// <summary>
+        /// 人コンボボックス選択イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Person person = (Person)cmbPerson.SelectedItem;
+            Birthday birthday = person.birthday;
+            txtYear.Text = birthday.year.ToString();
+            txtMonth.Text = birthday.month.ToString();
+            txtDay.Text = birthday.day.ToString();
+
+            if (person.gender == Gender.NAN) radMan.Checked = true;
+            else radWoman.Checked = true;
+
+            MainProc(person);
+
+
+        }
+        /// <summary>
         /// 日干支算出番号エディットボックス変更イベント
         /// </summary>
         /// <param name="sender"></param>
@@ -912,26 +968,6 @@ namespace WinFormsApp2
             if (selectedItem.Count == 0) return;
             //後天運 図の表示更新
             DispKoutenUn(curPerson, pictureBox2);
-        }
-        /// <summary>
-        /// 人コンボボックス選択イベント
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Person person = (Person)cmbPerson.SelectedItem;
-            Birthday birthday = person.birthday;
-            txtYear.Text = birthday.year.ToString();
-            txtMonth.Text = birthday.month.ToString();
-            txtDay.Text = birthday.day.ToString();
-
-            if (person.gender == Gender.NAN) radMan.Checked = true;
-            else radWoman.Checked = true;
-
-            MainProc(person);
-
-
         }
         /// <summary>
         /// 年運リストビューでの上下キー押下イベント
@@ -1273,7 +1309,6 @@ namespace WinFormsApp2
             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
             brush.Dispose();
         }
-
 
     }
 }
