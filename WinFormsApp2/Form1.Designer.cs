@@ -153,6 +153,18 @@ namespace WinFormsApp2
             this.chkDispNenun = new System.Windows.Forms.CheckBox();
             this.chkDispTaiun = new System.Windows.Forms.CheckBox();
             this.label21 = new System.Windows.Forms.Label();
+            this.chkGogyou = new System.Windows.Forms.CheckBox();
+            this.chkGotoku = new System.Windows.Forms.CheckBox();
+            this.lblGgyou1 = new System.Windows.Forms.Label();
+            this.lblGotoku1 = new System.Windows.Forms.Label();
+            this.lblGotoku2 = new System.Windows.Forms.Label();
+            this.lblGgyou2 = new System.Windows.Forms.Label();
+            this.lblGgyou3 = new System.Windows.Forms.Label();
+            this.lblGotoku3 = new System.Windows.Forms.Label();
+            this.lblGgyou4 = new System.Windows.Forms.Label();
+            this.lblGotoku4 = new System.Windows.Forms.Label();
+            this.lblGgyou5 = new System.Windows.Forms.Label();
+            this.lblGotoku5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1261,7 +1273,7 @@ namespace WinFormsApp2
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Location = new System.Drawing.Point(161, 535);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(308, 275);
+            this.pictureBox2.Size = new System.Drawing.Size(308, 279);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
@@ -1454,11 +1466,11 @@ namespace WinFormsApp2
             this.chkDispGetuun.AutoSize = true;
             this.chkDispGetuun.Checked = true;
             this.chkDispGetuun.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDispGetuun.Location = new System.Drawing.Point(395, 515);
+            this.chkDispGetuun.Location = new System.Drawing.Point(307, 515);
             this.chkDispGetuun.Name = "chkDispGetuun";
-            this.chkDispGetuun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispGetuun.Size = new System.Drawing.Size(50, 19);
             this.chkDispGetuun.TabIndex = 52;
-            this.chkDispGetuun.Text = "月運表示";
+            this.chkDispGetuun.Text = "月運";
             this.chkDispGetuun.UseVisualStyleBackColor = true;
             this.chkDispGetuun.CheckedChanged += new System.EventHandler(this.chkDispGetuun_CheckedChanged);
             // 
@@ -1467,7 +1479,7 @@ namespace WinFormsApp2
             this.chkSangouKaikyoku.AutoSize = true;
             this.chkSangouKaikyoku.Checked = true;
             this.chkSangouKaikyoku.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSangouKaikyoku.Location = new System.Drawing.Point(273, 515);
+            this.chkSangouKaikyoku.Location = new System.Drawing.Point(353, 490);
             this.chkSangouKaikyoku.Name = "chkSangouKaikyoku";
             this.chkSangouKaikyoku.Size = new System.Drawing.Size(116, 19);
             this.chkSangouKaikyoku.TabIndex = 53;
@@ -1519,11 +1531,11 @@ namespace WinFormsApp2
             this.chkDispNenun.AutoSize = true;
             this.chkDispNenun.Checked = true;
             this.chkDispNenun.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDispNenun.Location = new System.Drawing.Point(395, 491);
+            this.chkDispNenun.Location = new System.Drawing.Point(363, 515);
             this.chkDispNenun.Name = "chkDispNenun";
-            this.chkDispNenun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispNenun.Size = new System.Drawing.Size(50, 19);
             this.chkDispNenun.TabIndex = 56;
-            this.chkDispNenun.Text = "年運表示";
+            this.chkDispNenun.Text = "年運";
             this.chkDispNenun.UseVisualStyleBackColor = true;
             this.chkDispNenun.CheckedChanged += new System.EventHandler(this.chkDispNenun_CheckedChanged);
             // 
@@ -1532,11 +1544,11 @@ namespace WinFormsApp2
             this.chkDispTaiun.AutoSize = true;
             this.chkDispTaiun.Checked = true;
             this.chkDispTaiun.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDispTaiun.Location = new System.Drawing.Point(395, 468);
+            this.chkDispTaiun.Location = new System.Drawing.Point(419, 515);
             this.chkDispTaiun.Name = "chkDispTaiun";
-            this.chkDispTaiun.Size = new System.Drawing.Size(74, 19);
+            this.chkDispTaiun.Size = new System.Drawing.Size(50, 19);
             this.chkDispTaiun.TabIndex = 56;
-            this.chkDispTaiun.Text = "大運表示";
+            this.chkDispTaiun.Text = "大運";
             this.chkDispTaiun.UseVisualStyleBackColor = true;
             this.chkDispTaiun.CheckedChanged += new System.EventHandler(this.chkDispTaiun_CheckedChanged);
             // 
@@ -1550,15 +1562,150 @@ namespace WinFormsApp2
             this.label21.TabIndex = 13;
             this.label21.Text = "経歴一覧";
             // 
+            // chkGogyou
+            // 
+            this.chkGogyou.AutoSize = true;
+            this.chkGogyou.Location = new System.Drawing.Point(353, 383);
+            this.chkGogyou.Name = "chkGogyou";
+            this.chkGogyou.Size = new System.Drawing.Size(50, 19);
+            this.chkGogyou.TabIndex = 53;
+            this.chkGogyou.Text = "五行";
+            this.chkGogyou.UseVisualStyleBackColor = true;
+            this.chkGogyou.CheckedChanged += new System.EventHandler(this.chkGogyou_CheckedChanged);
+            // 
+            // chkGotoku
+            // 
+            this.chkGotoku.AutoSize = true;
+            this.chkGotoku.Location = new System.Drawing.Point(419, 383);
+            this.chkGotoku.Name = "chkGotoku";
+            this.chkGotoku.Size = new System.Drawing.Size(50, 19);
+            this.chkGotoku.TabIndex = 53;
+            this.chkGotoku.Text = "五徳";
+            this.chkGotoku.UseVisualStyleBackColor = true;
+            this.chkGotoku.CheckedChanged += new System.EventHandler(this.chkGotoku_CheckedChanged);
+            // 
+            // lblGgyou1
+            // 
+            this.lblGgyou1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGgyou1.Location = new System.Drawing.Point(357, 403);
+            this.lblGgyou1.Name = "lblGgyou1";
+            this.lblGgyou1.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou1.TabIndex = 58;
+            this.lblGgyou1.Text = "木";
+            this.lblGgyou1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGotoku1
+            // 
+            this.lblGotoku1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGotoku1.Location = new System.Drawing.Point(423, 403);
+            this.lblGotoku1.Name = "lblGotoku1";
+            this.lblGotoku1.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku1.TabIndex = 58;
+            this.lblGotoku1.Text = "福";
+            this.lblGotoku1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGotoku2
+            // 
+            this.lblGotoku2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGotoku2.Location = new System.Drawing.Point(423, 418);
+            this.lblGotoku2.Name = "lblGotoku2";
+            this.lblGotoku2.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku2.TabIndex = 59;
+            this.lblGotoku2.Text = "寿";
+            this.lblGotoku2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGgyou2
+            // 
+            this.lblGgyou2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGgyou2.Location = new System.Drawing.Point(357, 418);
+            this.lblGgyou2.Name = "lblGgyou2";
+            this.lblGgyou2.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou2.TabIndex = 60;
+            this.lblGgyou2.Text = "火";
+            this.lblGgyou2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGgyou3
+            // 
+            this.lblGgyou3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGgyou3.Location = new System.Drawing.Point(357, 433);
+            this.lblGgyou3.Name = "lblGgyou3";
+            this.lblGgyou3.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou3.TabIndex = 60;
+            this.lblGgyou3.Text = "土";
+            this.lblGgyou3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGotoku3
+            // 
+            this.lblGotoku3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGotoku3.Location = new System.Drawing.Point(423, 433);
+            this.lblGotoku3.Name = "lblGotoku3";
+            this.lblGotoku3.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku3.TabIndex = 59;
+            this.lblGotoku3.Text = "財";
+            this.lblGotoku3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblGotoku3.Click += new System.EventHandler(this.label36_Click);
+            // 
+            // lblGgyou4
+            // 
+            this.lblGgyou4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGgyou4.Location = new System.Drawing.Point(357, 448);
+            this.lblGgyou4.Name = "lblGgyou4";
+            this.lblGgyou4.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou4.TabIndex = 60;
+            this.lblGgyou4.Text = "金";
+            this.lblGgyou4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGotoku4
+            // 
+            this.lblGotoku4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGotoku4.Location = new System.Drawing.Point(423, 448);
+            this.lblGotoku4.Name = "lblGotoku4";
+            this.lblGotoku4.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku4.TabIndex = 59;
+            this.lblGotoku4.Text = "官";
+            this.lblGotoku4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGgyou5
+            // 
+            this.lblGgyou5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGgyou5.Location = new System.Drawing.Point(357, 463);
+            this.lblGgyou5.Name = "lblGgyou5";
+            this.lblGgyou5.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou5.TabIndex = 60;
+            this.lblGgyou5.Text = "水";
+            this.lblGgyou5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblGotoku5
+            // 
+            this.lblGotoku5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGotoku5.Location = new System.Drawing.Point(423, 463);
+            this.lblGotoku5.Name = "lblGotoku5";
+            this.lblGotoku5.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku5.TabIndex = 59;
+            this.lblGotoku5.Text = "印";
+            this.lblGotoku5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1216, 815);
+            this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.lblGotoku5);
+            this.Controls.Add(this.lblGotoku4);
+            this.Controls.Add(this.lblGotoku3);
+            this.Controls.Add(this.lblGotoku2);
+            this.Controls.Add(this.lblGgyou5);
+            this.Controls.Add(this.lblGgyou4);
+            this.Controls.Add(this.lblGgyou3);
+            this.Controls.Add(this.lblGgyou2);
+            this.Controls.Add(this.lblGotoku1);
+            this.Controls.Add(this.lblGgyou1);
             this.Controls.Add(this.chkDispTaiun);
             this.Controls.Add(this.chkDispNenun);
             this.Controls.Add(this.lvCareer);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.chkGotoku);
+            this.Controls.Add(this.chkGogyou);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
             this.Controls.Add(this.lvGetuun);
@@ -1735,6 +1882,18 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox chkDispNenun;
         private System.Windows.Forms.CheckBox chkDispTaiun;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.CheckBox chkGogyou;
+        private System.Windows.Forms.CheckBox chkGotoku;
+        private System.Windows.Forms.Label lblGgyou1;
+        private System.Windows.Forms.Label lblGotoku1;
+        private System.Windows.Forms.Label lblGotoku2;
+        private System.Windows.Forms.Label lblGgyou2;
+        private System.Windows.Forms.Label lblGgyou3;
+        private System.Windows.Forms.Label lblGotoku3;
+        private System.Windows.Forms.Label lblGgyou4;
+        private System.Windows.Forms.Label lblGotoku4;
+        private System.Windows.Forms.Label lblGgyou5;
+        private System.Windows.Forms.Label lblGotoku5;
     }
 }
 

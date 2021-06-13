@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace WinFormsApp2
 {
     public class TableMng
     {
-
+        static TableMng tblMng = new TableMng();
+        public static TableMng GetTblManage()
+        {
+            return tblMng;
+        }
         /// <summary>
         /// 十干 管理テーブル
         /// </summary>
@@ -557,6 +562,59 @@ namespace WinFormsApp2
         }
         public SigouTbl sigouTbl = new SigouTbl();
 
+        /// <summary>
+        /// 五行、五徳　属性カラーテーブル
+        /// </summary>
+        public class AttrColorTbl
+        {
+            public Dictionary<string , Color> dicAttrColor;
+
+            public Color this[string attrName]
+            {
+                get
+                {
+                    if(!dicAttrColor.ContainsKey(attrName))
+                    {
+                        return default(Color);
+                    }
+                    return dicAttrColor[attrName];
+                }
+            }
+        }
+        public AttrColorTbl gogyouAttrColorTbl = new AttrColorTbl();
+        public AttrColorTbl gotokuAttrColorTbl = new AttrColorTbl();
+
+
+        /// <summary>
+        ///　五徳 管理テーブル 管理
+        /// </summary>
+        public class GotokuTbl
+        {
+            /// <summary>
+            /// 主キー
+            /// </summary>
+            public string[] attrName;
+            public Dictionary<string, string[]> dicGotoku;
+
+            public string GetGotoku(string key1, string key2)
+            {
+                if (!dicGotoku.ContainsKey(key2)) return null;
+
+                //主キーのインデックス番号取得
+                for (int idxItem = 0; idxItem < attrName.Length; idxItem++)
+                {
+                    if (attrName[idxItem] == key2)
+                    {
+                       var gotokuNames = dicGotoku[key1];
+                        return gotokuNames[idxItem];
+                    }
+
+                }
+                return null;
+            }
+
+        }
+        public GotokuTbl gotokuTbl = null;
 
         public TableMng()
         {
@@ -759,6 +817,42 @@ namespace WinFormsApp2
                 new Sigou(new string[]{"申","巳"},"金性"),
                 new Sigou(new string[]{"未","午"},"火性"),
 
+            };
+
+            //--------------------------------
+            //五行属性カラー テーブル
+            //--------------------------------
+            gogyouAttrColorTbl.dicAttrColor = new Dictionary<string, Color>()
+            {
+                {"木", Color.LightGreen},
+                {"火", Color.LightPink},
+                {"土", Color.Orange},
+                {"金", Color.LightYellow},
+                {"水", Color.LightGray},
+            };
+            //--------------------------------
+            //五徳関連 テーブル
+            //--------------------------------
+            gotokuTbl = new GotokuTbl();
+            gotokuTbl.attrName = new string[] { "水", "木", "火", "土", "金" };
+            gotokuTbl.dicGotoku = new Dictionary<string, string[]>
+            {
+                { "水", new string[]{"福","寿","財","官","印" } },
+                { "木", new string[]{"印","福","寿","財","官" } },
+                { "火", new string[]{"官","印","福","寿","財" } },
+                { "土", new string[]{"財","官","印","福","寿" } },
+                { "金", new string[]{"寿","財","官","印","福" } },
+            };
+            //--------------------------------
+            //五徳属性カラー テーブル
+            //--------------------------------
+            gotokuAttrColorTbl.dicAttrColor = new Dictionary<string, Color>()
+            {
+                {"福", Color.LightGreen},
+                {"寿", Color.LightPink},
+                {"財", Color.Orange},
+                {"官", Color.LightYellow},
+                {"印", Color.LightGray},
             };
 
         }

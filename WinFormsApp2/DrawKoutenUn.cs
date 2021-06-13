@@ -64,14 +64,18 @@ namespace WinFormsApp2
         bool bDispTaiun = false; //true..大運表示
         bool bDispNenun = false; //true..年運表示
         bool bDispGetuun = false; //true..月運表示
-        bool bDispSangouKaikyoku = false; 
+        bool bDispSangouKaikyoku = false;
+        bool bDispGogyou = false;
+        bool bDispGotoku = false;
 
         public DrawKoutenUn(Person person, PictureBox pictureBox, 
                             Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi,
                             bool _bDispTaiun,
                             bool _bDispNenun,
                             bool _bDispGetuun,
-                            bool _bDispSangouKaikyoku
+                            bool _bDispSangouKaikyoku,
+                            bool _bDispGogyou,
+                            bool _bDispGotoku
             ) :
             base(person, pictureBox)
         {
@@ -86,7 +90,8 @@ namespace WinFormsApp2
             bDispNenun = _bDispNenun;
             bDispGetuun = _bDispGetuun;
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
-
+            bDispGogyou = _bDispGogyou;
+            bDispGotoku = _bDispGotoku;
         }
         void CalcCoord()
         {
@@ -319,6 +324,37 @@ namespace WinFormsApp2
             //干支の上部に表示する情報の段数から干支表示基準座標を計算
             CalcCoord();
 
+
+            Color[] colorGetuunKansi = null;
+            Color[] colorNenunKansi = null;
+            Color[] colorTaiunKansi = null;
+            Color[] colorNikkansi = null;
+            Color[] colorGekkansi = null;
+            Color[] colorNenkansi = null;
+            if (bDispGogyou)
+            {   //五行色表示
+                colorNikkansi = GetGogyouColor(person.nikkansi);
+                colorGekkansi = GetGogyouColor(person.gekkansi);
+                colorNenkansi = GetGogyouColor(person.nenkansi);
+
+                colorGetuunKansi = GetGogyouColor(getuunKansi);
+                colorNenunKansi = GetGogyouColor(nenunKansi);
+                colorTaiunKansi = GetGogyouColor(taiunKansi);
+
+            }
+            else if (bDispGotoku)
+            {   //五徳色表示
+                string baseKan = person.nikkansi.kan;
+                colorNikkansi = GetGotokuColor(baseKan, person.nikkansi, true);
+                colorGekkansi = GetGotokuColor(baseKan, person.gekkansi);
+                colorNenkansi = GetGotokuColor(baseKan, person.nenkansi);
+
+                colorGetuunKansi = GetGotokuColor(baseKan, getuunKansi);
+                colorNenunKansi = GetGotokuColor(baseKan, nenunKansi);
+                colorTaiunKansi = GetGotokuColor(baseKan, taiunKansi);
+            }
+
+
             //干支表示
             rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
             rectNenunTitle = new Rectangle(nenun.X, nenun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
@@ -326,17 +362,17 @@ namespace WinFormsApp2
 
             if (bDispGetuun)
             {
-                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi);　//月運干支
+                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi);　//月運干支
                 DrawString(rectGetuunTitle, "<月運>");
             }
-            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi);//年運干支
-            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi);//大運干支
+            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi);//年運干支
+            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi);//大運干支
             DrawString(rectNenunTitle, "<年運>");
             DrawString(rectTaiunTitle, "<大運>");
 
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);//日干支
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);//月干支
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);//年干支
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi);//日干支
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi);//月干支
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi);//年干支
 
 
             //陰陽(年運→大運）

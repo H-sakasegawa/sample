@@ -365,6 +365,19 @@ namespace WinFormsApp2
         string gogyou;
     }
 
+    public class Gotoku
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string attrName;
+        /// <summary>
+        /// サブキー
+        /// </summary>
+        public string[] gotoku;
+
+
+    }
 
 }
 

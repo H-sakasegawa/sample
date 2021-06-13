@@ -42,13 +42,22 @@ namespace WinFormsApp2
         const int bitFlgGetu = 0x02;
         const int bitFlgNen = 0x01;
 
-        public DrawShukumei(Person person, PictureBox pictureBox) :
-            base(person, pictureBox)
+        bool bDispGogyou = false;
+        bool bDispGotoku = false;
+
+        public DrawShukumei(
+                            Person person, 
+                            PictureBox pictureBox,
+                            bool _bDispGogyou,
+                            bool _bDispGotoku
+            ) : base(person, pictureBox)
         {
 
             rangeHeight = GetFontHeight() * 2;
             rangeWidth = 45;
 
+            bDispGogyou = _bDispGogyou;
+            bDispGotoku = _bDispGotoku;
         }
         private void CalcCoord()
         {
@@ -80,6 +89,7 @@ namespace WinFormsApp2
 
 
         }
+
 
 
         /// <summary>
@@ -126,10 +136,28 @@ namespace WinFormsApp2
             //干支の上部に表示する情報の段数から干支表示基準座標を計算
             CalcCoord();
 
+            Color[] colorNikkansi=null;
+            Color[] colorGekkansi = null;
+            Color[] colorNenkansi = null;
+            if ( bDispGogyou)
+            {   //五行色表示
+                colorNikkansi = GetGogyouColor(person.nikkansi);
+                colorGekkansi = GetGogyouColor(person.gekkansi);
+                colorNenkansi = GetGogyouColor(person.nenkansi);
+            }
+            else if( bDispGotoku)
+            {   //五徳色表示
+                string baseKan = person.nikkansi.kan;
+                colorNikkansi = GetGotokuColor(baseKan, person.nikkansi, true);
+                colorGekkansi = GetGotokuColor(baseKan, person.gekkansi);
+                colorNenkansi = GetGotokuColor(baseKan, person.nenkansi);
+
+            }
+
             //干支表示
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi);
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi);
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi);
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi);
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi);
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi);
 
             //ライン描画
             //陰陽

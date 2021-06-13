@@ -17,7 +17,7 @@ namespace WinFormsApp2
     {
         string exePath = "";
 
-        TableMng dataMng;
+        TableMng dataMng = TableMng.GetTblManage();
         SetuiribiTable setuiribiTbl = null;
         Persons personList = null;
         int GetuunDispStartGetu = 2;
@@ -59,6 +59,10 @@ namespace WinFormsApp2
 
         //表示対象データ
         Person curPerson = null;
+
+        List<Label> lstLblGogyou;
+        List<Label> lstLblGotoku;
+
 
 
         public Form1()
@@ -126,6 +130,8 @@ namespace WinFormsApp2
             lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
             lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
+            lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
+            lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
 
             txtNikkansiSanshutuSu_TextChanged(null, null);
 
@@ -147,6 +153,14 @@ namespace WinFormsApp2
             txtBaseGekkansiNo.Text = baseGekkansi.ToString();
             txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
 
+            for (int i = 0; i < lstLblGogyou.Count; i++)
+            {
+                lstLblGogyou[i].BackColor = dataMng.gogyouAttrColorTbl[lstLblGogyou[i].Text];
+            }
+            for (int i = 0; i < lstLblGotoku.Count; i++)
+            {
+                lstLblGotoku[i].BackColor = dataMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
+            }
 
             //グループコンボボックス設定
             var groups = personList.GetGroups();
@@ -178,8 +192,6 @@ namespace WinFormsApp2
         private void MainProc(Person person)
         {
             curPerson = person;
-
-            dataMng = new TableMng();
 
             int baseYear = int.Parse(txtBaseYear.Text);
             int baseMonth = int.Parse(txtBaseMonth.Text);
@@ -673,14 +685,15 @@ namespace WinFormsApp2
                 }
 
                 //月干支番号取得(節入り日無視で単純月で取得）
-                    int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
+                int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
 
 
                 //順行のみなので、60超えたら1にするだけ
                 //if (gekkansiNo > 60) gekkansiNo = 1;
 
                 AddNenunGetuunItem(person, 
-                                    mMonth, string.Format("{0}月", mMonth),
+                                    mMonth, 
+                                    string.Format("{0}月", mMonth),
                                     gekkansiNo,
                                     taiunItemData.kansi,
                                     lvGetuun
@@ -817,7 +830,7 @@ namespace WinFormsApp2
         private void DispShukumei(Person person, PictureBox pictureBox)
         {
 
-            drawItem = new DrawShukumei(person, pictureBox);
+            drawItem = new DrawShukumei(person, pictureBox, chkGogyou.Checked, chkGotoku.Checked);
             drawItem.Draw();
 
         }
@@ -851,7 +864,10 @@ namespace WinFormsApp2
                                         chkDispTaiun.Checked,
                                         chkDispNenun.Checked,
                                         chkDispGetuun.Checked,
-                                        chkSangouKaikyoku.Checked);
+                                        chkSangouKaikyoku.Checked,
+                                        chkGogyou.Checked, 
+                                        chkGotoku.Checked
+                                        );
             drawItem2.Draw();
 
 
@@ -873,11 +889,18 @@ namespace WinFormsApp2
                 }
             }
             //年運リストビューで年に該当する行を選択
+            int year = today.Year;
+            if( today.Month< GetuunDispStartGetu)
+            {
+                //月運で選択される月は、次の年度の月となるので、
+                //年運の選択を１年前に設定する必要がある。
+                year--;
+            }
             for (int i = 0; i < lvNenun.Items.Count; i++)
             {
 
                 GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)lvNenun.Items[i].Tag;
-                if (itemData.keyValue == today.Year)
+                if (itemData.keyValue == year)
                 {
                     lvNenun.Items[i].Selected = true;
                     break;
@@ -986,7 +1009,7 @@ namespace WinFormsApp2
             if (lvCareer.SelectedItems.Count == 0) return;
             var item = lvCareer.SelectedItems[0];
             int year = int.Parse(item.SubItems[0].Text);
-
+            //月運リストビューは年度の最初の月を選択
             DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
         }
 
@@ -1327,6 +1350,26 @@ namespace WinFormsApp2
         {
             DispKoutenUn(curPerson, pictureBox2);
         }
+        // 五徳表示チェックボックス
+        private void chkGotoku_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkGotoku.Checked)
+            {
+                chkGogyou.Checked = false;
+            }
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+        // 五行表示チェックボックス
+        private void chkGogyou_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkGogyou.Checked)
+            {
+                chkGotoku.Checked = false;
+            }
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
 
         //=================================================
         //Owner Draw
@@ -1429,5 +1472,9 @@ namespace WinFormsApp2
             brush.Dispose();
         }
 
+        private void label36_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

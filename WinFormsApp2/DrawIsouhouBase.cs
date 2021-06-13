@@ -112,12 +112,25 @@ namespace WinFormsApp2
         /// <param name="kansi"></param>
         /// <param name="rectKan"></param>
         /// <param name="rectSi"></param>
-        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi)
+        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] color=null)
         {
-            g.DrawString(kansi.kan, fnt, Brushes.Black, rectKan, stringFormat);
-            g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
+            if (color != null)
+            {
+                if (color.Length >= 2)
+                {
+                    SolidBrush brsKan = new SolidBrush(color[0]);
+                    SolidBrush brsSi = new SolidBrush(color[1]);
+                    g.FillRectangle(brsKan, rectKan);
+                    g.FillRectangle(brsSi, rectSi);
+                    brsKan.Dispose();
+                    brsSi.Dispose();
+                }
+            }
             g.DrawRectangle(blackPen, rectKan);
             g.DrawRectangle(blackPen, rectSi);
+            g.DrawString(kansi.kan, fnt, Brushes.Black, rectKan, stringFormat);
+            g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
+
         }
         /// <summary>
         /// 位相法描画
@@ -334,6 +347,51 @@ namespace WinFormsApp2
             }
             return idxMtx;
         }
+
+        /// <summary>
+        /// 五行 属性カラー取得
+        /// </summary>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
+        protected Color[] GetGogyouColor(Kansi kansi)
+        {
+            var tblMng = TableMng.GetTblManage();
+
+            Color[] color = new Color[2];
+            //十干支テーブルから 干に該当する五行名
+            string attrName = tblMng.jyukanTbl[kansi.kan].gogyou;
+            color[0] = tblMng.gogyouAttrColorTbl[attrName];
+
+            //十二支テーブルから 干に該当する五行名
+            attrName = tblMng.jyunisiTbl[kansi.si].gogyou;
+            color[1] = tblMng.gogyouAttrColorTbl[attrName];
+
+            return color;
+        }
+        protected Color[] GetGotokuColor(string nikkansiKan, Kansi kansi, bool bBaseKan=false)
+        {
+            var tblMng = TableMng.GetTblManage();
+            Color[] color = new Color[2];
+
+            string gotokuName;
+
+            string baseAttrName = tblMng.jyukanTbl[nikkansiKan].gogyou;
+            string attrName;
+            if (!bBaseKan)
+            {
+                //十干支テーブルから 干に該当する五行名
+                attrName = tblMng.jyukanTbl[kansi.kan].gogyou;
+                gotokuName = tblMng.gotokuTbl.GetGotoku(baseAttrName, attrName);
+                color[0] = tblMng.gotokuAttrColorTbl[gotokuName];
+            }
+
+            attrName = tblMng.jyunisiTbl[kansi.si].gogyou;
+            gotokuName = tblMng.gotokuTbl.GetGotoku(baseAttrName, attrName);
+            color[1] = tblMng.gotokuAttrColorTbl[gotokuName];
+
+            return color;
+        }
+
     }
 
 }
