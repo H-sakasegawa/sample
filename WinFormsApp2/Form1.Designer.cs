@@ -165,6 +165,8 @@ namespace WinFormsApp2
             this.lblGotoku4 = new System.Windows.Forms.Label();
             this.lblGgyou5 = new System.Windows.Forms.Label();
             this.lblGotoku5 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1565,7 +1567,7 @@ namespace WinFormsApp2
             // chkGogyou
             // 
             this.chkGogyou.AutoSize = true;
-            this.chkGogyou.Location = new System.Drawing.Point(353, 383);
+            this.chkGogyou.Location = new System.Drawing.Point(353, 465);
             this.chkGogyou.Name = "chkGogyou";
             this.chkGogyou.Size = new System.Drawing.Size(50, 19);
             this.chkGogyou.TabIndex = 53;
@@ -1576,7 +1578,7 @@ namespace WinFormsApp2
             // chkGotoku
             // 
             this.chkGotoku.AutoSize = true;
-            this.chkGotoku.Location = new System.Drawing.Point(419, 383);
+            this.chkGotoku.Location = new System.Drawing.Point(419, 465);
             this.chkGotoku.Name = "chkGotoku";
             this.chkGotoku.Size = new System.Drawing.Size(50, 19);
             this.chkGotoku.TabIndex = 53;
@@ -1587,9 +1589,9 @@ namespace WinFormsApp2
             // lblGgyou1
             // 
             this.lblGgyou1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGgyou1.Location = new System.Drawing.Point(357, 403);
+            this.lblGgyou1.Location = new System.Drawing.Point(31, 776);
             this.lblGgyou1.Name = "lblGgyou1";
-            this.lblGgyou1.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou1.Size = new System.Drawing.Size(25, 17);
             this.lblGgyou1.TabIndex = 58;
             this.lblGgyou1.Text = "木";
             this.lblGgyou1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1597,9 +1599,9 @@ namespace WinFormsApp2
             // lblGotoku1
             // 
             this.lblGotoku1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGotoku1.Location = new System.Drawing.Point(423, 403);
+            this.lblGotoku1.Location = new System.Drawing.Point(31, 796);
             this.lblGotoku1.Name = "lblGotoku1";
-            this.lblGotoku1.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku1.Size = new System.Drawing.Size(25, 17);
             this.lblGotoku1.TabIndex = 58;
             this.lblGotoku1.Text = "福";
             this.lblGotoku1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1607,9 +1609,9 @@ namespace WinFormsApp2
             // lblGotoku2
             // 
             this.lblGotoku2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGotoku2.Location = new System.Drawing.Point(423, 418);
+            this.lblGotoku2.Location = new System.Drawing.Point(56, 796);
             this.lblGotoku2.Name = "lblGotoku2";
-            this.lblGotoku2.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku2.Size = new System.Drawing.Size(25, 17);
             this.lblGotoku2.TabIndex = 59;
             this.lblGotoku2.Text = "寿";
             this.lblGotoku2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1617,9 +1619,9 @@ namespace WinFormsApp2
             // lblGgyou2
             // 
             this.lblGgyou2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGgyou2.Location = new System.Drawing.Point(357, 418);
+            this.lblGgyou2.Location = new System.Drawing.Point(56, 776);
             this.lblGgyou2.Name = "lblGgyou2";
-            this.lblGgyou2.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou2.Size = new System.Drawing.Size(25, 17);
             this.lblGgyou2.TabIndex = 60;
             this.lblGgyou2.Text = "火";
             this.lblGgyou2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1627,9 +1629,9 @@ namespace WinFormsApp2
             // lblGgyou3
             // 
             this.lblGgyou3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGgyou3.Location = new System.Drawing.Point(357, 433);
+            this.lblGgyou3.Location = new System.Drawing.Point(81, 776);
             this.lblGgyou3.Name = "lblGgyou3";
-            this.lblGgyou3.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou3.Size = new System.Drawing.Size(25, 17);
             this.lblGgyou3.TabIndex = 60;
             this.lblGgyou3.Text = "土";
             this.lblGgyou3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1637,9 +1639,9 @@ namespace WinFormsApp2
             // lblGotoku3
             // 
             this.lblGotoku3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGotoku3.Location = new System.Drawing.Point(423, 433);
+            this.lblGotoku3.Location = new System.Drawing.Point(81, 796);
             this.lblGotoku3.Name = "lblGotoku3";
-            this.lblGotoku3.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku3.Size = new System.Drawing.Size(25, 17);
             this.lblGotoku3.TabIndex = 59;
             this.lblGotoku3.Text = "財";
             this.lblGotoku3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1648,9 +1650,9 @@ namespace WinFormsApp2
             // lblGgyou4
             // 
             this.lblGgyou4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGgyou4.Location = new System.Drawing.Point(357, 448);
+            this.lblGgyou4.Location = new System.Drawing.Point(106, 776);
             this.lblGgyou4.Name = "lblGgyou4";
-            this.lblGgyou4.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou4.Size = new System.Drawing.Size(25, 17);
             this.lblGgyou4.TabIndex = 60;
             this.lblGgyou4.Text = "金";
             this.lblGgyou4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1658,9 +1660,9 @@ namespace WinFormsApp2
             // lblGotoku4
             // 
             this.lblGotoku4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGotoku4.Location = new System.Drawing.Point(423, 448);
+            this.lblGotoku4.Location = new System.Drawing.Point(106, 796);
             this.lblGotoku4.Name = "lblGotoku4";
-            this.lblGotoku4.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku4.Size = new System.Drawing.Size(25, 17);
             this.lblGotoku4.TabIndex = 59;
             this.lblGotoku4.Text = "官";
             this.lblGotoku4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1668,9 +1670,9 @@ namespace WinFormsApp2
             // lblGgyou5
             // 
             this.lblGgyou5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGgyou5.Location = new System.Drawing.Point(357, 463);
+            this.lblGgyou5.Location = new System.Drawing.Point(131, 776);
             this.lblGgyou5.Name = "lblGgyou5";
-            this.lblGgyou5.Size = new System.Drawing.Size(30, 15);
+            this.lblGgyou5.Size = new System.Drawing.Size(25, 17);
             this.lblGgyou5.TabIndex = 60;
             this.lblGgyou5.Text = "水";
             this.lblGgyou5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1678,18 +1680,38 @@ namespace WinFormsApp2
             // lblGotoku5
             // 
             this.lblGotoku5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblGotoku5.Location = new System.Drawing.Point(423, 463);
+            this.lblGotoku5.Location = new System.Drawing.Point(131, 796);
             this.lblGotoku5.Name = "lblGotoku5";
-            this.lblGotoku5.Size = new System.Drawing.Size(30, 15);
+            this.lblGotoku5.Size = new System.Drawing.Size(25, 17);
             this.lblGotoku5.TabIndex = 59;
             this.lblGotoku5.Text = "印";
             this.lblGotoku5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(0, 776);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(31, 15);
+            this.label22.TabIndex = 61;
+            this.label22.Text = "五行";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(0, 796);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(31, 15);
+            this.label23.TabIndex = 61;
+            this.label23.Text = "五徳";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.lblGotoku5);
             this.Controls.Add(this.lblGotoku4);
             this.Controls.Add(this.lblGotoku3);
@@ -1894,6 +1916,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label lblGotoku4;
         private System.Windows.Forms.Label lblGgyou5;
         private System.Windows.Forms.Label lblGotoku5;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
     }
 }
 

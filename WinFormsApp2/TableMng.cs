@@ -828,7 +828,7 @@ namespace WinFormsApp2
                 {"火", Color.LightPink},
                 {"土", Color.Orange},
                 {"金", Color.LightYellow},
-                {"水", Color.LightGray},
+                {"水", Color.Gray},
             };
             //--------------------------------
             //五徳関連 テーブル
@@ -852,7 +852,7 @@ namespace WinFormsApp2
                 {"寿", Color.LightPink},
                 {"財", Color.Orange},
                 {"官", Color.LightYellow},
-                {"印", Color.LightGray},
+                {"印", Color.Gray},
             };
 
         }

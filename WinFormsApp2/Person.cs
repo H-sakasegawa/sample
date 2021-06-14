@@ -958,9 +958,8 @@ namespace WinFormsApp2
                         }
                     }
                 }
-            }catch( Exception e)
+            }catch
             {
-                throw e;
             }
 
             //var version = "xls";
@@ -1017,9 +1016,8 @@ namespace WinFormsApp2
                     }
                 }
 
-            }catch(Exception e)
+            }catch
             {
-                throw e;
             }
 
             //var version = "xls";

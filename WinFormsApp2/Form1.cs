@@ -20,7 +20,7 @@ namespace WinFormsApp2
         TableMng dataMng = TableMng.GetTblManage();
         SetuiribiTable setuiribiTbl = null;
         Persons personList = null;
-        int GetuunDispStartGetu = 2;
+        const int GetuunDispStartGetu = 2;
 
         //----------------------------------------------
         //ラベルの組み合わせを登録

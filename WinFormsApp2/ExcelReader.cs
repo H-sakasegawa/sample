@@ -43,11 +43,10 @@ namespace WinFormsApp2
                     // xlsとxlsxじゃなければ、エラー発生
                     throw new NotSupportedException();
                 }
-            }catch( Exception e)
+            }catch
             {
-                throw e;
             }
-
+            return null;
         }
         // シート(Sheet)から行を取得関数
         public static IRow GetRow(ISheet sheet, int rownum)
