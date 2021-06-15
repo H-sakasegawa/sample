@@ -63,6 +63,20 @@ namespace WinFormsApp2
         List<Label> lstLblGogyou;
         List<Label> lstLblGotoku;
 
+        /// <summary>
+        /// 年運表カラム Index
+        /// </summary>
+        enum ColNenunListView
+        {
+            COL_TITLE = 0,
+            COL_KANSI,
+            COL_JUDAISHUSEI,
+            COL_JUNIDAIJUUSEI,
+            COL_GOUHOUSANPOU_NITI,
+            COL_GOUHOUSANPOU_GETU,
+            COL_GOUHOUSANPOU_NEN,
+            COL_CAREER
+        }
 
 
         public Form1()
@@ -674,7 +688,7 @@ namespace WinFormsApp2
             //int gekkansiNo = taiunItemData.kansi.no;
 
 
-            //1月～12月分を表示
+            //2月～12月,1月分を表示
             for (int i = 0; i < 12; i++)
             {
                 int mMonth = GetuunDispStartGetu + i;
@@ -703,17 +717,6 @@ namespace WinFormsApp2
             lvGetuun.Items[0].Selected = true;
             lvGetuun.Items[0].Focused = true;
 
-        }
-        enum ColNenunListView
-        {
-            COL_TITLE = 0,
-            COL_KANSI,
-            COL_JUDAISHUSEI,
-            COL_JUNIDAIJUUSEI,
-            COL_GOUHOUSANPOU_NITI,
-            COL_GOUHOUSANPOU_GETU,
-            COL_GOUHOUSANPOU_NEN,
-            COL_CAREER
         }
 
 
@@ -875,6 +878,8 @@ namespace WinFormsApp2
 
         void DispDateView(DateTime today)
         {
+            int year = today.Year;
+
             //大運リストビューで年に該当する行を選択
             for (int i = 0; i < lvTaiun.Items.Count; i++)
             {
@@ -884,12 +889,23 @@ namespace WinFormsApp2
                 {
                     int index = i - 1;
                     if (index < 0) index = 0;
+
+                    itemData = (TaiunLvItemData)lvTaiun.Items[index].Tag;
+                    if (itemData.startYear == year)
+                    {
+                        //１月の場合、前年を表示する必要がある
+                        if (today.Month < GetuunDispStartGetu)
+                        {
+                            index--;
+                            if (index < 0) index = 0; //このチェックで引っかかることはない
+                        }
+                    }
+
                     lvTaiun.Items[index].Selected = true; ;
                     break;
                 }
             }
             //年運リストビューで年に該当する行を選択
-            int year = today.Year;
             if( today.Month< GetuunDispStartGetu)
             {
                 //月運で選択される月は、次の年度の月となるので、
@@ -998,6 +1014,7 @@ namespace WinFormsApp2
         private void button2_Click(object sender, EventArgs e)
         {
             DispDateView(DateTime.Now);
+            //DispDateView(new DateTime(2003,1,1));
         }
         /// <summary>
         /// 経歴リストビュー選択
