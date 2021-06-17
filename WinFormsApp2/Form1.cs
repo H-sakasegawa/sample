@@ -1027,7 +1027,7 @@ namespace WinFormsApp2
             var item = lvCareer.SelectedItems[0];
             int year = int.Parse(item.SubItems[0].Text);
             //月運リストビューは年度の最初の月を選択
-            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
+            DispDateView(new DateTime(year, GetuunDispStartGetu, GetuunDispStartGetu));
         }
 
         //------------------------------------------------------------
