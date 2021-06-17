@@ -737,11 +737,11 @@ namespace WinFormsApp2
             //--------------------------------
             kangouTbl.lstKangou = new List<Kangou>
             {
-                new Kangou("甲","己","土性","戊","己","甲己火土"),
-                new Kangou("乙","庚","金性","辛","庚","乙庚化金"),
-                new Kangou("丙","辛","水性","壬","癸","丙辛化水"),
-                new Kangou("壬","丁","木性","甲","乙","壬丁化木"),
-                new Kangou("戊","癸","火性","丙","丁","戊癸化火"),
+                new Kangou("甲","己","土","戊","己","甲己火土"),
+                new Kangou("乙","庚","金","辛","庚","乙庚化金"),
+                new Kangou("丙","辛","水","壬","癸","丙辛化水"),
+                new Kangou("壬","丁","木","甲","乙","壬丁化木"),
+                new Kangou("戊","癸","火","丙","丁","戊癸化火"),
 
             };
             //--------------------------------
@@ -789,20 +789,20 @@ namespace WinFormsApp2
             //--------------------------------
             sangouKaikyokuTbl.lstSangouKaikyoku = new List<SangouKaikyoku>()
             {
-                new SangouKaikyoku(new string[]{"申","子","辰"},"水性"),
-                new SangouKaikyoku(new string[]{"亥","卯","未"},"木性"),
-                new SangouKaikyoku(new string[]{"寅","午","戌"},"火性"),
-                new SangouKaikyoku(new string[]{"巳","酉","丑"},"金性"),
+                new SangouKaikyoku(new string[]{"申","子","辰"},"水"),
+                new SangouKaikyoku(new string[]{"亥","卯","未"},"木"),
+                new SangouKaikyoku(new string[]{"寅","午","戌"},"火"),
+                new SangouKaikyoku(new string[]{"巳","酉","丑"},"金"),
             };
             //--------------------------------
             //方三位 テーブル
             //--------------------------------
             housanniTbl.lstHousani = new List<HouSani>()
             {
-                new HouSani(new string[]{"亥","子","丑"},"水性"),
-                new HouSani(new string[]{"寅","卯","辰"},"木性"),
-                new HouSani(new string[]{"巳","午","未"},"火性"),
-                new HouSani(new string[]{"申","酉","戌"},"金性"),
+                new HouSani(new string[]{"亥","子","丑"},"水"),
+                new HouSani(new string[]{"寅","卯","辰"},"木"),
+                new HouSani(new string[]{"巳","午","未"},"火"),
+                new HouSani(new string[]{"申","酉","戌"},"金"),
 
             };
             //--------------------------------
@@ -810,12 +810,12 @@ namespace WinFormsApp2
             //--------------------------------
             sigouTbl.lstSigou = new List<Sigou>()
             {
-                new Sigou(new string[]{"子","丑"},"水性"),
-                new Sigou(new string[]{"亥","寅"},"木性"),
-                new Sigou(new string[]{"戌","卯"},"木性 or 土性"),//この五行はいつか対応が必要
-                new Sigou(new string[]{"酉","辰"},"金性 or 土性"),//この五行はいつか対応が必要
-                new Sigou(new string[]{"申","巳"},"金性"),
-                new Sigou(new string[]{"未","午"},"火性"),
+                new Sigou(new string[]{"子","丑"},"水"),
+                new Sigou(new string[]{"亥","寅"},"木"),
+                new Sigou(new string[]{"戌","卯"},"木 or 土"),//この五行はいつか対応が必要
+                new Sigou(new string[]{"酉","辰"},"金 or 土"),//この五行はいつか対応が必要
+                new Sigou(new string[]{"申","巳"},"金"),
+                new Sigou(new string[]{"未","午"},"火"),
 
             };
 

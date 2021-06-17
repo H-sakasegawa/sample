@@ -112,6 +112,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.button1);
             this.MinimizeBox = false;
             this.Name = "EditCareer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "経歴編集";
             this.Load += new System.EventHandler(this.EditCareer_Load);
             this.ResumeLayout(false);

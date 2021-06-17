@@ -765,46 +765,53 @@ namespace WinFormsApp2
             //---------------------------------------
             // 三合会局
             //---------------------------------------
-            if (bDispGetuun)
+
+            if (bDispSangouKaikyoku)
             {
-
-                if (bDispSangouKaikyoku)
+                foreach (var item in lstSangouKaikyoku)
                 {
-                    foreach (var item in lstSangouKaikyoku)
+                    int[] posX = new int[3];
+                    int index = 0;
+                    //月運がHitしているが月運表示OFFの場合は表示しない
+                    if ((item.hitItemBit & Const.bitFlgGetuun)!=0 && !bDispGetuun)
                     {
-                        int[] posX = new int[3];
-                        int index = 0;
-                        if ((item.hitItemBit & Const.bitFlgGetuun) != 0) posX[index++] = getuunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNenun) != 0) posX[index++] = nenunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgTaiun) != 0) posX[index++] = taiunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNiti) != 0) posX[index++] = nikkansiCenterX;
-                        if ((item.hitItemBit & Const.bitFlgGetu) != 0) posX[index++] = gekkansiCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNen) != 0) posX[index++] = nenkansiCenterX;
-
-                        idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
-                        dircDownOfsX += 4;
-                        DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Red);
-                        DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "三合会局", Brushes.Red);
+                        continue;
                     }
-                    //---------------------------------------
-                    // 方三位
-                    //---------------------------------------
-                    foreach (var item in lstHouSani)
+                    if ((item.hitItemBit & Const.bitFlgGetuun) != 0) posX[index++] = getuunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNenun) != 0) posX[index++] = nenunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgTaiun) != 0) posX[index++] = taiunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNiti) != 0) posX[index++] = nikkansiCenterX;
+                    if ((item.hitItemBit & Const.bitFlgGetu) != 0) posX[index++] = gekkansiCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNen) != 0) posX[index++] = nenkansiCenterX;
+
+                    idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
+                    dircDownOfsX += 4;
+                    DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Red);
+                    DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "三合会局", Brushes.Red);
+                }
+                //---------------------------------------
+                // 方三位
+                //---------------------------------------
+                foreach (var item in lstHouSani)
+                {
+                    int[] posX = new int[3];
+                    int index = 0;
+                    //月運がHitしているが月運表示OFFの場合は表示しない
+                    if ((item.hitItemBit & Const.bitFlgGetuun) != 0 && !bDispGetuun)
                     {
-                        int[] posX = new int[3];
-                        int index = 0;
-                        if ((item.hitItemBit & Const.bitFlgGetuun) != 0) posX[index++] = getuunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNenun) != 0) posX[index++] = nenunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgTaiun) != 0) posX[index++] = taiunCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNiti) != 0) posX[index++] = nikkansiCenterX;
-                        if ((item.hitItemBit & Const.bitFlgGetu) != 0) posX[index++] = gekkansiCenterX;
-                        if ((item.hitItemBit & Const.bitFlgNen) != 0) posX[index++] = nenkansiCenterX;
-
-                        idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
-                        dircDownOfsX += 4;
-                        DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Blue);
-                        DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "方三位", Brushes.Blue);
+                        continue;
                     }
+                    if ((item.hitItemBit & Const.bitFlgGetuun) != 0) posX[index++] = getuunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNenun) != 0) posX[index++] = nenunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgTaiun) != 0) posX[index++] = taiunCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNiti) != 0) posX[index++] = nikkansiCenterX;
+                    if ((item.hitItemBit & Const.bitFlgGetu) != 0) posX[index++] = gekkansiCenterX;
+                    if ((item.hitItemBit & Const.bitFlgNen) != 0) posX[index++] = nenkansiCenterX;
+
+                    idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
+                    dircDownOfsX += 4;
+                    DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Blue);
+                    DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "方三位", Brushes.Blue);
                 }
             }
 

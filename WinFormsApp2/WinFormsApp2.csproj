@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Common.BAK" />
+    <None Remove="DrawKoutenUn.cs.bak" />
   </ItemGroup>
 
   <ItemGroup>
