@@ -176,8 +176,12 @@ namespace WinFormsApp2
                 lstLblGotoku[i].BackColor = dataMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
             }
 
-            //グループコンボボックス設定
-            var groups = personList.GetGroups();
+
+            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+            chkRefrectSangouKaikyokuHousani.Enabled = false;
+
+           //グループコンボボックス設定
+           var groups = personList.GetGroups();
             cmbGroup.Items.Add("全て");
             foreach (var group in groups)
             {
@@ -565,19 +569,19 @@ namespace WinFormsApp2
 
             //日
             GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, null, null);
-            string nanasatu = person.IsNanasatu(taiunKansi, person.nikkansi) ? "七殺" : "";
+            string nanasatu = person.IsNanasatu(taiunKansi, person.nikkansi) ? Const.sNanasatu : "";   //七殺
             string kangou = person.GetKangoStr(taiunKansi, person.nikkansi); //干合            
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu) );
 
             //月
             gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, null, null);
-            nanasatu = person.IsNanasatu(taiunKansi, person.gekkansi) ? "七殺" : "";
+            nanasatu = person.IsNanasatu(taiunKansi, person.gekkansi) ? Const.sNanasatu : "";   //七殺
             kangou = person.GetKangoStr(taiunKansi, person.gekkansi); //干合
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
             //年
             gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, null, null);
-            nanasatu = person.IsNanasatu(taiunKansi, person.nenkansi) ? "七殺" : "";
+            nanasatu = person.IsNanasatu(taiunKansi, person.nenkansi) ? Const.sNanasatu : "";   //七殺
             kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
@@ -765,19 +769,19 @@ namespace WinFormsApp2
             //合法三法(日)
             GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nikkansi, taiunKansi, taregetKansi);
             string kangou = person.GetKangoStr(taregetKansi, person.nikkansi); //干合            
-            string nanasatu = person.IsNanasatu(taregetKansi, person.nikkansi) ? "七殺" : "";
+            string nanasatu = person.IsNanasatu(taregetKansi, person.nikkansi) ? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NITI].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
             //合法三法(月)
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.gekkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.gekkansi); //干合  
-            nanasatu = person.IsNanasatu(taregetKansi, person.gekkansi) ? "七殺" : "";
+            nanasatu = person.IsNanasatu(taregetKansi, person.gekkansi) ? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_GETU].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
             //合法三法(年ｖ
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nenkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.nenkansi); //干合  
-            nanasatu = person.IsNanasatu(taregetKansi, person.nenkansi) ? "七殺" : "";
+            nanasatu = person.IsNanasatu(taregetKansi, person.nenkansi) ? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NEN].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
 
@@ -833,7 +837,7 @@ namespace WinFormsApp2
         private void DispShukumei(Person person, PictureBox pictureBox)
         {
 
-            drawItem = new DrawShukumei(person, pictureBox, chkGogyou.Checked, chkGotoku.Checked);
+            drawItem = new DrawShukumei(person, pictureBox, chkGogyou.Checked, chkGotoku.Checked, chkRefrectGouhou.Checked);
             drawItem.Draw();
 
         }
@@ -869,7 +873,9 @@ namespace WinFormsApp2
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked, 
-                                        chkGotoku.Checked
+                                        chkGotoku.Checked,
+                                        chkRefrectGouhou.Checked,
+                                        chkRefrectSangouKaikyokuHousani.Checked
                                         );
             drawItem2.Draw();
 
@@ -1029,6 +1035,7 @@ namespace WinFormsApp2
             //月運リストビューは年度の最初の月を選択
             DispDateView(new DateTime(year, GetuunDispStartGetu, GetuunDispStartGetu));
         }
+
 
         //------------------------------------------------------------
         // 大運リストビュー イベント
@@ -1374,6 +1381,8 @@ namespace WinFormsApp2
             {
                 chkGogyou.Checked = false;
             }
+            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
@@ -1384,6 +1393,22 @@ namespace WinFormsApp2
             {
                 chkGotoku.Checked = false;
             }
+            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+        //合法反映
+        private void chkRefrectGouhou_CheckedChanged(object sender, EventArgs e)
+        {
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+
+            chkRefrectSangouKaikyokuHousani.Enabled = chkRefrectGouhou.Checked;
+        }
+
+        //三合会局・方三位 反映
+        private void chkSangouKaikyokuHousanni_CheckedChanged(object sender, EventArgs e)
+        {
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
@@ -1489,9 +1514,5 @@ namespace WinFormsApp2
             brush.Dispose();
         }
 
-        private void label36_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

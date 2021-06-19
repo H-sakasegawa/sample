@@ -67,6 +67,8 @@ namespace WinFormsApp2
         bool bDispSangouKaikyoku = false;
         bool bDispGogyou = false;
         bool bDispGotoku = false;
+        bool bDispRefrectGouhou = false;  //合法反映表示
+        bool bDispRefrectSangouKaiyoku = false;  //三合会局・方三位反映表示
 
         public DrawKoutenUn(Person person, PictureBox pictureBox, 
                             Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi,
@@ -75,8 +77,10 @@ namespace WinFormsApp2
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku
-            ) :
+                            bool _bDispGotoku,
+                            bool _bDispRefrectGouhou,
+                            bool _bDispRefrectSangouKaiyoku
+           ) :
             base(person, pictureBox)
         {
 
@@ -92,6 +96,9 @@ namespace WinFormsApp2
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
+
+            bDispRefrectGouhou = _bDispRefrectGouhou;
+            bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
         void CalcCoord()
         {
@@ -337,10 +344,34 @@ namespace WinFormsApp2
                 colorGekkansi = GetGogyouColor(person.gekkansi);
                 colorNenkansi = GetGogyouColor(person.nenkansi);
 
-                colorGetuunKansi = GetGogyouColor(getuunKansi);
-                colorNenunKansi = GetGogyouColor(nenunKansi);
-                colorTaiunKansi = GetGogyouColor(taiunKansi);
+                colorGetuunKansi = GetGogyouColor(getuunKansi); //月運
+                colorNenunKansi = GetGogyouColor(nenunKansi);   //年運
+                colorTaiunKansi = GetGogyouColor(taiunKansi);   //大運
 
+                //合法反映
+                if (bDispRefrectGouhou)
+                {
+                    RefrectGouhou(
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                    getuunKansi, nenunKansi, taiunKansi
+                                    );
+                    RefrectKangou(
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                    getuunKansi, nenunKansi, taiunKansi
+                                    );
+
+                }
+                //三合会局・方三位　反映
+                if (bDispRefrectSangouKaiyoku)
+                {
+                    RefrectSangouKaikyokuHousanni(
+                                    lstSangouKaikyoku, lstHouSani,
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi
+                                    );
+                }
             }
             else if (bDispGotoku)
             {   //五徳色表示

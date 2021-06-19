@@ -275,11 +275,11 @@ namespace WinFormsApp2
     //干合
     public class Kangou
     {
-        public Kangou(string _kan, string _gou, string _kaki, string _kyoki1, string _kyoki2, string _yomi)
+        public Kangou(string _kan, string _gou, string _gogyou, string _kyoki1, string _kyoki2, string _yomi)
         {
             kan = _kan;
             gou = _gou;
-            kaki = _kaki;
+            gogyou = _gogyou;
             kyoki = new string[] { _kyoki1, _kyoki2 };
             yojm = _yomi;
         }
@@ -294,7 +294,7 @@ namespace WinFormsApp2
         /// <summary>
         /// 化気
         /// </summary>
-        public string kaki { get; set; }
+        public string gogyou { get; set; }
         /// <summary>
         /// 虚気
         /// </summary>
@@ -356,13 +356,21 @@ namespace WinFormsApp2
     //支合
     public class Sigou
     {
-        public Sigou(string[] _names, string _gogyou)
+        public Sigou(string[] _names, string _gogyou, string _goryouSub)
         {
             names = _names;
             gogyou = _gogyou;
+            goryouSub = _goryouSub;
         }
-        string[] names;
-        string gogyou;
+        public bool IsMatch(string name1, string name2)
+        {
+            if (names[0] == name1 & names[1] == name2) return true;
+            if (names[1] == name1 & names[0] == name2) return true;
+            return false;
+        }
+        public string[] names;
+        public string gogyou;
+        public string goryouSub;
     }
 
     public class Gotoku
@@ -376,6 +384,24 @@ namespace WinFormsApp2
         /// </summary>
         public string[] gotoku;
 
+
+    }
+
+    public class Hankai
+    {
+        public Hankai(string[] _names, string _gogyou)
+        {
+            names = _names;
+            gogyou = _gogyou;
+        }
+        public bool IsMatch(string name1, string name2)
+        {
+            if (names[0] == name1 & names[1] == name2) return true;
+            if (names[1] == name1 & names[0] == name2) return true;
+            return false;
+        }
+        public string[] names;
+        public string gogyou;
 
     }
 

@@ -167,6 +167,9 @@ namespace WinFormsApp2
             this.lblGotoku5 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
+            this.chkRefrectGouhou = new System.Windows.Forms.CheckBox();
+            this.chkRefrectSangouKaikyokuHousani = new System.Windows.Forms.CheckBox();
+            this.grpGogyouGotoku = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -183,6 +186,7 @@ namespace WinFormsApp2
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.grpGogyouGotoku.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -1481,7 +1485,7 @@ namespace WinFormsApp2
             this.chkSangouKaikyoku.AutoSize = true;
             this.chkSangouKaikyoku.Checked = true;
             this.chkSangouKaikyoku.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSangouKaikyoku.Location = new System.Drawing.Point(353, 490);
+            this.chkSangouKaikyoku.Location = new System.Drawing.Point(307, 492);
             this.chkSangouKaikyoku.Name = "chkSangouKaikyoku";
             this.chkSangouKaikyoku.Size = new System.Drawing.Size(116, 19);
             this.chkSangouKaikyoku.TabIndex = 53;
@@ -1567,7 +1571,7 @@ namespace WinFormsApp2
             // chkGogyou
             // 
             this.chkGogyou.AutoSize = true;
-            this.chkGogyou.Location = new System.Drawing.Point(353, 465);
+            this.chkGogyou.Location = new System.Drawing.Point(318, 408);
             this.chkGogyou.Name = "chkGogyou";
             this.chkGogyou.Size = new System.Drawing.Size(50, 19);
             this.chkGogyou.TabIndex = 53;
@@ -1578,7 +1582,7 @@ namespace WinFormsApp2
             // chkGotoku
             // 
             this.chkGotoku.AutoSize = true;
-            this.chkGotoku.Location = new System.Drawing.Point(419, 465);
+            this.chkGotoku.Location = new System.Drawing.Point(375, 408);
             this.chkGotoku.Name = "chkGotoku";
             this.chkGotoku.Size = new System.Drawing.Size(50, 19);
             this.chkGotoku.TabIndex = 53;
@@ -1645,7 +1649,6 @@ namespace WinFormsApp2
             this.lblGotoku3.TabIndex = 59;
             this.lblGotoku3.Text = "財";
             this.lblGotoku3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblGotoku3.Click += new System.EventHandler(this.label36_Click);
             // 
             // lblGgyou4
             // 
@@ -1705,11 +1708,44 @@ namespace WinFormsApp2
             this.label23.TabIndex = 61;
             this.label23.Text = "五徳";
             // 
+            // chkRefrectGouhou
+            // 
+            this.chkRefrectGouhou.AutoSize = true;
+            this.chkRefrectGouhou.Location = new System.Drawing.Point(6, 14);
+            this.chkRefrectGouhou.Name = "chkRefrectGouhou";
+            this.chkRefrectGouhou.Size = new System.Drawing.Size(98, 19);
+            this.chkRefrectGouhou.TabIndex = 64;
+            this.chkRefrectGouhou.Text = "合法反映表示";
+            this.chkRefrectGouhou.UseVisualStyleBackColor = true;
+            this.chkRefrectGouhou.CheckedChanged += new System.EventHandler(this.chkRefrectGouhou_CheckedChanged);
+            // 
+            // chkRefrectSangouKaikyokuHousani
+            // 
+            this.chkRefrectSangouKaikyokuHousani.AutoSize = true;
+            this.chkRefrectSangouKaikyokuHousani.Location = new System.Drawing.Point(6, 32);
+            this.chkRefrectSangouKaikyokuHousani.Name = "chkRefrectSangouKaikyokuHousani";
+            this.chkRefrectSangouKaikyokuHousani.Size = new System.Drawing.Size(143, 19);
+            this.chkRefrectSangouKaikyokuHousani.TabIndex = 65;
+            this.chkRefrectSangouKaikyokuHousani.Text = "三合会局・方三位 反映";
+            this.chkRefrectSangouKaikyokuHousani.UseVisualStyleBackColor = true;
+            this.chkRefrectSangouKaikyokuHousani.CheckedChanged += new System.EventHandler(this.chkSangouKaikyokuHousanni_CheckedChanged);
+            // 
+            // grpGogyouGotoku
+            // 
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectGouhou);
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectSangouKaikyokuHousani);
+            this.grpGogyouGotoku.Location = new System.Drawing.Point(318, 423);
+            this.grpGogyouGotoku.Name = "grpGogyouGotoku";
+            this.grpGogyouGotoku.Size = new System.Drawing.Size(153, 60);
+            this.grpGogyouGotoku.TabIndex = 66;
+            this.grpGogyouGotoku.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.grpGogyouGotoku);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.lblGotoku5);
@@ -1773,6 +1809,8 @@ namespace WinFormsApp2
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.grpGogyouGotoku.ResumeLayout(false);
+            this.grpGogyouGotoku.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1918,6 +1956,9 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label lblGotoku5;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.CheckBox chkRefrectGouhou;
+        private System.Windows.Forms.CheckBox chkRefrectSangouKaikyokuHousani;
+        private System.Windows.Forms.GroupBox grpGogyouGotoku;
     }
 }
 

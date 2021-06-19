@@ -258,7 +258,7 @@ namespace WinFormsApp2
         }
         public JunidaiJuseiTbl junidaiJusei = null;
 
- 
+
         /// <summary>
         /// 干合テーブル管理
         /// </summary>
@@ -285,8 +285,18 @@ namespace WinFormsApp2
             }
             public string GetKangouStr(string kan1, string kan2)
             {
-                return IsKangou(kan1, kan2) ? "干合" : "";
+                // return IsKangou(kan1, kan2) ? "干合" : "";
+                return IsKangou(kan1, kan2) ? Const.sKangou : "";
 
+            }
+            public string GetKangouAttr(string siName1, string siName2)
+            {
+                var sigou = GetKangou(siName1, siName2);
+                if (sigou != null)
+                {
+                    return sigou.gogyou;
+                }
+                return null;
             }
         }
         public KangouTbl kangouTbl = new KangouTbl();
@@ -360,7 +370,7 @@ namespace WinFormsApp2
 
                 for(int i=items.Count-1; i>=0; i--)
                 {
-                    if ((bExistTensatuTichu || bExistNentin) && items[i] == "冲動")
+                    if ((bExistTensatuTichu || bExistNentin) && items[i] == Const.sOkidou) //"冲動"
                     {   //天殺地冲または、納音がある場合は、"冲動"は不要
                         items.RemoveAt(i);
                     }
@@ -385,15 +395,15 @@ namespace WinFormsApp2
                         break;
                     }
                 }
-                if (idx >= jyunisi.Length) 
+                if (idx >= jyunisi.Length)
                     return null;
 
-                if (!dicGouhouSanpou.ContainsKey(siName2)) 
+                if (!dicGouhouSanpou.ContainsKey(siName2))
                     return null;
 
                 string value = dicGouhouSanpou[siName2][idx];
 
-                if (value == "") 
+                if (value == "")
                     return null;
                 return value.Split(",");
 
@@ -440,8 +450,8 @@ namespace WinFormsApp2
         {
             public List<SangouKaikyoku> lstSangouKaikyoku = null;
 
-            public List<SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,
-                                                    Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
+            public List<SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,          
+                                                                Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
             {
                 SiItems[] arySi = {
                        new SiItems(getuun.si, Const.bitFlgGetuun),
@@ -559,6 +569,45 @@ namespace WinFormsApp2
         public class SigouTbl
         {
             public List<Sigou> lstSigou = null;
+
+            public Sigou GetSigou(string siName1, string siName2)
+            {
+                foreach (var item in lstSigou)
+                {
+                    if (item.IsMatch(siName1, siName2))
+                    {
+                        return item;
+                    }
+                }
+                return null;
+
+            }
+
+            /// <summary>
+            /// 支合テーブルの五行（色）を取得
+            /// </summary>
+            /// <param name="siName1"></param>
+            /// <param name="siName2"></param>
+            /// <param name="bManyAttrDo">true..."土"が多い</param>
+            /// <returns></returns>
+            public string GetGogyouAttr(string siName1, string siName2, bool bManyAttrDo)
+            {
+                var sigou = GetSigou( siName1,  siName2);
+                if( sigou!=null)
+                {
+                    //"木"または"金"の場合
+                    if ( sigou.gogyou==Const.sGogyouMoku || sigou.gogyou==Const.sGogyouKin)
+                    {
+                        if(bManyAttrDo)
+                        {   //"土"が多いので"土に変換
+                            return sigou.goryouSub;
+                        }
+                    }
+                    return sigou.gogyou;
+                }  
+                return null;
+            }
+
         }
         public SigouTbl sigouTbl = new SigouTbl();
 
@@ -583,6 +632,40 @@ namespace WinFormsApp2
         }
         public AttrColorTbl gogyouAttrColorTbl = new AttrColorTbl();
         public AttrColorTbl gotokuAttrColorTbl = new AttrColorTbl();
+
+
+        /// <summary>
+        /// 半会 テーブル
+        /// </summary>
+        public class HankaiTbl
+        {
+            public List<Hankai> lstHankai = null;
+
+            public Hankai GetHankai(string siName1, string siName2)
+            {
+                foreach (var item in lstHankai)
+                {
+                    if (item.IsMatch(siName1, siName2))
+                    {
+                        return item;
+                    }
+                }
+                return null;
+
+            }
+            //支合テーブルの五行（色）を取得
+            public string GetGogyou(string siName1, string siName2)
+            {
+                var sigou = GetHankai(siName1, siName2);
+                if (sigou != null)
+                {
+                    return  sigou.gogyou;
+                }
+                return null;
+            }
+
+        }
+        public HankaiTbl hankaiTbl = new HankaiTbl();
 
 
         /// <summary>
@@ -810,14 +893,35 @@ namespace WinFormsApp2
             //--------------------------------
             sigouTbl.lstSigou = new List<Sigou>()
             {
-                new Sigou(new string[]{"子","丑"},"水"),
-                new Sigou(new string[]{"亥","寅"},"木"),
-                new Sigou(new string[]{"戌","卯"},"木 or 土"),//この五行はいつか対応が必要
-                new Sigou(new string[]{"酉","辰"},"金 or 土"),//この五行はいつか対応が必要
-                new Sigou(new string[]{"申","巳"},"金"),
-                new Sigou(new string[]{"未","午"},"火"),
+                new Sigou(new string[]{"子","丑"},"水", null),
+                new Sigou(new string[]{"亥","寅"},"木", null),
+                new Sigou(new string[]{"戌","卯"},"木","土"),
+                new Sigou(new string[]{"酉","辰"},"金","土"),
+                new Sigou(new string[]{"申","巳"},"金", null),
+                new Sigou(new string[]{"未","午"},"火", null),
 
             };
+
+            //--------------------------------
+            //半会　属性テーブル
+            //--------------------------------
+            hankaiTbl.lstHankai = new List<Hankai>()
+            {
+                new Hankai(new string[]{"申","子" },"水"),
+                new Hankai(new string[]{"申","辰" },"水"),
+                new Hankai(new string[]{"子","辰" },"水"),
+                new Hankai(new string[]{"亥","卯" },"木"),
+                new Hankai(new string[]{"亥","未" },"木"),
+                new Hankai(new string[]{"卯","未" },"木"),
+                new Hankai(new string[]{"寅","午" },"火"),
+                new Hankai(new string[]{"寅","戌" },"火"),
+                new Hankai(new string[]{"午","戌" },"火"),
+                new Hankai(new string[]{"巳","酉" },"金"),
+                new Hankai(new string[]{"巳","丑" },"金"),
+                new Hankai(new string[]{"酉","丑" },"金"),
+            };
+
+
 
             //--------------------------------
             //五行属性カラー テーブル

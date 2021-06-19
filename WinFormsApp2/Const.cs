@@ -18,5 +18,18 @@ namespace WinFormsApp2
         public const int bitFlgNiti = 0x04;
         public const int bitFlgGetu = 0x02;
         public const int bitFlgNen = 0x01;
+
+
+        public const string sKangou = "干合";
+        public const string sInyou = "陰陽";
+        public const string sNanasatu = "七殺";
+
+        public const string sOkidou = "冲動";
+
+        public const string sGogyouMoku = "木";
+        public const string sGogyouKa = "火";
+        public const string sGogyouDo = "土";
+        public const string sGogyouKin = "金";
+        public const string sGogyouSui = "水";
     }
 }

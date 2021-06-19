@@ -371,6 +371,8 @@ namespace WinFormsApp2
             return tblMng.junidaiJusei.GetJunidaiJusei(kan, si);
         }
 
+
+ 
         //合法・散法
         /// <summary>
         /// 合法・散法 文字の配列を取得します。

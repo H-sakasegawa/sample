@@ -44,12 +44,14 @@ namespace WinFormsApp2
 
         bool bDispGogyou = false;
         bool bDispGotoku = false;
+        bool bDispRefrectGouhou = false;  //五行変換表示
 
         public DrawShukumei(
                             Person person, 
                             PictureBox pictureBox,
                             bool _bDispGogyou,
-                            bool _bDispGotoku
+                            bool _bDispGotoku,
+                            bool _bDispRefrectGouhou
             ) : base(person, pictureBox)
         {
 
@@ -58,7 +60,12 @@ namespace WinFormsApp2
 
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
+            bDispRefrectGouhou = _bDispRefrectGouhou;
         }
+
+        /// <summary>
+        /// 表示座標計算
+        /// </summary>
         private void CalcCoord()
         {
             nikkansi.X = 5;
@@ -115,7 +122,6 @@ namespace WinFormsApp2
 
             //干合
             //-------------------
-
             bool bKangouNitiGetsuKan = person.IsKangouNitiGetsuKan();//干合（日-月) の関係
             bool bKangouGetsuNenKan = person.IsKangoGetsuNenKan(); //干合（月-年) の関係
             bool bKangouNiItiNenKan = person.IsKangoNitiNenKan(); //干合（日-年) の関係
@@ -132,6 +138,11 @@ namespace WinFormsApp2
             int idxNanasatuGetuNen = SetMatrixUp(bNanasatuGetuNen, bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
             int idxNanasatuNitNen = SetMatrixUp(bNanasatuNitNen, (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
 
+            //合法・散法
+            //-------------------
+            string[] gouhouSanpouNitiGetu = person.GetGouhouSanpouNitiGetu();
+            string[] gouhouSanpouGetuNen = person.GetGouhouSanpouiGetuNen();
+            string[] gouhouSanpouNitiNen = person.GetGouhouSanpouiNitiNen();
 
             //干支の上部に表示する情報の段数から干支表示基準座標を計算
             CalcCoord();
@@ -144,6 +155,13 @@ namespace WinFormsApp2
                 colorNikkansi = GetGogyouColor(person.nikkansi);
                 colorGekkansi = GetGogyouColor(person.gekkansi);
                 colorNenkansi = GetGogyouColor(person.nenkansi);
+
+                //合法反映
+                if( bDispRefrectGouhou)
+                {
+                    RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
+                    RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
+                }
             }
             else if( bDispGotoku)
             {   //五徳色表示
@@ -153,6 +171,7 @@ namespace WinFormsApp2
                 colorNenkansi = GetGotokuColor(baseKan, person.nenkansi);
 
             }
+
 
             //干支表示
             DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi);
@@ -215,10 +234,6 @@ namespace WinFormsApp2
 
             //合法・散法
             //-------------------
-            string[] gouhouSanpouNitiGetu = person.GetGouhouSanpouNitiGetu();
-            string[] gouhouSanpouGetuNen = person.GetGouhouSanpouiGetuNen();
-            string[] gouhouSanpouNitiNen = person.GetGouhouSanpouiNitiNen();
-
             int idxGouhouSanpouNitiGetu = SetMatrixDown((gouhouSanpouNitiGetu != null), bitFlgNiti, (bitFlgNiti | bitFlgGetu));//日 - 月
             int idxGouhouSanpouGetuNen = SetMatrixDown((gouhouSanpouGetuNen != null), bitFlgNen, (bitFlgGetu | bitFlgNen));//月 - 年
             int idxGouhouSanpouNitiNen = SetMatrixDown((gouhouSanpouNitiNen != null), (bitFlgNiti | bitFlgNen), (bitFlgNiti | bitFlgNen));//日 - 年
