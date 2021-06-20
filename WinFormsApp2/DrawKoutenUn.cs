@@ -338,6 +338,14 @@ namespace WinFormsApp2
             Color[] colorNikkansi = null;
             Color[] colorGekkansi = null;
             Color[] colorNenkansi = null;
+
+            Color[] colorGetuunKansiOrg = new Color[2];
+            Color[] colorNenunKansiOrg = new Color[2];
+            Color[] colorTaiunKansiOrg = new Color[2];
+            Color[] colorNikkansiOrg = new Color[2];
+            Color[] colorGekkansiOrg = new Color[2];
+            Color[] colorNenkansiOrg = new Color[2];
+
             if (bDispGogyou)
             {   //五行色表示
                 colorNikkansi = GetGogyouColor(person.nikkansi);
@@ -348,31 +356,7 @@ namespace WinFormsApp2
                 colorNenunKansi = GetGogyouColor(nenunKansi);   //年運
                 colorTaiunKansi = GetGogyouColor(taiunKansi);   //大運
 
-                //合法反映
-                if (bDispRefrectGouhou)
-                {
-                    RefrectGouhou(
-                                    colorNikkansi, colorGekkansi, colorNenkansi,
-                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
-                                    getuunKansi, nenunKansi, taiunKansi
-                                    );
-                    RefrectKangou(
-                                    colorNikkansi, colorGekkansi, colorNenkansi,
-                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
-                                    getuunKansi, nenunKansi, taiunKansi
-                                    );
-
-                }
-                //三合会局・方三位　反映
-                if (bDispRefrectSangouKaiyoku)
-                {
-                    RefrectSangouKaikyokuHousanni(
-                                    lstSangouKaikyoku, lstHouSani,
-                                    colorNikkansi, colorGekkansi, colorNenkansi,
-                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi
-                                    );
-                }
-            }
+             }
             else if (bDispGotoku)
             {   //五徳色表示
                 string baseKan = person.nikkansi.kan;
@@ -385,6 +369,40 @@ namespace WinFormsApp2
                 colorTaiunKansi = GetGotokuColor(baseKan, taiunKansi);
             }
 
+            if( colorGetuunKansi != null) colorGetuunKansi.CopyTo(colorGetuunKansiOrg, 0);
+            if (colorNenunKansi != null) colorNenunKansi.CopyTo(colorNenunKansiOrg, 0);
+            if (colorTaiunKansi != null) colorTaiunKansi.CopyTo(colorTaiunKansiOrg, 0);
+
+            if (colorNikkansi != null) colorNikkansi.CopyTo(colorNikkansiOrg, 0);
+            if (colorGekkansi != null) colorGekkansi.CopyTo(colorGekkansiOrg, 0);
+            if (colorNenkansi != null) colorNenkansi.CopyTo(colorNenkansiOrg, 0);
+
+            //合法反映
+            if (bDispRefrectGouhou)
+            {
+                RefrectGouhou(
+                                colorNikkansi, colorGekkansi, colorNenkansi,
+                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                getuunKansi, nenunKansi, taiunKansi,
+                                bDispGetuun
+                                );
+                RefrectKangou(
+                                colorNikkansi, colorGekkansi, colorNenkansi,
+                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                getuunKansi, nenunKansi, taiunKansi
+                                );
+
+            }
+            //三合会局・方三位　反映
+            if (bDispRefrectSangouKaiyoku)
+            {
+                RefrectSangouKaikyokuHousanni(
+                                lstSangouKaikyoku, lstHouSani,
+                                colorNikkansi, colorGekkansi, colorNenkansi,
+                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi
+                                );
+            }
+
 
             //干支表示
             rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
@@ -393,17 +411,17 @@ namespace WinFormsApp2
 
             if (bDispGetuun)
             {
-                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi);　//月運干支
+                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, colorGetuunKansiOrg);　//月運干支
                 DrawString(rectGetuunTitle, "<月運>");
             }
-            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi);//年運干支
-            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi);//大運干支
+            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, colorNenunKansiOrg);//年運干支
+            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, colorTaiunKansiOrg);//大運干支
             DrawString(rectNenunTitle, "<年運>");
             DrawString(rectTaiunTitle, "<大運>");
 
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi);//日干支
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi);//月干支
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi);//年干支
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, colorNikkansiOrg);//日干支
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, colorGekkansiOrg);//月干支
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, colorNenkansiOrg);//年干支
 
 
             //陰陽(年運→大運）

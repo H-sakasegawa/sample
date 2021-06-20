@@ -150,18 +150,17 @@ namespace WinFormsApp2
             Color[] colorNikkansi=null;
             Color[] colorGekkansi = null;
             Color[] colorNenkansi = null;
+
+            Color[] colorNikkansiOrg = new Color[2];
+            Color[] colorGekkansiOrg = new Color[2];
+            Color[] colorNenkansiOrg = new Color[2];
+
             if ( bDispGogyou)
             {   //五行色表示
                 colorNikkansi = GetGogyouColor(person.nikkansi);
                 colorGekkansi = GetGogyouColor(person.gekkansi);
-                colorNenkansi = GetGogyouColor(person.nenkansi);
+                colorNenkansi =  GetGogyouColor(person.nenkansi);
 
-                //合法反映
-                if( bDispRefrectGouhou)
-                {
-                    RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
-                    RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
-                }
             }
             else if( bDispGotoku)
             {   //五徳色表示
@@ -172,11 +171,21 @@ namespace WinFormsApp2
 
             }
 
+            if (colorNikkansi != null) colorNikkansi.CopyTo(colorNikkansiOrg, 0);
+            if (colorGekkansi != null) colorGekkansi.CopyTo(colorGekkansiOrg, 0);
+            if (colorNenkansi != null) colorNenkansi.CopyTo(colorNenkansiOrg, 0);
+
+            //合法反映
+            if (bDispRefrectGouhou)
+            {
+                RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
+                RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
+            }
 
             //干支表示
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi);
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi);
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi);
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, colorNikkansiOrg);
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, colorGekkansiOrg);
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, colorNenkansiOrg);
 
             //ライン描画
             //陰陽

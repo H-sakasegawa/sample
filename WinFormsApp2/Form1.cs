@@ -177,7 +177,7 @@ namespace WinFormsApp2
             }
 
 
-            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+            grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
             chkRefrectSangouKaikyokuHousani.Enabled = false;
 
            //グループコンボボックス設定
@@ -1381,7 +1381,7 @@ namespace WinFormsApp2
             {
                 chkGogyou.Checked = false;
             }
-            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+            grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
 
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
@@ -1393,7 +1393,7 @@ namespace WinFormsApp2
             {
                 chkGotoku.Checked = false;
             }
-            grpGogyouGotoku.Enabled = chkGogyou.Checked;
+            grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
