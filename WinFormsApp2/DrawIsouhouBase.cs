@@ -106,6 +106,10 @@ namespace WinFormsApp2
             blackPen.Dispose();
             redPen.Dispose();
             fnt.Dispose();
+            fntSmall.Dispose();
+            fntSmallMark.Dispose();
+            fntSmallDisable.Dispose();
+            
         }
 
         /// <summary>

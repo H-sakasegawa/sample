@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
-
+using System.Configuration;
 
 namespace WinFormsApp2
 {
@@ -82,6 +82,7 @@ namespace WinFormsApp2
         public Form1()
         {
             InitializeComponent();
+
 
             lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
             lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
@@ -192,7 +193,75 @@ namespace WinFormsApp2
                 cmbGroup.SelectedIndex = 0;
             }
 
+            //Properties.Settings.Default.Reload();
 
+            //if (cmbGroup.Items.Contains(Properties.Settings.Default.Group))
+            //{
+            //    cmbGroup.Text = Properties.Settings.Default.Group;
+            //}
+            ReloadSetting();
+
+
+
+        }
+
+        private void ReloadSetting()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            SetInitComboBox( config, "Group", cmbGroup);
+            SetInitComboBox( config, "Name", cmbPerson);
+
+            SetInitCheckBox(config, "Getuun", chkDispGetuun);
+            SetInitCheckBox(config, "Nenun", chkDispNenun);
+            SetInitCheckBox(config, "Taiun", chkDispTaiun);
+            SetInitCheckBox(config, "SangouKaikyoku", chkSangouKaikyoku);
+            SetInitCheckBox(config, "Gogyou", chkGogyou);
+            SetInitCheckBox(config, "Gotoku", chkGotoku);
+            SetInitCheckBox(config, "RefrectGouhou", chkRefrectGouhou);
+            SetInitCheckBox(config, "RefrectSangouKaikyokuHousani", chkRefrectSangouKaikyokuHousani);
+
+
+
+        }
+        public void SetInitComboBox(Configuration config, string keyName, ComboBox cmb)
+        {
+            string sValue = config.AppSettings.Settings[keyName].Value;
+            if (sValue != "")
+            {
+                for (int i = 0; i < cmb.Items.Count; i++)
+                {
+                    if ( cmb.Items[i].ToString() == sValue)
+                    {
+                        cmb.Text = sValue;
+                        return;
+                    }
+                }
+            }
+        }
+        public void SetInitCheckBox(Configuration config, string keyName, CheckBox chk)
+        {
+            string sValue = config.AppSettings.Settings[keyName].Value;
+            if (sValue != "")
+            {
+                chk.Checked = bool.Parse(sValue);
+            }
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
+            config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
+            config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
+            config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
+            config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
+            config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
+            config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
+            config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
+            config.AppSettings.Settings["RefrectGouhou"].Value = chkRefrectGouhou.Checked.ToString();
+            config.AppSettings.Settings["RefrectSangouKaikyokuHousani"].Value = chkRefrectSangouKaikyokuHousani.Checked.ToString();
+            config.Save();
         }
 
 
