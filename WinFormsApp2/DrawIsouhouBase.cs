@@ -43,6 +43,13 @@ namespace WinFormsApp2
 
         public class AttrTbl
         {
+            public void Init( string _attrKan, string _attrSi)
+            {
+                attrKanOrg = attrKan = _attrKan;
+                attrSiOrg = attrSi = _attrSi;
+            }
+            public string attrKanOrg;
+            public string attrSiOrg;
             public string attrKan;
             public string attrSi;
         }
@@ -50,6 +57,7 @@ namespace WinFormsApp2
 
         public enum enumAttr
         {
+            None = -1,
             GETUUN = 0,
             NENUN,
             TAIUN,
@@ -140,7 +148,7 @@ namespace WinFormsApp2
         /// <param name="kansi"></param>
         /// <param name="rectKan"></param>
         /// <param name="rectSi"></param>
-        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] color=null, Color[] colorOrg=null)
+        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] color, enumAttr attrNo)
         {
             if (color != null)
             {
@@ -154,22 +162,31 @@ namespace WinFormsApp2
                     brsSi.Dispose();
                 }
 
-                if( colorOrg!=null)
+                Rectangle rect;
+                Size sz = new Size(8,5);
+                if (attrTbl[(int)attrNo].attrKan != attrTbl[(int)attrNo].attrKanOrg)
                 {
-                    Size sz = new Size(8,5);
-                    if (color[0] != colorOrg[0])
-                    {
-                        Rectangle rect = new Rectangle(rectKan.X , rectKan.Y + rectKan.Height - sz.Height, sz.Width, sz.Height);
-                        g.DrawString("◆", fntSmallMark, Brushes.Black, rect, smallStringFormat);
+                    //左下
+                    rect = new Rectangle(rectKan.X , rectKan.Y + rectKan.Height - sz.Height, sz.Width, sz.Height);
+                    g.DrawString("◆", fntSmallMark, Brushes.Black, rect, smallStringFormat);
 
-                    }
-                    if (color[1] != colorOrg[1])
-                    {
-                        Rectangle rect = new Rectangle(rectSi.X, rectSi.Y + rectSi.Height - sz.Height, sz.Width, sz.Height);
-                        g.DrawString("◆", fntSmallMark, Brushes.Black, rect, smallStringFormat);
 
-                    }
                 }
+                if (attrTbl[(int)attrNo].attrSi != attrTbl[(int)attrNo].attrSiOrg)
+                {
+                    rect = new Rectangle(rectSi.X, rectSi.Y + rectSi.Height - sz.Height, sz.Width, sz.Height);
+                    g.DrawString("◆", fntSmallMark, Brushes.Black, rect, smallStringFormat);
+
+                }
+
+                Size sz2 = new Size(10, 10);
+                //右下
+                rect = new Rectangle(rectKan.X + rectKan.Width - sz2.Width, rectKan.Y + rectKan.Height - sz2.Height, sz2.Width, sz2.Height);
+                g.DrawString(attrTbl[(int)attrNo].attrKan, fntSmall, Brushes.Black, rect, smallStringFormat);
+
+                rect = new Rectangle(rectSi.X + rectKan.Width - sz2.Width, rectSi.Y + rectSi.Height - sz2.Height, sz2.Width, sz2.Height);
+                g.DrawString(attrTbl[(int)attrNo].attrSi, fntSmall, Brushes.Black, rect, smallStringFormat);
+
             }
             g.DrawRectangle(blackPen, rectKan);
             g.DrawRectangle(blackPen, rectSi);
@@ -397,28 +414,22 @@ namespace WinFormsApp2
             return attrTbl[(int)attrNo];
         }
 
-        public void CreateGogyouAttrMatrix(Person person, Kansi getuun, Kansi nenun, Kansi taiun)
+        public void CreateGogyouAttrMatrix(Person person, Kansi getuun=null, Kansi nenun=null, Kansi taiun=null)
         {
             var tblMng = TableMng.GetTblManage();
             //月運
-            attrTbl[(int)enumAttr.GETUUN].attrKan = tblMng.jyukanTbl[getuun.kan].gogyou;
-            attrTbl[(int)enumAttr.GETUUN].attrSi = tblMng.jyunisiTbl[getuun.si].gogyou;
+            if(getuun!=null)attrTbl[(int)enumAttr.GETUUN].Init(tblMng.jyukanTbl[getuun.kan].gogyou, tblMng.jyunisiTbl[getuun.si].gogyou);
             //年運
-            attrTbl[(int)enumAttr.NENUN].attrKan = tblMng.jyukanTbl[nenun.kan].gogyou;
-            attrTbl[(int)enumAttr.NENUN].attrSi = tblMng.jyunisiTbl[nenun.si].gogyou;
+            if(nenun!=null)attrTbl[(int)enumAttr.NENUN].Init( tblMng.jyukanTbl[nenun.kan].gogyou, tblMng.jyunisiTbl[nenun.si].gogyou);
             //大運
-            attrTbl[(int)enumAttr.TAIUN].attrKan = tblMng.jyukanTbl[taiun.kan].gogyou;
-            attrTbl[(int)enumAttr.TAIUN].attrSi = tblMng.jyunisiTbl[taiun.si].gogyou;
+            if (taiun != null)attrTbl[(int)enumAttr.TAIUN].Init(tblMng.jyukanTbl[taiun.kan].gogyou, tblMng.jyunisiTbl[taiun.si].gogyou);
 
             //日干支
-            attrTbl[(int)enumAttr.NIKKANSI].attrKan = tblMng.jyukanTbl[person.nikkansi.kan].gogyou;
-            attrTbl[(int)enumAttr.NIKKANSI].attrSi = tblMng.jyunisiTbl[person.nikkansi.si].gogyou;
+            attrTbl[(int)enumAttr.NIKKANSI].Init(tblMng.jyukanTbl[person.nikkansi.kan].gogyou, tblMng.jyunisiTbl[person.nikkansi.si].gogyou);
             //月干支
-            attrTbl[(int)enumAttr.GEKKANSI].attrKan = tblMng.jyukanTbl[person.gekkansi.kan].gogyou;
-            attrTbl[(int)enumAttr.GEKKANSI].attrSi = tblMng.jyunisiTbl[person.gekkansi.si].gogyou;
+            attrTbl[(int)enumAttr.GEKKANSI].Init(tblMng.jyukanTbl[person.gekkansi.kan].gogyou, tblMng.jyunisiTbl[person.gekkansi.si].gogyou);
             //年干支
-            attrTbl[(int)enumAttr.NENKANSI].attrKan = tblMng.jyukanTbl[person.nenkansi.kan].gogyou;
-            attrTbl[(int)enumAttr.NENKANSI].attrSi = tblMng.jyunisiTbl[person.nenkansi.si].gogyou;
+            attrTbl[(int)enumAttr.NENKANSI].Init(tblMng.jyukanTbl[person.nenkansi.kan].gogyou, tblMng.jyunisiTbl[person.nenkansi.si].gogyou);
         }
 
         /// <summary>

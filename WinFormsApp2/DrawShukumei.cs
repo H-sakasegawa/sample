@@ -155,6 +155,8 @@ namespace WinFormsApp2
             Color[] colorGekkansiOrg = new Color[2];
             Color[] colorNenkansiOrg = new Color[2];
 
+            CreateGogyouAttrMatrix(person);
+
             if ( bDispGogyou)
             {   //五行色表示
                 colorNikkansi = GetGogyouColor(person.nikkansi);
@@ -183,9 +185,9 @@ namespace WinFormsApp2
             }
 
             //干支表示
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, colorNikkansiOrg);
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, colorGekkansiOrg);
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, colorNenkansiOrg);
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumAttr.NIKKANSI);
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumAttr.GEKKANSI);
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumAttr.NENKANSI);
 
             //ライン描画
             //陰陽

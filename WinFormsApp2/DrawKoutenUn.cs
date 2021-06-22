@@ -441,17 +441,17 @@ namespace WinFormsApp2
 
             if (bDispGetuun)
             {
-                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, colorGetuunKansiOrg);　//月運干支
+                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, enumAttr.GETUUN);　//月運干支
                 DrawString(rectGetuunTitle, "<月運>");
             }
-            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, colorNenunKansiOrg);//年運干支
-            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, colorTaiunKansiOrg);//大運干支
+            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, enumAttr.NENUN);//年運干支
+            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, enumAttr.TAIUN);//大運干支
             DrawString(rectNenunTitle, "<年運>");
             DrawString(rectTaiunTitle, "<大運>");
 
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, colorNikkansiOrg);//日干支
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, colorGekkansiOrg);//月干支
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, colorNenkansiOrg);//年干支
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumAttr.NIKKANSI);//日干支
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumAttr.GEKKANSI);//月干支
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumAttr.NENKANSI);//年干支
 
 
             //陰陽(年運→大運）
