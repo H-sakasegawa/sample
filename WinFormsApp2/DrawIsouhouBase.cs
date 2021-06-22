@@ -40,6 +40,26 @@ namespace WinFormsApp2
         protected int idxMtx = 0;
         protected int idxMtxButtom = 0;
 
+
+        public class AttrTbl
+        {
+            public string attrKan;
+            public string attrSi;
+        }
+        AttrTbl[] attrTbl = new AttrTbl[6];  //月運、年運、大運, 日干支、月干支、年干支
+
+        public enum enumAttr
+        {
+            GETUUN = 0,
+            NENUN,
+            TAIUN,
+            NIKKANSI,
+            GEKKANSI,
+            NENKANSI,
+        }
+
+
+
         public IsouhouBase(Person _person, PictureBox _pictureBox)
         {
             person = _person;
@@ -66,6 +86,8 @@ namespace WinFormsApp2
 
             matrix.Add(0);
             matrixBottom.Add(0);
+
+            for(int i=0; i<attrTbl.Length; i++) attrTbl[i] = new AttrTbl();
         }
 
         public Size GetDrawArea()
@@ -370,6 +392,34 @@ namespace WinFormsApp2
             }
             return idxMtx;
         }
+        public AttrTbl GetAttrTblItem(enumAttr attrNo)
+        {
+            return attrTbl[(int)attrNo];
+        }
+
+        public void CreateGogyouAttrMatrix(Person person, Kansi getuun, Kansi nenun, Kansi taiun)
+        {
+            var tblMng = TableMng.GetTblManage();
+            //月運
+            attrTbl[(int)enumAttr.GETUUN].attrKan = tblMng.jyukanTbl[getuun.kan].gogyou;
+            attrTbl[(int)enumAttr.GETUUN].attrSi = tblMng.jyunisiTbl[getuun.si].gogyou;
+            //年運
+            attrTbl[(int)enumAttr.NENUN].attrKan = tblMng.jyukanTbl[nenun.kan].gogyou;
+            attrTbl[(int)enumAttr.NENUN].attrSi = tblMng.jyunisiTbl[nenun.si].gogyou;
+            //大運
+            attrTbl[(int)enumAttr.TAIUN].attrKan = tblMng.jyukanTbl[taiun.kan].gogyou;
+            attrTbl[(int)enumAttr.TAIUN].attrSi = tblMng.jyunisiTbl[taiun.si].gogyou;
+
+            //日干支
+            attrTbl[(int)enumAttr.NIKKANSI].attrKan = tblMng.jyukanTbl[person.nikkansi.kan].gogyou;
+            attrTbl[(int)enumAttr.NIKKANSI].attrSi = tblMng.jyunisiTbl[person.nikkansi.si].gogyou;
+            //月干支
+            attrTbl[(int)enumAttr.GEKKANSI].attrKan = tblMng.jyukanTbl[person.gekkansi.kan].gogyou;
+            attrTbl[(int)enumAttr.GEKKANSI].attrSi = tblMng.jyunisiTbl[person.gekkansi.si].gogyou;
+            //年干支
+            attrTbl[(int)enumAttr.NENKANSI].attrKan = tblMng.jyukanTbl[person.nenkansi.kan].gogyou;
+            attrTbl[(int)enumAttr.NENKANSI].attrSi = tblMng.jyunisiTbl[person.nenkansi.si].gogyou;
+        }
 
         /// <summary>
         /// 五行 属性カラー取得
@@ -391,12 +441,32 @@ namespace WinFormsApp2
 
             return color;
         }
-        protected Color[] GetGotokuColor(string nikkansiKan, Kansi kansi, bool bBaseKan=false)
+        protected Color[] GetGogyouColor(enumAttr attr)
+        {
+            var tblMng = TableMng.GetTblManage();
+
+            var attrTblItem = attrTbl[(int)attr];
+
+            Color[] color = new Color[2];
+            //十干支テーブルから 干に該当する五行名
+            color[0] = tblMng.gogyouAttrColorTbl[attrTblItem.attrKan ]; //干の色
+
+            //十二支テーブルから 干に該当する五行名
+            color[1] = tblMng.gogyouAttrColorTbl[attrTblItem.attrSi]; //支の色
+
+            return color;
+        }
+        /// <summary>
+        /// 五徳カラー取得（干支情報から）
+        /// </summary>
+        /// <param name="nikkansiKan"></param>
+        /// <param name="kansi"></param>
+        /// <param name="bBaseKan">true...日干支の干（基準）</param>
+        /// <returns></returns>
+        protected Color[] GetGotokuColor(string nikkansiKan, Kansi kansi, bool bBaseKan = false)
         {
             var tblMng = TableMng.GetTblManage();
             Color[] color = new Color[2];
-
-            string gotokuName;
 
             string baseAttrName = tblMng.jyukanTbl[nikkansiKan].gogyou;
             string attrName;
@@ -404,15 +474,36 @@ namespace WinFormsApp2
             {
                 //十干支テーブルから 干に該当する五行名
                 attrName = tblMng.jyukanTbl[kansi.kan].gogyou;
-                gotokuName = tblMng.gotokuTbl.GetGotoku(baseAttrName, attrName);
-                color[0] = tblMng.gotokuAttrColorTbl[gotokuName];
+                color[0] = GetGotokuColor(baseAttrName, attrName);
             }
 
             attrName = tblMng.jyunisiTbl[kansi.si].gogyou;
-            gotokuName = tblMng.gotokuTbl.GetGotoku(baseAttrName, attrName);
-            color[1] = tblMng.gotokuAttrColorTbl[gotokuName];
+            color[1] = GetGotokuColor(baseAttrName, attrName);
 
             return color;
+        }
+        /// <summary>
+        /// 五徳カラー取得（属性情報から）
+        /// </summary>
+        /// <param name="baseAttrName">基準五徳属性</param>
+        /// <param name="attrName">取得対象五徳属性</param>
+        /// <param name="bBaseKan">true...日干支の干（基準）</param>
+        /// <returns></returns>
+        protected Color GetGotokuColor(string baseAttrName, string attrName)
+        {
+            var tblMng = TableMng.GetTblManage();
+
+            string gotokuName;
+
+            //十干支テーブルから 干に該当する五行名
+            gotokuName = tblMng.gotokuTbl.GetGotoku(baseAttrName, attrName);
+            return tblMng.gotokuAttrColorTbl[gotokuName];
+        }
+        protected Color[] GetGotokuColor(Color[] orgColor ,string baseAttrName, string attrNameKan, string attrNameSi)
+        {
+            if ( !string.IsNullOrEmpty(attrNameKan) )orgColor[0] = GetGotokuColor(baseAttrName, attrNameKan);
+            if (!string.IsNullOrEmpty(attrNameSi)) orgColor[1] = GetGotokuColor(baseAttrName, attrNameSi);
+            return orgColor;
         }
 
         /// <summary>
@@ -486,25 +577,31 @@ namespace WinFormsApp2
             //支合
             //================================================
             //日支 - 月支
-            var gogyou = tblMng.sigouTbl.GetGogyouAttr(person.nikkansi.si, person.gekkansi.si, bManyAttrDo);
+            var gogyou = tblMng.sigouTbl.GetSigouAttr(person.nikkansi.si, person.gekkansi.si, bManyAttrDo);
             if(gogyou != null)
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou]; 
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
             //日支 - 年支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(person.nikkansi.si, person.nenkansi.si, bManyAttrDo);
+            gogyou = tblMng.sigouTbl.GetSigouAttr(person.nikkansi.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
             //月支 - 年支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(person.gekkansi.si, person.nenkansi.si, bManyAttrDo);
+            gogyou = tblMng.sigouTbl.GetSigouAttr(person.gekkansi.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
             //================================================
             //半会
@@ -515,6 +612,8 @@ namespace WinFormsApp2
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
             //日支 - 年支
             gogyou = tblMng.hankaiTbl.GetGogyou(person.nikkansi.si, person.nenkansi.si);
@@ -522,6 +621,8 @@ namespace WinFormsApp2
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
             //月支 - 年支
             gogyou = tblMng.hankaiTbl.GetGogyou(person.gekkansi.si, person.nenkansi.si);
@@ -529,10 +630,12 @@ namespace WinFormsApp2
             {
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
         }
 
-        public void RefrectGouhou(Color[] colorNikkansi, Color[] colorGekkansi, Color[] colorNenkansi,
+         public void RefrectGouhou(Color[] colorNikkansi, Color[] colorGekkansi, Color[] colorNenkansi,
                                   Color[] colorGetuun, Color[] colorNenun, Color[] colorTaiun,
                                   Kansi kansiGetuun, Kansi kansiNenun, Kansi kansiTaiun,
                                   bool bDispGetuun
@@ -553,6 +656,7 @@ namespace WinFormsApp2
             //宿命カラー設定
             RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi, kansiItemNum);
 
+            string gogyou = "";
             //月運、年運、大運 カラー設定
             //================================================
             //支合
@@ -560,96 +664,123 @@ namespace WinFormsApp2
             //----------------------------------
             // 月運 →＊
             //----------------------------------
-            //月運支 - 年運支
-            var gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiGetuun.si, kansiNenun.si, bManyAttrDo);
-            if (gogyou != null)
+            if (bDispGetuun)
             {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 大運支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiGetuun.si, kansiTaiun.si, bManyAttrDo);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 日支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiGetuun.si, person.nikkansi.si, bManyAttrDo);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 月支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiGetuun.si, person.gekkansi.si, bManyAttrDo);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 年支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiGetuun.si, person.nenkansi.si, bManyAttrDo);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
 
+                //月運支 - 年運（支）
+                gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, kansiNenun.si, bManyAttrDo);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                }
+                //月運支 - 大運（支）
+                gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, kansiTaiun.si, bManyAttrDo);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                }
+                //月運支 - 日（支）
+                gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.nikkansi.si, bManyAttrDo);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                }
+                //月運支 - 月（支）
+                gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.gekkansi.si, bManyAttrDo);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
+                }
+                //月運支 - 年（支）
+                gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.nenkansi.si, bManyAttrDo);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
+                }
+            }
             //----------------------------------
             // 年運 →＊
             //----------------------------------
-            //年運支 - 大運支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiNenun.si, kansiTaiun.si, bManyAttrDo);
+            //年運支 - 大運（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, kansiTaiun.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
             }
-            //年運支 - 日支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiNenun.si, person.nikkansi.si, bManyAttrDo);
+            //年運支 - 日（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.nikkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
             }
-            //年運支 - 月支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiNenun.si, person.gekkansi.si, bManyAttrDo);
+            //年運支 - 月（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.gekkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
-            //年運支 - 年支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiNenun.si, person.nenkansi.si, bManyAttrDo);
+            //年運支 - 年（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
             //----------------------------------
             // 大運 →＊
             //----------------------------------
-            //大運支 - 日支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiTaiun.si, person.nikkansi.si, bManyAttrDo);
+            //大運支 - 日（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.nikkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
             }
-            //大運支 - 月支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiTaiun.si, person.gekkansi.si, bManyAttrDo);
+            //大運支 - 月（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.gekkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
-            //大運支 - 年支
-            gogyou = tblMng.sigouTbl.GetGogyouAttr(kansiTaiun.si, person.nenkansi.si, bManyAttrDo);
+            //大運支 - 年（支）
+            gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
 
 
@@ -660,40 +791,54 @@ namespace WinFormsApp2
             //----------------------------------
             // 月運 →＊
             //----------------------------------
-            //月運支 - 年運支
-            gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiNenun.si);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 大運支
-            gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiTaiun.si);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
             //月運支 - 日支
-            gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nikkansi.si);
-            if (gogyou != null)
+            if (bDispGetuun)
             {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 月支
-            gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.gekkansi.si);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-            }
-            //月運支 - 年支
-            gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nenkansi.si);
-            if (gogyou != null)
-            {
-                colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                //月運支 - 年運支
+                gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiNenun.si);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                }
+                //月運支 - 大運（支）
+                gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiTaiun.si);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                }
+                //月運支 - 日（支）
+                gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nikkansi.si);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
+                }
+                //月運支 - 月（支）
+                gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.gekkansi.si);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
+                }
+                //月運支 - 年（支）
+                gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nenkansi.si);
+                if (gogyou != null)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = gogyou;
+                    attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
+                }
             }
             //----------------------------------
             // 年運 →＊
@@ -704,6 +849,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
             }
             //年運（支） - 日（支）
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.nikkansi.si);
@@ -711,6 +858,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
             }
             //年運（支） - 月（支）
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.gekkansi.si);
@@ -718,6 +867,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
             //年運（支） - 年（支）
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.nenkansi.si);
@@ -725,6 +876,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
             //----------------------------------
             // 大運 →＊
@@ -735,6 +888,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrSi = gogyou;
             }
             //大運（支） - 月（支）
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiTaiun.si, person.gekkansi.si);
@@ -742,6 +897,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrSi = gogyou;
             }
             //大運（支） - 年（支）
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiTaiun.si, person.nenkansi.si);
@@ -749,6 +906,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrSi = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrSi = gogyou;
             }
         }
 
@@ -761,30 +920,80 @@ namespace WinFormsApp2
                                   )
         {
             var tblMng = TableMng.GetTblManage();
-            int idx = 1;
+            int idx = 1; //干支の支の色を設定する
 
             foreach (var item in lstSangouKaikyoku)
             {
 
-                if ((item.hitItemBit & Const.bitFlgGetuun) != 0) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNenun) != 0) colorNenun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
-                if ((item.hitItemBit & Const.bitFlgTaiun) != 0) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNiti) != 0) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
-                if ((item.hitItemBit & Const.bitFlgGetu) != 0) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNen) != 0) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                if ((item.hitItemBit & Const.bitFlgGetuun) != 0)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = item.sangouKaikyoku.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgNenun) != 0)
+                {
+                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.NENUN].attrSi = item.sangouKaikyoku.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgTaiun) != 0)
+                {
+                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.TAIUN].attrSi = item.sangouKaikyoku.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgNiti) != 0)
+                {
+                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.NIKKANSI].attrSi = item.sangouKaikyoku.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgGetu) != 0)
+                {
+                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.GEKKANSI].attrSi = item.sangouKaikyoku.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgNen) != 0)
+                {
+                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[item.sangouKaikyoku.gogyou];
+                    attrTbl[(int)enumAttr.NENKANSI].attrSi = item.sangouKaikyoku.gogyou;
+                }
 
             }
             foreach (var item in lstHousani)
             {
 
-                if ((item.hitItemBit & Const.bitFlgGetuun) != 0) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNenun) != 0) colorNenun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
-                if ((item.hitItemBit & Const.bitFlgTaiun) != 0) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNiti) != 0) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
-                if ((item.hitItemBit & Const.bitFlgGetu) != 0) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
-                if ((item.hitItemBit & Const.bitFlgNen) != 0) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                if ((item.hitItemBit & Const.bitFlgGetuun) != 0)
+                {
+                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.GETUUN].attrSi = item.houSani.gogyou;
+                }
+
+                if ((item.hitItemBit & Const.bitFlgNenun) != 0)
+                {
+                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.NENUN].attrSi = item.houSani.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgTaiun) != 0)
+                {
+                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.TAIUN].attrSi = item.houSani.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgNiti) != 0)
+                {
+                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.NIKKANSI].attrSi = item.houSani.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgGetu) != 0)
+                {
+                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.GEKKANSI].attrSi = item.houSani.gogyou;
+                }
+                if ((item.hitItemBit & Const.bitFlgNen) != 0)
+                {
+                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[item.houSani.gogyou];
+                    attrTbl[(int)enumAttr.NENKANSI].attrSi = item.houSani.gogyou;
+                }
 
             }
+
 
         }
 
@@ -802,6 +1011,8 @@ namespace WinFormsApp2
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrKan = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrKan = gogyou;
             }
             //日（干） - 年（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(person.nikkansi.kan, person.nenkansi.kan);
@@ -809,6 +1020,8 @@ namespace WinFormsApp2
             {
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NIKKANSI].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrKan = gogyou;
             }
             //月（干） - 年（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(person.gekkansi.kan, person.nenkansi.kan);
@@ -816,6 +1029,8 @@ namespace WinFormsApp2
             {
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GEKKANSI].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrKan = gogyou;
             }
         }
         public void RefrectKangou(
@@ -843,6 +1058,8 @@ namespace WinFormsApp2
             {
                 colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GETUUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENUN].attrKan = gogyou;
             }
             //月運（干） - 大運（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiGetuun.kan, kansiTaiun.kan);
@@ -850,6 +1067,8 @@ namespace WinFormsApp2
             {
                 colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GETUUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.TAIUN].attrKan = gogyou;
             }
             //月運（干） - 日（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiGetuun.kan, person.nikkansi.kan);
@@ -857,6 +1076,8 @@ namespace WinFormsApp2
             {
                 colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GETUUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrKan = gogyou;
             }
             //月運（干） - 月（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiGetuun.kan, person.gekkansi.kan);
@@ -864,6 +1085,8 @@ namespace WinFormsApp2
             {
                 colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GETUUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrKan = gogyou;
             }
             //月運（干） - 年（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiGetuun.kan, person.nenkansi.kan);
@@ -871,6 +1094,8 @@ namespace WinFormsApp2
             {
                 colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.GETUUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrKan = gogyou;
             }
 
             //----------------------------------
@@ -882,6 +1107,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.TAIUN].attrKan = gogyou;
             }
             //年運（干） - 日（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiNenun.kan, person.nikkansi.kan);
@@ -889,6 +1116,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrKan = gogyou;
             }
             //年運（干） - 月（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiNenun.kan, person.gekkansi.kan);
@@ -896,6 +1125,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrKan = gogyou;
             }
             //年運（干） - 年（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiNenun.kan, person.nenkansi.kan);
@@ -903,6 +1134,8 @@ namespace WinFormsApp2
             {
                 colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.NENUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrKan = gogyou;
             }
             //----------------------------------
             // 大運 →＊
@@ -913,6 +1146,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NIKKANSI].attrKan = gogyou;
             }
             //大運（干） - 月（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiTaiun.kan, person.gekkansi.kan);
@@ -920,6 +1155,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.GEKKANSI].attrKan = gogyou;
             }
             //大運（干） - 年（干）
             gogyou = tblMng.kangouTbl.GetKangouAttr(kansiTaiun.kan, person.nenkansi.kan);
@@ -927,6 +1164,8 @@ namespace WinFormsApp2
             {
                 colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                attrTbl[(int)enumAttr.TAIUN].attrKan = gogyou;
+                attrTbl[(int)enumAttr.NENKANSI].attrKan = gogyou;
             }
 
         }

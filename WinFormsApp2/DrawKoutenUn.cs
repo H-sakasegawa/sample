@@ -346,17 +346,19 @@ namespace WinFormsApp2
             Color[] colorGekkansiOrg = new Color[2];
             Color[] colorNenkansiOrg = new Color[2];
 
+            CreateGogyouAttrMatrix(person, getuunKansi, nenunKansi, taiunKansi);
+
             if (bDispGogyou)
             {   //五行色表示
-                colorNikkansi = GetGogyouColor(person.nikkansi);
-                colorGekkansi = GetGogyouColor(person.gekkansi);
-                colorNenkansi = GetGogyouColor(person.nenkansi);
+                colorNikkansi = GetGogyouColor(enumAttr.NENKANSI);
+                colorGekkansi = GetGogyouColor(enumAttr.GEKKANSI);
+                colorNenkansi = GetGogyouColor(enumAttr.NENKANSI);
 
-                colorGetuunKansi = GetGogyouColor(getuunKansi); //月運
-                colorNenunKansi = GetGogyouColor(nenunKansi);   //年運
-                colorTaiunKansi = GetGogyouColor(taiunKansi);   //大運
+                colorGetuunKansi = GetGogyouColor(enumAttr.GETUUN); //月運
+                colorNenunKansi = GetGogyouColor(enumAttr.NENUN);   //年運
+                colorTaiunKansi = GetGogyouColor(enumAttr.TAIUN);   //大運
 
-             }
+            }
             else if (bDispGotoku)
             {   //五徳色表示
                 string baseKan = person.nikkansi.kan;
@@ -380,12 +382,14 @@ namespace WinFormsApp2
             //合法反映
             if (bDispRefrectGouhou)
             {
+                //支の変換
                 RefrectGouhou(
                                 colorNikkansi, colorGekkansi, colorNenkansi,
                                 colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
                                 getuunKansi, nenunKansi, taiunKansi,
                                 bDispGetuun
                                 );
+                //干の変換
                 RefrectKangou(
                                 colorNikkansi, colorGekkansi, colorNenkansi,
                                 colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
@@ -401,6 +405,32 @@ namespace WinFormsApp2
                                 colorNikkansi, colorGekkansi, colorNenkansi,
                                 colorGetuunKansi, colorNenunKansi, colorTaiunKansi
                                 );
+            }
+            //五徳表示の時に、合法反映、三合会局・方三位　反映があった場合は、属性が変わっているので
+            //変わった属性をもとに再度表示カラーを求める
+            if (bDispGotoku && (bDispRefrectGouhou || bDispRefrectSangouKaiyoku) )
+            {
+                var attrBaseItem = GetAttrTblItem(enumAttr.NIKKANSI);
+
+                var attrItem = GetAttrTblItem(enumAttr.NIKKANSI);
+                colorNikkansi = GetGotokuColor(colorNikkansi, attrBaseItem.attrKan, null, attrItem.attrSi);
+
+                attrItem = GetAttrTblItem(enumAttr.GEKKANSI);
+                colorGekkansi = GetGotokuColor(colorGekkansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
+
+                attrItem = GetAttrTblItem(enumAttr.NENKANSI);
+                colorNenkansi = GetGotokuColor(colorNenkansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
+
+                attrItem = GetAttrTblItem(enumAttr.GETUUN);
+                colorGetuunKansi = GetGotokuColor(colorGetuunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
+
+                attrItem = GetAttrTblItem(enumAttr.NENUN);
+                colorNenunKansi = GetGotokuColor(colorNenunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
+
+                attrItem = GetAttrTblItem(enumAttr.TAIUN);
+                colorTaiunKansi = GetGotokuColor(colorTaiunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
+
+
             }
 
 

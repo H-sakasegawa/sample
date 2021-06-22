@@ -590,7 +590,7 @@ namespace WinFormsApp2
             /// <param name="siName2"></param>
             /// <param name="bManyAttrDo">true..."土"が多い</param>
             /// <returns></returns>
-            public string GetGogyouAttr(string siName1, string siName2, bool bManyAttrDo)
+            public string GetSigouAttr(string siName1, string siName2, bool bManyAttrDo)
             {
                 var sigou = GetSigou( siName1,  siName2);
                 if( sigou!=null)
