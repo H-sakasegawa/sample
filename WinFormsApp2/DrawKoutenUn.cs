@@ -350,7 +350,7 @@ namespace WinFormsApp2
 
             if (bDispGogyou)
             {   //五行色表示
-                colorNikkansi = GetGogyouColor(enumAttr.NENKANSI);
+                colorNikkansi = GetGogyouColor(enumAttr.NIKKANSI);
                 colorGekkansi = GetGogyouColor(enumAttr.GEKKANSI);
                 colorNenkansi = GetGogyouColor(enumAttr.NENKANSI);
 
