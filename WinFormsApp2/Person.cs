@@ -288,19 +288,29 @@ namespace WinFormsApp2
             return 0;
         }
 
-        //入力された生年月日から、紐付く月最終日までの日数
+        /// <summary>
+        /// 入力された生年月日から、紐付く月最終日までの日数
+        /// </summary>
+        /// <returns></returns>
         public int CalcDayCountBirthdayToLastMonthDay()
         {
             return tblSetuiribi.CalcDayCountBirthdayToLastMonthDay(birthday.year, birthday.month, birthday.day);
         }
 
-        //入力された生年月日に紐付く月の節入り日からの経過日数
+        /// <summary>
+        /// 入力された生年月日に紐付く月の節入り日からの経過日数
+        /// </summary>
+        /// <returns></returns>
         public int CalcDayCountFromSetuiribi()
         {
             return tblSetuiribi.CalcDayCountFromSetuiribi(birthday.year, birthday.month, birthday.day);
         }
 
-        //干支番号に該当する干支を取得
+        /// <summary>
+        /// 干支番号に該当する干支を取得
+        /// </summary>
+        /// <param name="kansiNo"></param>
+        /// <returns></returns>
         public Kansi GetKansi( int kansiNo )
         {
             return tblMng.kansiTbl.GetKansi(kansiNo);
@@ -323,33 +333,56 @@ namespace WinFormsApp2
 
         }
 
-        //十大主星 取得
+        /// <summary>
+        /// 十大主星 取得
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <param name="si"></param>
+        /// <returns></returns>
         public JudaiShusei GetJudaiShusei(string kan, string si)
         {
             return tblMng.juudaiShusei.GetJudaiShusei(kan, si);
         }
-        //十大主星 陰陽関係判定（干）
-        //日→月
+
+        // 
+        /// <summary>
+        /// 十大主星 陰陽関係判定（干）
+        /// 日→月
+        /// </summary>
+        /// <returns></returns>
         public bool IsInyouNitiGetsuKan()
         {
             return tblMng.jyukanTbl.IsInyou(nikkansi.kan, gekkansi.kan);
         }
-        //月→年
+        /// <summary>
+        /// 十大主星 陰陽関係判定（干）
+        /// 月→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsInyouGetsuNenKan()
         {
             return tblMng.jyukanTbl.IsInyou(gekkansi.kan, nenkansi.kan);
         }
-        //日→年
+        /// <summary>
+        /// 十大主星 陰陽関係判定（干）
+        /// 日→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsInyouNitiNenKan()
         {
             return tblMng.jyukanTbl.IsInyou(nikkansi.kan, nenkansi.kan);
         }
-        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// <summary>
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも可
+        /// </summary>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
+        /// <returns></returns>
         public bool IsInyou(Kansi kansi1, Kansi kansi2)
         {
             return tblMng.jyukanTbl.IsInyou(kansi1.kan, kansi2.kan);
         }
- 
+
         ////十大主星 陰陽関係判定（支）
         //public bool IsInyouNitiGetsuSi()
         //{
@@ -365,7 +398,12 @@ namespace WinFormsApp2
         //}
 
 
-        //十二大従星 取得
+        /// <summary>
+        /// 十二大従星 取得
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <param name="si"></param>
+        /// <returns></returns>
         public JunidaiJusei GetJunidaiShusei(string kan, string si)
         {
             return tblMng.junidaiJusei.GetJunidaiJusei(kan, si);
@@ -454,20 +492,27 @@ namespace WinFormsApp2
             }
             return lstResult.ToArray();
         }
-
-        public GouhouSannpouResult[] GetGouhouSanpouEx(Kansi nenunTaiunKansi, Kansi kansi, Kansi taiunKansi, Kansi nenunKansi)
+        /// <summary>
+        /// 合法・散法 文字の配列を取得します。
+        /// </summary>
+        /// <param name="unKansi1">年運、大運干支</param>
+        /// <param name="unKansi2">対象干支</param>
+        /// <param name="taiunKansi">大運干支</param>
+        /// <param name="nenunKansi">年運干支</param>
+        /// <returns></returns>
+        public GouhouSannpouResult[] GetGouhouSanpouEx(Kansi unKansi1, Kansi unKansi2, Kansi taiunKansi, Kansi nenunKansi)
         {
             List<GouhouSannpouResult> lstGouhouSanpouResult = new List<GouhouSannpouResult>();
 
-            string nentin = GetNentin(nenunTaiunKansi, kansi); //納音、準納音
-            string rittin = GetNittin(nenunTaiunKansi, kansi); //律音、準律音
-            string tensatu = GetTensatuTichuString(nenunTaiunKansi, kansi);//天殺地冲
+            string nentin = GetNentin(unKansi1, unKansi2); //納音、準納音
+            string rittin = GetNittin(unKansi1, unKansi2); //律音、準律音
+            string tensatu = GetTensatuTichuString(unKansi1, unKansi2);//天殺地冲
             //string kangou = GetKangoStr(nenunTaiunKansi, kansi); //干合            
 
             bool bExistNentin = (nentin == "" ? false : true);
             bool bExistTensatuTichu = tensatu == "" ? false : true;
 
-            string[] items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(nenunTaiunKansi.si, kansi.si, bExistTensatuTichu, bExistNentin);
+            string[] items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(unKansi1.si, unKansi2.si, bExistTensatuTichu, bExistNentin);
             if (items != null)
             {
                 for (int i = 0; i < items.Length; i++)
@@ -476,8 +521,8 @@ namespace WinFormsApp2
                     if (items[i] == "半会")
                     {
                         //大半会判定
-                        int no1 = tblMng.kansiTbl.GetKansiNo(nenunTaiunKansi);
-                        int no2 = tblMng.kansiTbl.GetKansiNo(kansi);
+                        int no1 = tblMng.kansiTbl.GetKansiNo(unKansi1);
+                        int no2 = tblMng.kansiTbl.GetKansiNo(unKansi2);
 
                         //no1に+20、または-20した地点のどちらかがno2と同じなら大半会
                         //1～60のリング状態をベースに前後方向の20差をチェックする必要がある。
@@ -533,7 +578,7 @@ namespace WinFormsApp2
             }
 
             //例外表示のためのbEnableフラグ設定
-            SetExceptionValueEnable(nenunTaiunKansi, kansi, taiunKansi, nenunKansi, ref lstGouhouSanpouResult);
+            SetExceptionValueEnable(unKansi1, unKansi2, taiunKansi, nenunKansi, ref lstGouhouSanpouResult);
 
             List<GouhouSannpouResult> lstResult = new List<GouhouSannpouResult>();
 
@@ -610,6 +655,7 @@ namespace WinFormsApp2
         //{
         //    return tblMng.gouhouSanpouTbl.GetGouhouSanpou(siName1, siName2, bExistTensatuTichu, bExistNentin);
         //}
+
         /// <summary>
         /// 合法・散法 文字をカンマ区切りで接続した１つの文字列で取得します。
         /// ・天殺地冲または、納音がある場合は、"冲動"は除外されます。
@@ -640,20 +686,37 @@ namespace WinFormsApp2
         //   return  tblMng.gouhouSanpouTbl.GetGouhouSanpouString(siName1, siName2, bExistTensatuTichu, bExistNentin);
         //}
 
+        /// <summary>
+        /// 合法三方（日、月）取得
+        /// </summary>
+        /// <returns></returns>
         public string[] GetGouhouSanpouNitiGetu()
         {
             return GetGouhouSanpou(nikkansi, gekkansi, false, false).Select(x=> x.orgName).ToArray();
         }
+        /// <summary>
+        /// 合法三方（月、年）取得
+        /// </summary>
+        /// <returns></returns>
         public string[] GetGouhouSanpouiGetuNen()
         {
             return GetGouhouSanpou(gekkansi, nenkansi, false, false).Select(x => x.orgName).ToArray();
         }
+        /// <summary>
+        /// 合法三方（日、年）取得
+        /// </summary>
+        /// <returns></returns>
         public string[] GetGouhouSanpouiNitiNen()
         {
             return GetGouhouSanpou(nikkansi, nenkansi, false, false).Select(x => x.orgName).ToArray();
         }
 
-        //納音、準納音
+        /// <summary>
+        /// 納音、準納音 取得
+        /// </summary>
+        /// <param name="nenunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetNentin(Kansi nenunKansi, Kansi kansi)
         {
             int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
@@ -676,8 +739,13 @@ namespace WinFormsApp2
 
             return "";
         }
-        
-        //律音、準律音
+
+        /// <summary>
+        /// 律音、準律音 取得
+        /// </summary>
+        /// <param name="nenunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetNittin(Kansi nenunKansi, Kansi kansi)
         {
             int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
@@ -703,68 +771,122 @@ namespace WinFormsApp2
             return "";
         }
 
-        //干合 関係（干）
-        //日→月
+        /// <summary>
+        /// 干合 関係（干）
+        /// 日→月
+        /// </summary>
+        /// <returns></returns>
         public bool IsKangouNitiGetsuKan()
         {
             return tblMng.kangouTbl.IsKangou(nikkansi.kan, gekkansi.kan);
         }
-        //月→年
+        /// <summary>
+        /// 干合 関係（干）
+        /// 月→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsKangoGetsuNenKan()
         {
             return tblMng.kangouTbl.IsKangou(gekkansi.kan, nenkansi.kan);
         }
-        //日→年
+        /// <summary>
+        /// 干合 関係（干）
+        /// 日→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsKangoNitiNenKan()
         {
             return tblMng.kangouTbl.IsKangou(nikkansi.kan, nenkansi.kan);
         }
-        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// <summary>
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも可
+        /// </summary>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
+        /// <returns></returns>
         public bool IsKango(Kansi kansi1, Kansi kansi2)
         {
             return tblMng.kangouTbl.IsKangou(kansi1.kan, kansi2.kan);
         }
+        /// <summary>
+        /// 干合 文字列取得
+        /// </summary>
+        /// <param name="taiunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetKangoStr(Kansi taiunKansi, Kansi kansi)
         {
             return tblMng.kangouTbl.GetKangouStr(taiunKansi.kan, kansi.kan);
         }
 
 
-
-
         //----------------------------------------------------
         //七殺
         //----------------------------------------------------
+        /// <summary>
+        /// 七殺 データ取得
+        /// </summary>
+        /// <param name="taiunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public Nanasatsu GetNanasatu(Kansi taiunKansi, Kansi kansi)
         {
             return GetNanasatu(taiunKansi.kan, kansi.kan);
         }
+        /// <summary>
+        /// 七殺 データ取得
+        /// </summary>
+        /// <param name="taiunKan"></param>
+        /// <param name="kan"></param>
+        /// <returns></returns>
         public Nanasatsu GetNanasatu(string taiunKan, string kan)
         {
             return tblMng.nanasatsuTbl.GetNanasatsu(taiunKan, kan);
         }
 
-        //日→月
+        /// <summary>
+        /// 七殺判定　日→月
+        /// </summary>
+        /// <returns></returns>
         public bool IsNanasatuNitiGetuKan()
         {
             return GetNanasatu(nikkansi.kan, gekkansi.kan) != null ? true : false;
         }
-        //月→年
+        /// <summary>
+        /// 七殺判定　月→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsNanasatuGetuNenKan()
         {
             return GetNanasatu(gekkansi.kan, nenkansi.kan) != null ? true : false;
         }
-        //日→年
+        /// <summary>
+        /// 七殺判定　日→年
+        /// </summary>
+        /// <returns></returns>
         public bool IsNanasatuNitiNenKan()
         {
             return GetNanasatu(nikkansi.kan, nenkansi.kan) != null ? true : false;
         }
 
-        //大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// <summary>
+        /// 七殺判定
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// </summary>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
+        /// <returns></returns>
         public bool IsNanasatu(Kansi kansi1, Kansi kansi2)
         {
             return IsNanasatu(kansi1.kan, kansi2.kan);
         }
+        /// <summary>
+        /// 七殺判定
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// </summary>
+        /// <param name="kan1"></param>
+        /// <param name="kan2"></param>
+        /// <returns></returns>
         public bool IsNanasatu(string kan1, string kan2)
         {
             return GetNanasatu(kan1, kan2) != null ? true : false;
@@ -773,12 +895,23 @@ namespace WinFormsApp2
         //----------------------------------------------------
         //天殺
         //----------------------------------------------------
+        /// <summary>
+        /// 天殺 文字列取得
+        /// </summary>
+        /// <param name="taiunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
         {
             return IsNanasatu(taiunKansi, kansi) ? "天殺" : "";
         }
-        
-        //地冲
+
+        /// <summary>
+        /// 地冲 　文字列取得
+        /// </summary>
+        /// <param name="taiunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetTichuString(Kansi taiunKansi, Kansi kansi)
         {
             var values = GetGouhouSanpou(taiunKansi, kansi, false, false);
@@ -791,7 +924,12 @@ namespace WinFormsApp2
             }
             return "";
         }
-        //天殺地冲
+        /// <summary>
+        /// 天殺地冲 　文字列取得
+        /// </summary>
+        /// <param name="taiunKansi"></param>
+        /// <param name="kansi"></param>
+        /// <returns></returns>
         public string GetTensatuTichuString(Kansi taiunKansi, Kansi kansi)
         {
             string tensatu = GetTensatuString(taiunKansi, kansi);
@@ -804,6 +942,13 @@ namespace WinFormsApp2
         //----------------------------------------------------
         //三合会局
         //----------------------------------------------------
+        /// <summary>
+        /// 三合会局 　情報取得
+        /// </summary>
+        /// <param name="getuun"></param>
+        /// <param name="nenun"></param>
+        /// <param name="taiun"></param>
+        /// <returns></returns>
         public List<TableMng.SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun)
         {
            return  tblMng.sangouKaikyokuTbl.GetSangouKaikyoku(getuun, nenun, taiun,
@@ -813,6 +958,13 @@ namespace WinFormsApp2
         //----------------------------------------------------
         //方三位
         //----------------------------------------------------
+        /// <summary>
+        /// 方三位 情報取得
+        /// </summary>
+        /// <param name="getuun"></param>
+        /// <param name="nenun"></param>
+        /// <param name="taiun"></param>
+        /// <returns></returns>
         public List<TableMng.HouSaniResult> GetHouSani(Kansi getuun, Kansi nenun, Kansi taiun)
         {
             return tblMng.housanniTbl.GetHouSani(getuun, nenun, taiun,
@@ -869,7 +1021,9 @@ namespace WinFormsApp2
         public string groupName;
         public List<Person> members = new List<Person>();
     }
-
+    /// <summary>
+    /// 経歴情報
+    /// </summary>
     public class Career
     {
         /// <summary>

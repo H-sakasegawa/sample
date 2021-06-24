@@ -11,12 +11,30 @@ namespace WinFormsApp2
         //-----------------------------------
         // 月運、年運、大運、日干支、月干支、年干支　識別フラグ
         //-----------------------------------
+        /// <summary>
+        /// 月運 識別フラグ
+        /// </summary>
         public const int bitFlgGetuun = 0x40;
+        /// <summary>
+        /// 年運 識別フラグ
+        /// </summary>
         public const int bitFlgNenun = 0x20;
+        /// <summary>
+        /// 大運 識別フラグ
+        /// </summary>
         public const int bitFlgTaiun = 0x10;
 
+        /// <summary>
+        /// 日干支 識別フラグ
+        /// </summary>
         public const int bitFlgNiti = 0x04;
+        /// <summary>
+        /// 月干支 識別フラグ
+        /// </summary>
         public const int bitFlgGetu = 0x02;
+        /// <summary>
+        /// 年干支 識別フラグ
+        /// </summary>
         public const int bitFlgNen = 0x01;
 
 

@@ -102,7 +102,15 @@ namespace WinFormsApp2
             }
             return 0;
         }
-
+        /// <summary>
+        /// 節入り日基準データ取得
+        /// </summary>
+        /// <param name="baseYear"></param>
+        /// <param name="baseMonth"></param>
+        /// <param name="baseDay"></param>
+        /// <param name="baseNenkansi"></param>
+        /// <param name="baseGekkansi"></param>
+        /// <param name="baseNikkansiSanshutuSu"></param>
         public void GetBaseSetuiribiData(ref int baseYear,
                                           ref int baseMonth,
                                           ref int baseDay,
@@ -149,6 +157,12 @@ namespace WinFormsApp2
                         }
             */
         }
+        /// <summary>
+        /// 年干支番号計算
+        /// </summary>
+        /// <param name="targetYear"></param>
+        /// <param name="targetMonth"></param>
+        /// <returns></returns>
         private int CalcNenkansi(int targetYear, int targetMonth)
         {
             int nenkansi = calcBaseNenkansi;
@@ -180,7 +194,12 @@ namespace WinFormsApp2
             }
             return nenkansi;
         }
-
+        /// <summary>
+        /// 月干支番号計算
+        /// </summary>
+        /// <param name="targetYear"></param>
+        /// <param name="targetMonth"></param>
+        /// <returns></returns>
         private int CalcGekkansi(int targetYear, int targetMonth)
         {
             int gekkansi = calcBaseGekkansi;
@@ -211,7 +230,13 @@ namespace WinFormsApp2
  
             return gekkansi;
         }
-
+        /// <summary>
+        /// 日干支 算出数取得
+        /// </summary>
+        /// <param name="targetYear"></param>
+        /// <param name="targetMonth"></param>
+        /// <param name="targetDay"></param>
+        /// <returns></returns>
         private int CalcNikkansiSanshutuSu(int targetYear, int targetMonth, int targetDay)
         {
             int nikkansiSanshutu = calcBaseNikkansiSanshutuSu;
@@ -241,7 +266,13 @@ namespace WinFormsApp2
         }
 
 
-        //年干支番号取得
+        /// <summary>
+        /// 年干支番号取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int GetNenKansiNo(int year, int month, int day)
         {
             int value = 0;
@@ -260,7 +291,13 @@ namespace WinFormsApp2
 
             return value;
         }
-        //月干支番号取得
+        /// <summary>
+        /// 月干支番号取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int GetGekkansiNo(int year, int month, int day)
         {
             int value = 0;
@@ -276,7 +313,12 @@ namespace WinFormsApp2
 
             return value;
         }
-        //月干支番号取得(節入り日無視で単純月で取得）
+        /// <summary>
+        /// 月干支番号取得(節入り日無視で単純月で取得）
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public int GetGekkansiNo(int year, int month)
         {
             int value = 0;
@@ -292,7 +334,13 @@ namespace WinFormsApp2
             return value;
         }
 
-        //日干支番号取得
+        /// <summary>
+        /// 日干支番号取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int GetNikkansiNo(int year, int month, int day)
         {
             int value = 0;
@@ -307,7 +355,13 @@ namespace WinFormsApp2
             return value;
         }
 
-        //入力された生年月日に紐付く月の節入り日からの経過日数
+        /// <summary>
+        /// 入力された生年月日に紐付く月の節入り日からの経過日数
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int CalcDayCountFromSetuiribi(int year, int month, int day)
         {
             int orgYear = year;
@@ -325,7 +379,13 @@ namespace WinFormsApp2
 
         }
 
-        //入力された生年月日から、紐付く月最終日までの日数
+        /// <summary>
+        /// 入力された生年月日から、紐付く月最終日までの日数
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         public int CalcDayCountBirthdayToLastMonthDay(int year, int month, int day)
         {
             int orgYear = year;
@@ -372,7 +432,13 @@ namespace WinFormsApp2
 
         //}
 
-
+        /// <summary>
+        /// 節入り日テーブルによる月補正
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
         private int CorrectMonthBySetuiribi(ref int year, ref int month, int day)
         {
             if (dicSetuiribiTbl.ContainsKey(year))

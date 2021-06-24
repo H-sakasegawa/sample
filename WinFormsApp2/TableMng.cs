@@ -266,6 +266,12 @@ namespace WinFormsApp2
         {
             public List<Kangou> lstKangou = null;
 
+            /// <summary>
+            /// 干合情報取得
+            /// </summary>
+            /// <param name="kan1"></param>
+            /// <param name="kan2"></param>
+            /// <returns></returns>
             public Kangou GetKangou(string kan1, string kan2)
             {
                 foreach (var val in lstKangou)
@@ -278,17 +284,35 @@ namespace WinFormsApp2
                 }
                 return null;
             }
+            /// <summary>
+            /// 干合かどうかを判定
+            /// </summary>
+            /// <param name="kan1"></param>
+            /// <param name="kan2"></param>
+            /// <returns></returns>
             public bool IsKangou(string kan1, string kan2)
             {
                 return GetKangou(kan1, kan2) != null ? true : false;
 
             }
+            /// <summary>
+            /// 干合文字列取得
+            /// </summary>
+            /// <param name="kan1"></param>
+            /// <param name="kan2"></param>
+            /// <returns></returns>
             public string GetKangouStr(string kan1, string kan2)
             {
                 // return IsKangou(kan1, kan2) ? "干合" : "";
                 return IsKangou(kan1, kan2) ? Const.sKangou : "";
 
             }
+            /// <summary>
+            /// 干合 五行属性取得
+            /// </summary>
+            /// <param name="siName1"></param>
+            /// <param name="siName2"></param>
+            /// <returns></returns>
             public string GetKangouAttr(string siName1, string siName2)
             {
                 var sigou = GetKangou(siName1, siName2);
@@ -299,6 +323,9 @@ namespace WinFormsApp2
                 return null;
             }
         }
+        /// <summary>
+        /// 干合テーブル
+        /// </summary>
         public KangouTbl kangouTbl = new KangouTbl();
 
         /// <summary>
@@ -339,6 +366,9 @@ namespace WinFormsApp2
             }
 
         }
+        /// <summary>
+        /// 七殺テーブル
+        /// </summary>
         public NanasatsuTbl nanasatsuTbl = new NanasatsuTbl();
 
         /// <summary>

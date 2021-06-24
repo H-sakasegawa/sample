@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
+    /// <summary>
+    /// 共通処理
+    /// </summary>
     class Common
     {
 

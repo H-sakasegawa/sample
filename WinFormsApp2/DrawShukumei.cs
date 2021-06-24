@@ -185,9 +185,9 @@ namespace WinFormsApp2
             }
 
             //干支表示
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumAttr.NIKKANSI);
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumAttr.GEKKANSI);
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumAttr.NENKANSI);
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumKansiItemID.NIKKANSI);
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumKansiItemID.GEKKANSI);
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumKansiItemID.NENKANSI);
 
             //ライン描画
             //陰陽

@@ -48,7 +48,6 @@ namespace WinFormsApp2
     /// <summary>
     /// 干支 データ
     /// </summary>
-
     public class Kansi
     {
         public int no;
@@ -74,7 +73,9 @@ namespace WinFormsApp2
         }
 
     }
-
+    /// <summary>
+    /// 天中殺データ
+    /// </summary>
     public class Tenchusatu
     {
         public Tenchusatu(string _tenchusatu)
@@ -229,7 +230,9 @@ namespace WinFormsApp2
     }
 
 
-    //天中殺
+    /// <summary>
+    /// 日干支天中殺の文字チェック対象ラベル組み合わせ
+    /// </summary>
     public class TenchusatuLabelPair
     {
         public TenchusatuLabelPair(Label[] _aryLabel, Label[] _zokanLabel)
@@ -272,7 +275,9 @@ namespace WinFormsApp2
 
 
 
-    //干合
+    /// <summary>
+    /// 干合
+    /// </summary>
     public class Kangou
     {
         public Kangou(string _kan, string _gou, string _gogyou, string _kyoki1, string _kyoki2, string _yomi)
@@ -304,7 +309,9 @@ namespace WinFormsApp2
         public string yojm { get; set; }
     }
 
-    //七殺
+    /// <summary>
+    /// 七殺
+    /// </summary>
     public class Nanasatsu
     {
         public Nanasatsu( string _name1, string _name2)
@@ -317,7 +324,9 @@ namespace WinFormsApp2
     }
 
 
-    //三合会局
+    /// <summary>
+    /// 三合会局
+    /// </summary>
     public class SangouKaikyoku
     {
         public SangouKaikyoku( string[] _names, string _gogyou)
@@ -335,7 +344,9 @@ namespace WinFormsApp2
         public string[] names;
         public string gogyou;
     }
-    //方三位
+    /// <summary>
+    /// 方三位
+    /// </summary>
     public class HouSani
     {
         public HouSani(string[] _names, string _gogyou)
@@ -353,7 +364,9 @@ namespace WinFormsApp2
         public string[] names;
         public string gogyou;
     }
-    //支合
+    /// <summary>
+    /// 支合
+    /// </summary>
     public class Sigou
     {
         public Sigou(string[] _names, string _gogyou, string _goryouSub)
@@ -372,7 +385,9 @@ namespace WinFormsApp2
         public string gogyou;
         public string goryouSub;
     }
-
+    /// <summary>
+    /// 五徳
+    /// </summary>
     public class Gotoku
     {
         /// <summary>
@@ -386,7 +401,9 @@ namespace WinFormsApp2
 
 
     }
-
+    /// <summary>
+    /// 半会
+    /// </summary>
     public class Hankai
     {
         public Hankai(string[] _names, string _gogyou)

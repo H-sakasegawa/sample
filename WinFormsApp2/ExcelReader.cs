@@ -17,10 +17,18 @@ using NPOI.XSSF.UserModel;
 
 namespace WinFormsApp2
 {
+    /// <summary>
+    /// Excelファイル読み込み機能
+    /// </summary>
     class ExcelReader
     {
 
-        // Workbook読み込む関数
+        /// <summary>
+        /// Workbook読み込む関数
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="version"></param>
+        /// <returns></returns>
         public static IWorkbook GetWorkbook(string filename, string version)
         {
             try
@@ -48,7 +56,13 @@ namespace WinFormsApp2
             }
             return null;
         }
-        // シート(Sheet)から行を取得関数
+
+        /// <summary>
+        ///  シート(Sheet)から行を取得関数
+        /// </summary>
+        /// <param name="sheet">シート</param>
+        /// <param name="rownum">行番号</param>
+        /// <returns></returns>
         public static IRow GetRow(ISheet sheet, int rownum)
         {
             // シートから行を取得
@@ -62,7 +76,12 @@ namespace WinFormsApp2
             // 行をリターン
             return row;
         }
-        // 行から列を取得関数
+        /// <summary>
+        /// .行から列を取得関数
+        /// </summary>
+        /// <param name="row">行番号</param>
+        /// <param name="cellnum">セル番号</param>
+        /// <returns></returns>
         public static ICell GetCell(IRow row, int cellnum)
         {
             // 行から列を取得
@@ -76,7 +95,13 @@ namespace WinFormsApp2
             // 列をリターン
             return cell;
         }
-        // エクセルシート(Sheet)からセル取得関数(rownumは行、cellnumは列)
+        /// <summary>
+        /// エクセルシート(Sheet)からセル取得関数(rownumは行、cellnumは列)
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="rownum"></param>
+        /// <param name="cellnum"></param>
+        /// <returns></returns>
         public static ICell GetCell(ISheet sheet, int rownum, int cellnum)
         {
             // 行を取得
@@ -84,7 +109,11 @@ namespace WinFormsApp2
             // 行から列を取得
             return GetCell(row, cellnum);
         }
-        // エクセルのWorkbookをファイルに格納する関数
+        /// <summary>
+        /// エクセルのWorkbookをファイルに格納する関数
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <param name="filepath"></param>
         public static void WriteExcel(IWorkbook workbook, string filepath)
         {
             // ファイルストリームを生成する。
@@ -95,7 +124,13 @@ namespace WinFormsApp2
             }
         }
 
-        //指定したセルの値を取得する
+        /// <summary>
+        /// 指定したセルの値を取得する
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="idxRow"></param>
+        /// <param name="idxColumn"></param>
+        /// <returns></returns>
         public static string CellValue(ISheet sheet, int idxRow, int idxColumn)
         {
             var row = sheet.GetRow(idxRow) ?? sheet.CreateRow(idxRow); //指定した行を取得できない時はエラーとならないよう新規作成している

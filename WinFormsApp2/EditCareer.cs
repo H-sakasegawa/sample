@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace WinFormsApp2
 {
+    /// <summary>
+    /// 経歴編集画面
+    /// </summary>
     public partial class EditCareer : Form
     {
 

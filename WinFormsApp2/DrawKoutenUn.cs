@@ -100,6 +100,9 @@ namespace WinFormsApp2
             bDispRefrectGouhou = _bDispRefrectGouhou;
             bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
+        /// <summary>
+        /// 表示座標計算
+        /// </summary>
         void CalcCoord()
         {
             int ofsX = 5;
@@ -350,13 +353,13 @@ namespace WinFormsApp2
 
             if (bDispGogyou)
             {   //五行色表示
-                colorNikkansi = GetGogyouColor(enumAttr.NIKKANSI);
-                colorGekkansi = GetGogyouColor(enumAttr.GEKKANSI);
-                colorNenkansi = GetGogyouColor(enumAttr.NENKANSI);
+                colorNikkansi = GetGogyouColor(enumKansiItemID.NIKKANSI);
+                colorGekkansi = GetGogyouColor(enumKansiItemID.GEKKANSI);
+                colorNenkansi = GetGogyouColor(enumKansiItemID.NENKANSI);
 
-                colorGetuunKansi = GetGogyouColor(enumAttr.GETUUN); //月運
-                colorNenunKansi = GetGogyouColor(enumAttr.NENUN);   //年運
-                colorTaiunKansi = GetGogyouColor(enumAttr.TAIUN);   //大運
+                colorGetuunKansi = GetGogyouColor(enumKansiItemID.GETUUN); //月運
+                colorNenunKansi = GetGogyouColor(enumKansiItemID.NENUN);   //年運
+                colorTaiunKansi = GetGogyouColor(enumKansiItemID.TAIUN);   //大運
 
             }
             else if (bDispGotoku)
@@ -393,8 +396,9 @@ namespace WinFormsApp2
                 RefrectKangou(
                                 colorNikkansi, colorGekkansi, colorNenkansi,
                                 colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
-                                getuunKansi, nenunKansi, taiunKansi
-                                );
+                                getuunKansi, nenunKansi, taiunKansi,
+                                 bDispGetuun
+                               );
 
             }
             //三合会局・方三位　反映
@@ -410,24 +414,24 @@ namespace WinFormsApp2
             //変わった属性をもとに再度表示カラーを求める
             if (bDispGotoku && (bDispRefrectGouhou || bDispRefrectSangouKaiyoku) )
             {
-                var attrBaseItem = GetAttrTblItem(enumAttr.NIKKANSI);
+                var attrBaseItem = GetAttrTblItem(enumKansiItemID.NIKKANSI);
 
-                var attrItem = GetAttrTblItem(enumAttr.NIKKANSI);
+                var attrItem = GetAttrTblItem(enumKansiItemID.NIKKANSI);
                 colorNikkansi = GetGotokuColor(colorNikkansi, attrBaseItem.attrKan, null, attrItem.attrSi);
 
-                attrItem = GetAttrTblItem(enumAttr.GEKKANSI);
+                attrItem = GetAttrTblItem(enumKansiItemID.GEKKANSI);
                 colorGekkansi = GetGotokuColor(colorGekkansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
 
-                attrItem = GetAttrTblItem(enumAttr.NENKANSI);
+                attrItem = GetAttrTblItem(enumKansiItemID.NENKANSI);
                 colorNenkansi = GetGotokuColor(colorNenkansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
 
-                attrItem = GetAttrTblItem(enumAttr.GETUUN);
+                attrItem = GetAttrTblItem(enumKansiItemID.GETUUN);
                 colorGetuunKansi = GetGotokuColor(colorGetuunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
 
-                attrItem = GetAttrTblItem(enumAttr.NENUN);
+                attrItem = GetAttrTblItem(enumKansiItemID.NENUN);
                 colorNenunKansi = GetGotokuColor(colorNenunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
 
-                attrItem = GetAttrTblItem(enumAttr.TAIUN);
+                attrItem = GetAttrTblItem(enumKansiItemID.TAIUN);
                 colorTaiunKansi = GetGotokuColor(colorTaiunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
 
 
@@ -441,17 +445,17 @@ namespace WinFormsApp2
 
             if (bDispGetuun)
             {
-                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, enumAttr.GETUUN);　//月運干支
+                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, enumKansiItemID.GETUUN);　//月運干支
                 DrawString(rectGetuunTitle, "<月運>");
             }
-            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, enumAttr.NENUN);//年運干支
-            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, enumAttr.TAIUN);//大運干支
+            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, enumKansiItemID.NENUN);//年運干支
+            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, enumKansiItemID.TAIUN);//大運干支
             DrawString(rectNenunTitle, "<年運>");
             DrawString(rectTaiunTitle, "<大運>");
 
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumAttr.NIKKANSI);//日干支
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumAttr.GEKKANSI);//月干支
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumAttr.NENKANSI);//年干支
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumKansiItemID.NIKKANSI);//日干支
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumKansiItemID.GEKKANSI);//月干支
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumKansiItemID.NENKANSI);//年干支
 
 
             //陰陽(年運→大運）
