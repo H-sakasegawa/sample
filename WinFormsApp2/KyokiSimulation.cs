@@ -41,6 +41,8 @@ namespace WinFormsApp2
         public List<KansiInfo> lstKansPattern = new List<KansiInfo>();
         public Kansi[] aryKansiOrg;
 
+        const int MaxPatternNum = 20;
+
         public int Simulation( Person person,
                                 Kansi getuunKansi,
                                 Kansi nenunKansi,
@@ -73,6 +75,11 @@ namespace WinFormsApp2
         {
 
             lstKansPattern.Add(new KansiInfo(aryKansi));
+
+            if( lstKansPattern.Count >= MaxPatternNum)
+            {
+                return 0;
+            }
 
             //現在の干支属性情報をバックアップ
  
