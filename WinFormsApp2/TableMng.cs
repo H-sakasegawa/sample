@@ -276,10 +276,34 @@ namespace WinFormsApp2
             {
                 foreach (var val in lstKangou)
                 {
-                    if (val.kan == kan1 && val.gou == kan2 ||
-                        val.kan == kan2 && val.gou == kan1)
+                    if (val.SKangou1 == kan1 && val.sKangou2 == kan2 ||
+                        val.SKangou1 == kan2 && val.sKangou2 == kan1)
                     {
                         return val;
+                    }
+                }
+                return null;
+            }
+            /// <summary>
+            /// 虚気文字列取得
+            /// </summary>
+            /// <param name="kan1"></param>
+            /// <param name="kan2"></param>
+            /// <returns>
+            /// string[0]... kan1に該当する虚気文字
+            /// string[1]... kan2に該当する虚気文字
+            /// </returns>
+            public string[] GetKyoki(string kan1, string kan2)
+            {
+                foreach (var val in lstKangou)
+                {
+                    if (val.SKangou1 == kan1 && val.sKangou2 == kan2)
+                    {
+                        return new string[] { val.kyoki[0], val.kyoki[1] };
+                    }
+                    else if(val.SKangou1 == kan2 && val.sKangou2 == kan1)
+                    {
+                        return new string[] { val.kyoki[1], val.kyoki[0] };
                     }
                 }
                 return null;
@@ -315,10 +339,10 @@ namespace WinFormsApp2
             /// <returns></returns>
             public string GetKangouAttr(string siName1, string siName2)
             {
-                var sigou = GetKangou(siName1, siName2);
-                if (sigou != null)
+                var kangou = GetKangou(siName1, siName2);
+                if (kangou != null)
                 {
-                    return sigou.gogyou;
+                    return kangou.gogyou;
                 }
                 return null;
             }
@@ -526,9 +550,18 @@ namespace WinFormsApp2
             }
 
         }
+        /// <summary>
+        /// 三合会局 情報取得結果
+        /// </summary>
         public class SangouKaikyokuResult
         {
+            /// <summary>
+            /// 三合会局データ
+            /// </summary>
             public SangouKaikyoku sangouKaikyoku;
+            /// <summary>
+            /// 三合会局に合致した干支を指すビット情報
+            /// </summary>
             public int hitItemBit;
         }
         public SangouKaikyokuTbl sangouKaikyokuTbl = new SangouKaikyokuTbl();
@@ -585,9 +618,18 @@ namespace WinFormsApp2
                 return lstResult;
             }
         }
+        /// <summary>
+        /// 方三位 情報取得結果
+        /// </summary>
         public class HouSaniResult
         {
+            /// <summary>
+            /// 方三位データ
+            /// </summary>
             public HouSani houSani;
+            /// <summary>
+            /// 方三位に合致した干支を指すビット情報
+            /// </summary>
             public int hitItemBit;
         }
 
@@ -697,6 +739,69 @@ namespace WinFormsApp2
         }
         public HankaiTbl hankaiTbl = new HankaiTbl();
 
+        /// <summary>
+        /// 干支　五行情報管理テーブル
+        /// </summary>
+        public class KansiAttrTblMng
+        {
+            AttrTblItem[] attrTbl = null;
+
+            public KansiAttrTblMng()
+            {
+                attrTbl = new AttrTblItem[6]; //月運、年運、大運, 日干支、月干支、年干支
+                for (int i = 0; i < attrTbl.Length; i++)
+                {
+                    attrTbl[i] = new AttrTblItem();
+                }
+            }
+
+            public AttrTblItem this[int id]
+            {
+                get
+                {
+                    return attrTbl[id];
+                }
+            }
+            public bool IsSame(KansiAttrTblMng kansiAttrTbl)
+            {
+                for (int i = 0; i < attrTbl.Length; i++)
+                {
+                    if (attrTbl[i] != kansiAttrTbl.attrTbl[i])
+                        return false;
+                }
+                return true;
+            }
+            /// <summary>
+            /// 基本属性マトリクス情報を作成
+            /// </summary>
+            /// <param name="person"></param>
+            /// <param name="getuun"></param>
+            /// <param name="nenun"></param>
+            /// <param name="taiun"></param>
+            public void CreateGogyouAttrMatrix(Person person, Kansi getuun = null, Kansi nenun = null, Kansi taiun = null)
+            {
+                var tblMng = TableMng.GetTblManage();
+                //月運
+                if (getuun != null) attrTbl[(int)Const.enumKansiItemID.GETUUN].Init(tblMng.jyukanTbl[getuun.kan].gogyou, tblMng.jyunisiTbl[getuun.si].gogyou);
+                //年運
+                if (nenun != null) attrTbl[(int)Const.enumKansiItemID.NENUN].Init(tblMng.jyukanTbl[nenun.kan].gogyou, tblMng.jyunisiTbl[nenun.si].gogyou);
+                //大運
+                if (taiun != null) attrTbl[(int)Const.enumKansiItemID.TAIUN].Init(tblMng.jyukanTbl[taiun.kan].gogyou, tblMng.jyunisiTbl[taiun.si].gogyou);
+
+                //日干支
+                attrTbl[(int)Const.enumKansiItemID.NIKKANSI].Init(tblMng.jyukanTbl[person.nikkansi.kan].gogyou, tblMng.jyunisiTbl[person.nikkansi.si].gogyou);
+                //月干支
+                attrTbl[(int)Const.enumKansiItemID.GEKKANSI].Init(tblMng.jyukanTbl[person.gekkansi.kan].gogyou, tblMng.jyunisiTbl[person.gekkansi.si].gogyou);
+                //年干支
+                attrTbl[(int)Const.enumKansiItemID.NENKANSI].Init(tblMng.jyukanTbl[person.nenkansi.kan].gogyou, tblMng.jyunisiTbl[person.nenkansi.si].gogyou);
+            }
+            public KansiAttrTblMng Clone()
+            {
+                // Object型で返ってくるのでキャストが必要
+                return (KansiAttrTblMng)MemberwiseClone();
+            }
+
+        }
 
         /// <summary>
         ///　五徳 管理テーブル 管理

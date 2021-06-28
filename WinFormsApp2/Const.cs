@@ -38,6 +38,22 @@ namespace WinFormsApp2
         public const int bitFlgNen = 0x01;
 
 
+        /// <summary>
+        /// 干支項目の識別ID
+        /// </summary>
+        public enum enumKansiItemID
+        {
+            None = -1,
+            GETUUN = 0,
+            NENUN,
+            TAIUN,
+            NIKKANSI,
+            GEKKANSI,
+            NENKANSI,
+        }
+
+
+
         public const string sKangou = "干合";
         public const string sInyou = "陰陽";
         public const string sNanasatu = "七殺";

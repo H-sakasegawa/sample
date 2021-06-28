@@ -104,7 +104,7 @@ namespace WinFormsApp2
         /// 本関数は、IsouhouBase::Draw()から呼び出されます
         /// </summary>
         /// <param name="g"></param>
-        public override void DrawItem(Graphics g)
+        protected override void DrawItem(Graphics g)
         {
             if (person == null) return;
 
@@ -185,9 +185,9 @@ namespace WinFormsApp2
             }
 
             //干支表示
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, enumKansiItemID.NIKKANSI);
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, enumKansiItemID.GEKKANSI);
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, enumKansiItemID.NENKANSI);
+            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, Const.enumKansiItemID.NIKKANSI);
+            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, Const.enumKansiItemID.GEKKANSI);
+            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, Const.enumKansiItemID.NENKANSI);
 
             //ライン描画
             //陰陽

@@ -71,7 +71,17 @@ namespace WinFormsApp2
         {
             return kan + si;
         }
+        public Kansi Clone()
+        {
+            // Object型で返ってくるのでキャストが必要
+            return (Kansi)MemberwiseClone();
+        }
+        public bool IsSame( Kansi kansi)
+        {
+            if (kan == kansi.kan && si == kansi.si) return true;
 
+            return false;
+        }
     }
     /// <summary>
     /// 天中殺データ
@@ -141,10 +151,12 @@ namespace WinFormsApp2
                 dayNum += genso[1].dayNum;
                 if (dayNum >= dayNumFromSetuiribi) return enmGensoType.GENSO_CHUGEN;
             }
-
             return enmGensoType.GENSO_HONGEN;
         }
     }
+    /// <summary>
+    /// 二十八元表の元素情報
+    /// </summary>
     public class Genso
     {
         public Genso(string _name, int _dayNum = -1)
@@ -153,7 +165,13 @@ namespace WinFormsApp2
             dayNum = _dayNum;
         }
         public new string ToString() { return name; }
+        /// <summary>
+        /// 元素名
+        /// </summary>
         public string name;
+        /// <summary>
+        /// 初元、中元 判定日
+        /// </summary>
         public int dayNum;
     }
 
@@ -280,10 +298,10 @@ namespace WinFormsApp2
     /// </summary>
     public class Kangou
     {
-        public Kangou(string _kan, string _gou, string _gogyou, string _kyoki1, string _kyoki2, string _yomi)
+        public Kangou(string _kangou1, string _kangou2, string _gogyou, string _kyoki1, string _kyoki2, string _yomi)
         {
-            kan = _kan;
-            gou = _gou;
+            SKangou1 = _kangou1;
+            sKangou2 = _kangou2;
             gogyou = _gogyou;
             kyoki = new string[] { _kyoki1, _kyoki2 };
             yojm = _yomi;
@@ -291,11 +309,11 @@ namespace WinFormsApp2
         /// <summary>
         /// 干
         /// </summary>
-        public string kan { get; set; }
+        public string SKangou1 { get; set; }
         /// <summary>
         /// 合
         /// </summary>
-        public string gou { get; set; }
+        public string sKangou2 { get; set; }
         /// <summary>
         /// 化気
         /// </summary>
@@ -421,6 +439,24 @@ namespace WinFormsApp2
         public string gogyou;
 
     }
+
+    /// <summary>
+    /// 五行属性テーブル項目
+    /// </summary>
+    public class AttrTblItem
+    {
+        public void Init(string _attrKan, string _attrSi)
+        {
+            attrKanOrg = attrKan = _attrKan;
+            attrSiOrg = attrSi = _attrSi;
+        }
+
+        public string attrKanOrg;
+        public string attrSiOrg;
+        public string attrKan;
+        public string attrSi;
+    }
+
 
 }
 

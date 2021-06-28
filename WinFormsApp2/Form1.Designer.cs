@@ -170,6 +170,8 @@ namespace WinFormsApp2
             this.chkRefrectGouhou = new System.Windows.Forms.CheckBox();
             this.chkRefrectSangouKaikyokuHousani = new System.Windows.Forms.CheckBox();
             this.grpGogyouGotoku = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.lblKyokiNum = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1740,11 +1742,32 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.TabIndex = 66;
             this.grpGogyouGotoku.TabStop = false;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(334, 370);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(119, 23);
+            this.button3.TabIndex = 67;
+            this.button3.Text = "虚気 変化パターン";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // lblKyokiNum
+            // 
+            this.lblKyokiNum.AutoSize = true;
+            this.lblKyokiNum.Location = new System.Drawing.Point(334, 352);
+            this.lblKyokiNum.Name = "lblKyokiNum";
+            this.lblKyokiNum.Size = new System.Drawing.Size(115, 15);
+            this.lblKyokiNum.TabIndex = 68;
+            this.lblKyokiNum.Text = "虚気変化パターン数：";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.lblKyokiNum);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.grpGogyouGotoku);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
@@ -1960,6 +1983,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox chkRefrectGouhou;
         private System.Windows.Forms.CheckBox chkRefrectSangouKaikyokuHousani;
         private System.Windows.Forms.GroupBox grpGogyouGotoku;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label lblKyokiNum;
     }
 }
 

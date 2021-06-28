@@ -224,6 +224,13 @@ namespace WinFormsApp2
             return name;
         }
 
+        public Person Clone()
+        {
+            // Object型で返ってくるのでキャストが必要
+            return (Person)MemberwiseClone();
+        }
+
+
         public int Init(TableMng _tblMng, SetuiribiTable _tblSetuiribi)
         {
             tblMng = _tblMng;

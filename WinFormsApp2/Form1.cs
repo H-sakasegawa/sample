@@ -63,6 +63,13 @@ namespace WinFormsApp2
         List<Label> lstLblGogyou;
         List<Label> lstLblGotoku;
 
+        TaiunLvItemData curTaiun = null;
+        GetuunNenunLvItemData curNenun = null;
+        GetuunNenunLvItemData curGetuun = null;
+
+        FromKyokiSimulation frmKykiSim = null;
+
+
         /// <summary>
         /// 年運表カラム Index
         /// </summary>
@@ -921,22 +928,22 @@ namespace WinFormsApp2
             var selectedItem = lvTaiun.SelectedItems;
             if (selectedItem.Count == 0) return;
 
-            TaiunLvItemData itemData = (TaiunLvItemData)selectedItem[0].Tag;
+            curTaiun = (TaiunLvItemData)selectedItem[0].Tag;
 
             //年運の選択行の干支取得
             selectedItem = lvNenun.SelectedItems;
             if (selectedItem.Count == 0) return;
 
-            GetuunNenunLvItemData itemData2 = (GetuunNenunLvItemData)selectedItem[0].Tag;
+            curNenun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
             //月運の選択行の干支取得
             selectedItem = lvGetuun.SelectedItems;
             if (selectedItem.Count == 0) return;
 
-            GetuunNenunLvItemData itemData3 = (GetuunNenunLvItemData)selectedItem[0].Tag;
+            curGetuun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
             if (drawItem2 != null) drawItem2.Dispose();
-            drawItem2 = new DrawKoutenUn(person, pictureBox, itemData.kansi, itemData2.kansi, itemData3.kansi,
+            drawItem2 = new DrawKoutenUn(person, pictureBox, curTaiun.kansi, curNenun.kansi, curGetuun.kansi,
                                         chkDispTaiun.Checked,
                                         chkDispNenun.Checked,
                                         chkDispGetuun.Checked,
@@ -948,6 +955,24 @@ namespace WinFormsApp2
                                         );
             drawItem2.Draw();
 
+
+            //虚気変化数表示
+            KyokiSimulation sim = new KyokiSimulation();
+
+            sim.Simulation(person, curGetuun.kansi, curNenun.kansi, curTaiun.kansi, chkDispGetuun.Checked);
+            lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
+
+            if (frmKykiSim != null && frmKykiSim.Visible==true)
+            {
+                frmKykiSim.InitDisp(curPerson, curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                                        chkDispGetuun.Checked,
+                                        chkSangouKaikyoku.Checked,
+                                        chkGogyou.Checked,
+                                        chkGotoku.Checked,
+                                        chkRefrectGouhou.Checked,
+                                        chkRefrectSangouKaikyokuHousani.Checked
+                                    );
+            }
 
         }
 
@@ -1480,6 +1505,28 @@ namespace WinFormsApp2
         {
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
+        }
+
+        /// <summary>
+        /// 虚気 変化パターン画面表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (frmKykiSim == null)
+            {
+                frmKykiSim = new FromKyokiSimulation();
+                frmKykiSim.InitDisp(curPerson, curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                                        chkDispGetuun.Checked,
+                                        chkSangouKaikyoku.Checked,
+                                        chkGogyou.Checked,
+                                        chkGotoku.Checked,
+                                        chkRefrectGouhou.Checked,
+                                        chkRefrectSangouKaikyokuHousani.Checked
+                                        );
+            }
+            frmKykiSim.Show();
         }
 
         //=================================================
