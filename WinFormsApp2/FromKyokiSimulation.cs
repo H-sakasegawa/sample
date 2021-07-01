@@ -13,7 +13,7 @@ namespace WinFormsApp2
     public partial class FromKyokiSimulation : Form
     {
 
-        List<PictureBox> lstPictureBox = new List<PictureBox>();
+        //List<PictureBox> lstPictureBox = new List<PictureBox>();
 
         public FromKyokiSimulation()
         {
@@ -44,21 +44,45 @@ namespace WinFormsApp2
             this.DoubleBuffered = true;
 
             flowLayoutPanel1.Controls.Clear();
-            lstPictureBox.Clear();
+            //lstPictureBox.Clear();
 
             Person person = _person.Clone();
 
+            int cnt = 0;
             foreach ( var pattern in sim.lstKansPattern)
             {
+                Label lbl = new Label();
+                lbl.AutoSize = true;
+                if (cnt == 0)
+                {
+                    lbl.Text = string.Format("基本", cnt++);
+                }else
+                { 
+                    lbl.Text = string.Format("{0}回目", cnt++);
+                }
+                if (pattern.bCirculation) lbl.Text += "\n\r(循環)";
                 PictureBox pictureBox = new PictureBox();
                 pictureBox.Width = 300;
                 pictureBox.Height = 100;
                 pictureBox.BorderStyle = BorderStyle.FixedSingle;
-                flowLayoutPanel1.Controls.Add(pictureBox);
-                lstPictureBox.Add(pictureBox);
+
+                SplitContainer sc = new SplitContainer();
+                sc.IsSplitterFixed = true;
+                sc.Orientation = Orientation.Vertical;
+                sc.SplitterWidth = 1;
+                sc.FixedPanel = FixedPanel.Panel1;
+                sc.Panel1MinSize =50;
+                sc.Panel1.Controls.Add(lbl);
+                sc.Panel2.Controls.Add(pictureBox);
+                sc.Width = 370;
+                flowLayoutPanel1.Controls.Add(sc);
+                
+               // lstPictureBox.Add(pictureBox);
                 person.nikkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NIKKANSI];
                 person.gekkansi = pattern.aryKansi[(int)Const.enumKansiItemID.GEKKANSI];
                 person.nenkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NENKANSI];
+
+ 
 
 
                 DrawKoutenUn drawItem2 = null;

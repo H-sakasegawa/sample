@@ -35,6 +35,9 @@ namespace WinFormsApp2
             this.lblYear = new System.Windows.Forms.Label();
             this.txtCareer = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -99,11 +102,21 @@ namespace WinFormsApp2
             this.label3.TabIndex = 5;
             this.label3.Text = "経歴：";
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.VSplit;
+            this.splitContainer1.Location = new System.Drawing.Point(179, 2);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Size = new System.Drawing.Size(59, 25);
+            this.splitContainer1.SplitterDistance = 25;
+            this.splitContainer1.TabIndex = 6;
+            // 
             // EditCareer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(366, 149);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCareer);
             this.Controls.Add(this.lblYear);
@@ -115,6 +128,8 @@ namespace WinFormsApp2
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "経歴編集";
             this.Load += new System.EventHandler(this.EditCareer_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,5 +143,6 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label lblYear;
         private System.Windows.Forms.TextBox txtCareer;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
