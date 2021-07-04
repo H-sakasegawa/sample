@@ -17,8 +17,7 @@ namespace WinFormsApp2
     {
         string exePath = "";
 
-        TableMng dataMng = TableMng.GetTblManage();
-        SetuiribiTable setuiribiTbl = null;
+        TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
         const int GetuunDispStartGetu = 2;
 
@@ -99,11 +98,11 @@ namespace WinFormsApp2
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
             personList = new Persons();
-            setuiribiTbl = new SetuiribiTable();
+            //setuiribiTbl = new SetuiribiTable();
             try
             {
                 //節入り日テーブル読み込み
-                setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
+                tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
             }
             catch (Exception e)
             {
@@ -166,7 +165,7 @@ namespace WinFormsApp2
             int baseGekkansi = 0;
             int baseNikkansiSanshutusuu = 0;
             //節入り日テーブルの先頭データを基準に基準情報を取得
-            setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
+            tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
                                               ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
             txtBaseYear.Text = baseYear.ToString();
             txtBaseMonth.Text = baseMonth.ToString();
@@ -177,11 +176,11 @@ namespace WinFormsApp2
 
             for (int i = 0; i < lstLblGogyou.Count; i++)
             {
-                lstLblGogyou[i].BackColor = dataMng.gogyouAttrColorTbl[lstLblGogyou[i].Text];
+                lstLblGogyou[i].BackColor = tblMng.gogyouAttrColorTbl[lstLblGogyou[i].Text];
             }
             for (int i = 0; i < lstLblGotoku.Count; i++)
             {
-                lstLblGotoku[i].BackColor = dataMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
+                lstLblGotoku[i].BackColor = tblMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
             }
 
 
@@ -278,7 +277,7 @@ namespace WinFormsApp2
                                         int.Parse(txtYear.Text),
                                         int.Parse(txtMonth.Text),
                                         int.Parse(txtDay.Text),
-                                        radMan.Checked ? Gender.NAN : Gender.WOMAN
+                                        radMan.Checked ? Gender.MAN : Gender.WOMAN
                                         );
             MainProc(person);
         }
@@ -296,15 +295,15 @@ namespace WinFormsApp2
             int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
 
             //節入り日テーブル有効範囲チェック
-            if ( !setuiribiTbl.IsContainsYear(person.birthday.year))
+            if ( !tblMng.setuiribiTbl.IsContainsYear(person.birthday.year))
             {
                 MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
                 return;
             }
-            setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
+            tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
             //ユーザ情報初期設定
-            person.Init(dataMng, setuiribiTbl);
+            person.Init(tblMng, tblMng.setuiribiTbl);
 
             //経歴リスト表示
             DispCarrerList(person);
@@ -555,11 +554,12 @@ namespace WinFormsApp2
         {
             lvTaiun.Items.Clear();
 
+#if false
             //初旬干支番号
             int kansiNo = person.gekkansiNo;
 
             //順行、逆行
-            int dirc = Direction(person);
+            int dirc = person.Direction();
 
             //int Year = int.Parse(txtYear.Text);
             //int Month = int.Parse(txtMonth.Text);
@@ -596,31 +596,48 @@ namespace WinFormsApp2
                 countStartNen += 10;
 
             }
+#else
+            var lstTaiunKansi = person.GetTaiunKansiList();
+            for(int i=0; i< lstTaiunKansi.Count; i++)
+            {
+                var kansiItem = lstTaiunKansi[i];
+                if ( i==0)
+                {
+                    //初旬
+                    AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0);
+                }
+                else
+                {
+                    AddTaiunItem(person, string.Format("{0}旬 {1}～", i + 1, kansiItem.startYear),
+                                 kansiItem.kansiNo, kansiItem.startYear);
+                }
+            }
 
+#endif
             lvTaiun.Items[0].Selected = true;
 
         }
-        /// <summary>
-        /// 大運 順行、逆行判定
-        /// </summary>
-        /// <param name="NenkansiNo"></param>
-        /// <returns></returns>
-        private int Direction(Person person)
-        {
-            var Nenkansi = person.nenkansi;// dataMng.kansiMng.dicKansi[ person.nenkansiNo ];
+        ///// <summary>
+        ///// 大運 順行、逆行判定
+        ///// </summary>
+        ///// <param name="NenkansiNo"></param>
+        ///// <returns></returns>
+        //private int Direction(Person person)
+        //{
+        //    var Nenkansi = person.nenkansi;// dataMng.kansiMng.dicKansi[ person.nenkansiNo ];
 
-            //性別
-            if (radMan.Checked)
-            {   //男性
-                if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return 1;
-                else return -1;
-            }
-            else
-            {   //女性
-                if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return -1;
-                else return 1;
-            }
-        }
+        //    //性別
+        //    if (radMan.Checked)
+        //    {   //男性
+        //        if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return 1;
+        //        else return -1;
+        //    }
+        //    else
+        //    {   //女性
+        //        if (dataMng.jyukanTbl[Nenkansi.kan].inyou == "+") return -1;
+        //        else return 1;
+        //    }
+        //}
         /// <summary>
         /// 大運 行データ追加
         /// </summary>
@@ -717,7 +734,7 @@ namespace WinFormsApp2
             int baseYear = person.birthday.year + startNen;
             int Month = person.birthday.month;
             int Day = person.birthday.day;
-
+#if false
             //0才 干支番号
             int nenkansiNo = person.nenkansiNo;
 
@@ -725,7 +742,10 @@ namespace WinFormsApp2
             nenkansiNo += baseYear - person.birthday.year;
             nenkansiNo = nenkansiNo % 60;
             if (nenkansiNo == 0) nenkansiNo = 60;
+#else
 
+            int nenkansiNo = person.GetNenkansiNo(baseYear);
+#endif
             //11年分を表示
             for (int i = 0; i < 10+1; i++)
             {
@@ -779,7 +799,7 @@ namespace WinFormsApp2
                 }
 
                 //月干支番号取得(節入り日無視で単純月で取得）
-                int gekkansiNo = setuiribiTbl.GetGekkansiNo(year, mMonth);
+                int gekkansiNo = tblMng.setuiribiTbl.GetGekkansiNo(year, mMonth);
 
 
                 //順行のみなので、60超えたら1にするだけ
@@ -943,7 +963,8 @@ namespace WinFormsApp2
             curGetuun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
             if (drawItem2 != null) drawItem2.Dispose();
-            drawItem2 = new DrawKoutenUn(person, pictureBox, curTaiun.kansi, curNenun.kansi, curGetuun.kansi,
+            drawItem2 = new DrawKoutenUn(person, pictureBox, 
+                                        curTaiun.kansi, curNenun.kansi, curGetuun.kansi,
                                         chkDispTaiun.Checked,
                                         chkDispNenun.Checked,
                                         chkDispGetuun.Checked,
@@ -964,14 +985,16 @@ namespace WinFormsApp2
 
             if (frmKykiSim != null && frmKykiSim.Visible==true)
             {
-                frmKykiSim.InitDisp(curPerson, curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                frmKykiSim.UpdateKyokiPattern(curPerson,
+                                        curNenun.keyValue,
+                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked,
                                         chkGotoku.Checked,
                                         chkRefrectGouhou.Checked,
                                         chkRefrectSangouKaikyokuHousani.Checked
-                                    );
+                                    );;
             }
 
         }
@@ -1035,6 +1058,17 @@ namespace WinFormsApp2
             }
         }
 
+        /// <summary>
+        /// .大運、年運のリスト表示を指定年月に設定
+        /// </summary>
+        /// <param name="year"></param>
+        public void UpdateNeunTaiunDisp(int year)
+        {
+            //月運リストビューは年度の最初の月を選択
+            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
+
+        }
+
 
         //====================================================
         // イベントハンドラ
@@ -1082,10 +1116,24 @@ namespace WinFormsApp2
             txtMonth.Text = birthday.month.ToString();
             txtDay.Text = birthday.day.ToString();
 
-            if (person.gender == Gender.NAN) radMan.Checked = true;
+            if (person.gender == Gender.MAN) radMan.Checked = true;
             else radWoman.Checked = true;
 
             MainProc(person);
+
+            if (frmKykiSim != null && frmKykiSim.Visible == true)
+            {
+                frmKykiSim.InitDisp(curPerson, birthday.year,
+                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                                        chkDispGetuun.Checked,
+                                        chkSangouKaikyoku.Checked,
+                                        chkGogyou.Checked,
+                                        chkGotoku.Checked,
+                                        chkRefrectGouhou.Checked,
+                                        chkRefrectSangouKaikyokuHousani.Checked
+                                    );
+            }
+
 
 
         }
@@ -1127,7 +1175,7 @@ namespace WinFormsApp2
             var item = lvCareer.SelectedItems[0];
             int year = int.Parse(item.SubItems[0].Text);
             //月運リストビューは年度の最初の月を選択
-            DispDateView(new DateTime(year, GetuunDispStartGetu, GetuunDispStartGetu));
+            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
         }
 
 
@@ -1514,10 +1562,31 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
+            //年運の選択行の干支取得
+           var selectedItem = lvNenun.SelectedItems;
+            if (selectedItem.Count == 0) return;
+
+            curNenun = (GetuunNenunLvItemData)selectedItem[0].Tag;
+
             if (frmKykiSim == null)
             {
-                frmKykiSim = new FromKyokiSimulation();
-                frmKykiSim.InitDisp(curPerson, curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+
+
+                frmKykiSim = new FromKyokiSimulation( this);
+                frmKykiSim.InitDisp(curPerson, curNenun.keyValue,
+                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                                        chkDispGetuun.Checked,
+                                        chkSangouKaikyoku.Checked,
+                                        chkGogyou.Checked,
+                                        chkGotoku.Checked,
+                                        chkRefrectGouhou.Checked,
+                                        chkRefrectSangouKaikyokuHousani.Checked
+                                        );
+            }
+            else
+            {
+                frmKykiSim.UpdateKyokiPattern(curPerson, curNenun.keyValue,
+                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked,

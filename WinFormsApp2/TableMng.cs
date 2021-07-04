@@ -14,6 +14,9 @@ namespace WinFormsApp2
         {
             return tblMng;
         }
+
+        public SetuiribiTable setuiribiTbl = new SetuiribiTable();
+
         /// <summary>
         /// 十干 管理テーブル
         /// </summary>

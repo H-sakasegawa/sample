@@ -71,6 +71,8 @@ namespace WinFormsApp2
 
             Kansi[] aryKansi = new Kansi[] { _getuunKansi, _nenunKansi, _taiunKansi, _nikkansi, _gekkansi, _nenkansi  };
 
+            lstKansPattern.Clear();
+
             DoSim(aryKansi,  bDispGetuun);
             return 0;
         }

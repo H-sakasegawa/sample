@@ -12,7 +12,7 @@ namespace WinFormsApp2
     /// </summary>
     public enum Gender
     {
-        NAN = 0,
+        MAN = 0,
         WOMAN
     }
 
@@ -129,7 +129,7 @@ namespace WinFormsApp2
 
                 //性別
                 string sGender = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GENDER);
-                Gender gender = (sGender == "男" ? Gender.NAN : Gender.WOMAN);
+                Gender gender = (sGender == "男" ? Gender.MAN : Gender.WOMAN);
 
                 //グループ
                 string group = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GROUP);
@@ -293,6 +293,119 @@ namespace WinFormsApp2
 
 
             return 0;
+        }
+
+        /// <summary>
+        /// 大運 順行、逆行判定
+        /// </summary>
+        /// <param name="NenkansiNo"></param>
+        /// <returns></returns>
+        public int Direction()
+        {
+            var Nenkansi = nenkansi;
+
+            //性別
+            if (gender == Gender.MAN)
+            {   //男性
+                if (tblMng.jyukanTbl[Nenkansi.kan].inyou == "+") return 1;
+                else return -1;
+            }
+            else
+            {   //女性
+                if (tblMng.jyukanTbl[Nenkansi.kan].inyou == "+") return -1;
+                else return 1;
+            }
+        }
+
+        public class TaiunKansiItem
+        {
+            public TaiunKansiItem(int _year, int _startYear, int No)
+            {
+                year = _year;
+                startYear = _startYear;
+                kansiNo = No;
+            }
+
+            public int year;
+            public int startYear;
+            public int kansiNo;
+        }
+        /// <summary>
+        /// 大運表の１０年周期の年と干支の組み合わせリスト取得
+        /// </summary>
+        /// <returns></returns>
+        public List<TaiunKansiItem> GetTaiunKansiList()
+        {
+            List<TaiunKansiItem> lstResult = new List<TaiunKansiItem>();
+
+            //初旬干支番号
+            int kansiNo = gekkansiNo;
+
+            //順行、逆行
+            int dirc = Direction();
+
+            //才運
+            int dayCnt;
+            if (dirc == 1) //順行
+            {
+                dayCnt = CalcDayCountBirthdayToLastMonthDay();
+            }
+            else
+            {
+                //CalcDayCountFromSetuiribi()は節入り日を含めないので、＋１する
+                dayCnt = CalcDayCountFromSetuiribi() + 1;
+            }
+            int countStartNen = (int)Math.Ceiling(dayCnt / 3.0);
+            if (countStartNen > 10) countStartNen = 10;
+
+            lstResult.Add(new TaiunKansiItem(birthday.year, 0, kansiNo));
+
+            //1旬～10旬まで
+            for (int i = 0; i < 10; i++)
+            {
+                kansiNo += dirc;
+                if (kansiNo < 1) kansiNo = 60;
+                if (kansiNo > 60) kansiNo = 1;
+
+                lstResult.Add(new TaiunKansiItem(birthday.year + countStartNen,  countStartNen, kansiNo));
+                countStartNen += 10;
+            }
+
+            return lstResult;
+        }
+
+        /// <summary>
+        /// 年に関する年干支を取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public Kansi GetNenkansi(int year)
+        {
+            int kansiNo = GetNenkansiNo(year);
+            if (kansiNo < 0) return null;
+
+            return GetKansi(kansiNo);
+        }
+
+        /// <summary>
+        /// 年に関する年干支番号を取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public int GetNenkansiNo(int year)
+        {
+            if (year < birthday.year) return -1;
+
+
+            //0才 干支番号
+            int targetNenkansiNo = nenkansiNo;
+
+            //指定された年の干支番号
+            targetNenkansiNo += year - birthday.year;
+            targetNenkansiNo = targetNenkansiNo % 60;
+            if (targetNenkansiNo == 0) targetNenkansiNo = 60;
+
+            return targetNenkansiNo;
         }
 
         /// <summary>
