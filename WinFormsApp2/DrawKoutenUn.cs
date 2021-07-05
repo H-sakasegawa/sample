@@ -438,12 +438,18 @@ namespace WinFormsApp2
                 idxKangouGetuunGetu = SetMatrixUp(bKangouGetuunGetu, chkBitFlg, (Const.bitFlgGetuun | Const.bitFlgGetu));//月運 - 月
                 idxKangouGetuunNen = SetMatrixUp(bKangouGetuunNen, chkBitFlg, (Const.bitFlgGetuun | Const.bitFlgNen));//月運 - 年
             }
+
+        
             //七殺(年運→大運、月運→年運、月運→大運）
             //-------------------               
             chkBitFlg = Const.bitFlgNenun | Const.bitFlgTaiun | bitFlgNitiGetuNen;
-            bool bNanasatuNenunTaiun = person.IsNanasatu(nenunKansi, taiunKansi); //（年運 - 大運) の関係
-            bool bNanasatuGetuunNenun = person.IsNanasatu(getuunKansi, nenunKansi); //（月運 - 年運) の関係
-            bool bNanasatuGetuunTaiun = person.IsNanasatu(getuunKansi, taiunKansi); //（月運 - 大運) の関係
+            int idxNanasatuPointNenunTaiun = 0;
+            int idxNanasatuPointGetuunNenun = 0;
+            int idxNanasatuPointGetuunTaiun = 0;
+            bool bNanasatuNenunTaiun = person.IsNanasatu(nenunKansi, taiunKansi, ref idxNanasatuPointNenunTaiun); //（年運 - 大運) の関係
+            bool bNanasatuGetuunNenun = person.IsNanasatu(getuunKansi, nenunKansi, ref idxNanasatuPointGetuunNenun); //（月運 - 年運) の関係
+            bool bNanasatuGetuunTaiun = person.IsNanasatu(getuunKansi, taiunKansi, ref idxNanasatuPointGetuunTaiun); //（月運 - 大運) の関係
+
             int idxNanasatuNenunTaiun = SetMatrixUp(bNanasatuNenunTaiun, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgTaiun));//年運 - 大運
             int idxNanasatuGetuunNenun = -1;
             int idxNanasatuGetuunTaiun = -1;
@@ -455,9 +461,13 @@ namespace WinFormsApp2
             //七殺(大運→＊）
             //-------------------
             chkBitFlg = Const.bitFlgTaiun | bitFlgNitiGetuNen;
-            bool bNanasatuTaiunNiti = person.IsNanasatu(taiunKansi, person.nikkansi);//（大運-日) の関係
-            bool bNanasatuTaiunGetu = person.IsNanasatu(taiunKansi, person.gekkansi);//（大運-月) の関係
-            bool bNanasatuTaiunNen = person.IsNanasatu(taiunKansi, person.nenkansi);//（大運-年) の関係
+            int idxNanasatuPointTaiunNiti = 0;
+            int idxNanasatuPointTaiunGetu = 0;
+            int idxNanasatuPointTaiunNen = 0;
+            bool bNanasatuTaiunNiti = person.IsNanasatu(taiunKansi, person.nikkansi, ref idxNanasatuPointTaiunNiti);//（大運-日) の関係
+            bool bNanasatuTaiunGetu = person.IsNanasatu(taiunKansi, person.gekkansi, ref idxNanasatuPointTaiunGetu);//（大運-月) の関係
+            bool bNanasatuTaiunNen = person.IsNanasatu(taiunKansi, person.nenkansi, ref idxNanasatuPointTaiunNen);//（大運-年) の関係
+
             int idxNanasatuTaiunNiti = SetMatrixUp(bNanasatuTaiunNiti, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNiti));//大運 - 日
             int idxNanasatuTaiunGetu = SetMatrixUp(bNanasatuTaiunGetu, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgGetu));//大運 - 月
             int idxNanasatuTaiunNen = SetMatrixUp(bNanasatuTaiunNen, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNen));//大運 - 年
@@ -465,9 +475,13 @@ namespace WinFormsApp2
             //七殺(年運→＊）
             //-------------------
             chkBitFlg = Const.bitFlgNenun | Const.bitFlgTaiun | bitFlgNitiGetuNen;
-            bool bNanasatuNenunNiti = person.IsNanasatu(nenunKansi, person.nikkansi);//（年運-日) の関係
-            bool bNanasatuNenunGetu = person.IsNanasatu(nenunKansi, person.gekkansi);//（年運-月) の関係
-            bool bNanasatuNenunNen = person.IsNanasatu(nenunKansi, person.nenkansi);//（年運-年) の関係
+            int idxNanasatuPointNenunNiti = 0;
+            int idxNanasatuPointNenunGetu = 0;
+            int idxNanasatuPointNenunNen = 0;
+            bool bNanasatuNenunNiti = person.IsNanasatu(nenunKansi, person.nikkansi, ref idxNanasatuPointNenunNiti);//（年運-日) の関係
+            bool bNanasatuNenunGetu = person.IsNanasatu(nenunKansi, person.gekkansi, ref idxNanasatuPointNenunGetu);//（年運-月) の関係
+            bool bNanasatuNenunNen = person.IsNanasatu(nenunKansi, person.nenkansi, ref idxNanasatuPointNenunNen);//（年運-年) の関係
+
             int idxNanasatuNenunNiti = SetMatrixUp(bNanasatuNenunNiti, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNiti));//年運 - 日
             int idxNanasatuNenunGetu = SetMatrixUp(bNanasatuNenunGetu, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgGetu));//年運 - 月
             int idxNanasatuNenunNen = SetMatrixUp(bNanasatuNenunNen, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNen));//年運 - 年
@@ -475,9 +489,13 @@ namespace WinFormsApp2
             //七殺(月運→＊）
             //-------------------
             chkBitFlg = Const.bitFlgGetuun | Const.bitFlgNenun | Const.bitFlgTaiun | bitFlgNitiGetuNen;
-            bool bNanasatuGetuunNiti = person.IsNanasatu(getuunKansi, person.nikkansi);//（月運-日) の関係
-            bool bNanasatuGetuunGetu = person.IsNanasatu(getuunKansi, person.gekkansi);//（月運-月) の関係
-            bool bNanasatuGetuunNen = person.IsNanasatu(getuunKansi, person.nenkansi);//（月運-年) の関係
+            int idxNanasatuPointGetuunNiti = 0;
+            int idxNanasatuPointGetuunGetu = 0;
+            int idxNanasatuPointGetuunNen = 0;
+            bool bNanasatuGetuunNiti = person.IsNanasatu(getuunKansi, person.nikkansi, ref idxNanasatuPointGetuunNiti);//（月運-日) の関係
+            bool bNanasatuGetuunGetu = person.IsNanasatu(getuunKansi, person.gekkansi, ref idxNanasatuPointGetuunGetu);//（月運-月) の関係
+            bool bNanasatuGetuunNen = person.IsNanasatu(getuunKansi, person.nenkansi, ref idxNanasatuPointGetuunNen);//（月運-年) の関係
+
             int idxNanasatuGetuunNiti = -1;
             int idxNanasatuGetuunGetu = -1;
             int idxNanasatuGetuunNen = -1;
@@ -803,7 +821,8 @@ namespace WinFormsApp2
             {
                 if (bNanasatuNenunTaiun)//年運 - 大運
                 {
-                    DrawLine(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(nenunCenterX, taiunCenterX, idxNanasatuPointNenunTaiun);
+                    DrawLineNanasatu(idxNanasatuNenunTaiun, nanasatuDraw,  drawTopKan, dircUp);
                     DrawString(idxNanasatuNenunTaiun, nenunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
                 }
             }
@@ -811,12 +830,14 @@ namespace WinFormsApp2
             {
                 if (bNanasatuGetuunNenun)//月運 - 年運
                 {
-                    DrawLine(idxNanasatuGetuunNenun, getuunCenterX, nenunCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(getuunCenterX, nenunCenterX, idxNanasatuPointGetuunNenun);
+                    DrawLineNanasatu(idxNanasatuGetuunNenun, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuGetuunNenun, getuunCenterX, nenunCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuGetuunTaiun)//月運 - 大運
                 {
-                    DrawLine(idxNanasatuGetuunTaiun, getuunCenterX, taiunCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(getuunCenterX, taiunCenterX, idxNanasatuPointGetuunTaiun);
+                    DrawLineNanasatu(idxNanasatuGetuunTaiun, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuGetuunTaiun, getuunCenterX, taiunCenterX, drawTopKan, dircUp, strNanasatu);
                 }
             }
@@ -826,17 +847,20 @@ namespace WinFormsApp2
             {
                 if (bNanasatuTaiunNiti)//大運 - 日
                 {
-                    DrawLine(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(taiunCenterX, nikkansiCenterX, idxNanasatuPointTaiunNiti);
+                    DrawLineNanasatu(idxNanasatuTaiunNiti, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuTaiunNiti, taiunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuTaiunGetu)//大運 - 月
                 {
-                    DrawLine(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(taiunCenterX, gekkansiCenterX, idxNanasatuPointTaiunGetu);
+                    DrawLineNanasatu(idxNanasatuTaiunGetu, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuTaiunGetu, taiunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuTaiunNen)//大運 - 年
                 {
-                    DrawLine(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(taiunCenterX, nenkansiCenterX, idxNanasatuPointTaiunNen);
+                    DrawLineNanasatu(idxNanasatuTaiunNen, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuTaiunNen, taiunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
             }
@@ -846,17 +870,20 @@ namespace WinFormsApp2
             {
                 if (bNanasatuNenunNiti)//年運 - 日
                 {
-                    DrawLine(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(nenunCenterX, nikkansiCenterX, idxNanasatuPointNenunNiti);
+                    DrawLineNanasatu(idxNanasatuNenunNiti, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuNenunNiti, nenunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuNenunGetu)//年運 - 月
                 {
-                    DrawLine(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(nenunCenterX, gekkansiCenterX, idxNanasatuPointNenunGetu);
+                    DrawLineNanasatu(idxNanasatuNenunGetu, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuNenunGetu, nenunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuNenunNen)//年運 - 年
                 {
-                    DrawLine(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(nenunCenterX, nenkansiCenterX, idxNanasatuPointNenunNen);
+                    DrawLineNanasatu(idxNanasatuNenunNen, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuNenunNen, nenunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
 
                 }
@@ -867,17 +894,20 @@ namespace WinFormsApp2
             {
                 if (bNanasatuGetuunNiti)//月運 - 日
                 {
-                    DrawLine(idxNanasatuGetuunNiti, getuunCenterX, nikkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(getuunCenterX, nikkansiCenterX, idxNanasatuPointGetuunNiti);
+                    DrawLineNanasatu(idxNanasatuGetuunNiti, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuGetuunNiti, getuunCenterX, nikkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuGetuunGetu)//月運 - 月
                 {
-                    DrawLine(idxNanasatuGetuunGetu, getuunCenterX, gekkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(getuunCenterX, gekkansiCenterX, idxNanasatuPointGetuunGetu);
+                    DrawLineNanasatu(idxNanasatuGetuunGetu, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuGetuunGetu, getuunCenterX, gekkansiCenterX, drawTopKan, dircUp, strNanasatu);
                 }
                 if (bNanasatuGetuunNen)//月運 - 年
                 {
-                    DrawLine(idxNanasatuGetuunNen, getuunCenterX, nenkansiCenterX, drawTopKan, dircUp);
+                    NanasatuDraw nanasatuDraw = new NanasatuDraw(getuunCenterX, nenkansiCenterX, idxNanasatuPointGetuunNen);
+                    DrawLineNanasatu(idxNanasatuGetuunNen, nanasatuDraw, drawTopKan, dircUp);
                     DrawString(idxNanasatuGetuunNen, getuunCenterX, nenkansiCenterX, drawTopKan, dircUp, strNanasatu);
 
                 }

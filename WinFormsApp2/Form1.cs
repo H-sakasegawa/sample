@@ -659,22 +659,24 @@ namespace WinFormsApp2
 
             lvItem.SubItems.Add(judai); //十大主星
             lvItem.SubItems.Add(junidai); //十二大従星
+     
+            int idxNanasatuItem = 0;
 
             //日
             GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, null, null);
-            string nanasatu = person.IsNanasatu(taiunKansi, person.nikkansi) ? Const.sNanasatu : "";   //七殺
+            string nanasatu = (person.IsNanasatu(taiunKansi, person.nikkansi, ref idxNanasatuItem)==true && idxNanasatuItem==1) ? Const.sNanasatu : "";   //七殺
             string kangou = person.GetKangoStr(taiunKansi, person.nikkansi); //干合            
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu) );
 
             //月
             gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, null, null);
-            nanasatu = person.IsNanasatu(taiunKansi, person.gekkansi) ? Const.sNanasatu : "";   //七殺
+            nanasatu = (person.IsNanasatu(taiunKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             kangou = person.GetKangoStr(taiunKansi, person.gekkansi); //干合
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
             //年
             gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, null, null);
-            nanasatu = person.IsNanasatu(taiunKansi, person.nenkansi) ? Const.sNanasatu : "";   //七殺
+            nanasatu = (person.IsNanasatu(taiunKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
             lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
@@ -843,6 +845,7 @@ namespace WinFormsApp2
         {
 
             Kansi taregetKansi = person.GetKansi(targetkansiNo);
+            int idxNanasatuItem = 0;
 
 
             string judai = person.GetJudaiShusei(person.nikkansi.kan, taregetKansi.kan).name;
@@ -865,19 +868,19 @@ namespace WinFormsApp2
             //合法三法(日)
             GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nikkansi, taiunKansi, taregetKansi);
             string kangou = person.GetKangoStr(taregetKansi, person.nikkansi); //干合            
-            string nanasatu = person.IsNanasatu(taregetKansi, person.nikkansi) ? Const.sNanasatu : "";   //七殺
+            string nanasatu = (person.IsNanasatu(taregetKansi, person.nikkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1)? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NITI].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
             //合法三法(月)
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.gekkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.gekkansi); //干合  
-            nanasatu = person.IsNanasatu(taregetKansi, person.gekkansi) ? Const.sNanasatu : "";   //七殺
+            nanasatu = (person.IsNanasatu(taregetKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_GETU].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
-            //合法三法(年ｖ
+            //合法三法(年)
             gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nenkansi, taiunKansi, taregetKansi);
             kangou = person.GetKangoStr(taregetKansi, person.nenkansi); //干合  
-            nanasatu = person.IsNanasatu(taregetKansi, person.nenkansi) ? Const.sNanasatu : "";   //七殺
+            nanasatu = (person.IsNanasatu(taregetKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NEN].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
 
@@ -1599,105 +1602,105 @@ namespace WinFormsApp2
         }
 
         //=================================================
-        //Owner Draw
+        //Owner Draw 　⇒  ListViewExに統合しました
         //=================================================
         //----------------------------------------
         // 大運 ListView OwnerDraw処理
         //----------------------------------------
-        private void lvTaiun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
-        private void lvTaiun_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
-            {
-                e.DrawFocusRectangle();
-            }
-            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
-            if (lvTaiun.View != View.Details)
-            {
-                e.DrawText();
-            }
-        }
-        private void lvTaiun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            Brush brush = new SolidBrush(e.Item.ForeColor);
-            if (e.Item.Selected)
-            {
-                // Hightlightで範囲を塗りつぶす
-                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
-            }
-            // 上で設定した,brushとdrawFormatを利用して文字を描画する
-            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
-            brush.Dispose();
-        }
+        //private void lvTaiun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        //{
+        //    e.DrawDefault = true;
+        //}
+        //private void lvTaiun_DrawItem(object sender, DrawListViewItemEventArgs e)
+        //{
+        //    if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+        //    {
+        //        e.DrawFocusRectangle();
+        //    }
+        //    // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+        //    if (lvTaiun.View != View.Details)
+        //    {
+        //        e.DrawText();
+        //    }
+        //}
+        //private void lvTaiun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        //{
+        //    Brush brush = new SolidBrush(e.Item.ForeColor);
+        //    if (e.Item.Selected)
+        //    {
+        //        // Hightlightで範囲を塗りつぶす
+        //        e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+        //    }
+        //    // 上で設定した,brushとdrawFormatを利用して文字を描画する
+        //    e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+        //    brush.Dispose();
+        //}
         //----------------------------------------
         // 年運 ListView OwnerDraw処理
         //----------------------------------------
-        private void lvNenun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+        //private void lvNenun_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        //{
+        //    e.DrawDefault = true;
+        //}
 
-        private void lvNenun_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
-            {
-                e.DrawFocusRectangle();
-            }
-            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
-            if (lvTaiun.View != View.Details)
-            {
-                e.DrawText();
-            }
-        }
+        //private void lvNenun_DrawItem(object sender, DrawListViewItemEventArgs e)
+        //{
+        //    if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+        //    {
+        //        e.DrawFocusRectangle();
+        //    }
+        //    // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+        //    if (lvNenun.View != View.Details)
+        //    {
+        //        e.DrawText();
+        //    }
+        //}
 
-        private void lvNenun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            Brush brush = new SolidBrush(e.Item.ForeColor);
-            if (e.Item.Selected)
-            {
-                // Hightlightで範囲を塗りつぶす
-                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
-            }
-            // 上で設定した,brushとdrawFormatを利用して文字を描画する
-            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
-            brush.Dispose();
-        }
+        //private void lvNenun_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        //{
+        //    Brush brush = new SolidBrush(e.Item.ForeColor);
+        //    if (e.Item.Selected)
+        //    {
+        //        // Hightlightで範囲を塗りつぶす
+        //        e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+        //    }
+        //    // 上で設定した,brushとdrawFormatを利用して文字を描画する
+        //    e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+        //    brush.Dispose();
+        //}
         //----------------------------------------
         // 月運 ListView OwnerDraw処理
         //----------------------------------------
-        private void lvGetuUn_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+        //private void lvGetuUn_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        //{
+        //    e.DrawDefault = true;
+        //}
 
-        private void lvGetuUn_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
-            {
-                e.DrawFocusRectangle();
-            }
-            // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
-            if (lvTaiun.View != View.Details)
-            {
-                e.DrawText();
-            }
-        }
+        //private void lvGetuUn_DrawItem(object sender, DrawListViewItemEventArgs e)
+        //{
+        //    if ((e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected)
+        //    {
+        //        e.DrawFocusRectangle();
+        //    }
+        //    // View.DetailsならばDrawSubItemイベントで描画するため、ここでは描画しない
+        //    if (lvGetuU.View != View.Details)
+        //    {
+        //        e.DrawText();
+        //    }
+        //}
 
-        private void lvGetuUn_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            Brush brush = new SolidBrush(e.Item.ForeColor);
-            if (e.Item.Selected)
-            {
-                // Hightlightで範囲を塗りつぶす
-                e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
-            }
-            // 上で設定した,brushとdrawFormatを利用して文字を描画する
-            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
-            brush.Dispose();
-        }
+        //private void lvGetuUn_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        //{
+        //    Brush brush = new SolidBrush(e.Item.ForeColor);
+        //    if (e.Item.Selected)
+        //    {
+        //        // Hightlightで範囲を塗りつぶす
+        //        e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
+        //    }
+        //    // 上で設定した,brushとdrawFormatを利用して文字を描画する
+        //    e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
+        //    brush.Dispose();
+        //}
 
     }
 }

@@ -337,7 +337,13 @@ namespace WinFormsApp2
             name1 = _name1;
             name2 = _name2;
         }
-        public string name1;
+        /// <summary>
+        /// 七殺 するもの
+        /// </summary>
+        public string name1; 
+        /// <summary>
+        /// 七殺 されるもの
+        /// </summary>
         public string name2;
     }
 

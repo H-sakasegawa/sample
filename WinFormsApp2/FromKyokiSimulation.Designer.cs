@@ -33,7 +33,7 @@ namespace WinFormsApp2
             "1992",
             "99"}, -1);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lvPatternNum = new System.Windows.Forms.ListView();
+            this.lvPatternNum = new WinFormsApp2.ListViewEx();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
@@ -48,7 +48,7 @@ namespace WinFormsApp2
             this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(114, 2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(358, 359);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(373, 359);
             this.flowLayoutPanel1.TabIndex = 50;
             // 
             // lvPatternNum
@@ -66,6 +66,7 @@ namespace WinFormsApp2
             this.lvPatternNum.Location = new System.Drawing.Point(1, 2);
             this.lvPatternNum.MultiSelect = false;
             this.lvPatternNum.Name = "lvPatternNum";
+            this.lvPatternNum.OwnerDraw = true;
             this.lvPatternNum.Size = new System.Drawing.Size(110, 358);
             this.lvPatternNum.TabIndex = 51;
             this.lvPatternNum.UseCompatibleStateImageBehavior = false;
@@ -87,11 +88,11 @@ namespace WinFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 366);
+            this.ClientSize = new System.Drawing.Size(489, 366);
             this.Controls.Add(this.lvPatternNum);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.MaximumSize = new System.Drawing.Size(490, 2048);
-            this.MinimumSize = new System.Drawing.Size(490, 200);
+            this.MaximumSize = new System.Drawing.Size(505, 2048);
+            this.MinimumSize = new System.Drawing.Size(505, 200);
             this.Name = "FromKyokiSimulation";
             this.Text = "虚気 変化パターン";
             this.TopMost = true;
@@ -105,8 +106,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.ListView lvPatternNum;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private ListViewEx lvPatternNum;
     }
 }

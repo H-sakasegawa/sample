@@ -991,25 +991,40 @@ namespace WinFormsApp2
 
         /// <summary>
         /// 七殺判定
-        /// 大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも可
         /// </summary>
-        /// <param name="kansi1"></param>
-        /// <param name="kansi2"></param>
+        /// <param name="kansi1">干支1</param>
+        /// <param name="kansi2">干支2</param>
+        /// <param name="nanasatuKansi">七殺される側情報受け取り(0..Kansi1 1..kansi2)</param>
         /// <returns></returns>
-        public bool IsNanasatu(Kansi kansi1, Kansi kansi2)
+        public bool IsNanasatu(Kansi kansi1, Kansi kansi2, ref int nanasatuKansi)
         {
-            return IsNanasatu(kansi1.kan, kansi2.kan);
+            return IsNanasatu(kansi1.kan, kansi2.kan, ref nanasatuKansi);
         }
         /// <summary>
         /// 七殺判定
-        /// 大運→（日月年）,年運→（日月年）,他日→月などでも加
+        /// 大運→（日月年）,年運→（日月年）,他日→月などでも可
         /// </summary>
-        /// <param name="kan1"></param>
-        /// <param name="kan2"></param>
+        /// <param name="kan1">干支1</param>
+        /// <param name="kan2">干支2</param>
+        /// <param name="nanasatuKansi">七殺される側情報受け取り(0..Kansi1 1..kansi2)</param>
         /// <returns></returns>
-        public bool IsNanasatu(string kan1, string kan2)
+        public bool IsNanasatu(string kan1, string kan2, ref int nanasatuKansi)
         {
-            return GetNanasatu(kan1, kan2) != null ? true : false;
+            var nanasatu = GetNanasatu(kan1, kan2);
+            if (nanasatu == null) return false;
+
+            if( nanasatu.name2 == kan1)
+            {
+                nanasatuKansi = 0;
+            }
+            else
+            {
+                nanasatuKansi = 1;
+            }
+
+            return true;
+
         }
 
         //----------------------------------------------------
@@ -1023,7 +1038,9 @@ namespace WinFormsApp2
         /// <returns></returns>
         public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
         {
-            return IsNanasatu(taiunKansi, kansi) ? "天殺" : "";
+            int idxNanasatuItem = 0;
+
+            return IsNanasatu(taiunKansi, kansi, ref idxNanasatuItem) ? "天殺" : "";
         }
 
         /// <summary>

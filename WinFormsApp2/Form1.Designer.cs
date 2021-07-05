@@ -70,7 +70,8 @@ namespace WinFormsApp2
             this.radMan = new System.Windows.Forms.RadioButton();
             this.radWoman = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lvTaiun = new System.Windows.Forms.ListView();
+            //this.lvTaiun = new System.Windows.Forms.ListView();
+            this.lvTaiun = new ListViewEx();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -81,7 +82,8 @@ namespace WinFormsApp2
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.cmbPerson = new System.Windows.Forms.ComboBox();
-            this.lvNenun = new System.Windows.Forms.ListView();
+            //this.lvNenun = new System.Windows.Forms.ListView();
+            this.lvNenun = new ListViewEx();
             this.columnHeader15 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader16 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader17 = new System.Windows.Forms.ColumnHeader();
@@ -135,7 +137,8 @@ namespace WinFormsApp2
             this.cmbGroup = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lvGetuun = new System.Windows.Forms.ListView();
+            //this.lvGetuun = new System.Windows.Forms.ListView();
+            this.lvGetuun = new ListViewEx();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
@@ -622,9 +625,9 @@ namespace WinFormsApp2
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
-            this.lvTaiun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvTaiun_DrawColumnHeader);
-            this.lvTaiun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvTaiun_DrawItem);
-            this.lvTaiun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvTaiun_DrawSubItem);
+            //this.lvTaiun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvTaiun_DrawColumnHeader);
+            //this.lvTaiun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvTaiun_DrawItem);
+            //this.lvTaiun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvTaiun_DrawSubItem);
             this.lvTaiun.SelectedIndexChanged += new System.EventHandler(this.lvTaiun_SelectedIndexChanged);
             // 
             // columnHeader1
@@ -715,9 +718,9 @@ namespace WinFormsApp2
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
-            this.lvNenun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvNenun_DrawColumnHeader);
-            this.lvNenun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvNenun_DrawItem);
-            this.lvNenun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvNenun_DrawSubItem);
+            //this.lvNenun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvNenun_DrawColumnHeader);
+            //this.lvNenun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvNenun_DrawItem);
+            //this.lvNenun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvNenun_DrawSubItem);
             this.lvNenun.SelectedIndexChanged += new System.EventHandler(this.lvNenun_SelectedIndexChanged);
             this.lvNenun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvNenun_KeyDown);
             this.lvNenun.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseDoubleClick);
@@ -1419,9 +1422,9 @@ namespace WinFormsApp2
             this.lvGetuun.TabIndex = 51;
             this.lvGetuun.UseCompatibleStateImageBehavior = false;
             this.lvGetuun.View = System.Windows.Forms.View.Details;
-            this.lvGetuun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvGetuUn_DrawColumnHeader);
-            this.lvGetuun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvGetuUn_DrawItem);
-            this.lvGetuun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvGetuUn_DrawSubItem);
+            //this.lvGetuun.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvGetuUn_DrawColumnHeader);
+            //this.lvGetuun.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lvGetuUn_DrawItem);
+            //this.lvGetuun.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lvGetuUn_DrawSubItem);
             this.lvGetuun.SelectedIndexChanged += new System.EventHandler(this.lvGetuUn_SelectedIndexChanged);
             this.lvGetuun.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvGetuun_KeyDown);
             // 

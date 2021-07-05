@@ -20,6 +20,7 @@ namespace WinFormsApp2
         Font fntSmallDisable = null;
         Pen blackPen = null;
         Pen redPen = null;
+        Pen redPenBold = null;
         StringFormat stringFormat = null;
         StringFormat smallStringFormat = null;
         PictureBox pictureBox = null;
@@ -62,8 +63,9 @@ namespace WinFormsApp2
             pictureBox = _pictureBox;
 
 
-            blackPen = new Pen(Color.Black, 1); ;
-            redPen = new Pen(Color.Red, 1); ;
+            blackPen = new Pen(Color.Black, 1);
+            redPen = new Pen(Color.Red, 1); 
+            redPenBold = new Pen(Color.Red, 2);
 
             fnt = new Font("MS Gothic", 14, FontStyle.Regular);
             fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
@@ -157,6 +159,7 @@ namespace WinFormsApp2
         {
             blackPen.Dispose();
             redPen.Dispose();
+            redPenBold.Dispose();
             fnt.Dispose();
             fntSmall.Dispose();
             fntSmallMark.Dispose();
@@ -224,14 +227,14 @@ namespace WinFormsApp2
         /// <param name="toX">ライン描画終了X</param>
         /// <param name="baseY">基準Y座標</param>
         /// <param name="dirc">描画方向</param>
-        protected void DrawLine(int mtxIndex, int fromX, int toX, int baseY, int dirc, int xOfset=0)
+        protected void DrawLine(int mtxIndex, int fromX, int toX, int baseY, int dirc, int xOfset = 0)
         {
             Point start = new Point(fromX, baseY);
             Point end = new Point(toX, baseY);
             Point startOfs = new Point(start.X, start.Y + ((mtxIndex + 1) * offsetY) * dirc);
             Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
 
-            if(xOfset!=0)
+            if (xOfset != 0)
             {
                 start.Offset(xOfset, 0);
                 end.Offset(xOfset, 0);
@@ -241,6 +244,45 @@ namespace WinFormsApp2
             g.DrawLine(blackPen, start, startOfs);
             g.DrawLine(blackPen, startOfs, endOfs);
             g.DrawLine(blackPen, endOfs, end);
+
+        }
+        public class NanasatuDraw
+        {
+            public NanasatuDraw(int _centerX1, int _centerX2,int _idxNanasatu)
+            {
+                centerX[0] = _centerX1;
+                centerX[1] = _centerX2;
+                idxNanasatu = _idxNanasatu;
+            }
+            public int[] centerX = new int[2];
+            public int idxNanasatu;
+        }
+        protected void DrawLineNanasatu(int mtxIndex, NanasatuDraw nanasatuDraw, int baseY, int dirc, int xOfset = 0)
+        {
+            int fromX = nanasatuDraw.centerX[0];
+            int toX = nanasatuDraw.centerX[1];
+            Point start = new Point(fromX, baseY);
+            Point end = new Point(toX, baseY);
+            Point startOfs = new Point(start.X, start.Y + ((mtxIndex + 1) * offsetY) * dirc);
+            Point endOfs = new Point(end.X, end.Y + ((mtxIndex + 1) * offsetY) * dirc);
+
+            if (xOfset != 0)
+            {
+                start.Offset(xOfset, 0);
+                end.Offset(xOfset, 0);
+                startOfs.Offset(xOfset, 0);
+                endOfs.Offset(xOfset, 0);
+            }
+            g.DrawLine(blackPen, start, startOfs);
+            g.DrawLine(blackPen, startOfs, endOfs);
+            g.DrawLine(blackPen, endOfs, end);
+
+            //七殺されるものの位置にXマーク
+            int len = 7;
+            int markX = nanasatuDraw.centerX[nanasatuDraw.idxNanasatu];
+            g.DrawLine(redPenBold, new Point(markX - len, baseY - len), new Point(markX + len, baseY + len));
+            g.DrawLine(redPenBold, new Point(markX + len, baseY - len), new Point(markX - len, baseY + len));
+
 
         }
 

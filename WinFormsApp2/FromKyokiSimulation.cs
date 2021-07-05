@@ -103,7 +103,7 @@ namespace WinFormsApp2
                 sc.Panel1MinSize =50;
                 sc.Panel1.Controls.Add(lbl);
                 sc.Panel2.Controls.Add(pictureBox);
-                sc.Width = 350;
+                sc.Width = 345;
                 flowLayoutPanel1.Controls.Add(sc);
                 
                // lstPictureBox.Add(pictureBox);
