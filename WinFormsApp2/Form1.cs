@@ -1124,7 +1124,7 @@ namespace WinFormsApp2
 
             MainProc(person);
 
-            if (frmKykiSim != null && frmKykiSim.Visible == true)
+            if (frmKykiSim != null)
             {
                 frmKykiSim.InitDisp(curPerson, birthday.year,
                                         curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
