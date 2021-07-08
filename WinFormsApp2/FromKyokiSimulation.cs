@@ -78,6 +78,12 @@ namespace WinFormsApp2
             Person person = _person.Clone();
 
             int cnt = 0;
+
+            int[] kansiBit = new int[] {
+                Const.bitFlgGetuun, Const.bitFlgNenun, Const.bitFlgTaiun,
+                Const.bitFlgNiti, Const.bitFlgGetu, Const.bitFlgNen
+            };
+
             foreach ( var pattern in sim.lstKansPattern)
             {
                 Label lbl = new Label();
@@ -107,18 +113,30 @@ namespace WinFormsApp2
                 flowLayoutPanel1.Controls.Add(sc);
                 
                // lstPictureBox.Add(pictureBox);
-                person.nikkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NIKKANSI];
-                person.gekkansi = pattern.aryKansi[(int)Const.enumKansiItemID.GEKKANSI];
-                person.nenkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NENKANSI];
+                person.nikkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NIKKANSI].kansi;
+                person.gekkansi = pattern.aryKansi[(int)Const.enumKansiItemID.GEKKANSI].kansi;
+                person.nenkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NENKANSI].kansi;
 
- 
+
+                int ChangeKansiBit = 0;
+
+                //干支情報の干で変化している箇所のビットを設定
+                for (int i=0; i< pattern.aryKansi.Length; i++)
+                {
+                    if (pattern.aryKansi[i].bChange )
+                    {
+                        //aryKansiの並びは、kansiBitの定義の並びになっている
+                        //変化のあった箇所のビットをON
+                        ChangeKansiBit |= kansiBit[i];
+                    }
+                }
 
 
                 DrawKoutenUn drawItem2 = null;
                 drawItem2 = new DrawKoutenUn(person, pictureBox, 
-                                        pattern.aryKansi[(int)Const.enumKansiItemID.TAIUN],
-                                        pattern.aryKansi[(int)Const.enumKansiItemID.NENUN],
-                                        pattern.aryKansi[(int)Const.enumKansiItemID.GETUUN],
+                                        pattern.aryKansi[(int)Const.enumKansiItemID.TAIUN].kansi,
+                                        pattern.aryKansi[(int)Const.enumKansiItemID.NENUN].kansi,
+                                        pattern.aryKansi[(int)Const.enumKansiItemID.GETUUN].kansi,
                                         _bDispGetuun,
                                         _bDispSangouKaikyoku,
                                         _bDispGogyou,
@@ -128,7 +146,7 @@ namespace WinFormsApp2
                                         );
                 drawItem2.CalcCoord(0);
 
-                drawItem2.DrawKyokiPattern();
+                drawItem2.DrawKyokiPattern(ChangeKansiBit);
             }
             this.ResumeLayout();
 
@@ -184,12 +202,17 @@ namespace WinFormsApp2
                 gekkansiNo = tblMng.setuiribiTbl.GetGekkansiNo(year, 2);
                 Kansi getuunKansi = _person.GetKansi(gekkansiNo);
 
-                sim.Simulation(_person, getuunKansi, nenunKansi, taiunKansi, _bDispGetuun);
+                int rc = sim.Simulation(_person, getuunKansi, nenunKansi, taiunKansi, _bDispGetuun);
 
                 int patternNum = sim.lstKansPattern.Count;
 
                 var lvItem= lvPatternNum.Items.Add(string.Format("{0}", year));
                 lvItem.SubItems.Add(string.Format("{0}", patternNum-1));
+
+                if(rc==1)
+                {
+                    lvItem.BackColor = Color.LightYellow;
+                }
 
             }
 

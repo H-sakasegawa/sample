@@ -43,6 +43,11 @@ namespace WinFormsApp2
                 // Hightlightで範囲を塗りつぶす
                 e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds);
             }
+            else
+            {
+                var brs = new SolidBrush(e.Item.BackColor);
+                e.Graphics.FillRectangle(brs, e.Bounds);
+            }
             // 上で設定した,brushとdrawFormatを利用して文字を描画する
             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brush, e.Bounds);
             brush.Dispose();

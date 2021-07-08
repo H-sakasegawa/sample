@@ -6,26 +6,56 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
+    class KyokiKansi 
+    { 
+        public KyokiKansi( Kansi _kansi)
+        {
+            kansi = _kansi.Clone();
+            bChange = false;
+        }
+        public KyokiKansi Clone()
+        {
+            // Object型で返ってくるのでキャストが必要
+            KyokiKansi clone = (KyokiKansi)MemberwiseClone();
+            clone.kansi = this.kansi.Clone();
+
+            return clone;
+        }
+
+        public string kan
+        {
+            get { return kansi.kan; }
+            set { kansi.kan = value; bChange = true; }
+        }
+        public string si
+        {
+            get { return kansi.si; }
+            set { kansi.si = value; bChange = true; }
+        }
+
+        public Kansi kansi;
+        public bool bChange;    //変化有無フラグ
+    }
     /// <summary>
     /// 虚気パターン解析用 干支情報
     /// </summary>
     class KansiInfo
     {
-        public KansiInfo( Kansi[] _aryKansi)
+        public KansiInfo(KyokiKansi[] _aryKansi)
         {
             bCirculation = false;
-            aryKansi = new Kansi[_aryKansi.Length];
+            aryKansi = new KyokiKansi[_aryKansi.Length];
             for (int i = 0; i < aryKansi.Length; i++)
             {
                 aryKansi[i] = _aryKansi[i].Clone();
             }
         }
 
-        public bool IsSame(Kansi[] _aryKansi)
+        public bool IsSame(KyokiKansi[] _aryKansi)
         {
             for (int i = 0; i < aryKansi.Length; i++)
             {
-                if (!aryKansi[i].IsSame(_aryKansi[i]))
+                if (!aryKansi[i].kansi.IsSame(_aryKansi[i].kansi))
                 {
                     return false;
                 }
@@ -33,7 +63,7 @@ namespace WinFormsApp2
             return true;
         }
 
-        public Kansi[] aryKansi = new Kansi[6];
+        public KyokiKansi[] aryKansi = null;
         public bool bCirculation;
     }
 
@@ -47,6 +77,15 @@ namespace WinFormsApp2
 
         const int MaxPatternNum = 20;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="getuunKansi"></param>
+        /// <param name="nenunKansi"></param>
+        /// <param name="taiunKansi"></param>
+        /// <param name="bDispGetuun"></param>
+        /// <returns>0..循環無し  1..循環あり</returns>
         public int Simulation( Person person,
                                 Kansi getuunKansi,
                                 Kansi nenunKansi,
@@ -69,12 +108,14 @@ namespace WinFormsApp2
             Kansi _nenunKansi = nenunKansi.Clone();
             Kansi _taiunKansi = taiunKansi.Clone();
 
-            Kansi[] aryKansi = new Kansi[] { _getuunKansi, _nenunKansi, _taiunKansi, _nikkansi, _gekkansi, _nenkansi  };
+            KyokiKansi[] aryKansi = new KyokiKansi[] { 
+                                        new KyokiKansi(_getuunKansi), new KyokiKansi(_nenunKansi), new KyokiKansi(_taiunKansi),
+                                        new KyokiKansi(_nikkansi), new KyokiKansi(_gekkansi), new KyokiKansi(_nenkansi)
+                                                    };
 
             lstKansPattern.Clear();
 
-            DoSim(aryKansi,  bDispGetuun);
-            return 0;
+            return  DoSim(aryKansi,  bDispGetuun);
         }
 
         /// <summary>
@@ -82,9 +123,10 @@ namespace WinFormsApp2
         /// </summary>
         /// <param name="aryKansi"></param>
         /// <param name="bDispGetuun"></param>
-        /// <returns></returns>
-        private int DoSim(Kansi[] aryKansi,  bool bDispGetuun  )
+        /// <returns>0..循環無し  1..循環あり</returns>
+        private int DoSim(KyokiKansi[] aryKansi,  bool bDispGetuun  )
         {
+            int rc = 0;
 
             lstKansPattern.Add(new KansiInfo(aryKansi));
 
@@ -117,17 +159,17 @@ namespace WinFormsApp2
                         var lastItem = new KansiInfo(aryKansi);
                         lastItem.bCirculation = true;
                         lstKansPattern.Add(lastItem);
+
+                        rc = 1; //循環あり
                     }
                     //前回発生したパターンと同じものがでてきた、⇒ここで終了
-                    return 0;
+                    return rc;
                 }
             }
 
 
             //再帰呼び出し
-            DoSim(aryKansi,  bDispGetuun);
-
-            return 0;
+            return DoSim(aryKansi,  bDispGetuun);
         }
 
         /// <summary>
@@ -136,14 +178,14 @@ namespace WinFormsApp2
         /// <param name="nikkansi">日干支</param>
         /// <param name="gekkansi">月干支</param>
         /// <param name="nenkansi">年干支</param>
-        public void RefrectKangou(Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
+        public void RefrectKangou(KyokiKansi nikkansi, KyokiKansi gekkansi, KyokiKansi nenkansi)
         {
             var tblMng = TableMng.GetTblManage();
 
             //オリジナルをコピー ⇒変換判定はオリジナルで比較
-            Kansi _nikkansi = nikkansi.Clone();
-            Kansi _nenkansi = nenkansi.Clone();
-            Kansi _gekkansi = gekkansi.Clone();
+            KyokiKansi _nikkansi = nikkansi.Clone();
+            KyokiKansi _nenkansi = nenkansi.Clone();
+            KyokiKansi _gekkansi = gekkansi.Clone();
 
 
             //================================================
@@ -181,21 +223,21 @@ namespace WinFormsApp2
         /// <param name="nenunKansi">年運干支</param>
         /// <param name="taiunKansi">大運干支</param>
         /// <param name="bDispGetuun">月運表示・非表示フラグ</param>
-        public void RefrectKangou(Kansi nikkansi, Kansi gekkansi, Kansi nenkansi,
-                                  Kansi getuunKansi, Kansi nenunKansi, Kansi taiunKansi,
+        public void RefrectKangou(KyokiKansi nikkansi, KyokiKansi gekkansi, KyokiKansi nenkansi,
+                                  KyokiKansi getuunKansi, KyokiKansi nenunKansi, KyokiKansi taiunKansi,
                                   bool bDispGetuun
            )
         {
             var tblMng = TableMng.GetTblManage();
 
             //オリジナルをコピー ⇒変換判定はオリジナルで比較
-            Kansi _nikkansi = nikkansi.Clone();
-            Kansi _gekkansi = gekkansi.Clone();
-            Kansi _nenkansi = nenkansi.Clone();
+            KyokiKansi _nikkansi = nikkansi.Clone();
+            KyokiKansi _gekkansi = gekkansi.Clone();
+            KyokiKansi _nenkansi = nenkansi.Clone();
 
-            Kansi _getuunKansi = getuunKansi.Clone();
-            Kansi _nenunKansi = nenunKansi.Clone();
-            Kansi _taiunKansi = taiunKansi.Clone();
+            KyokiKansi _getuunKansi = getuunKansi.Clone();
+            KyokiKansi _nenunKansi = nenunKansi.Clone();
+            KyokiKansi _taiunKansi = taiunKansi.Clone();
 
             string[] kyoki;
             //宿命カラー設定

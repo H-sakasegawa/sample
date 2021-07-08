@@ -56,5 +56,24 @@ namespace WinFormsApp2
 
             label.Font = new Font(label.Font, fontStyle);
         }
+
+        /// <summary>
+        /// enumKansiItemID ⇒ 項目ビット情報変換
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static int ConvEnumKansiItemIDToItemBit(Const.enumKansiItemID id)
+        {
+            switch( id )
+            {
+                case Const.enumKansiItemID.GETUUN: return Const.bitFlgGetuun;
+                case Const.enumKansiItemID.NENUN: return Const.bitFlgNenun;
+                case Const.enumKansiItemID.TAIUN: return Const.bitFlgTaiun;
+                case Const.enumKansiItemID.NIKKANSI: return Const.bitFlgNiti;
+                case Const.enumKansiItemID.GEKKANSI: return Const.bitFlgGetu;
+                case Const.enumKansiItemID.NENKANSI: return Const.bitFlgNen;
+            }
+            return 0;
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace WinFormsApp2
     {
         public Person person;
         Font fnt = null;
+        Font fntBold = null;
         Font fntSmall = null;
         Font fntSmallMark = null;
         Font fntSmallDisable = null;
@@ -68,6 +69,7 @@ namespace WinFormsApp2
             redPenBold = new Pen(Color.Red, 2);
 
             fnt = new Font("MS Gothic", 14, FontStyle.Regular);
+            fntBold = new Font("MS Gothic", 14, FontStyle.Regular | FontStyle.Bold);
             fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
             fntSmallMark = new Font("MS Gothic", 5, FontStyle.Regular);
             fntSmallDisable = new Font("MS Gothic", 8, FontStyle.Regular | FontStyle.Strikeout);
@@ -140,13 +142,18 @@ namespace WinFormsApp2
             pictureBox.Image = canvas;
 
         }
-        public void DrawKyokiPattern()
+        int redColorItemBit = 0;
+
+        public void DrawKyokiPattern( int _redColorItemBit)
         {
+            redColorItemBit = _redColorItemBit;
+
             //派生先クラスの描画I/F呼び出し
             Bitmap canvas = new Bitmap(pictureBox.Width, pictureBox.Height);
             // Graphicsオブジェクトの作成
             g = Graphics.FromImage(canvas);
 
+            //干支文字と枠のみ描画
             DrawKansi(g);
 
             pictureBox.Image = canvas;
@@ -161,6 +168,7 @@ namespace WinFormsApp2
             redPen.Dispose();
             redPenBold.Dispose();
             fnt.Dispose();
+            fntBold.Dispose();
             fntSmall.Dispose();
             fntSmallMark.Dispose();
             fntSmallDisable.Dispose();
@@ -215,7 +223,21 @@ namespace WinFormsApp2
             }
             g.DrawRectangle(blackPen, rectKan);
             g.DrawRectangle(blackPen, rectSi);
-            g.DrawString(kansi.kan, fnt, Brushes.Black, rectKan, stringFormat);
+
+            var brushKan = Brushes.Black;
+            var fntKan = fnt;
+            if (redColorItemBit != 0)
+            {
+                int bit = Common.ConvEnumKansiItemIDToItemBit(attrNo);
+                if ((redColorItemBit & bit) != 0)
+                {
+                    //赤太字表示指定
+                    brushKan = Brushes.Red;
+                    fntKan = fntBold;
+                }
+            }
+
+            g.DrawString(kansi.kan, fntKan, brushKan, rectKan, stringFormat);
             g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
 
         }
@@ -824,8 +846,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, kansiNenun.si, bManyAttrDo);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null)colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 }
@@ -833,8 +855,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, kansiTaiun.si, bManyAttrDo);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 }
@@ -842,8 +864,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.nikkansi.si, bManyAttrDo);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
                 }
@@ -851,8 +873,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.gekkansi.si, bManyAttrDo);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
                 }
@@ -860,8 +882,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.sigouTbl.GetSigouAttr(kansiGetuun.si, person.nenkansi.si, bManyAttrDo);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
                 }
@@ -873,8 +895,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, kansiTaiun.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
             }
@@ -882,8 +904,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.nikkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
             }
@@ -891,8 +913,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.gekkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
             }
@@ -900,8 +922,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiNenun.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
             }
@@ -912,8 +934,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.nikkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
             }
@@ -921,8 +943,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.gekkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
             }
@@ -930,8 +952,8 @@ namespace WinFormsApp2
             gogyou = tblMng.sigouTbl.GetSigouAttr(kansiTaiun.si, person.nenkansi.si, bManyAttrDo);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
             }
@@ -951,8 +973,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiNenun.si);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 }
@@ -960,8 +982,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, kansiTaiun.si);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 }
@@ -969,8 +991,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nikkansi.si);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
                 }
@@ -978,8 +1000,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.gekkansi.si);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
                 }
@@ -987,8 +1009,8 @@ namespace WinFormsApp2
                 gogyou = tblMng.hankaiTbl.GetGogyou(kansiGetuun.si, person.nenkansi.si);
                 if (gogyou != null)
                 {
-                    colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                    colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorGetuun != null) colorGetuun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                    if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                     kansiAttrTbl[(int)Const.enumKansiItemID.GETUUN].attrSi = gogyou;
                     kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
                 }
@@ -1000,8 +1022,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, kansiTaiun.si);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
             }
@@ -1009,8 +1031,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.nikkansi.si);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
             }
@@ -1018,8 +1040,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.gekkansi.si);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
             }
@@ -1027,8 +1049,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiNenun.si, person.nenkansi.si);
             if (gogyou != null)
             {
-                colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenun != null) colorNenun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
             }
@@ -1039,8 +1061,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiTaiun.si, person.nikkansi.si);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNikkansi != null) colorNikkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NIKKANSI].attrSi = gogyou;
             }
@@ -1048,8 +1070,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiTaiun.si, person.gekkansi.si);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorGekkansi != null) colorGekkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.GEKKANSI].attrSi = gogyou;
             }
@@ -1057,8 +1079,8 @@ namespace WinFormsApp2
             gogyou = tblMng.hankaiTbl.GetGogyou(kansiTaiun.si, person.nenkansi.si);
             if (gogyou != null)
             {
-                colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
-                colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorTaiun != null) colorTaiun[idx] = tblMng.gogyouAttrColorTbl[gogyou];
+                if (colorNenkansi != null) colorNenkansi[idx] = tblMng.gogyouAttrColorTbl[gogyou];
                 kansiAttrTbl[(int)Const.enumKansiItemID.TAIUN].attrSi = gogyou;
                 kansiAttrTbl[(int)Const.enumKansiItemID.NENKANSI].attrSi = gogyou;
             }
