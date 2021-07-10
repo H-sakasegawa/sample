@@ -46,6 +46,14 @@ namespace WinFormsApp2
         bool bDispGotoku = false;
         bool bDispRefrectGouhou = false;  //五行変換表示
 
+        /// <summary>
+        /// 宿命 図描画
+        /// </summary>
+        /// <param name="person">人情報</param>
+        /// <param name="pictureBox">描画先のピクチャーボックス</param>
+        /// <param name="_bDispGogyou">true...五行反映</param>
+        /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
         public DrawShukumei(
                             Person person, 
                             PictureBox pictureBox,

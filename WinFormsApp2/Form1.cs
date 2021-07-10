@@ -988,7 +988,7 @@ namespace WinFormsApp2
 
             if (frmKykiSim != null && frmKykiSim.Visible==true)
             {
-                frmKykiSim.UpdateKyokiPattern(curPerson,
+                frmKykiSim.UpdateKyokiPatternOnly(curPerson,
                                         curNenun.keyValue,
                                         curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
@@ -1126,7 +1126,7 @@ namespace WinFormsApp2
 
             if (frmKykiSim != null)
             {
-                frmKykiSim.InitDisp(curPerson, birthday.year,
+                frmKykiSim.UpdateAll(curPerson, birthday.year,
                                         curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
@@ -1513,6 +1513,7 @@ namespace WinFormsApp2
         private void chkDispGetuun_CheckedChanged(object sender, EventArgs e)
         {
             DispKoutenUn(curPerson, pictureBox2);
+            if (frmKykiSim != null) frmKykiSim.UpdateKyokiPatternYearList(curPerson);
         }
         //三合会局・方三位チェックボックス
         private void chkSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
@@ -1571,34 +1572,44 @@ namespace WinFormsApp2
 
             curNenun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
-            if (frmKykiSim == null)
+            if (frmKykiSim != null)
             {
+                OnFormKyokiSimulationClose();
+            }
 
 
-                frmKykiSim = new FromKyokiSimulation( this);
-                frmKykiSim.InitDisp(curPerson, curNenun.keyValue,
-                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
-                                        chkDispGetuun.Checked,
-                                        chkSangouKaikyoku.Checked,
-                                        chkGogyou.Checked,
-                                        chkGotoku.Checked,
-                                        chkRefrectGouhou.Checked,
-                                        chkRefrectSangouKaikyokuHousani.Checked
-                                        );
-            }
-            else
-            {
-                frmKykiSim.UpdateKyokiPattern(curPerson, curNenun.keyValue,
-                                        curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
-                                        chkDispGetuun.Checked,
-                                        chkSangouKaikyoku.Checked,
-                                        chkGogyou.Checked,
-                                        chkGotoku.Checked,
-                                        chkRefrectGouhou.Checked,
-                                        chkRefrectSangouKaikyokuHousani.Checked
-                                        );
-            }
+            frmKykiSim = new FromKyokiSimulation( this);
+            frmKykiSim.OnClose += OnFormKyokiSimulationClose;
             frmKykiSim.Show();
+
+            frmKykiSim.UpdateAll(curPerson, curNenun.keyValue,
+                                    curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+                                    chkDispGetuun.Checked,
+                                    chkSangouKaikyoku.Checked,
+                                    chkGogyou.Checked,
+                                    chkGotoku.Checked,
+                                    chkRefrectGouhou.Checked,
+                                    chkRefrectSangouKaikyokuHousani.Checked
+                                    );
+            //}
+            //else
+            //{
+            //    frmKykiSim.UpdateKyokiPattern(curPerson, curNenun.keyValue,
+            //                            curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
+            //                            chkDispGetuun.Checked,
+            //                            chkSangouKaikyoku.Checked,
+            //                            chkGogyou.Checked,
+            //                            chkGotoku.Checked,
+            //                            chkRefrectGouhou.Checked,
+            //                            chkRefrectSangouKaikyokuHousani.Checked
+            //                            );
+            //}
+        }
+
+        void OnFormKyokiSimulationClose()
+        {
+            frmKykiSim.Dispose();
+            frmKykiSim = null;
         }
 
         //=================================================

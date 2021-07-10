@@ -70,8 +70,27 @@ namespace WinFormsApp2
         bool bDispRefrectGouhou = false;  //合法反映表示
         bool bDispRefrectSangouKaiyoku = false;  //三合会局・方三位反映表示
 
-        public DrawKoutenUn(Person person, PictureBox pictureBox, 
-                            Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi,
+        /// <summary>
+        /// 後天運 描画クラス コンストラクタ
+        /// </summary>
+        /// <param name="person">人情報</param>
+        /// <param name="pictureBox">描画先のピクチャーボックス</param>
+        /// <param name="_getuunKansi">月運干支</param>
+        /// <param name="_nenunKansi">年運干支</param>
+        /// <param name="_taiunKansi">大運干支</param>
+        /// <param name="_bDispTaiun">true..大運⇒＊のライン描画</param>
+        /// <param name="_bDispNenun">true...年運⇒＊のライン描画</param>
+        /// <param name="_bDispGetuun">true...月運表示と月運⇒＊のライン描画</param>
+        /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
+        /// <param name="_bDispGogyou">true...五行反映</param>
+        /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
+        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
+        public DrawKoutenUn(Person person, 
+                            PictureBox pictureBox, 
+                            Kansi _taiunKansi,
+                            Kansi _nenunKansi,
+                            Kansi _getuunKansi,
                             bool _bDispTaiun,
                             bool _bDispNenun,
                             bool _bDispGetuun,
@@ -101,8 +120,26 @@ namespace WinFormsApp2
             bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
 
-        public DrawKoutenUn(Person person, PictureBox pictureBox,
-                            Kansi _taiunKansi, Kansi _nenunKansi, Kansi _getuunKansi,
+        /// <summary>
+        /// 虚気変化パターン表示用 後天運 描画クラス コンストラクタ
+        /// </summary>
+        /// <param name="person">人情報</param>
+        /// <param name="pictureBox">描画先のピクチャーボックス</param>
+        /// <param name="year">表示対象年</param>
+        /// <param name="_getuunKansi">月運干支</param>
+        /// <param name="_nenunKansi">年運干支</param>
+        /// <param name="_taiunKansi">大運干支</param>
+        /// <param name="_bDispGetuun">true...月運表示と月運⇒＊のライン描画</param>
+        /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
+        /// <param name="_bDispGogyou">true...五行反映</param>
+        /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
+        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
+        public DrawKoutenUn(Person person, 
+                            PictureBox pictureBox,
+                            Kansi _taiunKansi, 
+                            Kansi _nenunKansi, 
+                            Kansi _getuunKansi,
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
@@ -119,6 +156,8 @@ namespace WinFormsApp2
 
             rangeHeight = GetFontHeight() * 2;
             rangeWidth = 45;
+            bDispTaiun = false;
+            bDispNenun = false;
             bDispGetuun = _bDispGetuun;
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
             bDispGogyou = _bDispGogyou;
@@ -127,6 +166,7 @@ namespace WinFormsApp2
             bDispRefrectGouhou = _bDispRefrectGouhou;
             bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
+
         /// <summary>
         /// 表示座標計算
         /// </summary>

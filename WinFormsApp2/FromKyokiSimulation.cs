@@ -10,11 +10,20 @@ using System.Windows.Forms;
 
 namespace WinFormsApp2
 {
+    public  delegate void CloseHandler();
+
     public partial class FromKyokiSimulation : Form
     {
         Form1 frmParent;
         //List<PictureBox> lstPictureBox = new List<PictureBox>();
         KyokiSimulation sim = new KyokiSimulation();
+
+        /// <summary>
+        /// 年毎のパターン変化数一覧に月運を考慮するかどうかのフラグ
+        /// </summary>
+        private const bool bReflectGetuunToYearList = false;
+
+        public event CloseHandler OnClose;
 
         public FromKyokiSimulation( Form1 parent)
         {
@@ -28,7 +37,7 @@ namespace WinFormsApp2
         {
         
         }
-        public void InitDisp(Person _person, int year,
+        public void UpdateAll(Person _person, int year,
                             Kansi _getuunKansi, Kansi _nenunKansi, Kansi _taiunKansi,
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
@@ -38,10 +47,16 @@ namespace WinFormsApp2
                             bool _bDispRefrectSangouKaiyoku
                             )
         {
-            UpdateKyokiPatternCountForYear( _person,  _bDispGetuun);
-            SetYearList(year);
+            //----------------------------------------------------------
+            //年毎の変化数リスト表示
+            //----------------------------------------------------------
+            //月運は年リストに考慮しない
+            UpdateKyokiPatternCountForYear(_person, bReflectGetuunToYearList);
 
-            UpdateKyokiPattern( _person,  year,
+            //----------------------------------------------------------
+            //虚気変化パターン表示
+            //----------------------------------------------------------
+            UpdateKyokiPatternOnly( _person,  year,
                              _getuunKansi,  _nenunKansi,  _taiunKansi,
                              _bDispGetuun,
                              _bDispSangouKaikyoku,
@@ -53,7 +68,21 @@ namespace WinFormsApp2
 
         }
 
-        public void UpdateKyokiPattern(Person _person, int year,
+        /// <summary>
+        /// 虚気変化パターン表示
+        /// </summary>
+        /// <param name="_person">人情報</param>
+        /// <param name="year">表示対象年</param>
+        /// <param name="_getuunKansi">月運干支</param>
+        /// <param name="_nenunKansi">年運干支</param>
+        /// <param name="_taiunKansi">大運干支</param>
+        /// <param name="_bDispGetuun">true...月運表示</param>
+        /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示（ライン描画はしないので現在は未使用）</param>
+        /// <param name="_bDispGogyou">true...五行反映</param>
+        /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
+        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
+        public void UpdateKyokiPatternOnly(Person _person, int year,
                             Kansi _getuunKansi, Kansi _nenunKansi, Kansi _taiunKansi,
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
@@ -63,11 +92,11 @@ namespace WinFormsApp2
                             bool _bDispRefrectSangouKaiyoku)
         {
 
+            //対象年を選択（リスト選択イベントは発生しません）
             SetYearList(year);
 
             sim.Simulation(_person, _getuunKansi, _nenunKansi, _taiunKansi, _bDispGetuun);
 
-            int patternNum = sim.lstKansPattern.Count;
 
             this.SuspendLayout();
             this.DoubleBuffered = true;
@@ -105,22 +134,28 @@ namespace WinFormsApp2
                 sc.IsSplitterFixed = true;
                 sc.Orientation = Orientation.Vertical;
                 sc.SplitterWidth = 1;
-                sc.FixedPanel = FixedPanel.Panel1;
-                sc.Panel1MinSize =50;
-                sc.Panel1.Controls.Add(lbl);
-                sc.Panel2.Controls.Add(pictureBox);
+                sc.FixedPanel = FixedPanel.Panel1;  //分割パネル左側を固定パネルにシチエ
+                sc.FixedPanel = FixedPanel.Panel1;  //分割パネル左側を固定パネルにシチエ
+                sc.Panel1MinSize =50;               //分割パネル左側の幅設定
+                sc.Panel1.Controls.Add(lbl);        //分割パネル左側に回数ラベルを追加
+                sc.Panel2.Controls.Add(pictureBox); //分割パネル右側に干支図表示ピクチャーボックスを追加
                 sc.Width = 345;
+
+                //フローレイアウトパネルに分割パネルを追加
                 flowLayoutPanel1.Controls.Add(sc);
                 
-               // lstPictureBox.Add(pictureBox);
                 person.nikkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NIKKANSI].kansi;
                 person.gekkansi = pattern.aryKansi[(int)Const.enumKansiItemID.GEKKANSI].kansi;
                 person.nenkansi = pattern.aryKansi[(int)Const.enumKansiItemID.NENKANSI].kansi;
 
 
+
+                //----------------------------------------------------------
+                //干支情報の干で変化している箇所のビットを設定
+                //----------------------------------------------------------
+                //干の変化位置 管理ビット情報
                 int ChangeKansiBit = 0;
 
-                //干支情報の干で変化している箇所のビットを設定
                 for (int i=0; i< pattern.aryKansi.Length; i++)
                 {
                     if (pattern.aryKansi[i].bChange )
@@ -132,6 +167,9 @@ namespace WinFormsApp2
                 }
 
 
+                //----------------------------------------------------------
+                //後天運 表示
+                //----------------------------------------------------------
                 DrawKoutenUn drawItem2 = null;
                 drawItem2 = new DrawKoutenUn(person, pictureBox, 
                                         pattern.aryKansi[(int)Const.enumKansiItemID.TAIUN].kansi,
@@ -145,7 +183,7 @@ namespace WinFormsApp2
                                         _bDispRefrectSangouKaiyoku
                                         );
                 drawItem2.CalcCoord(0);
-
+                //虚気変化パターン表示用の描画関数呼び出し
                 drawItem2.DrawKyokiPattern(ChangeKansiBit);
             }
             this.ResumeLayout();
@@ -153,8 +191,24 @@ namespace WinFormsApp2
         }
 
 
+        public void UpdateKyokiPatternYearList(Person _person)
+        {
+            UpdateKyokiPatternCountForYear(_person, bReflectGetuunToYearList);
+
+        }
+
+
         private void SetYearList( int year)
         {
+            //現在選択されている年と同じなら何もしない
+            if (lvPatternNum.SelectedItems.Count>0)
+            {
+                if (lvPatternNum.SelectedItems[0].Text == year.ToString())
+                {
+                    return;
+                }
+            }
+
             lvPatternNum.SelectedIndexChanged -= lvPatternNum_SelectedIndexChanged;
             string sYear = year.ToString();
 
@@ -217,11 +271,6 @@ namespace WinFormsApp2
             }
 
         }
-        private void FromKyokiSimulation_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Visible = false;
-            e.Cancel=true;
-        }
 
         private void lvPatternNum_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -230,6 +279,11 @@ namespace WinFormsApp2
 
             int year = int.Parse(items[0].Text);
             frmParent.UpdateNeunTaiunDisp(year);
+        }
+
+        private void FromKyokiSimulation_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            OnClose?.Invoke();
         }
     }
 }
