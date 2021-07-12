@@ -51,6 +51,9 @@ namespace WinFormsApp2
         //年干支 二十八元素 ラベル
         List<Label> lstLblNenkansiNijuhachiGenso;
 
+        //陰占 描画オブジェクト
+        DrawInsen drawInsen = null;
+
         //宿命 描画オブジェクト
         DrawShukumei drawItem = null;
         //後天運 描画オブジェクト
@@ -139,12 +142,13 @@ namespace WinFormsApp2
             //年干支 天中殺 ラベル
             lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
 
-            //日干支 二十八元素 ラベル
-            lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-            //月干支 二十八元素 ラベル
-            lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-            //年干支 二十八元素 ラベル
-            lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+            //未使用
+            ////日干支 二十八元素 ラベル
+            //lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+            ////月干支 二十八元素 ラベル
+            //lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+            ////年干支 二十八元素 ラベル
+            //lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
 
             lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
@@ -359,32 +363,34 @@ namespace WinFormsApp2
             //------------------
             //二十八
             //------------------
-            NijuhachiGenso gensoNikkansi = person.nijuhachiGensoNikkansi;
-            NijuhachiGenso gensoGekkansi = person.nijuhachiGensoGekkansi;
-            NijuhachiGenso gensoNenkansi = person.nijuhachiGensoNenkansi;
+            NijuhachiGenso nijuhachiGensoNikkansi = person.nijuhachiGensoNikkansi;
+            NijuhachiGenso nijuhachiGensoGekkansi = person.nijuhachiGensoGekkansi;
+            NijuhachiGenso nijuhachiGensoNenkansi = person.nijuhachiGensoNenkansi;
 
             //十大主星判定用基準元素
-            var idxNikkansiGensoType = (int)gensoNikkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
-            var idxGekkansiGensoType = (int)gensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
-            var idxNenkaisiGensoType = (int)gensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+            var idxNikkansiGensoType = (int)nijuhachiGensoNikkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+            var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+            var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
 
             foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
             {
                 Label label = lstLblNikkansiZougan[(int)Value];
-                label.Text = gensoNikkansi.genso[(int)Value].name;
+                label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
                 if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
                 else                                  Common.SetBold(label, false);
 
                 label = lstLblGekkansiZougan[(int)Value];
-                label.Text = gensoGekkansi.genso[(int)Value].name;
+                label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
                 if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
                 else                                    Common.SetBold(label, false);
 
                 label = lstLblNenkansiZougan[(int)Value];
-                label.Text = gensoNenkansi.genso[(int)Value].name;
+                label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
                 if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
                 else                                    Common.SetBold(label, false);
             }
+
+            DispInsen(person, pictureBox3);
 
             //============================================================
             //陽占
@@ -924,6 +930,20 @@ namespace WinFormsApp2
             }
             return result;
         }
+
+
+        /// <summary>
+        /// 宿命図表示
+        /// </summary>
+        /// <param name="person"></param>
+        private void DispInsen(Person person, PictureBox pictureBox)
+        {
+
+            drawInsen = new DrawInsen(person, pictureBox);
+            drawInsen.Draw();
+
+        }
+
 
         //============================================================
         //位相法

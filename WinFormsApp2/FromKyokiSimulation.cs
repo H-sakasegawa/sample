@@ -104,6 +104,8 @@ namespace WinFormsApp2
             flowLayoutPanel1.Controls.Clear();
             //lstPictureBox.Clear();
 
+            //年によってpersonオブジェクトの一部のデータを更新しながら
+            //表示するので、ここで引数でわたされたPersonのクローンを作成する。
             Person person = _person.Clone();
 
             int cnt = 0;

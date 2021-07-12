@@ -14,16 +14,19 @@ namespace WinFormsApp2
     abstract class IsouhouBase : IDisposable
     {
         public Person person;
-        Font fnt = null;
-        Font fntBold = null;
-        Font fntSmall = null;
-        Font fntSmallMark = null;
-        Font fntSmallDisable = null;
-        Pen blackPen = null;
-        Pen redPen = null;
-        Pen redPenBold = null;
-        StringFormat stringFormat = null;
-        StringFormat smallStringFormat = null;
+        public Font fnt = null;
+        public Font fntBold = null;
+        public Font fntSmall = null;
+        public Font fntSmallMark = null;
+        public Font fntSmallDisable = null;
+        public Pen blackPen = null;
+        public Pen redPen = null;
+        public Pen redPenBold = null;
+        public StringFormat stringFormat = null;
+        public StringFormat smallStringFormat = null;
+
+        public bool bDrawRentangleKansi = true;//干支の枠表示有無
+        /// </summary>
         PictureBox pictureBox = null;
         Graphics g;
         int offsetY = 20;
@@ -68,11 +71,12 @@ namespace WinFormsApp2
             redPen = new Pen(Color.Red, 1); 
             redPenBold = new Pen(Color.Red, 2);
 
-            fnt = new Font("MS Gothic", 14, FontStyle.Regular);
-            fntBold = new Font("MS Gothic", 14, FontStyle.Regular | FontStyle.Bold);
-            fntSmall = new Font("MS Gothic", 8, FontStyle.Regular);
-            fntSmallMark = new Font("MS Gothic", 5, FontStyle.Regular);
-            fntSmallDisable = new Font("MS Gothic", 8, FontStyle.Regular | FontStyle.Strikeout);
+            var fontName = "MS GOTHIC";
+            fnt =  new Font(fontName, 14, FontStyle.Regular);
+            fntBold = new Font(fontName, 14, FontStyle.Regular | FontStyle.Bold);
+            fntSmall = new Font(fontName, 8, FontStyle.Regular);
+            fntSmallMark = new Font(fontName, 5, FontStyle.Regular);
+            fntSmallDisable = new Font(fontName, 8, FontStyle.Regular | FontStyle.Strikeout);
 
 
             //干支文字センタリング表示用フォーマット
@@ -221,9 +225,11 @@ namespace WinFormsApp2
                 g.DrawString(kansiAttrTbl[(int)attrNo].attrSi, fntSmall, Brushes.Black, rect, smallStringFormat);
 
             }
-            g.DrawRectangle(blackPen, rectKan);
-            g.DrawRectangle(blackPen, rectSi);
-
+            if (bDrawRentangleKansi)
+            {
+                g.DrawRectangle(blackPen, rectKan);
+                g.DrawRectangle(blackPen, rectSi);
+            }
             var brushKan = Brushes.Black;
             var fntKan = fnt;
             if (redColorItemBit != 0)
@@ -239,7 +245,6 @@ namespace WinFormsApp2
 
             g.DrawString(kansi.kan, fntKan, brushKan, rectKan, stringFormat);
             g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
-
         }
         /// <summary>
         /// 位相法描画

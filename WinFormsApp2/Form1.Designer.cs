@@ -172,6 +172,7 @@ namespace WinFormsApp2
             this.grpGogyouGotoku = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.lblKyokiNum = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -189,6 +190,7 @@ namespace WinFormsApp2
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.grpGogyouGotoku.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -762,7 +764,7 @@ namespace WinFormsApp2
             this.panel1.Controls.Add(this.tableLayoutPanel5);
             this.panel1.Controls.Add(this.tableLayoutPanel3);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
-            this.panel1.Location = new System.Drawing.Point(8, 169);
+            this.panel1.Location = new System.Drawing.Point(802, 437);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(304, 205);
             this.panel1.TabIndex = 44;
@@ -1752,11 +1754,21 @@ namespace WinFormsApp2
             this.lblKyokiNum.TabIndex = 68;
             this.lblKyokiNum.Text = "虚気変化パターン数：";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox3.Location = new System.Drawing.Point(8, 169);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(301, 205);
+            this.pictureBox3.TabIndex = 69;
+            this.pictureBox3.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.lblKyokiNum);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.grpGogyouGotoku);
@@ -1826,6 +1838,7 @@ namespace WinFormsApp2
             this.tabPage2.PerformLayout();
             this.grpGogyouGotoku.ResumeLayout(false);
             this.grpGogyouGotoku.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1976,6 +1989,7 @@ namespace WinFormsApp2
         private ListViewEx lvTaiun;
         private ListViewEx lvNenun;
         private ListViewEx lvGetuun;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 

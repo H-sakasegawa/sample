@@ -17,6 +17,7 @@ namespace WinFormsApp2
         {
             // Object型で返ってくるのでキャストが必要
             KyokiKansi clone = (KyokiKansi)MemberwiseClone();
+            //kansiは参照になってしまうのでkansiのクローンを作成する
             clone.kansi = this.kansi.Clone();
 
             return clone;
