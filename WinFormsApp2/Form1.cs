@@ -24,19 +24,19 @@ namespace WinFormsApp2
         //----------------------------------------------
         //ラベルの組み合わせを登録
         //----------------------------------------------
-        //日干支 ラベル
-        List<Label> lstLblNikkansi;
-        //月干支 ラベル
-        List<Label> lstLblGekkansi;
-        //年干支 ラベル
-        List<Label> lstLblNenkansi;
+        ////日干支 ラベル
+        //List<Label> lstLblNikkansi;
+        ////月干支 ラベル
+        //List<Label> lstLblGekkansi;
+        ////年干支 ラベル
+        //List<Label> lstLblNenkansi;
 
-        //日蔵元 ラベル
-        List<Label> lstLblNikkansiZougan;
-        //月蔵元 ラベル
-        List<Label> lstLblGekkansiZougan;
-        //年蔵元 ラベル
-        List<Label> lstLblNenkansiZougan;
+        ////日蔵元 ラベル
+        //List<Label> lstLblNikkansiZougan;
+        ////月蔵元 ラベル
+        //List<Label> lstLblGekkansiZougan;
+        ////年蔵元 ラベル
+        //List<Label> lstLblNenkansiZougan;
 
 
         //日干支 天中殺 ラベル
@@ -130,17 +130,17 @@ namespace WinFormsApp2
             //----------------------------------------------
             //ラベルの組み合わせを登録
             //----------------------------------------------
-            //日干支 ラベル
-            lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
-            //月干支 ラベル
-            lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
-            //年干支 ラベル
-            lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
+            ////日干支 ラベル
+            //lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
+            ////月干支 ラベル
+            //lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
+            ////年干支 ラベル
+            //lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
 
-            //日干支 天中殺 ラベル
-            lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
-            //年干支 天中殺 ラベル
-            lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
+            ////日干支 天中殺 ラベル
+            //lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
+            ////年干支 天中殺 ラベル
+            //lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
 
             //未使用
             ////日干支 二十八元素 ラベル
@@ -151,9 +151,9 @@ namespace WinFormsApp2
             //lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
 
-            lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-            lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-            lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+            //lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+            //lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+            //lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
             lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
             lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
@@ -325,8 +325,8 @@ namespace WinFormsApp2
             //------------------
             var Nikkansi = person.nikkansi; 
 
-            lblNikkansi1.Text = Nikkansi.kan;
-            lblNikkansi2.Text = Nikkansi.si;
+            //lblNikkansi1.Text = Nikkansi.kan;
+            //lblNikkansi2.Text = Nikkansi.si;
 
             ////誕生日に該当する節入り日から誕生日までの経過日数
             //int dayNumFromSetuiribi = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
@@ -347,16 +347,16 @@ namespace WinFormsApp2
             //------------------
             var Gekkansi = person.gekkansi;
 
-            lblGekkansi1.Text = Gekkansi.kan;
-            lblGekkansi2.Text = Gekkansi.si;
+            //lblGekkansi1.Text = Gekkansi.kan;
+            //lblGekkansi2.Text = Gekkansi.si;
 
             //------------------
             //年干支
             //------------------
             var Nenkansi = person.nenkansi;
 
-            lblNenkansi1.Text = Nenkansi.kan;
-            lblNenkansi2.Text = Nenkansi.si;
+            //lblNenkansi1.Text = Nenkansi.kan;
+            //lblNenkansi2.Text = Nenkansi.si;
 
 
 
@@ -372,23 +372,23 @@ namespace WinFormsApp2
             var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
             var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
 
-            foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
-            {
-                Label label = lstLblNikkansiZougan[(int)Value];
-                label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
-                if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
-                else                                  Common.SetBold(label, false);
+            //foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
+            //{
+            //    Label label = lstLblNikkansiZougan[(int)Value];
+            //    label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
+            //    if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
+            //    else                                  Common.SetBold(label, false);
 
-                label = lstLblGekkansiZougan[(int)Value];
-                label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
-                if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
-                else                                    Common.SetBold(label, false);
+            //    label = lstLblGekkansiZougan[(int)Value];
+            //    label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
+            //    if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
+            //    else                                    Common.SetBold(label, false);
 
-                label = lstLblNenkansiZougan[(int)Value];
-                label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
-                if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
-                else                                    Common.SetBold(label, false);
-            }
+            //    label = lstLblNenkansiZougan[(int)Value];
+            //    label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
+            //    if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
+            //    else                                    Common.SetBold(label, false);
+            //}
 
             DispInsen(person, pictureBox3);
 
@@ -400,7 +400,8 @@ namespace WinFormsApp2
             //============================================================
             //天中殺
             //============================================================
-            DispTenchusatu(person); 
+            //DispTenchusatu(person);
+            SetYousenTenchusatuColor(drawInsen);
 
             //============================================================
             //後天運：大運
@@ -459,86 +460,110 @@ namespace WinFormsApp2
         }
 
         /// <summary>
-        /// 天中殺
+        /// 天中殺 カラー設定（陽占）
         /// </summary>
-        private void DispTenchusatu(Person person)
+        //private void DispTenchusatu(Person person)
+        //{
+        //    //日干支天中殺の文字チェック対象ラベル
+        //    TenchusatuLabelPair[] nikkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
+        //    {
+        //          new TenchusatuLabelPair(new Label[]{lblNenkansi1, lblNenkansi2 } ,new Label[]{lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen }),
+        //          new TenchusatuLabelPair(new Label[]{lblGekkansi1, lblGekkansi2 } ,new Label[]{lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen })
+        //    };
+        //    //年干支天中殺の文字チェック対象ラベル
+        //    TenchusatuLabelPair[] nenkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
+        //    {
+        //          new TenchusatuLabelPair(new Label[]{lblNikkansi1, lblNikkansi2 } ,new Label[]{lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen }),
+        //    };
+
+        //    Kansi Nikkansi = person.nikkansi;
+        //    Kansi Nenkansi = person.nenkansi;
+
+        //    string[] NikkansiTenchusatu = Nikkansi.tenchusatu.ToArray();
+        //    string[] NenkansiTenchusatu = Nenkansi.tenchusatu.ToArray();
+        //    for (int i = 0; i < 2; i++)
+        //    {
+        //        lstLblNikkansiTenchusatu[i].Text = NikkansiTenchusatu[i];
+        //        lstLblNenkansiTenchusatu[i].Text = NenkansiTenchusatu[i];
+        //    }
+
+        //    //陽占ラベルの色設定に影響するラベルとの関連付け
+        //    Dictionary<Label, Label> dicYosenCombineInsenLabel = new Dictionary<Label, Label>()
+        //    {
+        //        { lblJudaiShuseiA, lblNikkansiHongen },
+        //        { lblJudaiShuseiB, lblGekkansiHongen },
+        //        { lblJudaiShuseiC, lblNenkansiHongen },
+        //        { lblJudaiShuseiD, lblNenkansi1 },
+        //        { lblJudaiShuseiE, lblGekkansi1 },
+        //        { lblJunidaiJuseiA, lblNenkansi2 },
+        //        { lblJunidaiJuseiB, lblGekkansi2 },
+        //        { lblJunidaiJuseiC, lblNikkansi2 },
+        //    };
+        //    //色を初期化
+        //    for (int ary = 0; ary < nikkansiTenchusatuCheckLabels.Length; ary++)
+        //    {
+        //        nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
+        //    }
+        //    for (int ary = 0; ary < nenkansiTenchusatuCheckLabels.Length; ary++)
+        //    {
+        //        nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
+        //    }
+        //    foreach (var lbl in dicYosenCombineInsenLabel)
+        //    {
+        //        lbl.Value.ForeColor = Color.Black;
+        //    }
+        //    //日干支天中殺の文字が月干支と年干支に含まれていたら赤色設定
+        //    for (int i = 0; i < NikkansiTenchusatu.Length; i++)
+        //    {
+        //        for (int j = 0; j < nikkansiTenchusatuCheckLabels.Length; j++)
+        //        {
+        //            if (nikkansiTenchusatuCheckLabels[j].IsExist(NikkansiTenchusatu[i]))
+        //            {
+        //                nikkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
+        //            }
+        //        }
+        //    }
+        //    //年干支天中殺の文字が日干支に含まれていたら赤色設定
+        //    for (int i = 0; i < NenkansiTenchusatu.Length; i++)
+        //    {
+        //        for (int j = 0; j < nenkansiTenchusatuCheckLabels.Length; j++)
+        //        {
+        //            if (nenkansiTenchusatuCheckLabels[j].IsExist(NenkansiTenchusatu[i]))
+        //            {
+        //                nenkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
+        //            }
+        //        }
+        //    }
+        //    //陰占ラベルの色を陽占のラベルに反映
+        //    foreach (var item in dicYosenCombineInsenLabel)
+        //    {
+        //        item.Key.ForeColor = item.Value.ForeColor;
+        //    }
+        //}
+
+
+        private void SetYousenTenchusatuColor(DrawInsen insen)
         {
-            //日干支天中殺の文字チェック対象ラベル
-            TenchusatuLabelPair[] nikkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
-            {
-                  new TenchusatuLabelPair(new Label[]{lblNenkansi1, lblNenkansi2 } ,new Label[]{lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen }),
-                  new TenchusatuLabelPair(new Label[]{lblGekkansi1, lblGekkansi2 } ,new Label[]{lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen })
-            };
-            //年干支天中殺の文字チェック対象ラベル
-            TenchusatuLabelPair[] nenkansiTenchusatuCheckLabels = new TenchusatuLabelPair[]
-            {
-                  new TenchusatuLabelPair(new Label[]{lblNikkansi1, lblNikkansi2 } ,new Label[]{lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen }),
-            };
-
-            Kansi Nikkansi = person.nikkansi;
-            Kansi Nenkansi = person.nenkansi;
-
-            string[] NikkansiTenchusatu = Nikkansi.tenchusatu.ToArray();
-            string[] NenkansiTenchusatu = Nenkansi.tenchusatu.ToArray();
-            for (int i = 0; i < 2; i++)
-            {
-                lstLblNikkansiTenchusatu[i].Text = NikkansiTenchusatu[i];
-                lstLblNenkansiTenchusatu[i].Text = NenkansiTenchusatu[i];
-            }
-
             //陽占ラベルの色設定に影響するラベルとの関連付け
-            Dictionary<Label, Label> dicYosenCombineInsenLabel = new Dictionary<Label, Label>()
+            Dictionary<Label, TColor> dicYosenCombineInsenLabel = new Dictionary<Label, TColor>()
             {
-                { lblJudaiShuseiA, lblNikkansiHongen },
-                { lblJudaiShuseiB, lblGekkansiHongen },
-                { lblJudaiShuseiC, lblNenkansiHongen },
-                { lblJudaiShuseiD, lblNenkansi1 },
-                { lblJudaiShuseiE, lblGekkansi1 },
-                { lblJunidaiJuseiA, lblNenkansi2 },
-                { lblJunidaiJuseiB, lblGekkansi2 },
-                { lblJunidaiJuseiC, lblNikkansi2 },
+                { lblJudaiShuseiA, insen.colorNikkansiHongen },
+                { lblJudaiShuseiB, insen.colorGekkansiHongen },
+                { lblJudaiShuseiC, insen.colorNenkansiHongen },
+                { lblJudaiShuseiD, insen.colorNenkansiKan },
+                { lblJudaiShuseiE, insen.colorGekkansiKan },
+                { lblJunidaiJuseiA, insen.colorNenkansiSi},
+                { lblJunidaiJuseiB, insen.colorGekkansiSi },
+                { lblJunidaiJuseiC, insen.colorNikkansiSi },
             };
-            //色を初期化
-            for (int ary = 0; ary < nikkansiTenchusatuCheckLabels.Length; ary++)
-            {
-                nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
-            }
-            for (int ary = 0; ary < nenkansiTenchusatuCheckLabels.Length; ary++)
-            {
-                nikkansiTenchusatuCheckLabels[ary].SetColor(Color.Black);
-            }
-            foreach (var lbl in dicYosenCombineInsenLabel)
-            {
-                lbl.Value.ForeColor = Color.Black;
-            }
-            //日干支天中殺の文字が月干支と年干支に含まれていたら赤色設定
-            for (int i = 0; i < NikkansiTenchusatu.Length; i++)
-            {
-                for (int j = 0; j < nikkansiTenchusatuCheckLabels.Length; j++)
-                {
-                    if (nikkansiTenchusatuCheckLabels[j].IsExist(NikkansiTenchusatu[i]))
-                    {
-                        nikkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
-                    }
-                }
-            }
-            //年干支天中殺の文字が日干支に含まれていたら赤色設定
-            for (int i = 0; i < NenkansiTenchusatu.Length; i++)
-            {
-                for (int j = 0; j < nenkansiTenchusatuCheckLabels.Length; j++)
-                {
-                    if (nenkansiTenchusatuCheckLabels[j].IsExist(NenkansiTenchusatu[i]))
-                    {
-                        nenkansiTenchusatuCheckLabels[j].SetColor(Color.Red);
-                    }
-                }
-            }
+ 
             //陰占ラベルの色を陽占のラベルに反映
             foreach (var item in dicYosenCombineInsenLabel)
             {
-                item.Key.ForeColor = item.Value.ForeColor;
+                item.Key.ForeColor = item.Value.color;
             }
         }
+
 
         //====================================================
         // 大運 表示処理
@@ -892,10 +917,9 @@ namespace WinFormsApp2
 
             //天中殺
             Color color = Color.Black;
-            for (int i = 0; i < lstLblNenkansiTenchusatu.Count; i++)
+            for (int i = 0; i < 2; i++)
             {
-                if (taregetKansi.kan == person.nikkansi.tenchusatu[i] ||
-                   taregetKansi.si == person.nikkansi.tenchusatu[i])
+                if (taregetKansi.IsExist(person.nikkansi.tenchusatu[i]) )
                 {
                     color = Color.Red;
                     break;
@@ -939,7 +963,7 @@ namespace WinFormsApp2
         private void DispInsen(Person person, PictureBox pictureBox)
         {
 
-            drawInsen = new DrawInsen(person, pictureBox);
+            drawInsen = new DrawInsen(person, pictureBox, true, true);
             drawInsen.Draw();
 
         }

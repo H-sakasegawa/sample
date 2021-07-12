@@ -1,0 +1,110 @@
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.exe
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.deps.json
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.json
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.dev.json
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\ref\WinFormsApp2.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.pdb
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OOXML.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXml4Net.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXmlFormats.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\BouncyCastle.Crypto.dll
+G:\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\ICSharpCode.SharpZipLib.dll
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csprojAssemblyReference.cache
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Form1.resources
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.GenerateResource.cache
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.GeneratedMSBuildEditorConfig.editorconfig
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfoInputs.cache
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfo.cs
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CoreCompileInputs.cache
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CopyComplete
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.dll
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\ref\WinFormsApp2.dll
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.pdb
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.genruntimeconfig.cache
+G:\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Properties.Resources.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.exe
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.deps.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.dev.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OOXML.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXml4Net.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXmlFormats.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\BouncyCastle.Crypto.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\bin\Debug\net5.0-windows\ICSharpCode.SharpZipLib.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csprojAssemblyReference.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.EditCareer.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Form1.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Properties.Resources.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.GenerateResource.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.GeneratedMSBuildEditorConfig.editorconfig
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfoInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfo.cs
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CoreCompileInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CopyComplete
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample - 五行五徳\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.genruntimeconfig.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.exe
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.deps.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.dev.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OOXML.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXml4Net.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXmlFormats.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\BouncyCastle.Crypto.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\ICSharpCode.SharpZipLib.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.EditCareer.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Form1.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.GenerateResource.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.GeneratedMSBuildEditorConfig.editorconfig
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfoInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfo.cs
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CoreCompileInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CopyComplete
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.genruntimeconfig.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll.config
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.AssemblyReference.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.exe
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll.config
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.deps.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.runtimeconfig.dev.json
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OOXML.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXml4Net.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.OpenXmlFormats.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\NPOI.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\BouncyCastle.Crypto.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\bin\Debug\net5.0-windows\ICSharpCode.SharpZipLib.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.AssemblyReference.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.EditCareer.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Form1.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.Properties.Resources.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.GenerateResource.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.GeneratedMSBuildEditorConfig.editorconfig
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfoInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.AssemblyInfo.cs
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CoreCompileInputs.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.csproj.CopyComplete
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\ref\WinFormsApp2.dll
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.pdb
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.genruntimeconfig.cache
+F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FromKyokiSimulation.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FromKyokiSimulation.resources

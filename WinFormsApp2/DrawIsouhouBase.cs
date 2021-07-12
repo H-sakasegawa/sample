@@ -180,19 +180,50 @@ namespace WinFormsApp2
         }
 
         /// <summary>
+        /// 陰占陽　干支描画
+        /// </summary>
+        /// <param name="kansi"></param>
+        /// <param name="rectKan"></param>
+        /// <param name="rectSi"></param>
+        /// <param name="bkColor"></param>
+        /// <param name="attrNo"></param>
+        protected void DrawInsenKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color foreColor = default)
+        {
+
+            if (bDrawRentangleKansi)
+            {
+                g.DrawRectangle(blackPen, rectKan);
+                g.DrawRectangle(blackPen, rectSi);
+            }
+            var brush = Brushes.Black;
+            var fntKan = fnt;
+
+            if( foreColor!=default)
+            {
+                brush = new SolidBrush(foreColor);
+            }
+            
+
+
+            g.DrawString(kansi.kan, fntKan, brush, rectKan, stringFormat);
+            g.DrawString(kansi.si, fnt, brush, rectSi, stringFormat);
+        }
+
+
+        /// <summary>
         /// 干支描画
         /// </summary>
         /// <param name="kansi"></param>
         /// <param name="rectKan"></param>
         /// <param name="rectSi"></param>
-        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] color, Const.enumKansiItemID attrNo)
+        protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] bkColor, Const.enumKansiItemID attrNo)
         {
-            if (color != null)
+            if (bkColor != null)
             {
-                if (color.Length >= 2)
+                if (bkColor.Length >= 2)
                 {
-                    SolidBrush brsKan = new SolidBrush(color[0]);
-                    SolidBrush brsSi = new SolidBrush(color[1]);
+                    SolidBrush brsKan = new SolidBrush(bkColor[0]);
+                    SolidBrush brsSi = new SolidBrush(bkColor[1]);
                     g.FillRectangle(brsKan, rectKan);
                     g.FillRectangle(brsSi, rectSi);
                     brsKan.Dispose();
@@ -246,6 +277,8 @@ namespace WinFormsApp2
             g.DrawString(kansi.kan, fntKan, brushKan, rectKan, stringFormat);
             g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
         }
+
+
         /// <summary>
         /// 位相法描画
         /// </summary>

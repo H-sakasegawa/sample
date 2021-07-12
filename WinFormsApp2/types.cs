@@ -82,6 +82,15 @@ namespace WinFormsApp2
 
             return false;
         }
+
+        public bool IsExist( string str)
+        {
+            if( kan==str||si==str)
+            {
+                return true;
+            }
+            return false;
+        }
     }
     /// <summary>
     /// 天中殺データ
@@ -289,6 +298,58 @@ namespace WinFormsApp2
 
         public Label[] aryLabel;
         public Label[] aryZoukanLabel;
+    };
+
+    public class TColor
+    {
+        public TColor(Color _color =default) 
+        {
+            if (color != default) { color = _color; } 
+        }
+        public Color color = Color.Black;
+    }
+
+    /// <summary>
+    /// 日干支天中殺の文字チェック対象ラベル組み合わせ
+    /// </summary>
+    public class TenchusatuColorPair
+    {
+         public TenchusatuColorPair(TColor[] _aryKansiColor, TColor[] _zokanColor)
+        {
+            aryKansiColor = _aryKansiColor;
+            aryZoukanColor = _zokanColor;
+        }
+        //public bool IsExist(string s)
+        //{
+        //    for (int i = 0; i < aryLabel.Length; i++)
+        //    {
+        //        if (aryLabel[i].Text == s) return true;
+        //    }
+        //    return false;
+        //}
+        //public Label GetSameLabel(string s)
+        //{
+        //    for (int i = 0; i < aryLabel.Length; i++)
+        //    {
+        //        if (aryLabel[i].Text == s) return aryLabel[i];
+        //    }
+        //    return null;
+        //}
+        public void SetColor(Color color)
+        {
+            for (int i = 0; i < aryKansiColor.Length; i++)
+            {
+                aryKansiColor[i].color = color;
+            }
+            for (int i = 0; i < aryZoukanColor.Length; i++)
+            {
+                aryZoukanColor[i].color = color;
+            }
+        }
+
+
+        public TColor[] aryKansiColor;
+        public TColor[] aryZoukanColor;
     };
 
 

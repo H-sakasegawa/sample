@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WinFormsApp2
+{
+    class hongen
+    {
+        public hongen( string _name, bool _bJudaiShuseiGenso)
+        {
+            name = _name;
+            bJudaiShuseiGenso = _bJudaiShuseiGenso;
+        }
+        public bool bJudaiShuseiGenso;
+        public string name;
+    }
+    class Insen
+    {
+        Person person;
+
+        public Kansi nikkansi;
+        public Kansi gekkansi;
+        public Kansi nenkansi;
+
+        public hongen[] nikkansiHongen = new hongen[3];
+        public hongen[] gekkansiHongen = new hongen[3];
+        public hongen[] nenkansiHongen = new hongen[3];
+
+        public Insen(Person _person)
+        {
+            person = _person;
+
+            //干支
+            nikkansi = person.nikkansi;
+            gekkansi = person.gekkansi;
+            nenkansi = person.nenkansi;
+
+            NijuhachiGenso nijuhachiGensoNikkansi = person.nijuhachiGensoNikkansi;
+            NijuhachiGenso nijuhachiGensoGekkansi = person.nijuhachiGensoGekkansi;
+            NijuhachiGenso nijuhachiGensoNenkansi = person.nijuhachiGensoNenkansi;
+
+            //十大主星判定用基準元素
+            var idxNikkansiGensoType = (int)nijuhachiGensoNikkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+            var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+            var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+
+            foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
+            {
+
+                bool bBold = (idxNikkansiGensoType == (int)Value) ? true : false;
+                nikkansiHongen[(int)Value] = new hongen( nijuhachiGensoNikkansi.genso[(int)Value].name, bBold);
+
+                bBold = (idxGekkansiGensoType == (int)Value) ? true : false;
+                gekkansiHongen[(int)Value] = new hongen(nijuhachiGensoGekkansi.genso[(int)Value].name, bBold);
+
+                bBold = (idxNenkaisiGensoType == (int)Value) ? true : false;
+                nenkansiHongen[(int)Value] = new hongen(nijuhachiGensoNenkansi.genso[(int)Value].name, bBold);
+
+            }
+
+        }
+    }
+}
