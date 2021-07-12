@@ -57,6 +57,22 @@ namespace WinFormsApp2
                 return false;
 
             }
+
+            /// <summary>
+            /// 指定した十干と同じ五行のもう一つの十干文字（陰陽の関係にある）を取得
+            /// </summary>
+            /// <param name="s"></param>
+            /// <returns></returns>
+            public string GetInyouOtherString( string s )
+            {
+                var findGogyou = dicJyukan[s].gogyou;
+
+                var item = dicJyukan.ToList().Find(x => (x.Value.gogyou == findGogyou && x.Value.name!=s) );
+                if (item.Equals(default(KeyValuePair<string, Jyukan>))) return null;
+
+                return item.Value.name;
+
+            }
         }
         public JyukanTbl jyukanTbl = new JyukanTbl();
 
