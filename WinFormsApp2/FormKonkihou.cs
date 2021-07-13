@@ -34,13 +34,17 @@ namespace WinFormsApp2
             //各干支の根情報取得
             var kansiRoot =  konkihou.GetKansiRoot();
 
-            DrawRootInfo(lblKonkiNikkansi, konkihou.nikkansi.kan, kansiRoot[0]);
-            DrawRootInfo(lblKonkiGekkansi, konkihou.gekkansi.kan, kansiRoot[1]);
-            DrawRootInfo(lblKonkiNenkansi, konkihou.nenkansi.kan, kansiRoot[2]);
+            DrawRootInfo(lblKonkiNikkansi, person.nikkansi.kan, kansiRoot[0]);
+            DrawRootInfo(lblKonkiGekkansi, person.gekkansi.kan, kansiRoot[1]);
+            DrawRootInfo(lblKonkiNenkansi, person.nenkansi.kan, kansiRoot[2]);
 
             DrawAllow(drawInsen.rectNikansiKan, kansiRoot[0]);
             DrawAllow(drawInsen.rectGekkansiKan, kansiRoot[1]);
             DrawAllow(drawInsen.rectNenkansiKan, kansiRoot[2]);
+
+            lblScoreNikkansi.Text = konkihou.GetSumScore(person.nikkansi.kan).ToString();
+            lblScoreGekkansi.Text = konkihou.GetSumScore(person.gekkansi.kan).ToString();
+            lblScoreNenkansi.Text = konkihou.GetSumScore(person.nenkansi.kan).ToString();
 
 
         }

@@ -27,7 +27,17 @@ namespace WinFormsApp2
 
         public FindItem[] GetKansiRoot() { return kansiRoot; }
 
+        public int GetSumScore(string kan)
+        {
+            //kanと日干支（支）、月干支（支）、年干支（支）の組み合わせから
+            //十二大従星の点数の合計値を取得する。
 
+            var item1 = tblMng.junidaiJusei.GetJunidaiJusei(kan, nikkansi.si);
+            var item2 = tblMng.junidaiJusei.GetJunidaiJusei(kan, gekkansi.si);
+            var item3 = tblMng.junidaiJusei.GetJunidaiJusei(kan, nenkansi.si);
+
+            return item1.tensuu + item2.tensuu + item3.tensuu;
+        }
 
         //根 探索
         private FindItem FindRoot(string kan)
@@ -96,8 +106,12 @@ namespace WinFormsApp2
                 }
             }
 
+
+
             return result;
         }
+ 
+        
     }
 
     class FindItem
@@ -114,6 +128,7 @@ namespace WinFormsApp2
         public int kansiBit;
 
         public JunidaiJusei junidaiJusei;
+
     }
 
 }
