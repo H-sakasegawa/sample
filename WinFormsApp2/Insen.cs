@@ -24,18 +24,26 @@ namespace WinFormsApp2
         public Kansi gekkansi;
         public Kansi nenkansi;
 
-        public hongen[] nikkansiHongen = new hongen[3];
-        public hongen[] gekkansiHongen = new hongen[3];
-        public hongen[] nenkansiHongen = new hongen[3];
+        public hongen[] nikkansiHongen = null;
+        public hongen[] gekkansiHongen = null;
+        public hongen[] nenkansiHongen = null;
 
         public Insen(Person _person)
         {
             person = _person;
 
+            int num = Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)).Length;
+            nikkansiHongen = new hongen[num];
+            gekkansiHongen = new hongen[num];
+            nenkansiHongen = new hongen[num];
+
+
             //干支
             nikkansi = person.nikkansi;
             gekkansi = person.gekkansi;
             nenkansi = person.nenkansi;
+
+
 
             NijuhachiGenso nijuhachiGensoNikkansi = person.nijuhachiGensoNikkansi;
             NijuhachiGenso nijuhachiGensoGekkansi = person.nijuhachiGensoGekkansi;

@@ -70,6 +70,7 @@ namespace WinFormsApp2
         GetuunNenunLvItemData curGetuun = null;
 
         FromKyokiSimulation frmKykiSim = null;
+        FormKonkihou frmKonkihou = null;
 
 
         /// <summary>
@@ -1180,6 +1181,11 @@ namespace WinFormsApp2
                                         chkRefrectSangouKaikyokuHousani.Checked
                                     );
             }
+            //根気法画面再描画
+            if(frmKonkihou!=null)
+            {
+                frmKonkihou.Update(curPerson);
+            }
 
 
 
@@ -1654,6 +1660,21 @@ namespace WinFormsApp2
         {
             frmKykiSim.Dispose();
             frmKykiSim = null;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            frmKonkihou = new FormKonkihou();
+            frmKonkihou.OnClose += OnFormKonkihouClose;
+
+
+            frmKonkihou.Show();
+            frmKonkihou.Update(curPerson);
+        }
+        void OnFormKonkihouClose()
+        {
+            frmKonkihou.Dispose();
+            frmKonkihou = null;
         }
 
         //=================================================

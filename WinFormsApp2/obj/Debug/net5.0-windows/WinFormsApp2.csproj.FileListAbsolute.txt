@@ -108,3 +108,4 @@ F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーショ�
 F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.genruntimeconfig.cache
 F:\G-DriveBackp\桑原さんソフト\GitHub\虚気変換シミュレーション\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FromKyokiSimulation.resources
 F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FromKyokiSimulation.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FormKonkihou.resources

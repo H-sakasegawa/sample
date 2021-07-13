@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace WinFormsApp2
 {
@@ -32,12 +33,12 @@ namespace WinFormsApp2
 
 
         //干支文字表示領域
-        Rectangle rectNikansiKan;
-        Rectangle rectNikansiSi;
-        Rectangle rectGekkansiKan;
-        Rectangle rectGekkansiSi;
-        Rectangle rectNenkansiKan;
-        Rectangle rectNenkansiSi;
+        public Rectangle rectNikansiKan;
+        public Rectangle rectNikansiSi;
+        public Rectangle rectGekkansiKan;
+        public Rectangle rectGekkansiSi;
+        public Rectangle rectNenkansiKan;
+        public Rectangle rectNenkansiSi;
 
         //日干支 初元、中元、本元
         Rectangle[] rectNikansiZogan = new Rectangle[3];
@@ -101,7 +102,7 @@ namespace WinFormsApp2
         {
             insen = new Insen(person);
 
-            rangeHeight = (int)(GetFontHeight() * 2);
+            rangeHeight = (int)(GetFontHeight()* Const.dKansiHeightRate);
             rangeWidth = 45;
 
             //干支　枠無し
@@ -260,9 +261,10 @@ namespace WinFormsApp2
 
             }
 
+
         }
 
-        void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold)
+        private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold)
         {
             var fntZougan = fnt;
             if( bBold )
@@ -273,6 +275,35 @@ namespace WinFormsApp2
 
         }
 
+
+        public void DrawArrowLine(Graphics g, Rectangle rectStart, Rectangle rectEnd)
+        {
+            Point start = new Point();
+            Point end = new Point();
+
+            start.X = rectStart.X + rectStart.Width / 2;
+            start.Y = rectStart.Y + rectStart.Height-10;
+
+            end.X = rectEnd.X + rectEnd.Width / 2;
+            end.Y = rectEnd.Y+5;
+
+            DrawArrowLine(g, start, end);
+        }
+
+
+
+        private void DrawArrowLine(Graphics g, Point start, Point end)
+        {
+            Pen pen = new Pen(Color.Blue, 1);
+
+            pen.CustomEndCap = new AdjustableArrowCap(4, 4);
+
+            //pen.StartCap = LineCap.Round;
+            //pen.EndCap = LineCap.ArrowAnchor;
+
+            g.DrawLine(pen, start, end);
+
+        }
 
         /// <summary>
         /// 天中殺 カラー設定

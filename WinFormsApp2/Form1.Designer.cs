@@ -149,6 +149,7 @@ namespace WinFormsApp2
             this.button3 = new System.Windows.Forms.Button();
             this.lblKyokiNum = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1384,11 +1385,22 @@ namespace WinFormsApp2
             this.pictureBox3.TabIndex = 69;
             this.pictureBox3.TabStop = false;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(324, 169);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 21);
+            this.button4.TabIndex = 70;
+            this.button4.Text = "根気法";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.lblKyokiNum);
             this.Controls.Add(this.button3);
@@ -1577,6 +1589,7 @@ namespace WinFormsApp2
         private ListViewEx lvNenun;
         private ListViewEx lvGetuun;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

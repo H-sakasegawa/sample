@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 namespace WinFormsApp2
@@ -55,6 +56,10 @@ namespace WinFormsApp2
 
         TableMng.KansiAttrTblMng kansiAttrTbl = null;
 
+        public Graphics graph
+        {
+            get { return g; }
+        }
  
         /// <summary>
         /// 位相法基準クラス　コンストラクタ
@@ -71,10 +76,10 @@ namespace WinFormsApp2
             redPen = new Pen(Color.Red, 1); 
             redPenBold = new Pen(Color.Red, 2);
 
-            var fontName = "MS GOTHIC";
+            var fontName = "メイリオ";
             fnt =  new Font(fontName, 14, FontStyle.Regular);
             fntBold = new Font(fontName, 14, FontStyle.Regular | FontStyle.Bold);
-            fntSmall = new Font(fontName, 8, FontStyle.Regular);
+            fntSmall = new Font(fontName, 7, FontStyle.Regular);
             fntSmallMark = new Font(fontName, 5, FontStyle.Regular);
             fntSmallDisable = new Font(fontName, 8, FontStyle.Regular | FontStyle.Strikeout);
 
@@ -141,6 +146,7 @@ namespace WinFormsApp2
             // Graphicsオブジェクトの作成
             g = Graphics.FromImage(canvas);
 
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             DrawItem(g);
 
             pictureBox.Image = canvas;
@@ -158,6 +164,7 @@ namespace WinFormsApp2
             g = Graphics.FromImage(canvas);
 
             //干支文字と枠のみ描画
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             DrawKansi(g);
 
             pictureBox.Image = canvas;

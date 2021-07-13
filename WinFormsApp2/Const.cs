@@ -38,6 +38,8 @@ namespace WinFormsApp2
         public const int bitFlgNen = 0x01;
 
 
+        public const double dKansiHeightRate = 1.5;
+
         /// <summary>
         /// 干支項目の識別ID
         /// </summary>

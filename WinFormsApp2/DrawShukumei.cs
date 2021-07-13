@@ -63,7 +63,7 @@ namespace WinFormsApp2
             ) : base(person, pictureBox)
         {
 
-            rangeHeight = GetFontHeight() * 2;
+            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
             rangeWidth = 45;
 
             bDispGogyou = _bDispGogyou;

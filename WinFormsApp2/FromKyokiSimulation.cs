@@ -10,10 +10,12 @@ using System.Windows.Forms;
 
 namespace WinFormsApp2
 {
-    public  delegate void CloseHandler();
 
     public partial class FromKyokiSimulation : Form
     {
+
+        public delegate void CloseHandler();
+
         Form1 frmParent;
         //List<PictureBox> lstPictureBox = new List<PictureBox>();
         KyokiSimulation sim = new KyokiSimulation();

@@ -107,7 +107,7 @@ namespace WinFormsApp2
             nenunKansi = _nenunKansi;
             getuunKansi = _getuunKansi;
 
-            rangeHeight = GetFontHeight() * 2;
+            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
             rangeWidth = 45;
             bDispTaiun = _bDispTaiun;
             bDispNenun = _bDispNenun;
@@ -154,7 +154,7 @@ namespace WinFormsApp2
             nenunKansi = _nenunKansi;
             getuunKansi = _getuunKansi;
 
-            rangeHeight = GetFontHeight() * 2;
+            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
             rangeWidth = 45;
             bDispTaiun = false;
             bDispNenun = false;
@@ -342,9 +342,10 @@ namespace WinFormsApp2
 
 
             //干支表示
-            rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
-            rectNenunTitle = new Rectangle(nenun.X, nenun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
-            rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - GetSmallFontHeight() / 2, rangeWidth, GetSmallFontHeight());
+            int titleHeithg = (int)(GetSmallFontHeight()*0.7);
+            rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
+            rectNenunTitle = new Rectangle(nenun.X, nenun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
+            rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
 
             if (bDispGetuun)
             {
