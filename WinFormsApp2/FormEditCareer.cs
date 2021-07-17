@@ -13,10 +13,10 @@ namespace WinFormsApp2
     /// <summary>
     /// 経歴編集画面
     /// </summary>
-    public partial class EditCareer : Form
+    public partial class FormEditCareer : Form
     {
 
-        public EditCareer(int _year, Person _person)
+        public FormEditCareer(int _year, Person _person)
         {
             InitializeComponent();
 

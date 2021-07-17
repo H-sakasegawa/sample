@@ -1,7 +1,7 @@
 ﻿
 namespace WinFormsApp2
 {
-    partial class EditCareer
+    partial class FormEditCareer
     {
         /// <summary>
         /// Required designer variable.

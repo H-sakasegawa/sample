@@ -69,5 +69,23 @@ namespace WinFormsApp2
             }
 
         }
+
+        //陰占の文字に含まれているか？
+        public bool IsExist(string s)
+        {
+            if (nikkansi.kan == s || nikkansi.si == s) return true;
+            if (gekkansi.kan == s || gekkansi.si == s) return true;
+            if (nenkansi.kan == s || nenkansi.si == s) return true;
+
+
+            var item = nikkansiHongen.FirstOrDefault(x => x.name == s);
+            if (item != null) return true;
+            item = gekkansiHongen.FirstOrDefault(x => x.name == s);
+            if (item != null) return true;
+            item = nenkansiHongen.FirstOrDefault(x => x.name == s);
+            if (item != null) return true;
+
+            return false;
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace WinFormsApp2
 
         FromKyokiSimulation frmKykiSim = null;
         FormKonkihou frmKonkihou = null;
+        FormJuniSinKanHou formJuniSinKanHou = null;
 
 
         /// <summary>
@@ -1186,6 +1187,10 @@ namespace WinFormsApp2
             {
                 frmKonkihou.Update(curPerson);
             }
+            if(formJuniSinKanHou!=null)
+            {
+                formJuniSinKanHou.Update(curPerson);
+            }
 
 
 
@@ -1450,7 +1455,7 @@ namespace WinFormsApp2
 
             GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)item.Tag;
             //編集画面表示
-            EditCareer frm = new EditCareer(itemData.keyValue, curPerson);
+            FormEditCareer frm = new FormEditCareer(itemData.keyValue, curPerson);
             if( frm.ShowDialog()==DialogResult.OK)
             {
                 //リストビューの経歴表示更新
@@ -1662,6 +1667,7 @@ namespace WinFormsApp2
             frmKykiSim = null;
         }
 
+        //根気法画面表示
         private void button4_Click(object sender, EventArgs e)
         {
             frmKonkihou = new FormKonkihou();
@@ -1675,6 +1681,25 @@ namespace WinFormsApp2
         {
             frmKonkihou.Dispose();
             frmKonkihou = null;
+        }
+
+        /// <summary>
+        /// 十二親干法　画面表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button5_Click(object sender, EventArgs e)
+        {
+            formJuniSinKanHou = new FormJuniSinKanHou();
+            formJuniSinKanHou.OnClose += OnFormJuniSinKanHouClose;
+
+            formJuniSinKanHou.Show();
+            formJuniSinKanHou.Update(curPerson);
+        }
+        void OnFormJuniSinKanHouClose()
+        {
+            formJuniSinKanHou.Dispose();
+            formJuniSinKanHou = null;
         }
 
         //=================================================

@@ -35,11 +35,29 @@ namespace WinFormsApp2
         public string gogyou;
         public string inyou;
 
-        public Jyukan(string _name, string _gogyou, string _inyou)
+        /// <summary>
+        /// この干を生じるもの
+        /// </summary>
+        public string sFromName;
+        /// <summary>
+        /// この干から生じられるの
+        /// </summary>
+        public string sToName;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_name"></param>
+        /// <param name="_gogyou"></param>
+        /// <param name="_inyou"></param>
+        /// <param name="_sFromName">生じるもの</param>
+        public Jyukan(string _name, string _gogyou, string _inyou, string _sFromName, string _sToName)
         {
             name = _name;
             gogyou = _gogyou;
             inyou = _inyou;
+            sFromName = _sFromName;
+            sToName = _sToName;
 
         }
 
@@ -359,20 +377,20 @@ namespace WinFormsApp2
     /// </summary>
     public class Kangou
     {
-        public Kangou(string _kangou1, string _kangou2, string _gogyou, string _kyoki1, string _kyoki2, string _yomi)
+        public Kangou(string _kangou1, string _kangou2, string _gogyou, string _kyoki1, string _kyoki2,  string _yomi)
         {
-            SKangou1 = _kangou1;
+            sKangou1 = _kangou1;
             sKangou2 = _kangou2;
             gogyou = _gogyou;
             kyoki = new string[] { _kyoki1, _kyoki2 };
             yojm = _yomi;
         }
         /// <summary>
-        /// 干
+        /// 干合(陽）
         /// </summary>
-        public string SKangou1 { get; set; }
+        public string sKangou1 { get; set; }
         /// <summary>
-        /// 合
+        /// 干合(陰9
         /// </summary>
         public string sKangou2 { get; set; }
         /// <summary>
@@ -387,6 +405,7 @@ namespace WinFormsApp2
         /// </summary>
         public string yojm { get; set; }
     }
+
 
     /// <summary>
     /// 七殺

@@ -67,10 +67,42 @@ namespace WinFormsApp2
             {
                 var findGogyou = dicJyukan[s].gogyou;
 
-                var item = dicJyukan.ToList().Find(x => (x.Value.gogyou == findGogyou && x.Value.name!=s) );
+                var item = dicJyukan.ToList().Find(x => (x.Value.gogyou == findGogyou && x.Value.name != s));
                 if (item.Equals(default(KeyValuePair<string, Jyukan>))) return null;
 
                 return item.Value.name;
+
+            }
+            /// <summary>
+            /// 自身を生じる干で陰陽違いのものを取得
+            /// </summary>
+            /// <param name="kan"></param>
+            /// <returns></returns>
+            public string GetOccursKangouStrAndOtherInyou(string kan)
+            {
+                if (string.IsNullOrEmpty(kan)) return null;
+
+                var jukan = dicJyukan[kan];
+
+                var item = dicJyukan.Values.ToList().Find(x => x.gogyou == jukan.gogyou && x.inyou != jukan.inyou);
+                if (item == null) return null;
+
+                return item.sFromName;
+
+            }
+            /// <summary>
+            /// 自身が生させる干で陰陽違いのものを取得
+            /// </summary>
+            /// <param name="kan"></param>
+            /// <returns></returns>
+            public string GetCauseKangouStrAndOtherInyou(string kan)
+            {
+                var jukan = dicJyukan[kan];
+
+                var item = dicJyukan.Values.ToList().Find(x => x.gogyou == jukan.gogyou && x.inyou != jukan.inyou);
+                if (item == null) return null;
+
+                return item.sToName;
 
             }
         }
@@ -295,8 +327,8 @@ namespace WinFormsApp2
             {
                 foreach (var val in lstKangou)
                 {
-                    if (val.SKangou1 == kan1 && val.sKangou2 == kan2 ||
-                        val.SKangou1 == kan2 && val.sKangou2 == kan1)
+                    if (val.sKangou1 == kan1 && val.sKangou2 == kan2 ||
+                        val.sKangou1 == kan2 && val.sKangou2 == kan1)
                     {
                         return val;
                     }
@@ -316,11 +348,11 @@ namespace WinFormsApp2
             {
                 foreach (var val in lstKangou)
                 {
-                    if (val.SKangou1 == kan1 && val.sKangou2 == kan2)
+                    if (val.sKangou1 == kan1 && val.sKangou2 == kan2)
                     {
                         return new string[] { val.kyoki[0], val.kyoki[1] };
                     }
-                    else if(val.SKangou1 == kan2 && val.sKangou2 == kan1)
+                    else if(val.sKangou1 == kan2 && val.sKangou2 == kan1)
                     {
                         return new string[] { val.kyoki[1], val.kyoki[0] };
                     }
@@ -350,6 +382,21 @@ namespace WinFormsApp2
                 return IsKangou(kan1, kan2) ? Const.sKangou : "";
 
             }
+            /// <summary>
+            /// 干合文字の相手文字を取得
+            /// </summary>
+            /// <param name="kan"></param>
+            /// <returns></returns>
+            public string GetKangouOtherStr(string kan)
+            {
+                var findKangou = lstKangou.Find(x => x.sKangou1 == kan || x.sKangou2 == kan);
+                if (findKangou == null) return null;
+
+                if (findKangou.sKangou1 == kan) return findKangou.sKangou2;
+                else  return findKangou.sKangou1;
+
+            }
+
             /// <summary>
             /// 干合 五行属性取得
             /// </summary>
@@ -860,16 +907,16 @@ namespace WinFormsApp2
             //--------------------------------
             jyukanTbl.dicJyukan = new Dictionary<string, Jyukan>
             {
-                {"甲", new Jyukan("甲","木","+") },
-                {"乙", new Jyukan("乙","木","-") },
-                {"丙", new Jyukan("丙","火","+") },
-                {"丁", new Jyukan("丁","火","-") },
-                {"戊", new Jyukan("戊","土","+") },
-                {"己", new Jyukan("己","土","-") },
-                {"庚", new Jyukan("庚","金","+") },
-                {"辛", new Jyukan("辛","金","-") },
-                {"壬", new Jyukan("壬","水","+") },
-                {"癸", new Jyukan("癸","水","-") },
+                {"甲", new Jyukan("甲","木","+", "壬","丙") },
+                {"乙", new Jyukan("乙","木","-", "癸","丁") },
+                {"丙", new Jyukan("丙","火","+", "甲","戊") },
+                {"丁", new Jyukan("丁","火","-", "乙","己") },
+                {"戊", new Jyukan("戊","土","+", "丙","庚") },
+                {"己", new Jyukan("己","土","-", "丁","辛") },
+                {"庚", new Jyukan("庚","金","+", "戊","壬") },
+                {"辛", new Jyukan("辛","金","-", "己","癸") },
+                {"壬", new Jyukan("壬","水","+", "庚","甲") },
+                {"癸", new Jyukan("癸","水","-", "辛","乙") },
             };
             //--------------------------------
             //十二支

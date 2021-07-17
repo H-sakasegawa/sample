@@ -55,6 +55,16 @@ namespace WinFormsApp2
         }
 
 
+        public enum enumOyakoID
+        {
+            None = -1,
+            Myself, //自身
+            Father, //父
+            Mother, //母
+            Child,  //子
+            Spouse  //配偶者
+        }
+
 
         public const string sKangou = "干合";
         public const string sInyou = "陰陽";
