@@ -247,11 +247,6 @@ namespace WinFormsApp2
                 Rectangle rectKan = new Rectangle(pnt.X, pnt.Y, strWidth, strHeight);
                 DrawString(g, ChildNode.kan, rectKan);
 
-
-                DIRC parentDirc;
-                if (ChildNode.gender == Gender.WOMAN) parentDirc = DIRC.enumRight;
-                else parentDirc = DIRC.enumLeft;
-
             }
             if (ChildNode.partnerMan != null)
             {
