@@ -69,9 +69,16 @@ namespace WinFormsApp2
         public int CreatePartnerNodes(Node node, int maxKinshipNo)
         {
             Const.enumOyakoID oyako = Const.enumOyakoID.None;
-            if (node.kinshipNo <=1)
+            if (node.kinshipNo==0)
             {
-                oyako = (node.gender == Gender.WOMAN ? Const.enumOyakoID.Father : Const.enumOyakoID.Mother);
+                oyako = Const.enumOyakoID.Spouse; //配偶者
+            }
+            else
+            {
+                if (node.kinshipNo == 1)
+                {
+                    oyako = (node.gender == Gender.WOMAN ? Const.enumOyakoID.Father : Const.enumOyakoID.Mother);
+                }
             }
 
             //夫婦関係は、干合の関係
@@ -81,7 +88,7 @@ namespace WinFormsApp2
 
             Node partner = new Node(partnerKan,
                                     node.gender == Gender.WOMAN ? Gender.MAN : Gender.WOMAN,
-                                    node.kinshipNo,
+                                    node.kinshipNo+1,
                                     oyako
                                     );
             if (node.gender == Gender.WOMAN)
@@ -165,10 +172,10 @@ namespace WinFormsApp2
                             case Const.enumOyakoID.Father:
                                 result = insen.nenkansi.kan;
                                 break;
-                            case Const.enumOyakoID.Mother:
+                            case Const.enumOyakoID.Spouse:
                                 result = insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name;
                                 break;
-                            case Const.enumOyakoID.Spouse:
+                            case Const.enumOyakoID.Mother:
                                 result = insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name;
                                 break;
                             default:
