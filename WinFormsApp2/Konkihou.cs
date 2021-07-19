@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
+    /// <summary>
+    /// 根気法 データクラス
+    /// </summary>
     class Konkihou : Insen
     {
         TableMng tblMng = null;
@@ -42,27 +45,33 @@ namespace WinFormsApp2
         //根 探索
         private FindItem FindRoot(string kan)
         {
+            string[] findStrs = new string[2];
+            findStrs[0] = kan;
             //指定された干と陰陽の関係にある干文字を取得
-            string findStr = tblMng.jyukanTbl.GetInyouOtherString(kan);
+            findStrs[1] = tblMng.jyukanTbl.GetInyouOtherString(kan);
 
-            //蔵元の中からfindStrに該当するものを探す
+            //本元、中元、初元の項目数（=3)
             int num = Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)).Length;
 
             List<FindItem> lstItem = new List<FindItem>();
 
-            for (int i = 0; i < num; i++)
+            //蔵元の中からfindStrに該当するものを探す
+            foreach (var str in findStrs)
             {
-                if (nikkansiHongen[i].name == findStr)
+                for (int i = 0; i < num; i++)
                 {
-                    lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, nikkansi.si, Const.bitFlgNiti));
-                }
-                if (gekkansiHongen[i].name == findStr)
-                {
-                    lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, gekkansi.si, Const.bitFlgGetu));
-                }
-                if (nenkansiHongen[i].name == findStr)
-                {
-                    lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, nenkansi.si, Const.bitFlgNen));
+                    if (nikkansiHongen[i].name == str)
+                    {
+                        lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, nikkansi.si, Const.bitFlgNiti));
+                    }
+                    if (gekkansiHongen[i].name == str)
+                    {
+                        lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, gekkansi.si, Const.bitFlgGetu));
+                    }
+                    if (nenkansiHongen[i].name == str)
+                    {
+                        lstItem.Add(new FindItem((NijuhachiGenso.enmGensoType)i, nenkansi.si, Const.bitFlgNen));
+                    }
                 }
             }
 
@@ -79,26 +88,27 @@ namespace WinFormsApp2
             }
             else
             {
+                //本元に２つ以上または他の蔵元に複数存在する
 
                 //--------------------------
                 //点数が高いものを探す
                 //--------------------------
                 //十二大従星の表からkanとitems[*]の組み合わせに該当する十二大従星と点数を取得
-                for (int i = 0; i < items.Count; i++)
+                for (int i = 0; i < lstItem.Count; i++)
                 {
 
-                    var junidaiJusei = tblMng.junidaiJusei.GetJunidaiJusei(kan, items[i].si);
-                    items[i].junidaiJusei = junidaiJusei;
+                    var junidaiJusei = tblMng.junidaiJusei.GetJunidaiJusei(kan, lstItem[i].si);
+                    lstItem[i].junidaiJusei = junidaiJusei;
                 }
 
-                for (int i = 0; i < items.Count; i++)
+                for (int i = 0; i < lstItem.Count; i++)
                 {
                     if (result == null)
                     {
-                        result = items[i];
+                        result = lstItem[i];
                         continue;
                     }
-                    if (result.junidaiJusei.tensuu < items[i].junidaiJusei.tensuu)
+                    if (result.junidaiJusei.tensuu < lstItem[i].junidaiJusei.tensuu)
                     {
                         //点数の大きい方をresultに設定
                         result = items[i];

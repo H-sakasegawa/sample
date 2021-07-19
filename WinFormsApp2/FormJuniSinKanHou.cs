@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace WinFormsApp2
 {
+    /// <summary>
+    /// 十二親干法 表示画面
+    /// </summary>
     public partial class FormJuniSinKanHou : Form
     {
         JuniSinKanHou juniSinKanHou = null;

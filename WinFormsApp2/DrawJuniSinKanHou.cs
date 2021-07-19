@@ -111,7 +111,12 @@ namespace WinFormsApp2
 
         }
 
-        //左上座標までのオフセットを計算
+        /// <summary>
+        /// 左上座標までのオフセットを計算
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="pnt"></param>
+        /// <param name="bFirst"></param>
         void CalcOffset(Node node, ref Point pnt,bool bFirst=false)
         {
 
@@ -229,7 +234,13 @@ namespace WinFormsApp2
                 DrawNodeToChild(g, partnerNode.child, pnt, dirc);
             }
         }
-
+        /// <summary>
+        /// 子ノード方向への描画
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="ChildNode"></param>
+        /// <param name="drawPnt"></param>
+        /// <param name="dirc"></param>
         void DrawNodeToChild(Graphics g, Node ChildNode, Point drawPnt, DIRC dirc)
         {
             if (ChildNode == null) return;
@@ -265,6 +276,12 @@ namespace WinFormsApp2
 
 
         }
+        /// <summary>
+        /// 文字列描画
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="str"></param>
+        /// <param name="rect"></param>
         void DrawString(Graphics g, string str, Rectangle rect)
         {
             if (string.IsNullOrEmpty(str))

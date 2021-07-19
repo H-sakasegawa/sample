@@ -16,6 +16,9 @@ namespace WinFormsApp2
         public bool bJudaiShuseiGenso;
         public string name;
     }
+    /// <summary>
+    /// 陰占 表示データ管理クラス
+    /// </summary>
     class Insen
     {
         Person person;

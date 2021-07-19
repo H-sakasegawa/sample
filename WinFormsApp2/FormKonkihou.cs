@@ -11,10 +11,14 @@ using System.Windows.Forms;
 namespace WinFormsApp2
 {
 
+    /// <summary>
+    /// 根気法　表示画面
+    /// </summary>
     public partial class FormKonkihou : Form
     {
         public delegate void CloseHandler();
-
+        Person person;
+        TableMng tblMng = TableMng.GetTblManage();
         //陰占 描画オブジェクト
         DrawInsen drawInsen = null;
         public event CloseHandler OnClose;
@@ -24,39 +28,52 @@ namespace WinFormsApp2
             InitializeComponent();
         }
 
-        public void Update(Person person )
+        public void Update(Person _person )
         {
-            drawInsen = new DrawInsen(person, pictureBox1, false, false);
+            person = _person;
+            drawInsen = new DrawInsen(_person, pictureBox1, false, false);
             drawInsen.Draw();
 
-            Konkihou konkihou = new Konkihou( person );
+            Konkihou konkihou = new Konkihou( _person );
 
             //各干支の根情報取得
             var kansiRoot =  konkihou.GetKansiRoot();
 
-            DrawRootInfo(lblKonkiNikkansi, person.nikkansi.kan, kansiRoot[0]);
-            DrawRootInfo(lblKonkiGekkansi, person.gekkansi.kan, kansiRoot[1]);
-            DrawRootInfo(lblKonkiNenkansi, person.nenkansi.kan, kansiRoot[2]);
+            DrawRootInfo(lblKonkiNikkansi, _person.nikkansi, kansiRoot[0]);
+            DrawRootInfo(lblKonkiGekkansi, _person.gekkansi, kansiRoot[1]);
+            DrawRootInfo(lblKonkiNenkansi, _person.nenkansi, kansiRoot[2]);
 
             DrawAllow(drawInsen.rectNikansiKan, kansiRoot[0]);
             DrawAllow(drawInsen.rectGekkansiKan, kansiRoot[1]);
             DrawAllow(drawInsen.rectNenkansiKan, kansiRoot[2]);
 
-            lblScoreNikkansi.Text = konkihou.GetSumScore(person.nikkansi.kan).ToString();
-            lblScoreGekkansi.Text = konkihou.GetSumScore(person.gekkansi.kan).ToString();
-            lblScoreNenkansi.Text = konkihou.GetSumScore(person.nenkansi.kan).ToString();
+            lblScoreNikkansi.Text = konkihou.GetSumScore(_person.nikkansi.kan).ToString();
+            lblScoreGekkansi.Text = konkihou.GetSumScore(_person.gekkansi.kan).ToString();
+            lblScoreNenkansi.Text = konkihou.GetSumScore(_person.nenkansi.kan).ToString();
 
 
         }
 
-        private void DrawRootInfo(Label lbl, string kan, FindItem item)
+        private void DrawRootInfo(Label lbl, Kansi kansi, FindItem item)
         {
+            var attr1 = tblMng.jyukanTbl[person.nikkansi.kan].gogyou;
+            var attr2 = tblMng.jyukanTbl[kansi.kan].gogyou;
             lbl.Text = "なし";
             if (item != null)
             {
-                lbl.Text = string.Format("{0} - {1} [ {2} ] {3}点", kan, item.si, item.junidaiJusei.name, item.junidaiJusei.tensuu);
 
-
+                lbl.Text = string.Format("{0}({1}) - {2} [ {3} ] {4}点",
+                                            kansi.kan,
+                                            tblMng.gotokuTbl.GetGotoku(attr1, attr2),
+                                            item.si,
+                                            item.junidaiJusei.name,
+                                            item.junidaiJusei.tensuu);
+            }else
+            {
+                lbl.Text = string.Format("{0}({1}) - なし",
+                                            kansi.kan,
+                                            tblMng.gotokuTbl.GetGotoku(attr1, attr2)
+                                            );
             }
         }
 

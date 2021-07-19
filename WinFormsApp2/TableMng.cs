@@ -880,16 +880,24 @@ namespace WinFormsApp2
             public string[] attrName;
             public Dictionary<string, string[]> dicGotoku;
 
-            public string GetGotoku(string key1, string key2)
+            public string GetGotokuByKansi( string kan, string si)
             {
-                if (!dicGotoku.ContainsKey(key2)) return null;
+                var attr1 = tblMng.jyukanTbl[kan].gogyou;
+                var attr2 = tblMng.jyunisiTbl[si].gogyou;
+
+                return GetGotoku( attr1,  attr2);
+            }
+
+            public string GetGotoku(string attr1, string attr2)
+            {
+                if (!dicGotoku.ContainsKey(attr2)) return null;
 
                 //主キーのインデックス番号取得
                 for (int idxItem = 0; idxItem < attrName.Length; idxItem++)
                 {
-                    if (attrName[idxItem] == key2)
+                    if (attrName[idxItem] == attr2)
                     {
-                       var gotokuNames = dicGotoku[key1];
+                       var gotokuNames = dicGotoku[attr1];
                         return gotokuNames[idxItem];
                     }
 

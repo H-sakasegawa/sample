@@ -144,7 +144,7 @@ namespace WinFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 131);
+            this.ClientSize = new System.Drawing.Size(454, 131);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblScoreNenkansi);
@@ -156,9 +156,9 @@ namespace WinFormsApp2
             this.Controls.Add(this.lblKonkiNikkansi);
             this.Controls.Add(this.pictureBox1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(450, 170);
+            this.MaximumSize = new System.Drawing.Size(470, 170);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(450, 170);
+            this.MinimumSize = new System.Drawing.Size(470, 170);
             this.Name = "FormKonkihou";
             this.Text = "根気法";
             this.TopMost = true;

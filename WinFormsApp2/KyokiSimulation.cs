@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
+
+    /// <summary>
+    /// 虚気 シミュレーション
+    /// </summary>
     class KyokiKansi 
     { 
         public KyokiKansi( Kansi _kansi)
