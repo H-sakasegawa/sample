@@ -73,6 +73,7 @@ namespace WinFormsApp2
         FormKonkihou frmKonkihou = null;
         FormJuniSinKanHou formJuniSinKanHou = null;
 
+        FormShugoSinHou FormShugoSinHou = null;
 
         /// <summary>
         /// 年運表カラム Index
@@ -1191,7 +1192,10 @@ namespace WinFormsApp2
             {
                 formJuniSinKanHou.Update(curPerson);
             }
-
+            if(FormShugoSinHou!=null)
+            {
+                FormShugoSinHou.Update(curPerson);
+            }
 
 
         }
@@ -1700,6 +1704,25 @@ namespace WinFormsApp2
         {
             formJuniSinKanHou.Dispose();
             formJuniSinKanHou = null;
+        }
+
+        /// <summary>
+        /// 守護神法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FormShugoSinHou = new FormShugoSinHou();
+            FormShugoSinHou.OnClose += OnFormShugoSinHouClose;
+            FormShugoSinHou.Show();
+            FormShugoSinHou.Update(curPerson);
+
+        }
+        void OnFormShugoSinHouClose()
+        {
+            FormShugoSinHou.Dispose();
+            FormShugoSinHou = null;
         }
 
         //=================================================

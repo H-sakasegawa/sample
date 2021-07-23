@@ -110,3 +110,4 @@ F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.
 F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FormKonkihou.resources
 F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FormJuniSinKanHou.resources
 F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FormEditCareer.resources
+F:\G-DriveBackp\桑原さんソフト\GitHub\sample\WinFormsApp2\obj\Debug\net5.0-windows\WinFormsApp2.FormShugoSinHou.resources

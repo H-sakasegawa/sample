@@ -543,6 +543,88 @@ namespace WinFormsApp2
         public string attrSi;
     }
 
+    //-------------------------------------------
+    // 守護神テーブル項目
+    //-------------------------------------------
+    public enum EnmSugosinCond
+    {
+        None = 0,
+        Do_Ari,        //土あり
+        Do_Nasi,        //土なし
+        Do_2num,        //土2つ
+        Do_Weak,        //土弱
+        Do_Strong,      //土強
+        Hi_2num,        //火2つ
+        Hi_3numOver,    //火3つ以上
+        Mizu_1num,        //水1つ
+        Mizu_2num,        //水2つ
+        Mizu_Ari,       //水あり
+        Mizu_Nasi,       //水なし
+        Mizu_Weak,       //水弱
+        Mizu_Strong,       //水強
+        Moku_Strong,       //木強
+        Tei_Strong,     //丁強
+        Hei_Weak,     //丙弱
+        Sin_Weak,     //辛弱
+        Ki_Weak,     //癸弱
+
+        Do1Hi2,        //土1つ火２つ
+
+        Natu_Mae,        //夏至前
+        Natu_Ato,        //夏至後
+        Aki_Mae,         //秋至前
+        Aki_Ato,         //秋至後
+        Fuyu_Mae,        //冬至前
+        Fuyu_Ato,        //冬至後
+        
+        KinHakuSuiSei,  //金白水清
+    
+    }
+
+    public class ShugoSin
+    {
+        public ShugoSin( string[] _kan, EnmSugosinCond _cond, string _imi)
+        {
+            kan = _kan;
+            cond = _cond;
+            imi = _imi;
+        }
+        public string ToString()
+        {
+            string s = "";
+            foreach(var item in kan)
+            {
+                s += item;
+            }
+            return s;
+        }
+        public string[] kan;
+        public EnmSugosinCond cond;
+
+        public string imi;
+
+    }
+
+    public class GogyouAttrRelationship
+    {
+        public GogyouAttrRelationship(string _name, string _createFromName, string _createToName, string _destoryFromName, string _destoryToName)
+        {
+            attrName = _name;
+            createFromName = _createFromName;
+            createToName = _createToName;
+            destoryFromName = _destoryFromName;
+            destoryToName = _destoryToName;
+        }
+
+        public string attrName;
+        public string createFromName; //attrNameを生むもの
+        public string createToName;    //attrNameが生むもの
+
+        public string destoryFromName; //attrNameを剋するもの
+        public string destoryToName; //attrが剋するもの
+    }
+
+
 
 }
 

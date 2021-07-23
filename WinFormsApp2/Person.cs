@@ -151,6 +151,7 @@ namespace WinFormsApp2
 
             return 0;
         }
+
     }
 
     /// <summary>
@@ -1107,6 +1108,69 @@ namespace WinFormsApp2
             return tblMng.housanniTbl.GetHouSani(getuun, nenun, taiun,
                                                  nikkansi, gekkansi, nenkansi);
         }
+
+
+        //属性数取得
+        public int GetGogyoAttrNum(string attr)
+        {
+            int cnt = 0;
+            //干
+            if (tblMng.jyukanTbl[nikkansi.kan].gogyou == attr) cnt++;
+            if (tblMng.jyukanTbl[gekkansi.kan].gogyou == attr) cnt++;
+            if (tblMng.jyukanTbl[nenkansi.kan].gogyou == attr) cnt++;
+
+            //支
+            if (tblMng.jyunisiTbl[nikkansi.si].gogyou == attr) cnt++;
+            if (tblMng.jyunisiTbl[gekkansi.si].gogyou == attr) cnt++;
+            if (tblMng.jyunisiTbl[nenkansi.si].gogyou == attr) cnt++;
+
+            return cnt;
+        }
+        //干数取得
+        public int GetKanNum(string kan)
+        {
+            int cnt = 0;
+            //干
+            if (nikkansi.kan == kan) cnt++;
+            if (gekkansi.kan == kan) cnt++;
+            if (nenkansi.kan == kan) cnt++;
+
+            return cnt;
+        }
+
+        public string GetImiGami()
+        {
+            Dictionary<string, int> dicAttr = new Dictionary<string, int>();
+
+            ImiGamiCalc(dicAttr, tblMng.jyukanTbl[nikkansi.kan].gogyou);
+            ImiGamiCalc(dicAttr, tblMng.jyukanTbl[gekkansi.kan].gogyou);
+            ImiGamiCalc(dicAttr, tblMng.jyukanTbl[nenkansi.kan].gogyou);
+
+            ImiGamiCalc(dicAttr, tblMng.jyunisiTbl[nikkansi.si].gogyou);
+            ImiGamiCalc(dicAttr, tblMng.jyunisiTbl[gekkansi.si].gogyou);
+            ImiGamiCalc(dicAttr, tblMng.jyunisiTbl[nenkansi.si].gogyou);
+
+            var item = dicAttr.ToList().FindAll(x => x.Value >= 3);
+            if (item.Count==1)
+            {
+                return item[0].Key;
+            }
+
+            return null;
+        }
+        private void ImiGamiCalc(Dictionary<string, int> dicAttr, string goryou)
+        {
+            if (!dicAttr.ContainsKey(goryou))
+            {
+                dicAttr.Add(goryou, 1);
+            }
+            else
+            {
+                dicAttr[goryou]++;
+            }
+
+        }
+
 
     }
 
