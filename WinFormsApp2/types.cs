@@ -552,8 +552,10 @@ namespace WinFormsApp2
         Do_Ari,        //土あり
         Do_Nasi,        //土なし
         Do_2num,        //土2つ
+        Do_2numOver,    //土2つ以上
         Do_Weak,        //土弱
         Do_Strong,      //土強
+        Do_Toukan,      //土性が透干 （追加）
         Hi_2num,        //火2つ
         Hi_3numOver,    //火3つ以上
         Mizu_1num,        //水1つ
@@ -563,12 +565,17 @@ namespace WinFormsApp2
         Mizu_Weak,       //水弱
         Mizu_Strong,       //水強
         Moku_Strong,       //木強
+        Moku_2numOver,     //木性が２つ以上 （追加）
         Tei_Strong,     //丁強
+        Tei_Weak,     //丁弱（追加）
         Hei_Weak,     //丙弱
         Sin_Weak,     //辛弱
-        Ki_Weak,     //癸弱
+        Ki_Arii,      //宿命に癸水がある場合
+        Ki_Weak,      //癸弱
+        Ki_Toukan,      //癸水が透干 （追加）
 
         Do1Hi2,        //土1つ火２つ
+        Hei_Nasi_and_Hi_Ari, //宿命に丙がなくかつ丁がある場合
 
         Natu_Mae,        //夏至前
         Natu_Ato,        //夏至後
@@ -576,20 +583,19 @@ namespace WinFormsApp2
         Aki_Ato,         //秋至後
         Fuyu_Mae,        //冬至前
         Fuyu_Ato,        //冬至後
-        
-        KinHakuSuiSei,  //金白水清
     
     }
 
     public class ShugoSin
     {
-        public ShugoSin( string[] _kan, EnmSugosinCond _cond, string _imi)
+        public ShugoSin( string[] _kan, EnmSugosinCond _cond, string _imi, string _explanation="")
         {
             kan = _kan;
             cond = _cond;
             imi = _imi;
+            explanation = _explanation;
         }
-        public string ToString()
+        public override string ToString()
         {
             string s = "";
             foreach(var item in kan)
@@ -598,10 +604,22 @@ namespace WinFormsApp2
             }
             return s;
         }
+        /// <summary>
+        /// 干文字組み合わせ
+        /// </summary>
         public string[] kan;
+        /// <summary>
+        /// 条件
+        /// </summary>
         public EnmSugosinCond cond;
-
+        /// <summary>
+        /// 忌
+        /// </summary>
         public string imi;
+        /// <summary>
+        /// 説明文
+        /// </summary>
+        public string explanation;
 
     }
 

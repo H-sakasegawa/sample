@@ -185,11 +185,14 @@ namespace WinFormsApp2
             if (colorGekkansi != null) colorGekkansi.CopyTo(colorGekkansiOrg, 0);
             if (colorNenkansi != null) colorNenkansi.CopyTo(colorNenkansiOrg, 0);
 
-            //合法反映
-            if (bDispRefrectGouhou)
+            if (bDispGogyou | bDispGotoku)
             {
-                RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
-                RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
+                //合法反映
+                if (bDispRefrectGouhou)
+                {
+                    RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
+                    RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
+                }
             }
 
             //干支表示

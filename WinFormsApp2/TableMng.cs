@@ -967,6 +967,8 @@ namespace WinFormsApp2
                         case EnmSugosinCond.Do_Strong://土強
                             if (person.GetGogyoAttrNum("土") >= 3) selectShugoSin = shugosin;
                             break;
+                        case EnmSugosinCond.Do_Toukan: //土性が透干 ★★
+                            break;
                         case EnmSugosinCond.Hi_2num://火2つ
                             if (person.GetGogyoAttrNum("火") ==2) selectShugoSin = shugosin;
                             break;
@@ -994,6 +996,9 @@ namespace WinFormsApp2
                         case EnmSugosinCond.Moku_Strong://木強
                             if (person.GetGogyoAttrNum("木") >= 3) selectShugoSin = shugosin;
                             break;
+                        case EnmSugosinCond.Moku_2numOver://木性が２つ以上
+                            if (person.GetGogyoAttrNum("木") >= 2) selectShugoSin = shugosin;
+                            break;
                         case EnmSugosinCond.Tei_Strong://丁強
                             if (person.GetKanNum("丁") >= 2) selectShugoSin = shugosin;
                             break;
@@ -1006,23 +1011,30 @@ namespace WinFormsApp2
                         case EnmSugosinCond.Ki_Weak://癸弱
                             if (person.GetKanNum("癸") < 2) selectShugoSin = shugosin;
                             break;
+                        case EnmSugosinCond.Ki_Toukan://癸水が透干 ★★
+                            break;
+                        case EnmSugosinCond.Ki_Arii://宿命に癸水がある場合
+                            if (person.GetKanNum("癸")>0) selectShugoSin = shugosin;
+                            break;
 
                         case EnmSugosinCond.Do1Hi2://土1つ火２つ
                             if (person.GetGogyoAttrNum("土")==1 && person.GetGogyoAttrNum("火")==2) selectShugoSin = shugosin;
                             break;
-                        case EnmSugosinCond.Natu_Mae://夏至前
+                        case EnmSugosinCond.Natu_Mae://夏至前 ★★
                             break;
-                        case EnmSugosinCond.Natu_Ato://夏至後
+                        case EnmSugosinCond.Natu_Ato://夏至後 ★★
                             break;
-                        case EnmSugosinCond.Aki_Mae://秋至前
+                        case EnmSugosinCond.Aki_Mae://秋至前 ★★
                             break;
-                        case EnmSugosinCond.Aki_Ato://秋至後
+                        case EnmSugosinCond.Aki_Ato://秋至後 ★★
                             break;
-                        case EnmSugosinCond.Fuyu_Mae://冬至前
+                        case EnmSugosinCond.Fuyu_Mae://冬至前 ★★
                             break;
-                        case EnmSugosinCond.Fuyu_Ato://冬至後
+                        case EnmSugosinCond.Fuyu_Ato://冬至後 ★★
                             break;
-                        case EnmSugosinCond.KinHakuSuiSei:  //金白水清
+
+                        case EnmSugosinCond.Hei_Nasi_and_Hi_Ari: //宿命に丙がなくかつ丁がある場合
+                            if (person.GetKanNum("丙") == 0 && person.GetKanNum("丁") > 0) selectShugoSin = shugosin;
                             break;
                     }
                 }
@@ -1324,144 +1336,185 @@ namespace WinFormsApp2
             shugosinTbl.dicShugoSin = new Dictionary<string, ShugoSin[]>
             {
                 //甲-*
-                { "甲寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙", "癸" },          EnmSugosinCond.None, "金性・木性") } },
-                { "甲卯", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","己","丁" },      EnmSugosinCond.None, "木性") } },
-                { "甲辰", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","壬","丁" },      EnmSugosinCond.None, "木性・土性"),       new ShugoSin(new string[] { "庚", "壬", "丁" }, EnmSugosinCond.Do_2num, "土性・木性") } },
-                { "甲巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丁","庚" },      EnmSugosinCond.None, "土性") } },
-                { "甲午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","庚","丁" },      EnmSugosinCond.Natu_Mae, "土性"),         new ShugoSin(new string[] { "癸","丁","庚" }, EnmSugosinCond.Natu_Ato, "土性") } },
-                { "甲未", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","丁","癸" },      EnmSugosinCond.None, "土性"),             new ShugoSin(new string[] { "庚","癸","丁" }, EnmSugosinCond.Hi_2num, "土性") } },
-                { "甲申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","庚" },           EnmSugosinCond.None, "木性(癸)") } },
-                { "甲酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","庚","丙" },      EnmSugosinCond.None, "水性(癸)") } },
-                { "甲戌", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","庚","壬" },      EnmSugosinCond.None, "土(癸)(木)") } },
-                { "甲亥", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","丁","戊" },      EnmSugosinCond.None, "水性(癸)") } },
-                { "甲子", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","庚","丙","戊" }, EnmSugosinCond.None, "水性(癸)") } },
-                { "甲丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","庚","丙" },      EnmSugosinCond.None, "木性(癸)") } },
+                { "甲寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙", "癸" },             EnmSugosinCond.None,         "金性・木性") } },
+                { "甲卯", new ShugoSin[]{ new ShugoSin( new string[]{ "庚", "己", "丁" },       EnmSugosinCond.None,         "木性") } },
+                { "甲辰", new ShugoSin[]{ new ShugoSin( new string[]{ "庚", "壬", "丁" },       EnmSugosinCond.None,         "木性・土性"),
+                                          new ShugoSin( new string[]{ "庚", "壬", "丁" },       EnmSugosinCond.Do_2num,      "土性・木性") } },
+                { "甲巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸", "丁", "庚" },       EnmSugosinCond.None,         "土性") } },
+                { "甲午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸", "庚", "丁" },       EnmSugosinCond.Natu_Mae,     "土性"),
+                                          new ShugoSin( new string[]{ "癸", "丁", "庚" },       EnmSugosinCond.Natu_Ato,     "土性") } },
+                { "甲未", new ShugoSin[]{ new ShugoSin( new string[]{ "庚", "丁", "癸" },       EnmSugosinCond.None,         "土性"),
+                                          new ShugoSin( new string[]{ "庚", "癸", "丁" },       EnmSugosinCond.Hi_2num,      "土性") } },
+                { "甲申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚" },             EnmSugosinCond.None,         "木性",   "特に癸水が忌神") } },
+                { "甲酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "丙" },       EnmSugosinCond.None,         "水性",   "特に癸水が忌神") } },
+                { "甲戌", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "壬" },       EnmSugosinCond.None,         "土性)"),
+                                          new ShugoSin( new string[]{ "丁", "庚", "壬" },       EnmSugosinCond.Ki_Toukan,    "土性・癸水"),
+                                          new ShugoSin( new string[]{ "丁", "庚", "壬" },       EnmSugosinCond.Moku_2numOver,"土性・木性") } },
+                { "甲亥", new ShugoSin[]{ new ShugoSin( new string[]{ "庚", "丁", "戊" },       EnmSugosinCond.None,         "水性",    "特に癸水が忌神") } },
+                { "甲子", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "丙", "戊" }, EnmSugosinCond.None,         "水性",    "特に癸水が忌神") } },
+                { "甲丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "丙" },       EnmSugosinCond.None,         "水性",    "特に癸水が忌神") } }, //<==★★Excelでは"木性(癸)" PDFは"水性"
 
                  //乙-*
-                { "乙寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },                   EnmSugosinCond.None, "金性") } },
-                { "乙卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },                   EnmSugosinCond.None, "金性") } },
-                { "乙辰", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","甲" },              EnmSugosinCond.None, "金性・土性") } },
-                { "乙巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" },              EnmSugosinCond.None, "土性") } },
-                { "乙午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" },              EnmSugosinCond.None, "土性") } },
-                { "乙未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","甲" },              EnmSugosinCond.None, "土性") } },
-                { "乙申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","己" },              EnmSugosinCond.None, "金性") } },
-                { "乙酉", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙" },                   EnmSugosinCond.Aki_Mae, "金性"),   new ShugoSin(new string[] { "丙","癸" }, EnmSugosinCond.Aki_Ato, "金性") } },
-                { "乙戌", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","甲","辛(癸アリ)" }, EnmSugosinCond.None, "土性") } },
-                { "乙亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊" },                   EnmSugosinCond.None, "水性・金性") } },
-                { "乙子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊","甲" },              EnmSugosinCond.None, "水性・金性") } },
-                { "乙丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },                   EnmSugosinCond.None, "水性・金性") } },
+                { "乙寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },               EnmSugosinCond.None,                "金性") } },
+                { "乙卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },               EnmSugosinCond.None,                "金性") } },
+                { "乙辰", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","甲" },          EnmSugosinCond.None,                "金性・土性") } },
+                { "乙巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" },          EnmSugosinCond.None,                "土性") } },
+                { "乙午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" },          EnmSugosinCond.None,                "土性") } },
+                { "乙未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","甲" },          EnmSugosinCond.None,                "土性") } },
+                { "乙申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","己" },          EnmSugosinCond.None,                "金性") } },
+                { "乙酉", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙" },               EnmSugosinCond.Aki_Mae,             "金性"),  
+                                          new ShugoSin( new string[]{ "丙","癸" },               EnmSugosinCond.Aki_Ato,             "金性") } },
+                { "乙戌", new ShugoSin[]{ new ShugoSin( new string[]{ "癸", "丙", "甲" },        EnmSugosinCond.None,                "土性" ),
+                                          new ShugoSin( new string[]{ "癸", "丙", "甲", "辛" },  EnmSugosinCond.Ki_Arii,             "土性" ) } },        //宿命に癸水がある場合
+                { "乙亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊" },               EnmSugosinCond.None,                "水性・金性") } },
+                { "乙子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.None,                "水性・金性"),
+                                          new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.Do_Nasi,             "水性・金性"),       //宿命に土性がない場合
+                                          new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.Hei_Nasi_and_Hi_Ari, "水性・金性") } },   //宿命に丙がなくかつ丁がある場合
+                { "乙丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },               EnmSugosinCond.None,                "水性・金性") } },
  
                  //丙-*
-                { "丙寅", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None, "土性(戊)") } },
-                { "丙卯", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None, "土性(戊)") } },
-                { "丙辰", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲","庚" },     EnmSugosinCond.None, "土性") } },
-                { "丙巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None, "土・火(木)") } },
-                { "丙午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None, "土・火(木)") } },
-                { "丙未", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None, "土・(金)") } },
-                { "丙申", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None, "土性・金性") } },
-                { "丙酉", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None, "土性・金性") } },
-                { "丙戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬" },          EnmSugosinCond.None, ")") } },
-                { "丙亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬","(戊)" },   EnmSugosinCond.None, "金(水)") } },
-                { "丙子", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬","戊" },     EnmSugosinCond.Fuyu_Mae, "金性"),      new ShugoSin(new string[] { "壬","戊","甲" }, EnmSugosinCond.Fuyu_Ato, "金性") } },
-                { "丙丑", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None, "土性・金性") } },
+                { "丙寅", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None,      "土性",        "特に戊土が忌神") } },
+                { "丙卯", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None,      "土性",        "特に戊土が忌神") } },
+                { "丙辰", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲","庚" },     EnmSugosinCond.None,      "土性") } },
+                { "丙巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None,      "土性・火",    "木性は忌神の火性を強める") } },
+                { "丙午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None,      "土性・火",    "木性は忌神の火性を強める") } },
+                { "丙未", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },          EnmSugosinCond.None,      "土性",        "特に戌土が忌神") } },
+                { "丙申", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None,      "土性",        "金性が強まると忌神になる") } },
+                { "丙酉", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None,      "土性・金性") } },
+                { "丙戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬" },          EnmSugosinCond.None,      "土性・金性") } },
+                { "丙亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬" },          EnmSugosinCond.Mizu_1num, "金"),
+                                          new ShugoSin( new string[]{ "甲","壬","(戊)" },   EnmSugosinCond.None,      "金")} },
+                { "丙子", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬","戊" },     EnmSugosinCond.Fuyu_Mae,  "金性"),      
+                                          new ShugoSin( new string[]{ "壬","戊","甲" },     EnmSugosinCond.Fuyu_Ato,  "金性") } },
+                { "丙丑", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },          EnmSugosinCond.None,      "土性・金性") } },
 
                  //丁-*
-                { "丁寅", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲" },          EnmSugosinCond.None, "水性(癸)") } },
-                { "丁卯", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲" },          EnmSugosinCond.None, "水(癸)") } },
-                { "丁辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None, "癸水・土性") } },
-                { "丁巳", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","壬" },     EnmSugosinCond.Hi_2num, "土・火(木)"), new ShugoSin(new string[] { "壬","庚","甲" }, EnmSugosinCond.Hi_3numOver, "火(丙),土(戊)") } },
-                { "丁午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚","甲" },     EnmSugosinCond.None, "火(丙)・土(戊)") } },
-                { "丁未", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","壬" },     EnmSugosinCond.None, "火(丙)・土") } },
-                { "丁申", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","丙","乙" },EnmSugosinCond.None, "水性(癸)") } },
-                { "丁酉", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","丙" },     EnmSugosinCond.None, "水性(癸)") } },
-                { "丁戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None, "水性(癸)・土性") } },
-                { "丁亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None, "水性(癸)"),      new ShugoSin(new string[] { "甲","庚","戊" }, EnmSugosinCond.Mizu_2num, "水性(癸)") } },
-                { "丁子", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","戊" },     EnmSugosinCond.None, "水性") } },
-                { "丁丑", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None, "水性・土性") } },
+                { "丁寅", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲" },          EnmSugosinCond.None,        "水性",              "特に癸水が忌神") } },
+                { "丁卯", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲" },          EnmSugosinCond.None,        "水性",              "特に癸水が忌神") } },
+                { "丁辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None,        "癸水・土性") } },
+                { "丁巳", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","壬" },     EnmSugosinCond.Hi_2num,     "土性・火性"), 
+                                          new ShugoSin( new string[]{ "壬","庚","甲" },     EnmSugosinCond.Hi_3numOver, "火性,土性",         "丙火,戊土を特に嫌う") } },
+                { "丁午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚","甲" },     EnmSugosinCond.None,        "火性・土性",        "丙火,戊土を特に嫌う") } },
+                { "丁未", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","壬" },     EnmSugosinCond.None,        "火性・土性",        "特に丙火が忌神") } },
+                { "丁申", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","丙","乙" },EnmSugosinCond.None,        "水性",              "特に癸水が忌神") } },
+                { "丁酉", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","丙" },     EnmSugosinCond.None,        "水性",              "特に癸水が忌神") } },
+                { "丁戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None,        "水性・土性",        "特に癸水が忌神") } },
+                { "丁亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None,        "水性"),     
+                                          new ShugoSin( new string[]{ "甲","庚","戊" },     EnmSugosinCond.Mizu_2num,   "水性") } },
+                { "丁子", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚","戊" },     EnmSugosinCond.None,        "水性") } },
+                { "丁丑", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },          EnmSugosinCond.None,        "水性・土性") } },
 
                  //戊-*
-                { "戊寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","癸" },      EnmSugosinCond.None, "金性(庚)") } },
-                { "戊卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","癸" },      EnmSugosinCond.None, "金性(庚)") } },
-                { "戊辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","癸","丙" },      EnmSugosinCond.None, "土性・金性") } },
-                { "戊巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","甲","丙" },      EnmSugosinCond.None, "土性") } },
-                { "戊午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲","丙","金" }, EnmSugosinCond.Mizu_Ari, "土性"),  new ShugoSin(new string[] { "壬", "甲", "丙" }, EnmSugosinCond.Mizu_Nasi, "土・金") } },
-                { "戊未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","甲","丙" },      EnmSugosinCond.None, "土性・金性"),   null } },
-                { "戊申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","甲" },      EnmSugosinCond.None, "金性") } },
-                { "戊酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },           EnmSugosinCond.None, "金性") } },
-                { "戊戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","癸","丙" },      EnmSugosinCond.None, "金性・土性") } },
-                { "戊亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙" },           EnmSugosinCond.None, "水性・金性") } },
-                { "戊子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },           EnmSugosinCond.None, "水性・金性") } },
-                { "戊丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },           EnmSugosinCond.None, "土・水・金") } },
+                { "戊寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","癸" },      EnmSugosinCond.None,      "金性",              "特に庚金が忌神") } },
+                { "戊卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","癸" },      EnmSugosinCond.None,      "金性",              "特に庚金が忌神") } },
+                { "戊辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","癸","丙" },      EnmSugosinCond.None,      "土性・金性") } },
+                { "戊巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","甲","丙" },      EnmSugosinCond.None,      "土性") } },
+                { "戊午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲","丙","金" }, EnmSugosinCond.Mizu_Ari,  "土性"),  
+                                          new ShugoSin( new string[]{ "壬", "甲", "丙" },    EnmSugosinCond.Mizu_Nasi, "土・金") } },
+                { "戊未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","甲","丙" },      EnmSugosinCond.None,      "土性・金性") } },
+                { "戊申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","甲" },      EnmSugosinCond.None,      "金性") } },
+                { "戊酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },           EnmSugosinCond.None,      "金性") } },
+                { "戊戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","癸","丙" },      EnmSugosinCond.None,      "金性・土性") } },
+                { "戊亥", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙" },           EnmSugosinCond.None,      "水性・金性") } },
+                { "戊子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },           EnmSugosinCond.None,      "水性・金性",       "水性が強い場合は、土性があった方が良い") } },
+                { "戊丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },           EnmSugosinCond.None,      "土・水・金") } },
 
                  //己-*
-                { "己寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊","甲" }, EnmSugosinCond.None, "金性") } },
-                { "己卯", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙","癸" }, EnmSugosinCond.None, "金性") } },
-                { "己辰", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","甲" }, EnmSugosinCond.Do_Weak, "土性・金性"),  new ShugoSin(new string[] { "甲","丙","癸" }, EnmSugosinCond.Do_Strong, "土性・金性") } },
-                { "己巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" }, EnmSugosinCond.None, "土性") } },
-                { "己午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙","辛" }, EnmSugosinCond.None, "土性") } },
-                { "己未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙" },      EnmSugosinCond.None, "土性・金性") } },
-                { "己申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None, "金性") } },
-                { "己酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None, "金性") } },
-                { "己戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙","癸" }, EnmSugosinCond.None, "金性") } },
-                { "己亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak, "水性"),     new ShugoSin(new string[] { "丙","戊","甲" }, EnmSugosinCond.Mizu_Strong, "水性") } },
-                { "己子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak, "水性"),     new ShugoSin(new string[] { "丙","戊","甲" }, EnmSugosinCond.Mizu_Strong, "水性") } },
-                { "己丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None, "水・土・金") } },
+                { "己寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊","甲" }, EnmSugosinCond.None,       "金性") } },
+                { "己卯", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙","癸" }, EnmSugosinCond.None,       "金性") } },  
+                { "己辰", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸","甲" }, EnmSugosinCond.Do_Weak,    "土性・金性",    "土性が強ければ、甲木がより大事")} },
+                { "己巳", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙","辛" }, EnmSugosinCond.None,       "土性",             "戊・癸の干合を特に嫌う") } },
+                { "己午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙","辛" }, EnmSugosinCond.None,       "土性") } },
+                { "己未", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","丙" },      EnmSugosinCond.None,       "土性・金性",       "甲木は癸水を洩らすので守護神にならない") } },
+                { "己申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None,       "金性") } },
+                { "己酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None,       "金性") } },
+                { "己戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙","癸" }, EnmSugosinCond.None,       "金性") } },
+                { "己亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.Mizu_Weak,  "水性"),     
+                                          new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Strong,"水性") } },
+                { "己子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.Mizu_Weak,  "水性"),     
+                                          new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Strong,"水性") } },
+                { "己丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,       "水・土・金") } },
 
                  //庚-*
-                { "庚寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None, "癸") } },
-                { "庚卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","庚" }, EnmSugosinCond.None, "癸") } },
-                { "庚辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.None, "土・癸"),       new ShugoSin(new string[] { "甲","丁","壬" }, EnmSugosinCond.Hi_2num, "土性・水性") } },
-                { "庚巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙" },      EnmSugosinCond.Mizu_Ari, "土性"),     new ShugoSin(new string[] { "壬","丙","辛" }, EnmSugosinCond.Hi_2num, "土性") } },
-                { "庚午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","辛" },      EnmSugosinCond.None, "火性"),         new ShugoSin(new string[] { "壬","辛","戊" }, EnmSugosinCond.Mizu_Nasi, "火性") } },
-                { "庚未", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲" },      EnmSugosinCond.None, "土性・癸"),     new ShugoSin(new string[] { "丁","甲","壬" }, EnmSugosinCond.Hi_2num, "土性") } },
-                { "庚申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲" },      EnmSugosinCond.None, "水(癸)") } },
-                { "庚酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None, "水(癸)") } },
-                { "庚戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬" },      EnmSugosinCond.None, "土性") } },
-                { "庚亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None, "水性") } },
-                { "庚子", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None, "水性") } },
-                { "庚丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","丁","甲" }, EnmSugosinCond.None, "水性") } },
+                { "庚寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,       "癸水") } },
+                { "庚卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","庚" }, EnmSugosinCond.None,       "癸水") } },
+                { "庚辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.None,       "土性・癸"),
+                                          new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.Do_2numOver,"土性・水性・庚金"),
+                                          new ShugoSin( new string[]{ "甲","丁","壬" }, EnmSugosinCond.Hi_2num,    "土性・癸水") } },
+                { "庚巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙" },      EnmSugosinCond.Mizu_Nasi,  "土性"),    
+                                          new ShugoSin( new string[]{ "壬","丙","辛" }, EnmSugosinCond.Hi_2num,    "土性") } },
+                { "庚午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","辛" },      EnmSugosinCond.None,       "火性"),        
+                                          new ShugoSin( new string[]{ "壬","辛" },      EnmSugosinCond.Mizu_Nasi,  "土性") } },
+                { "庚未", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲" },      EnmSugosinCond.None,       "土性・癸水"),
+                                          new ShugoSin( new string[]{ "丁","甲","壬" }, EnmSugosinCond.Hi_2num,    "土性"),
+                                          new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.Do_Toukan,  "土性",   "土性が透干") } },
+                { "庚申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲" },      EnmSugosinCond.None,       "水性",        "特に癸水を嫌う") } },
+                { "庚酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None,       "水性",        "特に癸水を嫌う") } },
+                { "庚戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","壬" },      EnmSugosinCond.None,       "土性") } },
+                { "庚亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None,       "水性",        "冬の庚金は官・殺両透を忌まない") } },
+                { "庚子", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","丙" }, EnmSugosinCond.None,       "水性",        "冬の庚金は官・殺両透を忌まない") } },
+                { "庚丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","丁","甲" }, EnmSugosinCond.None,       "水性",        "冬の庚金は官・殺両透を忌まない") } },
 
-                 //辛-*
-                { "辛寅", new ShugoSin[]{ new ShugoSin( new string[]{ "己","壬" },      EnmSugosinCond.None, "丁"),                new ShugoSin(new string[] { "己","壬","庚" }, EnmSugosinCond.Moku_Strong, "丁") } },
-                { "辛卯", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },      EnmSugosinCond.None, "土(戊)・丁") } },
-                { "辛辰", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },      EnmSugosinCond.None, "土(戊)"),            new ShugoSin(new string[] { "壬","甲" }, EnmSugosinCond.None, "土(戊)") } },
-                { "辛巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","癸","庚" }, EnmSugosinCond.None, "丁・土性") } },
-                { "辛午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","己","癸" }, EnmSugosinCond.Tei_Strong, "丁・土性"),    new ShugoSin(new string[] { "壬","己","癸","庚" }, EnmSugosinCond.Mizu_1num, "丁・土性") } },
-                { "辛未", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚","甲" }, EnmSugosinCond.None, "土・火(丁)"),        new ShugoSin(new string[] { "壬","庚" }, EnmSugosinCond.Do1Hi2, "土・火") } },
-                { "辛申", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },      EnmSugosinCond.None, "土・火(丁)") } },
-                { "辛酉", new ShugoSin[]{ new ShugoSin( new string[]{ "壬" },           EnmSugosinCond.None, "火(丁)"),            new ShugoSin(new string[] { "壬","甲" }, EnmSugosinCond.Do_Ari, "土・火") } },
-                { "辛戌", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },      EnmSugosinCond.None, "土性") } },
-                { "辛亥", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙" },      EnmSugosinCond.Mizu_Strong, "土性・水性"), new ShugoSin(new string[] { "壬", "丙" }, EnmSugosinCond.Mizu_Strong, "土性") } },
-                { "辛子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","壬" },      EnmSugosinCond.None, "土性"),              new ShugoSin(new string[] { "丙","壬","甲" }, EnmSugosinCond.Hei_Weak, "土性") } },
-                { "辛丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","壬" },      EnmSugosinCond.None, "土性"),              new ShugoSin(new string[] { "丙", "壬", "甲" }, EnmSugosinCond.Do_2num, "土性") } },
+                 //辛-*  
+                { "辛寅", new ShugoSin[]{ new ShugoSin( new string[]{ "己","壬" },           EnmSugosinCond.None,        "丁"),               
+                                          new ShugoSin( new string[]{ "己","壬","庚" },      EnmSugosinCond.Moku_Strong, "丁") } },
+                { "辛卯", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.None,        "土性・丁",    "特に戊土を嫌う") } },
+                { "辛辰", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.None,        "土性",         "特に戊土を嫌う") } },
+                { "辛巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","癸","庚" },      EnmSugosinCond.None,        "丁・土性") } },
+                { "辛午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","己","癸" },      EnmSugosinCond.None,        "丁・土性"),
+                                          new ShugoSin( new string[]{ "壬","癸" },           EnmSugosinCond.Tei_Weak,    "丁・土性"),
+                                          new ShugoSin( new string[]{ "壬","己","癸","庚" }, EnmSugosinCond.Mizu_1num,   "丁・土性") } },
+                { "辛未", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚","甲" },      EnmSugosinCond.None,        "土・火",      "火性は特に丁火を嫌う"),
+                                          new ShugoSin( new string[]{ "壬","庚" },           EnmSugosinCond.Do1Hi2,      "土・火") } },
+                { "辛申", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.None,        "土・火",      "火性は特に丁火を嫌う") } },
+                { "辛酉", new ShugoSin[]{ new ShugoSin( new string[]{ "壬" },                EnmSugosinCond.None,        "火",          "火性は特に丁火を嫌う"),
+                                          new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.Do_Ari,      "土・火") } },
+                { "辛戌", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.None,        "土性",        "甲木の価値は高い") } },
+                { "辛亥", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙" },           EnmSugosinCond.Mizu_Strong, "土性・水性"),
+                                          new ShugoSin( new string[]{ "壬", "丙" },          EnmSugosinCond.Mizu_Strong, "土性") } },
+                { "辛子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","壬" },           EnmSugosinCond.None,        "土性"),
+                                          new ShugoSin( new string[]{ "丙","壬" },           EnmSugosinCond.Mizu_Strong, "土性・水性"),
+                                          new ShugoSin( new string[]{ "丙","壬","甲" },      EnmSugosinCond.Hei_Weak,    "土性") } },
+                { "辛丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","壬" },           EnmSugosinCond.None,        "土性"),
+                                          new ShugoSin( new string[]{ "丙", "壬"},           EnmSugosinCond.Mizu_Strong, "土性・水性"),
+                                          new ShugoSin( new string[]{ "丙", "壬", "甲" },    EnmSugosinCond.Do_2num,     "土性") } },
 
                  //壬-*
-                { "壬寅", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","庚","丙" }, EnmSugosinCond.None, "木性") } },
-                { "壬卯", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","辛" },      EnmSugosinCond.None, "木性") } },
-                { "壬辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },      EnmSugosinCond.None, "土性") } },
-                { "壬巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },      EnmSugosinCond.None, "火性・土性") } },
-                { "壬午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","庚" },      EnmSugosinCond.None, "火性・土性") } },
-                { "壬未", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲","癸" }, EnmSugosinCond.None, "土性・火性"),   new ShugoSin(new string[] { "癸","甲","庚" }, EnmSugosinCond.Hi_2num, "火性・土性") } },
-                { "壬申", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丁" },      EnmSugosinCond.None, "金性") } },
-                { "壬酉", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","辛" },      EnmSugosinCond.KinHakuSuiSei, "土性") } },
-                { "壬戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙" },      EnmSugosinCond.None, "金性"),         new ShugoSin(new string[] { "甲","丙","戊" }, EnmSugosinCond.Mizu_2num, "金性") } },
-                { "壬亥", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丙" },      EnmSugosinCond.Do_Ari, "水(木)"),     new ShugoSin(new string[] { "戊","丙","甲" }, EnmSugosinCond.Do_Nasi, "水性") } },
-                { "壬子", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丙" },      EnmSugosinCond.None, "水性") } },
-                { "壬丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None, "水性"),         new ShugoSin(new string[] { "丙","甲","戊" }, EnmSugosinCond.Mizu_2num, "水性") } },
+                { "壬寅", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","庚","丙" }, EnmSugosinCond.None,        "木性") } },
+                { "壬卯", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","辛" },      EnmSugosinCond.None,        "木性") } },
+                { "壬辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","庚" },      EnmSugosinCond.None,        "土性") } },
+                { "壬巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚" },      EnmSugosinCond.None,        "火性・土性") } },
+                { "壬午", new ShugoSin[]{ new ShugoSin( new string[]{ "癸","庚" },      EnmSugosinCond.None,        "火性・土性") } },
+                { "壬未", new ShugoSin[]{ new ShugoSin( new string[]{ "庚","甲","癸" }, EnmSugosinCond.None,        "土性・火性"),
+                                          new ShugoSin( new string[]{ "癸","甲","庚" }, EnmSugosinCond.Do_2numOver, "土性・火性"),
+                                          new ShugoSin( new string[]{ "甲","癸","庚" }, EnmSugosinCond.Hi_2num,     "水性・土性") } },
+                { "壬申", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丁" },      EnmSugosinCond.None,        "金性") } },
+                { "壬酉", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","辛" },      EnmSugosinCond.None,        "土性",     "金白水清") } },
+                { "壬戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙" },      EnmSugosinCond.None,        "金性"),
+                                          new ShugoSin( new string[]{ "甲","丙","戊" }, EnmSugosinCond.Mizu_2num,   "金性") } },
+                { "壬亥", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丙" },      EnmSugosinCond.None,        "水性"),
+                                          new ShugoSin( new string[]{ "戊","丙","甲" }, EnmSugosinCond.Do_Nasi,     "水性"),
+                                          new ShugoSin( new string[]{ "戊","丙" },      EnmSugosinCond.Do_Ari,      "水性・木性") } },
+                { "壬子", new ShugoSin[]{ new ShugoSin( new string[]{ "戊","丙" },      EnmSugosinCond.None,        "水性",              "戊土と丙火は、ほぼ同価値") } },
+                { "壬丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,        "水性"),
+                                          new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_2num,   "水性") } },
 
                  //癸-*
-                { "癸寅", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.None, "土性") } },
-                { "癸卯", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","庚","丙" }, EnmSugosinCond.None, "土性") } },
-                { "癸辰", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙","甲" }, EnmSugosinCond.None, "土性") } },
-                { "癸巳", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None, "火(丁)・土"),      new ShugoSin(new string[] { "辛","壬","庚" }, EnmSugosinCond.Sin_Weak, "火(丁)・土") } },
-                { "癸午", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None, "火(丁)・土"),      new ShugoSin(new string[] { "辛","壬","庚" }, EnmSugosinCond.Sin_Weak, "火(丁)・土") } },
-                { "癸未", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None, "火性・土性") } },
-                { "癸申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","辛" }, EnmSugosinCond.None, "土性") } },
-                { "癸酉", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.KinHakuSuiSei, "土性") } },
-                { "癸戌", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","甲" },      EnmSugosinCond.None, "土性"),             new ShugoSin(new string[] { "辛","甲","壬" }, EnmSugosinCond.Ki_Weak, "土性") } },
-                { "癸亥", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.None, "水性") } },
-                { "癸子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","辛" },      EnmSugosinCond.None, "水性") } },
-                { "癸丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","辛","甲" }, EnmSugosinCond.None, "水性・土性") } },
+                { "癸寅", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.None,     "土性") } },
+                { "癸卯", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","庚","丙" }, EnmSugosinCond.None,     "土性") } },
+                { "癸辰", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙","甲" }, EnmSugosinCond.None,     "土性") } },
+                { "癸巳", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None,     "火性・土性",       "丙火性は特に丁火を嫌う"),
+                                          new ShugoSin( new string[]{ "辛","壬","庚" }, EnmSugosinCond.Sin_Weak, "火性・土性") } },
+                { "癸午", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None,     "火性・土性"),
+                                          new ShugoSin( new string[]{ "辛","壬","庚" }, EnmSugosinCond.Sin_Weak, "火性・土性") } },
+                { "癸未", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","壬" },      EnmSugosinCond.None,     "火性・土性") } },
+                { "癸申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","辛" }, EnmSugosinCond.None,     "土性") } },
+                { "癸酉", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.None,     "土性",       "金白水清") } },
+                { "癸戌", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","甲" },      EnmSugosinCond.None,     "土性"),
+                                          new ShugoSin( new string[]{ "辛","甲","壬" }, EnmSugosinCond.Ki_Weak,  "土性") } },
+                { "癸亥", new ShugoSin[]{ new ShugoSin( new string[]{ "辛","丙" },      EnmSugosinCond.None,     "水性") } },
+                { "癸子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","辛" },      EnmSugosinCond.None,     "水性") } },
+                { "癸丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","辛","甲" }, EnmSugosinCond.None,     "水性・土性") } },
               };
             //--------------------------------
 

@@ -38,6 +38,8 @@ namespace WinFormsApp2
             //調候の忌神
             lbl2.Text = shugosin.imi;
 
+            label3.Text = shugosin.explanation;
+
 
             //忌神
 
@@ -54,7 +56,7 @@ namespace WinFormsApp2
             }
             else
             {
-                lbl4.Text = lbl3.Text = "";
+                lbl4.Text = lbl3.Text = "(なし)";
             }
 
         }

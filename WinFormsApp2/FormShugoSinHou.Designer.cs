@@ -37,6 +37,7 @@ namespace WinFormsApp2
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lbl4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbl1
@@ -53,7 +54,7 @@ namespace WinFormsApp2
             // 
             this.lbl2.AutoSize = true;
             this.lbl2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl2.Location = new System.Drawing.Point(39, 96);
+            this.lbl2.Location = new System.Drawing.Point(39, 86);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(52, 21);
             this.lbl2.TabIndex = 2;
@@ -73,7 +74,7 @@ namespace WinFormsApp2
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.ForeColor = System.Drawing.Color.PaleVioletRed;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 21);
@@ -84,8 +85,8 @@ namespace WinFormsApp2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(12, 75);
+            this.label2.ForeColor = System.Drawing.Color.PaleVioletRed;
+            this.label2.Location = new System.Drawing.Point(12, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 21);
             this.label2.TabIndex = 5;
@@ -95,7 +96,7 @@ namespace WinFormsApp2
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.ForeColor = System.Drawing.Color.PaleVioletRed;
             this.label4.Location = new System.Drawing.Point(170, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 21);
@@ -106,8 +107,8 @@ namespace WinFormsApp2
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(170, 75);
+            this.label5.ForeColor = System.Drawing.Color.PaleVioletRed;
+            this.label5.Location = new System.Drawing.Point(170, 65);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 21);
             this.label5.TabIndex = 4;
@@ -117,17 +118,28 @@ namespace WinFormsApp2
             // 
             this.lbl4.AutoSize = true;
             this.lbl4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl4.Location = new System.Drawing.Point(190, 96);
+            this.lbl4.Location = new System.Drawing.Point(190, 86);
             this.lbl4.Name = "lbl4";
             this.lbl4.Size = new System.Drawing.Size(52, 21);
             this.lbl4.TabIndex = 6;
             this.lbl4.Text = "label4";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(39, 121);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 21);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "explanation";
+            // 
             // FormShugoSinHou
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 131);
+            this.ClientSize = new System.Drawing.Size(304, 151);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lbl4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
@@ -137,9 +149,9 @@ namespace WinFormsApp2
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.lbl1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(320, 170);
+            this.MaximumSize = new System.Drawing.Size(320, 190);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(320, 170);
+            this.MinimumSize = new System.Drawing.Size(320, 190);
             this.Name = "FormShugoSinHou";
             this.Text = "守護神法";
             this.TopMost = true;
@@ -158,5 +170,6 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lbl4;
+        private System.Windows.Forms.Label label3;
     }
 }

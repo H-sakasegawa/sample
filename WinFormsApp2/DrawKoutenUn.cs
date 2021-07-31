@@ -285,33 +285,36 @@ namespace WinFormsApp2
             if (colorGekkansi != null) colorGekkansi.CopyTo(colorGekkansiOrg, 0);
             if (colorNenkansi != null) colorNenkansi.CopyTo(colorNenkansiOrg, 0);
 
-            //合法反映
-            if (bDispRefrectGouhou)
+            if (bDispGogyou || bDispGotoku)
             {
-                //支の変換
-                RefrectGouhou(
-                                colorNikkansi, colorGekkansi, colorNenkansi,
-                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
-                                getuunKansi, nenunKansi, taiunKansi,
-                                bDispGetuun
-                                );
-                //干の変換
-                RefrectKangou(
-                                colorNikkansi, colorGekkansi, colorNenkansi,
-                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
-                                getuunKansi, nenunKansi, taiunKansi,
-                                 bDispGetuun
-                               );
+                //合法反映
+                if (bDispRefrectGouhou)
+                {
+                    //支の変換
+                    RefrectGouhou(
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                    getuunKansi, nenunKansi, taiunKansi,
+                                    bDispGetuun
+                                    );
+                    //干の変換
+                    RefrectKangou(
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
+                                    getuunKansi, nenunKansi, taiunKansi,
+                                     bDispGetuun
+                                   );
 
-            }
-            //三合会局・方三位　反映
-            if (bDispRefrectSangouKaiyoku)
-            {
-                RefrectSangouKaikyokuHousanni(
-                                lstSangouKaikyoku, lstHouSani,
-                                colorNikkansi, colorGekkansi, colorNenkansi,
-                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi
-                                );
+                }
+                //三合会局・方三位　反映
+                if (bDispRefrectSangouKaiyoku)
+                {
+                    RefrectSangouKaikyokuHousanni(
+                                    lstSangouKaikyoku, lstHouSani,
+                                    colorNikkansi, colorGekkansi, colorNenkansi,
+                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi
+                                    );
+                }
             }
             //五徳表示の時に、合法反映、三合会局・方三位　反映があった場合は、属性が変わっているので
             //変わった属性をもとに再度表示カラーを求める
