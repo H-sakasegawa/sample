@@ -1367,7 +1367,7 @@ namespace WinFormsApp2
                 { "乙戌", new ShugoSin[]{ new ShugoSin( new string[]{ "癸", "丙", "甲" },        EnmSugosinCond.None,                "土性" ),
                                           new ShugoSin( new string[]{ "癸", "丙", "甲", "辛" },  EnmSugosinCond.Ki_Arii,             "土性" ) } },        //宿命に癸水がある場合
                 { "乙亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊" },               EnmSugosinCond.None,                "水性・金性") } },
-                { "乙子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.None,                "水性・金性"),
+                { "乙子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","戊" },               EnmSugosinCond.None,                "水性・金性"),
                                           new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.Do_Nasi,             "水性・金性"),       //宿命に土性がない場合
                                           new ShugoSin( new string[]{ "丙","戊","甲" },          EnmSugosinCond.Hei_Nasi_and_Hi_Ari, "水性・金性") } },   //宿命に丙がなくかつ丁がある場合
                 { "乙丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },               EnmSugosinCond.None,                "水性・金性") } },
@@ -1429,17 +1429,17 @@ namespace WinFormsApp2
                 { "己申", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None,       "金性") } },
                 { "己酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","癸" },      EnmSugosinCond.None,       "金性") } },
                 { "己戌", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丙","癸" }, EnmSugosinCond.None,       "金性") } },
-                { "己亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.Mizu_Weak,  "水性"),     
-                                          new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Strong,"水性") } },
-                { "己子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.Mizu_Weak,  "水性"),     
-                                          new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Strong,"水性") } },
+                { "己亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak,  "水性"),     
+                                          new ShugoSin( new string[]{ "丙","戊" },      EnmSugosinCond.Mizu_Strong,"水性") } }, //水性が強ければ戊が守②となる
+                { "己子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak,  "水性"),     
+                                          new ShugoSin( new string[]{ "丙",,"戊" },     EnmSugosinCond.Mizu_Strong,"水性") } }, //水性が強ければ戊が守②となる
                 { "己丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,       "水・土・金") } },
 
                  //庚-*
                 { "庚寅", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,       "癸水") } },
                 { "庚卯", new ShugoSin[]{ new ShugoSin( new string[]{ "丁","甲","庚" }, EnmSugosinCond.None,       "癸水") } },
                 { "庚辰", new ShugoSin[]{ new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.None,       "土性・癸"),
-                                          new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.Do_2numOver,"土性・水性・庚金"),
+                                          new ShugoSin( new string[]{ "甲","丁" },      EnmSugosinCond.Do_2numOver,"土性・水性・庚金"),//土性が多い（２つ以上）ときは庚金も忌神
                                           new ShugoSin( new string[]{ "甲","丁","壬" }, EnmSugosinCond.Hi_2num,    "土性・癸水") } },
                 { "庚巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","丙" },      EnmSugosinCond.Mizu_Nasi,  "土性"),    
                                           new ShugoSin( new string[]{ "壬","丙","辛" }, EnmSugosinCond.Hi_2num,    "土性") } },
@@ -1462,7 +1462,7 @@ namespace WinFormsApp2
                 { "辛辰", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","甲" },           EnmSugosinCond.None,        "土性",         "特に戊土を嫌う") } },
                 { "辛巳", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","癸","庚" },      EnmSugosinCond.None,        "丁・土性") } },
                 { "辛午", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","己","癸" },      EnmSugosinCond.None,        "丁・土性"),
-                                          new ShugoSin( new string[]{ "壬","癸" },           EnmSugosinCond.Tei_Weak,    "丁・土性"),
+                                          new ShugoSin( new string[]{ "壬","癸" },           EnmSugosinCond.Tei_Weak,    "丁・土性"),     //丁火の影響が小さければ守護神に己土は必要ない
                                           new ShugoSin( new string[]{ "壬","己","癸","庚" }, EnmSugosinCond.Mizu_1num,   "丁・土性") } },
                 { "辛未", new ShugoSin[]{ new ShugoSin( new string[]{ "壬","庚","甲" },      EnmSugosinCond.None,        "土・火",      "火性は特に丁火を嫌う"),
                                           new ShugoSin( new string[]{ "壬","庚" },           EnmSugosinCond.Do1Hi2,      "土・火") } },
