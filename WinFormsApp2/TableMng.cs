@@ -1432,7 +1432,7 @@ namespace WinFormsApp2
                 { "己亥", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak,  "水性"),     
                                           new ShugoSin( new string[]{ "丙","戊" },      EnmSugosinCond.Mizu_Strong,"水性") } }, //水性が強ければ戊が守②となる
                 { "己子", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲","戊" }, EnmSugosinCond.Mizu_Weak,  "水性"),     
-                                          new ShugoSin( new string[]{ "丙",,"戊" },     EnmSugosinCond.Mizu_Strong,"水性") } }, //水性が強ければ戊が守②となる
+                                          new ShugoSin( new string[]{ "丙","戊" },     EnmSugosinCond.Mizu_Strong,"水性") } }, //水性が強ければ戊が守②となる
                 { "己丑", new ShugoSin[]{ new ShugoSin( new string[]{ "丙","甲" },      EnmSugosinCond.None,       "水・土・金") } },
 
                  //庚-*
