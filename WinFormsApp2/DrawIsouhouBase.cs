@@ -192,8 +192,7 @@ namespace WinFormsApp2
         /// <param name="kansi"></param>
         /// <param name="rectKan"></param>
         /// <param name="rectSi"></param>
-        /// <param name="bkColor"></param>
-        /// <param name="attrNo"></param>
+        /// <param name="foreColor"></param>
         protected void DrawInsenKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color foreColor = default)
         {
 
@@ -203,16 +202,48 @@ namespace WinFormsApp2
                 g.DrawRectangle(blackPen, rectSi);
             }
             var brush = Brushes.Black;
-            var fntKan = fnt;
 
-            if( foreColor!=default)
+            TableMng tblMng = TableMng.GetTblManage();
+
+            string shugosinAttr = person.shugosinAttr;
+            string[] choukouShugosinKan = person.choukouShugosin;
+            string imigamiAttr = person.imigamiAttr;
+
+            //干の守護神判定
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[kansi.kan].gogyou;
+            string siAttr = tblMng.jyunisiTbl[kansi.si].gogyou;
+
+
+            //守護神判定
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                if (kanAttr == shugosinAttr) g.FillRectangle(Brushes.Yellow, rectKan);
+                if (siAttr == shugosinAttr) g.FillRectangle(Brushes.Yellow, rectSi);
+            }
+            else
+            {
+                foreach (var kan in choukouShugosinKan)
+                {
+                    if (kan == kansi.kan)
+                    {
+                        g.FillRectangle(Brushes.Yellow, rectKan);
+                        break;
+                    }
+                }
+            }
+            //忌神判定
+            if (kanAttr == imigamiAttr)
+            {
+                g.FillRectangle(Brushes.LightGray, rectKan);
+            }
+
+            if ( foreColor!=default)
             {
                 brush = new SolidBrush(foreColor);
             }
-            
 
-
-            g.DrawString(kansi.kan, fntKan, brush, rectKan, stringFormat);
+            g.DrawString(kansi.kan, fnt, brush, rectKan, stringFormat);
             g.DrawString(kansi.si, fnt, brush, rectSi, stringFormat);
         }
 

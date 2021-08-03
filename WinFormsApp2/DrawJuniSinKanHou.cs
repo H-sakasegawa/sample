@@ -69,11 +69,13 @@ namespace WinFormsApp2
         /// <param name="_bDispGotoku">true... 五徳反映</param>
         /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
         public void Draw(
-                            Person person,
+                            Person _person,
                             PictureBox pictureBox,
                             Node node
             )
         {
+
+            person = _person;
 
             //派生先クラスの描画I/F呼び出し
             Bitmap canvas = new Bitmap(pictureBox.Width, pictureBox.Height);
@@ -145,6 +147,8 @@ namespace WinFormsApp2
             enumLeft
         }
 
+
+
         /// <summary>
         /// 親方向のノード描画
         /// </summary>
@@ -166,7 +170,9 @@ namespace WinFormsApp2
 
                 Rectangle rectKan = new Rectangle(pnt.X, pnt.Y, strWidth, strHeight);
 
-                DrawString(g, parentNode.kan, rectKan);
+
+               int shugosinOrImigami = GetShugosinOrImigami(parentNode.kan);
+                DrawString(g, parentNode.kan, rectKan, shugosinOrImigami);
 
             }
 
@@ -213,8 +219,10 @@ namespace WinFormsApp2
                     pnt.X += (horLineLength + strWidth);
                 }
 
+                int shugosinOrImigami = GetShugosinOrImigami(partnerNode.kan);
+
                 Rectangle rectKan = new Rectangle(pnt.X, pnt.Y, strWidth, strHeight);
-                DrawString(g, partnerNode.kan, rectKan);
+                DrawString(g, partnerNode.kan, rectKan, shugosinOrImigami);
 
 
             }
@@ -255,8 +263,10 @@ namespace WinFormsApp2
 
                 pnt.Y += (verLineLength + strHeight);
 
+                int shugosinOrImigami = GetShugosinOrImigami(ChildNode.kan);
+
                 Rectangle rectKan = new Rectangle(pnt.X, pnt.Y, strWidth, strHeight);
-                DrawString(g, ChildNode.kan, rectKan);
+                DrawString(g, ChildNode.kan, rectKan, shugosinOrImigami);
 
             }
             if (ChildNode.partnerMan != null)
@@ -282,18 +292,66 @@ namespace WinFormsApp2
         /// <param name="g"></param>
         /// <param name="str"></param>
         /// <param name="rect"></param>
-        void DrawString(Graphics g, string str, Rectangle rect)
+        /// <param name="shugosinOrImigami">1..守護神  2..忌神</param>
+        void DrawString(Graphics g, string str, Rectangle rect, int shugosinOrImigami)
         {
+
             if (string.IsNullOrEmpty(str))
             {
                 g.DrawString("✕", fnt, brush, rect, stringFormat);
             }
             else
             {
+                switch(shugosinOrImigami)
+                {
+                    case 1: g.FillRectangle(Brushes.Yellow, rect); break;
+                    case 2: g.FillRectangle(Brushes.LightGray, rect); break;
+                }
+
                 g.DrawRectangle(blackPen, rect);
                 g.DrawString(str, fnt, brush, rect, stringFormat);
             }
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <returns>1..守護神  2..忌神</returns>
+        int GetShugosinOrImigami(string kan)
+        {
+            if (string.IsNullOrEmpty(kan)) return 0;
+
+            string shugosinAttr = person.shugosinAttr;
+            string[] choukouShugosinKan = person.choukouShugosin;
+            string imigamiAttr = person.imigamiAttr;
+
+            var tblMng = TableMng.GetTblManage();
+            //干の守護神判定
+            //干の属性取得
+            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+
+
+            //守護神判定
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                if (kanAttr == shugosinAttr) return 1;
+            }
+            else
+            {
+                foreach (var k in choukouShugosinKan)
+                {
+                    if (k == kan) return 1;
+                }
+            }
+            //忌神判定
+            if (kanAttr == imigamiAttr)
+            {
+                return 2;
+            }
+
+            return 0;
         }
     }
 

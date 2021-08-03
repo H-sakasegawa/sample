@@ -31,32 +31,32 @@ namespace WinFormsApp2
         {
             person = _person;
 
-            var shugosin = tblMng.shugosinTbl.GetSugoSin(person);
             //調候の守護神
-            lbl1.Text = shugosin.ToString();
+            lbl1.Text = "";
+            foreach (var s in person.choukouShugosin)
+            {
+                lbl1.Text += s;
+            }
 
             //調候の忌神
-            lbl2.Text = shugosin.imi;
+            lbl2.Text = person.choukouImigamiAttr;
 
-            label3.Text = shugosin.explanation;
-
-
-            //忌神
-
-            string imigami = person.GetImiGami();
-            if( !string.IsNullOrEmpty( imigami))
-            { 
-                lbl4.Text = imigami+"性" ;
+            label3.Text = person.shugosinExplanation;
 
 
-                //調和の守護神
-                //五行属性で忌神を剋するもの
-                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(imigami);
-                lbl3.Text = item.destoryFromName + "性";
-            }
-            else
+            //第１守護神情報取得
+            //調和の守護神属性, inigamiAttr
+            string shuigoAttr ="";
+            string inigamiAttr="";
+            if (string.IsNullOrEmpty(person.shugosinAttr))
             {
                 lbl4.Text = lbl3.Text = "(なし)";
+            }
+            else { 
+                //忌神
+                lbl4.Text = person.imigamiAttr + "性" ;
+                //調和の守護神
+                lbl3.Text = person.shugosinAttr + "性";
             }
 
         }

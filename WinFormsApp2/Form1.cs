@@ -568,17 +568,20 @@ namespace WinFormsApp2
         }
 
 
+
         //====================================================
         // 大運 表示処理
         //====================================================
         /// <summary>
         /// 大運リストビューアイテムデータクラス
         /// </summary>
-        class TaiunLvItemData
+        class TaiunLvItemData: LvItemDataBase
         {
             public int startNen; //開始年
             public int startYear; //開始年
             public Kansi kansi; //干支
+            public bool bShugosin; //true...守護神
+            public bool bImigami;   //true...忌神
         }
         /// <summary>
         /// 大運
@@ -631,6 +634,15 @@ namespace WinFormsApp2
 
             }
 #else
+            string[] choukouShugosinKan = null;
+            string shugosinAttr = person.shugosinAttr;
+            string imigamiAttr = person.imigamiAttr;
+            if (string.IsNullOrEmpty(imigamiAttr))
+            {
+                choukouShugosinKan = person.choukouShugosin;
+                imigamiAttr = person.choukouImigamiAttr;
+            }
+
             var lstTaiunKansi = person.GetTaiunKansiList();
             for(int i=0; i< lstTaiunKansi.Count; i++)
             {
@@ -638,12 +650,13 @@ namespace WinFormsApp2
                 if ( i==0)
                 {
                     //初旬
-                    AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0);
+                    AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0, shugosinAttr, imigamiAttr, choukouShugosinKan);
                 }
                 else
                 {
                     AddTaiunItem(person, string.Format("{0}旬 {1}～", i + 1, kansiItem.startYear),
-                                 kansiItem.kansiNo, kansiItem.startYear);
+                                 kansiItem.kansiNo, kansiItem.startYear,
+                                 shugosinAttr, imigamiAttr, choukouShugosinKan);
                 }
             }
 
@@ -677,7 +690,9 @@ namespace WinFormsApp2
         /// </summary>
         /// <param name="title"></param>
         /// <param name="kansiNo"></param>
-        private void AddTaiunItem(Person person , string title, int kansiNo, int startNen)
+        private void AddTaiunItem(Person person , string title, int kansiNo, int startNen,
+                                  string shugosinAttr, string imigamiAttr,  string[] shugosinKan
+            )
         {
             Kansi taiunKansi = person.GetKansi(kansiNo);
 
@@ -728,14 +743,56 @@ namespace WinFormsApp2
 
             lvItem.ForeColor = color;
 
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[taiunKansi.kan].gogyou;
+            string siAttr = tblMng.jyunisiTbl[taiunKansi.si].gogyou;
+
+
+            //守護神判定
+            bool bShugosin = false;
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+                {
+                    bShugosin = true;
+                }
+            }
+            else
+            {
+                foreach(var kan in shugosinKan)
+                {
+                    if( kan == taiunKansi.kan)
+                    {
+                        bShugosin = true;
+                    }
+                }
+            }
+            //忌神判定
+            bool bImigami = false;
+            if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            {
+                bImigami = true;
+            }
+
             TaiunLvItemData itemData = new TaiunLvItemData();
             itemData.startNen = startNen;   //開始年
             itemData.startYear = startNen + person.birthday.year;
             itemData.kansi = taiunKansi;    //干支
+            itemData.bShugosin = bShugosin;  //守護神
+            itemData.bImigami = bImigami;  //忌神
+
+ 
+            if (bShugosin)
+            {
+                itemData.lstItemColors.Add(new LvItemColor(1, Color.Yellow));
+            }
+            else if (bImigami)
+            {
+                itemData.lstItemColors.Add(new LvItemColor(1, Color.LightGray));
+            }
 
             //行のサブ情報を保持させておく
             lvItem.Tag = itemData;
-
 
         }
 
@@ -743,10 +800,10 @@ namespace WinFormsApp2
         //====================================================
         // 年運 表示処理
         //====================================================
-         /// <summary>
+        /// <summary>
         /// 年運リストビューアイテムデータクラス
         /// </summary>
-        class GetuunNenunLvItemData
+        class GetuunNenunLvItemData: LvItemDataBase
         {
             /// <summary>
             /// 年運では、年
@@ -754,6 +811,8 @@ namespace WinFormsApp2
             /// </summary>
             public int keyValue; 
             public Kansi kansi; //干支
+            public bool bShugosin; //true...守護神
+            public bool bImigami;   //true...忌神
         }
         /// <summary>
         /// 年運
@@ -782,6 +841,16 @@ namespace WinFormsApp2
 
             int nenkansiNo = person.GetNenkansiNo(baseYear);
 #endif
+
+            string[] choukouShugosinKan = null;
+            string shugosinAttr = person.shugosinAttr;
+            string imigamiAttr = person.imigamiAttr;
+            if (string.IsNullOrEmpty(imigamiAttr))
+            {
+                choukouShugosinKan = person.choukouShugosin;
+                imigamiAttr = person.choukouImigamiAttr;
+            }
+
             //11年分を表示
             for (int i = 0; i < 10+1; i++)
             {
@@ -793,6 +862,9 @@ namespace WinFormsApp2
                                     string.Format("{0}歳({1})", (baseYear +i) - person.birthday.year,  baseYear +i),
                                     nenkansiNo,
                                     taiunKansi,
+                                    shugosinAttr,
+                                    imigamiAttr,
+                                    choukouShugosinKan,
                                     lvNenun
                                     );
                 nenkansiNo += 1;
@@ -823,6 +895,14 @@ namespace WinFormsApp2
             //１月の月干支 ← 対象年運の選択行の干支
             //int gekkansiNo = taiunItemData.kansi.no;
 
+            string[] choukouShugosinKan =null;
+            string shugosinAttr = person.shugosinAttr;
+            string imigamiAttr = person.imigamiAttr;
+            if( string.IsNullOrEmpty(imigamiAttr))
+            {
+                choukouShugosinKan = person.choukouShugosin;
+                imigamiAttr = person.choukouImigamiAttr;
+            }
 
             //2月～12月,1月分を表示
             for (int i = 0; i < 12; i++)
@@ -846,6 +926,9 @@ namespace WinFormsApp2
                                     string.Format("{0}月", mMonth),
                                     gekkansiNo,
                                     taiunItemData.kansi,
+                                    shugosinAttr,
+                                    imigamiAttr,
+                                    choukouShugosinKan,
                                     lvGetuun
                                     );
                 gekkansiNo += 1;
@@ -863,11 +946,13 @@ namespace WinFormsApp2
         /// <param name="rowKeyValue">年 or 月</param>
         /// <param name="title">行タイトル文字列</param>
         /// <param name="targetkansiNo">年運干支No</param>
-        /// <param name="taiunKansi">大運干支No</param>
-        private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi, ListView lv)
+        /// <param name="kansi">大運干支No</param>
+        private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
+                                  string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan, 
+                                  ListView lv)
         {
 
-            AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, lv);
+            AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, shugosinAttr, imigamiAttr, choukouShugosinKan, lv);
             var lvItem = lv.Items[lv.Items.Count - 1];
 
             lvItem.SubItems[(int)ColNenunListView.COL_CAREER].Text = person.career[rowKeyValue]; //経歴
@@ -875,7 +960,9 @@ namespace WinFormsApp2
 
         }
 
-        private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi, ListView lv)
+        private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
+                                  string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan, 
+                                  ListView lv)
         {
 
             Kansi taregetKansi = person.GetKansi(targetkansiNo);
@@ -931,9 +1018,53 @@ namespace WinFormsApp2
 
             lvItem.ForeColor = color;
 
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[taregetKansi.kan].gogyou;
+            string siAttr = tblMng.jyunisiTbl[taregetKansi.si].gogyou;
+
+
+            //守護神判定
+            bool bShugosin = false;
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+                {
+                    bShugosin = true;
+                }
+            }
+            else
+            {
+                foreach (var kan in choukouShugosinKan)
+                {
+                    if (kan == taregetKansi.kan)
+                    {
+                        bShugosin = true;
+                    }
+                }
+            }
+            //忌神判定
+            bool bImigami = false;
+            if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            {
+                bImigami = true;
+            }
+
+
+
             GetuunNenunLvItemData itemData = new GetuunNenunLvItemData();
             itemData.keyValue = rowKeyValue;           //年 or 月
             itemData.kansi = taregetKansi;    //干支
+            itemData.bShugosin = bShugosin;  //守護神
+            itemData.bImigami = bImigami;  //忌神
+
+            if (bShugosin)
+            {
+                itemData.lstItemColors.Add(new LvItemColor(1, Color.Yellow));
+            }
+            else if (bImigami)
+            {
+                itemData.lstItemColors.Add(new LvItemColor(1, Color.LightGray));
+            }
             //行のサブ情報を保持させておく
             lvItem.Tag = itemData;
 

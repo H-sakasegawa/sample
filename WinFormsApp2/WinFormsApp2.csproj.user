@@ -16,8 +16,5 @@
     <Compile Update="FromKyokiSimulation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ListViewEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
 </Project>

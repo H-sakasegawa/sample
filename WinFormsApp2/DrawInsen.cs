@@ -219,6 +219,9 @@ namespace WinFormsApp2
                 //------------------
                 SetTenchusatuColor(person);
             }
+
+
+
             //干支表示
             DrawInsenKansi(insen.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansiKan.color);
             DrawInsenKansi(insen.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansiKan.color);

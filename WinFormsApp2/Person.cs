@@ -191,6 +191,15 @@ namespace WinFormsApp2
         public JunidaiJusei junidaiJuseiB { get; set; }
         public JunidaiJusei junidaiJuseiC { get; set; }
 
+        //守護神
+        public string[] choukouShugosin { get; set; } = null;
+        public string choukouImigamiAttr { get; set; } = "";
+
+        public string shugosinAttr { get; set; } = "";
+        public string imigamiAttr { get; set; } = "";
+        public string shugosinExplanation { get; set; } = "";
+
+
         private TableMng tblMng;
         private SetuiribiTable tblSetuiribi;
 
@@ -291,7 +300,11 @@ namespace WinFormsApp2
             //干1 → 支1
             junidaiJuseiC = tblMng.junidaiJusei.GetJunidaiJusei(nikkansi.kan, nikkansi.si);
 
-
+            //------------------
+            //守護神情報
+            //------------------
+            FirstShugosinAttr();
+            SecondShugosinAttr();
 
             return 0;
         }
@@ -1109,6 +1122,157 @@ namespace WinFormsApp2
                                                  nikkansi, gekkansi, nenkansi);
         }
 
+        //----------------------------------------------------
+        //守護神法情報取得
+        //----------------------------------------------------
+        /// <summary>
+        /// 第１守護神情報取得
+        /// </summary>
+        /// <param name="shuigoAttr">調和の守護神属性</param>
+        /// <param name="inigamiAttr">忌神</param>
+        /// <returns></returns>
+        private void FirstShugosinAttr()
+        {
+
+            imigamiAttr = GetImiGami();
+            if (!string.IsNullOrEmpty(imigamiAttr))
+            {
+                //調和の守護神
+                //五行属性で忌神を剋するもの
+                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(imigamiAttr);
+                shugosinAttr = item.destoryFromName;
+            }
+           
+        }
+        /// <summary>
+        /// 第２守護神情報取得
+        /// </summary>
+        /// <param name="kan">調候の守護神</param>
+        /// <param name="inigamiAttr">調候の忌神</param>
+        /// <returns></returns>
+        private void SecondShugosinAttr()
+        {
+            var shugosin = GetChoukouShugosin();
+            //調候の守護神
+            choukouShugosin = shugosin.kan;
+
+            //調候の忌神
+            choukouImigamiAttr = shugosin.imi;
+
+            shugosinExplanation = shugosin.explanation;
+        }
+
+        //調候の守護神 取得
+        private ShugoSin GetChoukouShugosin()
+        {
+            var aryShugosin = tblMng.shugosinTbl.GetSugoSinItem(nikkansi, gekkansi);
+            if (aryShugosin == null) return null;
+
+            //守護神情報が１つの場合はそのまま返す
+            if (aryShugosin.Length == 1) return aryShugosin[0];
+
+
+ 
+            //条件に合致した方の守護神情報を返す
+            ShugoSin selectShugoSin = null;
+            foreach (var shugosin in aryShugosin)
+            {
+                switch (shugosin.cond)
+                {
+                    case EnmSugosinCond.None:
+                        selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_Ari:  //土あり
+                        if (GetGogyoAttrNum("土") != 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_Nasi://土なし
+                        if (GetGogyoAttrNum("土") == 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_2num://土2つ
+                        if (GetGogyoAttrNum("土") == 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_Weak://土弱
+                        if  (GetGogyoAttrNum("土") < 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_Strong://土強
+                        if  (GetGogyoAttrNum("土") >= 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Do_Toukan: //土性が透干 ⇒「透干」宿命（6個のやつ）の上の段に土性あること
+                        if  (GetGogyoAttrNumInKan("土") != 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Hi_2num://火2つ
+                        if  (GetGogyoAttrNum("火") == 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Hi_3numOver://火3つ以上
+                        if  (GetGogyoAttrNum("火") >= 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_1num://水1つ
+                        if  (GetGogyoAttrNum("水") == 1) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_2num://水2つ
+                        if  (GetGogyoAttrNum("水") == 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_Ari://水あり
+                        if  (GetGogyoAttrNum("水") != 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_Nasi://水なし
+                        if  (GetGogyoAttrNum("水") == 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_Weak://水弱
+                        if  (GetGogyoAttrNum("水") < 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Mizu_Strong://水強
+                        if  (GetGogyoAttrNum("水") >= 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Moku_Strong://木強
+                        if  (GetGogyoAttrNum("木") >= 3) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Moku_2numOver://木性が２つ以上
+                        if  (GetGogyoAttrNum("木") >= 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Tei_Strong://丁強
+                        if (GetKanNum("丁") >= 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Hei_Weak://丙弱
+                        if (GetKanNum("丙") < 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Sin_Weak://辛弱
+                        if (GetKanNum("辛") < 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Ki_Weak://癸弱
+                        if (GetKanNum("癸") < 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Ki_Toukan://癸水が透干 ⇒「透干」宿命（6個のやつ）の上の段に癸があること
+                        if (GetKanNum("癸") != 0) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Ki_Arii://宿命に癸水がある場合
+                        if (GetKanNum("癸") > 0) selectShugoSin = shugosin;
+                        break;
+
+                    case EnmSugosinCond.Do1Hi2://土1つ火２つ
+                        if  (GetGogyoAttrNum("土") == 1 && GetGogyoAttrNum("火") == 2) selectShugoSin = shugosin;
+                        break;
+                    case EnmSugosinCond.Natu_Mae://夏至前 ★★
+                        break;
+                    case EnmSugosinCond.Natu_Ato://夏至後 ★★
+                        break;
+                    case EnmSugosinCond.Aki_Mae://秋至前 ★★
+                        break;
+                    case EnmSugosinCond.Aki_Ato://秋至後 ★★
+                        break;
+                    case EnmSugosinCond.Fuyu_Mae://冬至前 ★★
+                        break;
+                    case EnmSugosinCond.Fuyu_Ato://冬至後 ★★
+                        break;
+
+                    case EnmSugosinCond.Hei_Nasi_and_Hi_Ari: //宿命に丙がなくかつ丁がある場合
+                        if (GetKanNum("丙") == 0 && GetKanNum("丁") > 0) selectShugoSin = shugosin;
+                        break;
+                }
+            }
+            return selectShugoSin;
+
+        }
 
         //属性数取得
         public int GetGogyoAttrNum(string attr)
@@ -1123,6 +1287,17 @@ namespace WinFormsApp2
             if (tblMng.jyunisiTbl[nikkansi.si].gogyou == attr) cnt++;
             if (tblMng.jyunisiTbl[gekkansi.si].gogyou == attr) cnt++;
             if (tblMng.jyunisiTbl[nenkansi.si].gogyou == attr) cnt++;
+
+            return cnt;
+        }
+        //宿命の干に指定した属性の数を取得
+        public int GetGogyoAttrNumInKan(string attr)
+        {
+            int cnt = 0;
+            //干
+            if (tblMng.jyukanTbl[nikkansi.kan].gogyou == attr) cnt++;
+            if (tblMng.jyukanTbl[gekkansi.kan].gogyou == attr) cnt++;
+            if (tblMng.jyukanTbl[nenkansi.kan].gogyou == attr) cnt++;
 
             return cnt;
         }

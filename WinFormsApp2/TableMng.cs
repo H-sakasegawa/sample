@@ -920,9 +920,9 @@ namespace WinFormsApp2
             public Dictionary<string, ShugoSin[]> dicShugoSin;
 
 
-            private ShugoSin[] GetSugoSinItem(Person person)
+            public ShugoSin[] GetSugoSinItem(Kansi nikkansi, Kansi gekkansi)
             {
-                string sKey = string.Format("{0}{1}", person.nikkansi.kan, person.gekkansi.si);
+                string sKey = string.Format("{0}{1}", nikkansi.kan, gekkansi.si);
 
                 if (!dicShugoSin.ContainsKey(sKey)) return null;
 
@@ -930,119 +930,6 @@ namespace WinFormsApp2
 
             }
 
-            public ShugoSin GetSugoSin(Person person )
-            {
-                var aryShugosin = GetSugoSinItem( person);
-                if (aryShugosin == null) return null;
-
-                //守護神情報が１つの場合はそのまま返す
-                if (aryShugosin.Length == 1) return aryShugosin[0];
-
-
-                var tblMng = TableMng.GetTblManage();
-
-
-                //条件に合致した方の守護神情報を返す
-                ShugoSin selectShugoSin = null;
-                foreach (var shugosin in aryShugosin)
-                {
-                    switch (shugosin.cond)
-                    {
-                        case EnmSugosinCond.None:
-                            selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_Ari:  //土あり
-                            Color[] color = new Color[2];
-                            if (person.GetGogyoAttrNum("土") !=0) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_Nasi://土なし
-                            if (person.GetGogyoAttrNum("土") == 0) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_2num://土2つ
-                            if (person.GetGogyoAttrNum("土") == 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_Weak://土弱
-                            if (person.GetGogyoAttrNum("土") < 3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_Strong://土強
-                            if (person.GetGogyoAttrNum("土") >= 3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Do_Toukan: //土性が透干 ★★
-                            break;
-                        case EnmSugosinCond.Hi_2num://火2つ
-                            if (person.GetGogyoAttrNum("火") ==2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Hi_3numOver://火3つ以上
-                            if (person.GetGogyoAttrNum("火") >=3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_1num://水1つ
-                            if (person.GetGogyoAttrNum("水") ==1) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_2num://水2つ
-                            if (person.GetGogyoAttrNum("水") ==2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_Ari://水あり
-                            if (person.GetGogyoAttrNum("水") !=0) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_Nasi://水なし
-                            if (person.GetGogyoAttrNum("水") == 0) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_Weak://水弱
-                            if (person.GetGogyoAttrNum("水") <3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Mizu_Strong://水強
-                            if (person.GetGogyoAttrNum("水") >= 3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Moku_Strong://木強
-                            if (person.GetGogyoAttrNum("木") >= 3) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Moku_2numOver://木性が２つ以上
-                            if (person.GetGogyoAttrNum("木") >= 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Tei_Strong://丁強
-                            if (person.GetKanNum("丁") >= 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Hei_Weak://丙弱
-                            if (person.GetKanNum("丙") < 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Sin_Weak://辛弱
-                            if (person.GetKanNum("辛") < 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Ki_Weak://癸弱
-                            if (person.GetKanNum("癸") < 2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Ki_Toukan://癸水が透干 ★★
-                            break;
-                        case EnmSugosinCond.Ki_Arii://宿命に癸水がある場合
-                            if (person.GetKanNum("癸")>0) selectShugoSin = shugosin;
-                            break;
-
-                        case EnmSugosinCond.Do1Hi2://土1つ火２つ
-                            if (person.GetGogyoAttrNum("土")==1 && person.GetGogyoAttrNum("火")==2) selectShugoSin = shugosin;
-                            break;
-                        case EnmSugosinCond.Natu_Mae://夏至前 ★★
-                            break;
-                        case EnmSugosinCond.Natu_Ato://夏至後 ★★
-                            break;
-                        case EnmSugosinCond.Aki_Mae://秋至前 ★★
-                            break;
-                        case EnmSugosinCond.Aki_Ato://秋至後 ★★
-                            break;
-                        case EnmSugosinCond.Fuyu_Mae://冬至前 ★★
-                            break;
-                        case EnmSugosinCond.Fuyu_Ato://冬至後 ★★
-                            break;
-
-                        case EnmSugosinCond.Hei_Nasi_and_Hi_Ari: //宿命に丙がなくかつ丁がある場合
-                            if (person.GetKanNum("丙") == 0 && person.GetKanNum("丁") > 0) selectShugoSin = shugosin;
-                            break;
-                    }
-                }
-
-
-                return selectShugoSin;
-
-            }
 
 
         }
