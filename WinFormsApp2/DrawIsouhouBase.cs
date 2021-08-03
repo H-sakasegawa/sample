@@ -218,8 +218,8 @@ namespace WinFormsApp2
             //守護神判定
             if (!string.IsNullOrEmpty(shugosinAttr))
             {
-                if (kanAttr == shugosinAttr) g.FillRectangle(Brushes.Yellow, rectKan);
-                if (siAttr == shugosinAttr) g.FillRectangle(Brushes.Yellow, rectSi);
+                if (kanAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectKan);
+                if (siAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectSi);
             }
             else
             {
@@ -227,7 +227,7 @@ namespace WinFormsApp2
                 {
                     if (kan == kansi.kan)
                     {
-                        g.FillRectangle(Brushes.Yellow, rectKan);
+                        g.FillRectangle(Const.brusShugosin, rectKan);
                         break;
                     }
                 }
@@ -235,7 +235,7 @@ namespace WinFormsApp2
             //忌神判定
             if (kanAttr == imigamiAttr)
             {
-                g.FillRectangle(Brushes.LightGray, rectKan);
+                g.FillRectangle(Const.brusImigami, rectKan);
             }
 
             if ( foreColor!=default)

@@ -304,8 +304,8 @@ namespace WinFormsApp2
             {
                 switch(shugosinOrImigami)
                 {
-                    case 1: g.FillRectangle(Brushes.Yellow, rect); break;
-                    case 2: g.FillRectangle(Brushes.LightGray, rect); break;
+                    case 1: g.FillRectangle(Const.brusShugosin, rect); break;
+                    case 2: g.FillRectangle(Const.brusImigami, rect); break;
                 }
 
                 g.DrawRectangle(blackPen, rect);

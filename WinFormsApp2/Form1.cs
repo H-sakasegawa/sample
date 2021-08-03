@@ -784,11 +784,11 @@ namespace WinFormsApp2
  
             if (bShugosin)
             {
-                itemData.lstItemColors.Add(new LvItemColor(1, Color.Yellow));
+                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
             }
             else if (bImigami)
             {
-                itemData.lstItemColors.Add(new LvItemColor(1, Color.LightGray));
+                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
             }
 
             //行のサブ情報を保持させておく
@@ -1059,11 +1059,11 @@ namespace WinFormsApp2
 
             if (bShugosin)
             {
-                itemData.lstItemColors.Add(new LvItemColor(1, Color.Yellow));
+                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
             }
             else if (bImigami)
             {
-                itemData.lstItemColors.Add(new LvItemColor(1, Color.LightGray));
+                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorImigami));
             }
             //行のサブ情報を保持させておく
             lvItem.Tag = itemData;

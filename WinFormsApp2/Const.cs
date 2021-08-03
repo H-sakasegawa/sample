@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace WinFormsApp2
 {
@@ -39,6 +40,14 @@ namespace WinFormsApp2
 
 
         public const double dKansiHeightRate = 1.5;
+
+        //守護神表示カラー
+        public static Brush brusShugosin = Brushes.Yellow;
+        //忌神表示カラー
+        public static Brush brusImigami = Brushes.LightGray;
+
+        public static Color colorShugosin = Color.Yellow;
+        public static Color colorImigami = Color.LightGray;
 
         /// <summary>
         /// 干支項目の識別ID
