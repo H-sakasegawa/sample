@@ -106,6 +106,9 @@ namespace WinFormsApp2
             this.label14 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.cmbGroup = new System.Windows.Forms.ComboBox();
@@ -152,6 +155,7 @@ namespace WinFormsApp2
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.txtCarrerMemo = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -928,6 +932,9 @@ namespace WinFormsApp2
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button9);
+            this.tabPage1.Controls.Add(this.button8);
+            this.tabPage1.Controls.Add(this.button7);
             this.tabPage1.Controls.Add(this.label20);
             this.tabPage1.Controls.Add(this.label19);
             this.tabPage1.Controls.Add(this.cmbGroup);
@@ -955,6 +962,36 @@ namespace WinFormsApp2
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "生年月日";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(323, 40);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(49, 22);
+            this.button9.TabIndex = 49;
+            this.button9.Text = "削除";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(273, 40);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(49, 22);
+            this.button8.TabIndex = 48;
+            this.button8.Text = "編集";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(273, 13);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(49, 22);
+            this.button7.TabIndex = 47;
+            this.button7.Text = "追加";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click_1);
             // 
             // label20
             // 
@@ -1135,7 +1172,7 @@ namespace WinFormsApp2
             this.lvCareer.Location = new System.Drawing.Point(1010, 26);
             this.lvCareer.MultiSelect = false;
             this.lvCareer.Name = "lvCareer";
-            this.lvCareer.Size = new System.Drawing.Size(201, 240);
+            this.lvCareer.Size = new System.Drawing.Size(201, 176);
             this.lvCareer.TabIndex = 55;
             this.lvCareer.UseCompatibleStateImageBehavior = false;
             this.lvCareer.View = System.Windows.Forms.View.Details;
@@ -1417,11 +1454,24 @@ namespace WinFormsApp2
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // txtCarrerMemo
+            // 
+            this.txtCarrerMemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCarrerMemo.Location = new System.Drawing.Point(1009, 208);
+            this.txtCarrerMemo.Multiline = true;
+            this.txtCarrerMemo.Name = "txtCarrerMemo";
+            this.txtCarrerMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCarrerMemo.Size = new System.Drawing.Size(202, 76);
+            this.txtCarrerMemo.TabIndex = 71;
+            this.txtCarrerMemo.Leave += new System.EventHandler(this.txtCarrerMemo_Leave);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.txtCarrerMemo);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -1616,6 +1666,10 @@ namespace WinFormsApp2
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.TextBox txtCarrerMemo;
     }
 }
 

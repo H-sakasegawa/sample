@@ -194,17 +194,8 @@ namespace WinFormsApp2
             grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
             chkRefrectSangouKaikyokuHousani.Enabled = false;
 
-           //グループコンボボックス設定
-           var groups = personList.GetGroups();
-            cmbGroup.Items.Add("全て");
-            foreach (var group in groups)
-            {
-                cmbGroup.Items.Add(group);
-            }
-            if (cmbGroup.Items.Count > 0)
-            {
-                cmbGroup.SelectedIndex = 0;
-            }
+            //グループコンボボックス設定
+            UpdateGroupCombobox();
 
             //Properties.Settings.Default.Reload();
 
@@ -288,6 +279,99 @@ namespace WinFormsApp2
                                         );
             MainProc(person);
         }
+        /// <summary>
+        /// メンバー情報の追加ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            FormPersonInfo frm = new FormPersonInfo(personList, FormPersonInfo.Mode.MODE_NEW);
+            if( frm.ShowDialog() == DialogResult.OK)
+            {
+                SelectGroupAndPersonCombobox(curPerson);
+            }
+        }
+        /// <summary>
+        /// メンバー情報の更新ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            FormPersonInfo frm = new FormPersonInfo(personList, curPerson, FormPersonInfo.Mode.MODE_UPDATE);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                SelectGroupAndPersonCombobox(curPerson);
+            }
+        }
+        /// <summary>
+        /// メンバー削除ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if( MessageBox.Show(string.Format("{0} を削除します。\nよろしいですか？", curPerson.name),
+                             "削除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                personList.Remove(curPerson);
+                personList.WritePersonList();
+                UpdateGroupCombobox();
+            }
+
+        }
+
+        void SelectGroupAndPersonCombobox(Person person)
+        {
+            string groupName = person.group;
+            if (cmbGroup.SelectedIndex == 0)
+            {
+                groupName = "全て";
+            }
+            //グループコンボボックス更新し、現在の人物のグループを選択
+            UpdateGroupCombobox(groupName);
+            //追加した人物を選択選択
+            for (int i = 0; i < cmbPerson.Items.Count; i++)
+            {
+                if (((Person)cmbPerson.Items[i]).name == person.name)
+                {
+                    cmbPerson.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        //グループコンボボックス更新
+        void UpdateGroupCombobox(string selectGroup=null)
+        {
+            var groups = personList.GetGroups();
+            cmbGroup.Items.Clear();
+            cmbGroup.Items.Add("全て");
+            foreach (var group in groups)
+            {
+                cmbGroup.Items.Add(group);
+            }
+            if(string.IsNullOrEmpty(selectGroup) || selectGroup=="全て")
+            {
+                if (cmbGroup.Items.Count > 0)
+                {
+                    cmbGroup.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                for(int i=1; i<cmbGroup.Items.Count; i++)
+                {
+                    if( ((Group)cmbGroup.Items[i]).groupName == selectGroup)
+                    {
+                        cmbGroup.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+
 
         private void MainProc(Person person)
         {
@@ -418,16 +502,26 @@ namespace WinFormsApp2
 
         }
 
+        //経歴一覧表
         private void DispCarrerList(Person person)
         {
             lvCareer.Items.Clear();
             foreach (var career in person.career.dicCareer.OrderBy(c => c.Key))
             {
-                var item =  lvCareer.Items.Add(career.Key.ToString());
-                item.SubItems.Add(career.Value);
-                
+                var item = lvCareer.Items.Add(career.Key.ToString());
+                item.SubItems.Add(career.Value.Replace("\r\n", ","));
+
             }
+
+            txtCarrerMemo.Text = person.career.Memo;
         }
+        //経歴メモ フォーカスロスト
+        private void txtCarrerMemo_Leave(object sender, EventArgs e)
+        {
+            curPerson.career.Memo = txtCarrerMemo.Text;
+            curPerson.career.Save();
+        }
+
 
 
         /// <summary>
@@ -955,7 +1049,7 @@ namespace WinFormsApp2
             AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, shugosinAttr, imigamiAttr, choukouShugosinKan, lv);
             var lvItem = lv.Items[lv.Items.Count - 1];
 
-            lvItem.SubItems[(int)ColNenunListView.COL_CAREER].Text = person.career[rowKeyValue]; //経歴
+            lvItem.SubItems[(int)ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
 
 
         }
@@ -1594,7 +1688,7 @@ namespace WinFormsApp2
             if( frm.ShowDialog()==DialogResult.OK)
             {
                 //リストビューの経歴表示更新
-                item.SubItems[(int)ColNenunListView.COL_CAREER].Text = curPerson.career[itemData.keyValue];
+                item.SubItems[(int)ColNenunListView.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
                 DispCarrerList(curPerson);
             }
 
@@ -1855,6 +1949,17 @@ namespace WinFormsApp2
             FormShugoSinHou.Dispose();
             FormShugoSinHou = null;
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            FormUnseiViewer form = new FormUnseiViewer(personList);
+            form.ShowDialog();
+        }
+
+
+ 
+
+
 
         //=================================================
         //Owner Draw 　⇒  ListViewExに統合しました

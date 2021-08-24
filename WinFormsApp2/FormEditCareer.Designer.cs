@@ -44,7 +44,7 @@ namespace WinFormsApp2
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(179, 111);
+            this.button1.Location = new System.Drawing.Point(179, 125);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 26);
             this.button1.TabIndex = 0;
@@ -56,7 +56,7 @@ namespace WinFormsApp2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(267, 111);
+            this.button2.Location = new System.Drawing.Point(267, 125);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(82, 26);
             this.button2.TabIndex = 1;
@@ -90,7 +90,7 @@ namespace WinFormsApp2
             this.txtCareer.Multiline = true;
             this.txtCareer.Name = "txtCareer";
             this.txtCareer.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCareer.Size = new System.Drawing.Size(300, 71);
+            this.txtCareer.Size = new System.Drawing.Size(300, 86);
             this.txtCareer.TabIndex = 1;
             // 
             // label3
@@ -111,11 +111,11 @@ namespace WinFormsApp2
             this.splitContainer1.SplitterDistance = 25;
             this.splitContainer1.TabIndex = 6;
             // 
-            // EditCareer
+            // FormEditCareer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(366, 149);
+            this.ClientSize = new System.Drawing.Size(366, 163);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCareer);
@@ -124,7 +124,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.MinimizeBox = false;
-            this.Name = "EditCareer";
+            this.Name = "FormEditCareer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "経歴編集";
             this.Load += new System.EventHandler(this.EditCareer_Load);

@@ -4,6 +4,11 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+
+using NPOI;
+using NPOI.SS.UserModel;
+
 
 namespace WinFormsApp2
 {
@@ -53,6 +58,8 @@ namespace WinFormsApp2
            COL_GROUP    //グループ
         };
 
+        private string readFilePath;
+
         // ユーザ基本データ <人名,　ユーザ情報>
         private Dictionary<string, Person> dicPersons = null;
         // グループデータ <グループ名,　グループ情報>
@@ -88,6 +95,45 @@ namespace WinFormsApp2
         {
             return dicPersons.Values.ToList();
         }
+        public void Add(Person person)
+        {
+            dicPersons.Add(person.name, person);
+        }
+        public void Add(string groupName, Person person)
+        {
+            if (dicGroup.ContainsKey(groupName))
+            {
+                dicGroup[groupName].AddMember(person);
+                return;
+            }
+            Group group = new Group(groupName);
+            group.AddMember(person);
+            dicGroup.Add(groupName, group);
+        }
+        public void Remove(Person person)
+        {
+            try
+            {
+                dicPersons.Remove(person.name);
+            }
+            catch { }
+        }
+
+        public bool IsExistName(string name)
+        {
+            foreach( var person in dicPersons)
+            {
+                string s = person.Key;
+                s = s.Replace("　", "");
+                s = s.Replace(" ", "");
+                if( s == name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// グループ一覧取得
@@ -105,6 +151,8 @@ namespace WinFormsApp2
         /// <returns></returns>
         public int ReadPersonList(string filePath)
         {
+            readFilePath = filePath;
+
             var version = "xls";
             var workbook = ExcelReader.GetWorkbook(filePath, version);
             if (workbook == null)
@@ -124,7 +172,11 @@ namespace WinFormsApp2
                 //生年月日
                 string sBirthday = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
                 //時間は不要なので除外
-                sBirthday = sBirthday.Substring(0, sBirthday.IndexOf(" "));
+                int idx = sBirthday.IndexOf(" ");
+                if (idx >= 0)
+                {
+                    sBirthday = sBirthday.Substring(0, idx);
+                }
                 Birthday birthday = new Birthday(sBirthday);
 
                 //性別
@@ -151,6 +203,71 @@ namespace WinFormsApp2
 
             return 0;
         }
+        public int WritePersonList(string filePath=null)
+        {
+            if(string.IsNullOrEmpty( filePath ))
+            {
+                filePath = readFilePath;
+            }
+
+            var version = "xls";
+            var workbook = ExcelReader.CreateWorkbook();
+            if (workbook == null)
+            {
+                return -1;
+            }
+
+            var sheet = workbook.CreateSheet();
+            Color backColor = Color.FromArgb(129, 212, 26);
+            int iRow = 0;
+            var style = workbook.CreateCellStyle();
+            style.FillBackgroundColor = IndexedColors.LightGreen.Index;
+
+
+            //氏名
+            var cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_NAME);
+            cell.SetCellValue("氏名");
+            cell.CellStyle = style;
+            //生年月日
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
+            cell.SetCellValue("生年月日");
+            cell.CellStyle = style;
+
+            //性別
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GENDER);
+            cell.SetCellValue("性別");
+            cell.CellStyle = style;
+
+            //グループ
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GROUP);
+            cell.SetCellValue("グループ");
+            cell.CellStyle = style;
+
+            iRow++;
+            foreach (var item in dicPersons)
+            {
+                var person = item.Value;
+                //氏名
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_NAME);
+                cell.SetCellValue(person.name );
+                //生年月日
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
+                cell.SetCellValue(person.birthday.birthday);
+
+                //性別
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GENDER);
+                cell.SetCellValue( person.gender==Gender.MAN?"男":"女");
+
+                //グループ
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GROUP);
+                cell.SetCellValue(person.group);
+                iRow++;
+            }
+            ExcelReader.WriteExcel(workbook, filePath);
+
+
+            return 0;
+        }
 
     }
 
@@ -159,10 +276,10 @@ namespace WinFormsApp2
     /// </summary>
     public class Person
     {
-        public string name { get; }
+        public string name { get; set; }
         public Birthday birthday { get; }
-        public Gender gender { get; }
-        public string group { get; }
+        public Gender gender { get; set; }
+        public string group { get; set; }
 
         public Career career { get; private set; }
 
@@ -303,8 +420,8 @@ namespace WinFormsApp2
             //------------------
             //守護神情報
             //------------------
-            FirstShugosinAttr();
-            SecondShugosinAttr();
+            SetChouwaShugosinAttr();
+            SetChoukouShugosinAttr();
 
             return 0;
         }
@@ -1126,15 +1243,15 @@ namespace WinFormsApp2
         //守護神法情報取得
         //----------------------------------------------------
         /// <summary>
-        /// 第１守護神情報取得
+        /// 調和の護神情報取得
         /// </summary>
         /// <param name="shuigoAttr">調和の守護神属性</param>
         /// <param name="inigamiAttr">忌神</param>
         /// <returns></returns>
-        private void FirstShugosinAttr()
+        private void SetChouwaShugosinAttr()
         {
 
-            imigamiAttr = GetImiGami();
+            imigamiAttr = GetChouwaImiGami();
             if (!string.IsNullOrEmpty(imigamiAttr))
             {
                 //調和の守護神
@@ -1145,12 +1262,12 @@ namespace WinFormsApp2
            
         }
         /// <summary>
-        /// 第２守護神情報取得
+        /// 調候の護神情報取得
         /// </summary>
         /// <param name="kan">調候の守護神</param>
         /// <param name="inigamiAttr">調候の忌神</param>
         /// <returns></returns>
-        private void SecondShugosinAttr()
+        private void SetChoukouShugosinAttr()
         {
             var shugosin = GetChoukouShugosin();
             //調候の守護神
@@ -1274,7 +1391,11 @@ namespace WinFormsApp2
 
         }
 
-        //属性数取得
+        /// <summary>
+        /// 指定した五行属性が宿命に何個存在するかを取得
+        /// </summary>
+        /// <param name="attr"></param>
+        /// <returns></returns>
         public int GetGogyoAttrNum(string attr)
         {
             int cnt = 0;
@@ -1290,7 +1411,12 @@ namespace WinFormsApp2
 
             return cnt;
         }
-        //宿命の干に指定した属性の数を取得
+
+        /// <summary>
+        /// 宿命の干に指定した属性の数を取得
+        /// </summary>
+        /// <param name="attr"></param>
+        /// <returns></returns>
         public int GetGogyoAttrNumInKan(string attr)
         {
             int cnt = 0;
@@ -1301,7 +1427,11 @@ namespace WinFormsApp2
 
             return cnt;
         }
-        //干数取得
+        /// <summary>
+        /// 指定された干の数を取得
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <returns></returns>
         public int GetKanNum(string kan)
         {
             int cnt = 0;
@@ -1313,7 +1443,12 @@ namespace WinFormsApp2
             return cnt;
         }
 
-        public string GetImiGami()
+        /// <summary>
+        /// 調和の忌神を取得
+        /// 宿命６項目のなかから３つ以上存在する五行属性
+        /// </summary>
+        /// <returns></returns>
+        public string GetChouwaImiGami()
         {
             Dictionary<string, int> dicAttr = new Dictionary<string, int>();
 
@@ -1333,15 +1468,15 @@ namespace WinFormsApp2
 
             return null;
         }
-        private void ImiGamiCalc(Dictionary<string, int> dicAttr, string goryou)
+        private void ImiGamiCalc(Dictionary<string, int> dicAttr, string gogyou)
         {
-            if (!dicAttr.ContainsKey(goryou))
+            if (!dicAttr.ContainsKey(gogyou))
             {
-                dicAttr.Add(goryou, 1);
+                dicAttr.Add(gogyou, 1);
             }
             else
             {
-                dicAttr[goryou]++;
+                dicAttr[gogyou]++;
             }
 
         }
@@ -1364,6 +1499,11 @@ namespace WinFormsApp2
 
         }
         public Birthday(int _year, int _month, int _day)
+        {
+            SetBirthday(_year, _month, _day);
+
+        }
+        public void SetBirthday(int _year, int _month, int _day)
         {
             birthday = string.Format("{0}/{1}/{2}", _year, _month, _day);
             year = _year;
@@ -1410,10 +1550,13 @@ namespace WinFormsApp2
             COL_YEAR = 0,   //年
             COL_CAREER,     //経歴
         };
+        private const string KEY_MEMO = "#MEMO";
 
         Person person;
         // 経歴 <Year,経歴文字列>
         public Dictionary<int, string> dicCareer = new Dictionary<int, string>();
+        public string memo;
+
         public string careerFilePath;
 
         public Career(Person _person)
@@ -1427,6 +1570,7 @@ namespace WinFormsApp2
             {
                 if( !dicCareer.ContainsKey(year)) return null;
                 return dicCareer[year];
+
             }
             set
             {
@@ -1440,6 +1584,25 @@ namespace WinFormsApp2
                 }
             }
         }
+        public string Memo
+        {
+            get
+            {
+                return memo;
+            }
+            set
+            {
+                memo = value;
+            }
+        }
+        public string GetLineString(int year)
+        {
+            string s = this[year];
+            if (string.IsNullOrEmpty(s)) return "";
+            //"\r\n"⇒","
+            return s.Replace("\r\n", ",");
+        }
+
         public string GetDataFilePath()
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -1450,7 +1613,6 @@ namespace WinFormsApp2
         }
         public int ReaCareerFile()
         {
-
             careerFilePath = GetDataFilePath();
 
             if (!System.IO.File.Exists(careerFilePath)) return 0;
@@ -1473,20 +1635,28 @@ namespace WinFormsApp2
                         //年
                         string sYear = values[(int)CarrerListCol.COL_YEAR];
                         if (sYear == "") break;
-                        int year = int.Parse(sYear);
-
-                        //経歴
-                        string sCareer = values[(int)CarrerListCol.COL_CAREER];
-
-                        if (!dicCareer.ContainsKey(year))
+                        if (sYear == KEY_MEMO)
                         {
-                            dicCareer.Add(int.Parse(sYear), sCareer);
+                            memo = values[(int)CarrerListCol.COL_CAREER].Replace("\\n", "\r\n");
                         }
                         else
                         {
-                            dicCareer[year] += ",";
-                            dicCareer[year] += sCareer;
+                            int year = int.Parse(sYear);
 
+                            //経歴
+                            string sCareer = values[(int)CarrerListCol.COL_CAREER];
+                            sCareer = sCareer.Replace("\\n", "\r\n");
+
+                            if (!dicCareer.ContainsKey(year))
+                            {
+                                dicCareer.Add(int.Parse(sYear), sCareer);
+                            }
+                            else
+                            {
+                                dicCareer[year] += ",";
+                                dicCareer[year] += sCareer;
+
+                            }
                         }
                     }
                 }
@@ -1543,12 +1713,20 @@ namespace WinFormsApp2
                 {
                     foreach (var item in dicCareer.OrderBy(c => c.Key))
                     {
-                        string s = string.Format("{0},{1}", item.Key, item.Value);
+                        //改行コードを'\n'文字に置き換える
+                        string value = item.Value;
+                        value = value.Replace("\r\n", "\\n");
+
+                        string s = string.Format("{0},{1}", item.Key, value);
                         sw.WriteLine(s);
                     }
+                    string sMemo = string.Format("{0},{1}", KEY_MEMO, memo.Replace("\r\n", "\\n") );
+                    sw.WriteLine(sMemo);
+
                 }
 
-            }catch
+            }
+            catch
             {
             }
 
