@@ -4,6 +4,9 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormAddTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormEditCareer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -11,6 +14,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormKonkihou.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormPersonInfo.cs">

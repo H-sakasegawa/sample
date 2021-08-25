@@ -156,6 +156,7 @@ namespace WinFormsApp2
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.txtCarrerMemo = new System.Windows.Forms.TextBox();
+            this.btnTabClose = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1466,11 +1467,23 @@ namespace WinFormsApp2
             this.txtCarrerMemo.TabIndex = 71;
             this.txtCarrerMemo.Leave += new System.EventHandler(this.txtCarrerMemo_Leave);
             // 
+            // btnTabClose
+            // 
+            this.btnTabClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTabClose.Location = new System.Drawing.Point(1179, 0);
+            this.btnTabClose.Name = "btnTabClose";
+            this.btnTabClose.Size = new System.Drawing.Size(31, 22);
+            this.btnTabClose.TabIndex = 72;
+            this.btnTabClose.Text = "✕";
+            this.btnTabClose.UseVisualStyleBackColor = true;
+            this.btnTabClose.Click += new System.EventHandler(this.btnTabClose_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.btnTabClose);
             this.Controls.Add(this.txtCarrerMemo);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -1670,6 +1683,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.TextBox txtCarrerMemo;
+        private System.Windows.Forms.Button btnTabClose;
     }
 }
 

@@ -223,12 +223,15 @@ namespace WinFormsApp2
             }
             else
             {
-                foreach (var kan in choukouShugosinKan)
+                if (choukouShugosinKan != null)
                 {
-                    if (kan == kansi.kan)
+                    foreach (var kan in choukouShugosinKan)
                     {
-                        g.FillRectangle(Const.brusShugosin, rectKan);
-                        break;
+                        if (kan == kansi.kan)
+                        {
+                            g.FillRectangle(Const.brusShugosin, rectKan);
+                            break;
+                        }
                     }
                 }
             }

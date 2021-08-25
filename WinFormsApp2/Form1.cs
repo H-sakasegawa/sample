@@ -15,41 +15,17 @@ namespace WinFormsApp2
 {
     public partial class Form1 : Form
     {
+
+        public delegate void CloseTab( int tabId);
+        public event CloseTab onCloseTab = null;
+
+        int tabId = -1;
         string exePath = "";
 
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
         const int GetuunDispStartGetu = 2;
 
-        //----------------------------------------------
-        //ラベルの組み合わせを登録
-        //----------------------------------------------
-        ////日干支 ラベル
-        //List<Label> lstLblNikkansi;
-        ////月干支 ラベル
-        //List<Label> lstLblGekkansi;
-        ////年干支 ラベル
-        //List<Label> lstLblNenkansi;
-
-        ////日蔵元 ラベル
-        //List<Label> lstLblNikkansiZougan;
-        ////月蔵元 ラベル
-        //List<Label> lstLblGekkansiZougan;
-        ////年蔵元 ラベル
-        //List<Label> lstLblNenkansiZougan;
-
-
-        //日干支 天中殺 ラベル
-        List<Label> lstLblNikkansiTenchusatu;
-        //年干支 天中殺 ラベル
-        List<Label> lstLblNenkansiTenchusatu;
-
-        //日干支 二十八元素 ラベル
-        List<Label> lstLblNikkansiNijuhachiGenso;
-        //月干支 二十八元素 ラベル
-        List<Label> lstLblGekkansiNijuhachiGenso;
-        //年干支 二十八元素 ラベル
-        List<Label> lstLblNenkansiNijuhachiGenso;
 
         //陰占 描画オブジェクト
         DrawInsen drawInsen = null;
@@ -91,10 +67,11 @@ namespace WinFormsApp2
         }
 
 
-        public Form1()
+        public Form1( int _tabId, Persons _persons, Person targetPerson=null)
         {
             InitializeComponent();
 
+            tabId = _tabId;
 
             lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
             lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
@@ -103,29 +80,29 @@ namespace WinFormsApp2
 
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
-            personList = new Persons();
+            personList = _persons;
             //setuiribiTbl = new SetuiribiTable();
-            try
-            {
-                //節入り日テーブル読み込み
-                tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
-                return;
-            }
+            //try
+            //{
+            //    //節入り日テーブル読み込み
+            //    tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
+            //    return;
+            //}
 
-            try
-            {
-                //名簿読み込み
-                personList.ReadPersonList(exePath + @"\名簿.xls");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
-                return;
-            }
+            //try
+            //{
+            //    //名簿読み込み
+            //    personList.ReadPersonList(exePath + @"\名簿.xls");
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
+            //    return;
+            //}
 
 
 
@@ -203,8 +180,25 @@ namespace WinFormsApp2
             //{
             //    cmbGroup.Text = Properties.Settings.Default.Group;
             //}
-            ReloadSetting();
+            if (targetPerson == null)
+            {
+                ReloadSetting();
+                btnTabClose.Visible = false;
+            }
+            else
+            {
+                cmbGroup.Text = targetPerson.group;
+                cmbPerson.Text = targetPerson.name;
 
+                cmbGroup.Enabled = false;
+                cmbPerson.Enabled = false;
+                curPerson = targetPerson;
+                button7.Visible = false;
+                button8.Visible = false;
+                button9.Visible = false;
+
+
+            }
 
 
         }
@@ -312,7 +306,7 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
-            if( MessageBox.Show(string.Format("{0} を削除します。\nよろしいですか？", curPerson.name),
+            if( MessageBox.Show(string.Format("'{0}' \nを削除します。よろしいですか？", curPerson.name),
                              "削除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 personList.Remove(curPerson);
@@ -853,11 +847,14 @@ namespace WinFormsApp2
             }
             else
             {
-                foreach(var kan in shugosinKan)
+                if (shugosinKan != null)
                 {
-                    if( kan == taiunKansi.kan)
+                    foreach (var kan in shugosinKan)
                     {
-                        bShugosin = true;
+                        if (kan == taiunKansi.kan)
+                        {
+                            bShugosin = true;
+                        }
                     }
                 }
             }
@@ -1128,11 +1125,14 @@ namespace WinFormsApp2
             }
             else
             {
-                foreach (var kan in choukouShugosinKan)
+                if (choukouShugosinKan != null)
                 {
-                    if (kan == taregetKansi.kan)
+                    foreach (var kan in choukouShugosinKan)
                     {
-                        bShugosin = true;
+                        if (kan == taregetKansi.kan)
+                        {
+                            bShugosin = true;
+                        }
                     }
                 }
             }
@@ -1956,8 +1956,18 @@ namespace WinFormsApp2
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// タブ終了
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTabClose_Click(object sender, EventArgs e)
+        {
+            if(onCloseTab!=null) onCloseTab(tabId);
+        }
 
- 
+
+
 
 
 

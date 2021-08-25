@@ -1270,13 +1270,16 @@ namespace WinFormsApp2
         private void SetChoukouShugosinAttr()
         {
             var shugosin = GetChoukouShugosin();
-            //調候の守護神
-            choukouShugosin = shugosin.kan;
+            if (shugosin != null)
+            {
+                //調候の守護神
+                choukouShugosin = shugosin.kan;
 
-            //調候の忌神
-            choukouImigamiAttr = shugosin.imi;
+                //調候の忌神
+                choukouImigamiAttr = shugosin.imi;
 
-            shugosinExplanation = shugosin.explanation;
+                shugosinExplanation = shugosin.explanation;
+            }
         }
 
         //調候の守護神 取得
