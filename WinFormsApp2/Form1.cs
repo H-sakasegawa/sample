@@ -247,19 +247,22 @@ namespace WinFormsApp2
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (tabId==0)
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
-            config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
-            config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
-            config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
-            config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
-            config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
-            config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
-            config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
-            config.AppSettings.Settings["RefrectGouhou"].Value = chkRefrectGouhou.Checked.ToString();
-            config.AppSettings.Settings["RefrectSangouKaikyokuHousani"].Value = chkRefrectSangouKaikyokuHousani.Checked.ToString();
-            config.Save();
+                config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
+                config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
+                config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
+                config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
+                config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
+                config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
+                config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
+                config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
+                config.AppSettings.Settings["RefrectGouhou"].Value = chkRefrectGouhou.Checked.ToString();
+                config.AppSettings.Settings["RefrectSangouKaikyokuHousani"].Value = chkRefrectSangouKaikyokuHousani.Checked.ToString();
+                config.Save();
+            }
         }
 
 
