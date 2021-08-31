@@ -64,7 +64,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public static int ConvEnumKansiItemIDToItemBit(Const.enumKansiItemID id)
         {
-            switch( id )
+            switch (id)
             {
                 case Const.enumKansiItemID.GETUUN: return Const.bitFlgGetuun;
                 case Const.enumKansiItemID.NENUN: return Const.bitFlgNenun;
@@ -75,5 +75,37 @@ namespace WinFormsApp2
             }
             return 0;
         }
+
+        public static void SetGroupCombobox(Persons persons, ComboBox cmb, string selectGroup = null)
+        {
+            var groups = persons.GetGroups();
+            cmb.Items.Clear();
+            cmb.Items.Add("全て");
+            foreach (var group in groups)
+            {
+                cmb.Items.Add(group);
+            }
+            if (string.IsNullOrEmpty(selectGroup) || selectGroup == "全て")
+            {
+                if (cmb.Items.Count > 0)
+                {
+                    cmb.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                for (int i = 1; i < cmb.Items.Count; i++)
+                {
+                    if (((Group)cmb.Items[i]).groupName == selectGroup)
+                    {
+                        cmb.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+
+        }
     }
+
 }

@@ -114,5 +114,17 @@ namespace WinFormsApp2
 
         }
 
+        /// <summary>
+        /// 運勢比較表表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuUnseiComplare_Click(object sender, EventArgs e)
+        {
+            Form1 baseForm = (Form1)tabControl1.TabPages[0].Controls[0];
+
+            FormUnseiViewer frm = new FormUnseiViewer(personList, baseForm.GetCurrentPerson());
+            frm.Show();
+        }
     }
 }

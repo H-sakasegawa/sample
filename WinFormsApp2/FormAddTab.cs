@@ -22,14 +22,8 @@ namespace WinFormsApp2
 
         private void FormAddTab_Load(object sender, EventArgs e)
         {
-            var groups = personList.GetGroups();
-            cmbGroup.Items.Clear();
-            cmbGroup.Items.Add("全て");
-            foreach (var group in groups)
-            {
-                cmbGroup.Items.Add(group);
-            }
-            cmbGroup.SelectedIndex = 0;
+
+            Common.SetGroupCombobox(personList, cmbGroup);
 
         }
 

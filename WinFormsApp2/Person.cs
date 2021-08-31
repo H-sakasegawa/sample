@@ -277,11 +277,11 @@ namespace WinFormsApp2
     public class Person
     {
         public string name { get; set; }
-        public Birthday birthday { get; }
+        public Birthday birthday { get; set; }
         public Gender gender { get; set; }
         public string group { get; set; }
 
-        public Career career { get; private set; }
+        public Career career { get;  set; }
 
 
         public int dayNumFromSetuiribi { get; set; }
@@ -320,15 +320,16 @@ namespace WinFormsApp2
         private TableMng tblMng;
         private SetuiribiTable tblSetuiribi;
 
+ 
         public Person(string _name, int year, int month, int day, Gender _gender)
         {
-            name = _name;
-            birthday = new Birthday(year, month, day);
-            gender = _gender;
-            group = "";
-            ReadCareer();
+            Init(_name, birthday, _gender, "");
         }
         public Person(string _name, Birthday _birthday, Gender _gender, string _group)
+        {
+            Init(_name, _birthday, _gender, _group);
+        }
+        public void Init(string _name, Birthday _birthday, Gender _gender, string _group)
         {
             name = _name;
             birthday = _birthday;
@@ -358,10 +359,12 @@ namespace WinFormsApp2
         }
 
 
-        public int Init(TableMng _tblMng, SetuiribiTable _tblSetuiribi)
+        public int Init(TableMng _tblMng)
         {
+            if (tblMng != null) return 0;
+
             tblMng = _tblMng;
-            tblSetuiribi = _tblSetuiribi;
+            tblSetuiribi = tblMng.setuiribiTbl;
 
             //誕生日に該当する節入り日から誕生日までの経過日数(節入り日はカウントされません）
             dayNumFromSetuiribi = tblSetuiribi.CalcDayCountFromSetuiribi(birthday.year, birthday.month, birthday.day);

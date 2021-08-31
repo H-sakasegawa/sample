@@ -342,31 +342,14 @@ namespace WinFormsApp2
         //グループコンボボックス更新
         void UpdateGroupCombobox(string selectGroup=null)
         {
-            var groups = personList.GetGroups();
-            cmbGroup.Items.Clear();
-            cmbGroup.Items.Add("全て");
-            foreach (var group in groups)
-            {
-                cmbGroup.Items.Add(group);
-            }
-            if(string.IsNullOrEmpty(selectGroup) || selectGroup=="全て")
-            {
-                if (cmbGroup.Items.Count > 0)
-                {
-                    cmbGroup.SelectedIndex = 0;
-                }
-            }
-            else
-            {
-                for(int i=1; i<cmbGroup.Items.Count; i++)
-                {
-                    if( ((Group)cmbGroup.Items[i]).groupName == selectGroup)
-                    {
-                        cmbGroup.SelectedIndex = i;
-                        break;
-                    }
-                }
-            }
+
+            Common.SetGroupCombobox(personList, cmbGroup, selectGroup);
+
+         }
+
+        public Person GetCurrentPerson()
+        {
+            return (Person)cmbPerson.SelectedItem;
         }
 
 
@@ -391,7 +374,7 @@ namespace WinFormsApp2
             tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
             //ユーザ情報初期設定
-            person.Init(tblMng, tblMng.setuiribiTbl);
+            person.Init(tblMng);
 
             //経歴リスト表示
             DispCarrerList(person);
@@ -1953,11 +1936,11 @@ namespace WinFormsApp2
             FormShugoSinHou = null;
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            FormUnseiViewer form = new FormUnseiViewer(personList);
-            form.ShowDialog();
-        }
+        //private void button7_Click(object sender, EventArgs e)
+        //{
+        //    FormUnseiViewer form = new FormUnseiViewer(personList);
+        //    form.ShowDialog();
+        //}
 
         /// <summary>
         /// タブ終了

@@ -35,6 +35,8 @@ namespace WinFormsApp2
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.機能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAddTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUnseiComplare = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +75,8 @@ namespace WinFormsApp2
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.機能ToolStripMenuItem});
+            this.機能ToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1313, 24);
@@ -94,6 +97,21 @@ namespace WinFormsApp2
             this.mnuAddTab.Size = new System.Drawing.Size(180, 22);
             this.mnuAddTab.Text = "タブ追加";
             this.mnuAddTab.Click += new System.EventHandler(this.mnuAddTab_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuUnseiComplare});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // mnuUnseiComplare
+            // 
+            this.mnuUnseiComplare.Name = "mnuUnseiComplare";
+            this.mnuUnseiComplare.Size = new System.Drawing.Size(180, 22);
+            this.mnuUnseiComplare.Text = "運勢比較表示";
+            this.mnuUnseiComplare.Click += new System.EventHandler(this.mnuUnseiComplare_Click);
             // 
             // FormMain
             // 
@@ -122,5 +140,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 機能ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuAddTab;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuUnseiComplare;
     }
 }
