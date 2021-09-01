@@ -30,12 +30,16 @@ namespace WinFormsApp2
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.grdViewNenUn = new DataGridViewEx();
+            this.grdViewNenUn = new WinFormsApp2.DataGridViewEx();
             this.cmbGroup = new System.Windows.Forms.ComboBox();
             this.chkListPerson = new System.Windows.Forms.CheckedListBox();
             this.lstDispItems = new System.Windows.Forms.ListBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.txtMaxNenNum = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chkDispBaseYearRange = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.grdViewNenUn)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,12 +60,12 @@ namespace WinFormsApp2
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.grdViewNenUn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.grdViewNenUn.Location = new System.Drawing.Point(115, 12);
+            this.grdViewNenUn.Location = new System.Drawing.Point(115, 30);
             this.grdViewNenUn.MultiSelect = false;
             this.grdViewNenUn.Name = "grdViewNenUn";
             this.grdViewNenUn.RowTemplate.Height = 25;
             this.grdViewNenUn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdViewNenUn.Size = new System.Drawing.Size(994, 478);
+            this.grdViewNenUn.Size = new System.Drawing.Size(994, 460);
             this.grdViewNenUn.TabIndex = 0;
             this.grdViewNenUn.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdViewNenUn_CellFormatting);
             // 
@@ -90,16 +94,18 @@ namespace WinFormsApp2
             // 
             // lstDispItems
             // 
+            this.lstDispItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lstDispItems.FormattingEnabled = true;
             this.lstDispItems.ItemHeight = 15;
             this.lstDispItems.Location = new System.Drawing.Point(2, 306);
             this.lstDispItems.Name = "lstDispItems";
             this.lstDispItems.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lstDispItems.Size = new System.Drawing.Size(106, 169);
+            this.lstDispItems.Size = new System.Drawing.Size(106, 184);
             this.lstDispItems.TabIndex = 3;
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAdd.Location = new System.Drawing.Point(2, 277);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(54, 29);
@@ -110,6 +116,7 @@ namespace WinFormsApp2
             // 
             // btnRemove
             // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Location = new System.Drawing.Point(56, 277);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(54, 29);
@@ -118,11 +125,52 @@ namespace WinFormsApp2
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // txtMaxNenNum
+            // 
+            this.txtMaxNenNum.Location = new System.Drawing.Point(174, 2);
+            this.txtMaxNenNum.Name = "txtMaxNenNum";
+            this.txtMaxNenNum.Size = new System.Drawing.Size(58, 23);
+            this.txtMaxNenNum.TabIndex = 6;
+            this.txtMaxNenNum.Leave += new System.EventHandler(this.txtMaxNenNum_Leave);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(131, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 15);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "年数：";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(233, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "年";
+            // 
+            // chkDispBaseYearRange
+            // 
+            this.chkDispBaseYearRange.AutoSize = true;
+            this.chkDispBaseYearRange.Location = new System.Drawing.Point(268, 3);
+            this.chkDispBaseYearRange.Name = "chkDispBaseYearRange";
+            this.chkDispBaseYearRange.Size = new System.Drawing.Size(165, 19);
+            this.chkDispBaseYearRange.TabIndex = 9;
+            this.chkDispBaseYearRange.Text = "基準メンバーの年範囲で表示";
+            this.chkDispBaseYearRange.UseVisualStyleBackColor = true;
+            this.chkDispBaseYearRange.CheckedChanged += new System.EventHandler(this.chkDispBaseYearRange_CheckedChanged);
+            // 
             // FormUnseiViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1121, 502);
+            this.Controls.Add(this.chkDispBaseYearRange);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtMaxNenNum);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lstDispItems);
@@ -130,20 +178,24 @@ namespace WinFormsApp2
             this.Controls.Add(this.cmbGroup);
             this.Controls.Add(this.grdViewNenUn);
             this.Name = "FormUnseiViewer";
-            this.Text = "FormUnseiViewer";
+            this.Text = "年運比較表";
             this.Load += new System.EventHandler(this.FormUnseiViewer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdViewNenUn)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView grdViewNenUn;
         private System.Windows.Forms.ComboBox cmbGroup;
         private System.Windows.Forms.CheckedListBox chkListPerson;
         private System.Windows.Forms.ListBox lstDispItems;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.TextBox txtMaxNenNum;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private DataGridViewEx grdViewNenUn;
+        private System.Windows.Forms.CheckBox chkDispBaseYearRange;
     }
 }

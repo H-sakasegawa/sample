@@ -157,6 +157,7 @@ namespace WinFormsApp2
             this.button6 = new System.Windows.Forms.Button();
             this.txtCarrerMemo = new System.Windows.Forms.TextBox();
             this.btnTabClose = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1478,11 +1479,22 @@ namespace WinFormsApp2
             this.btnTabClose.UseVisualStyleBackColor = true;
             this.btnTabClose.Click += new System.EventHandler(this.btnTabClose_Click);
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(325, 250);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(75, 21);
+            this.button10.TabIndex = 73;
+            this.button10.Text = "年運比較表";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.btnTabClose);
             this.Controls.Add(this.txtCarrerMemo);
             this.Controls.Add(this.button6);
@@ -1684,6 +1696,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.TextBox txtCarrerMemo;
         private System.Windows.Forms.Button btnTabClose;
+        private System.Windows.Forms.Button button10;
     }
 }
 

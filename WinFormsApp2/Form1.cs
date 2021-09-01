@@ -1936,6 +1936,18 @@ namespace WinFormsApp2
             FormShugoSinHou = null;
         }
 
+        /// <summary>
+        /// 年運比較表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button10_Click(object sender, EventArgs e)
+        {
+            FormUnseiViewer frm = new FormUnseiViewer(personList, GetCurrentPerson());
+            frm.Show();
+
+        }
+
         //private void button7_Click(object sender, EventArgs e)
         //{
         //    FormUnseiViewer form = new FormUnseiViewer(personList);
@@ -1952,6 +1964,7 @@ namespace WinFormsApp2
             if(onCloseTab!=null) onCloseTab(tabId);
         }
 
+ 
 
 
 

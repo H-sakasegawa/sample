@@ -16,7 +16,7 @@ namespace WinFormsApp2
         Persons persons = null;
         Person basePerson = null;
         int grpItemCnt =0;
-        const int MAX_YEAR_RANGE = 120;
+        uint MAX_YEAR_RANGE = 120;
         Color basePersonColor = Color.PaleTurquoise;
 
         TableMng tblMng = TableMng.GetTblManage();
@@ -54,6 +54,8 @@ namespace WinFormsApp2
             grdViewNenUn.ReadOnly = true;
             grdViewNenUn.RowHeadersWidth = 70;
 
+            txtMaxNenNum.Text = MAX_YEAR_RANGE.ToString();
+            chkDispBaseYearRange.Checked = true;
 
             DispNenun();
 
@@ -362,17 +364,20 @@ namespace WinFormsApp2
             maxYear = 0;
             //基準人物情報
             if (minYear > basePerson.birthday.year) minYear = basePerson.birthday.year;
-            if (maxYear < basePerson.birthday.year) maxYear = basePerson.birthday.year;
-            //選択人物
-            foreach (var item in lstDispItems.Items)
+            if (maxYear < basePerson.birthday.year + (int)MAX_YEAR_RANGE) maxYear = basePerson.birthday.year+ (int)MAX_YEAR_RANGE;
+            if (!chkDispBaseYearRange.Checked)
             {
-                Person person = (Person)item;
-                if (minYear > person.birthday.year) minYear = person.birthday.year;
-                if (maxYear < person.birthday.year) maxYear = person.birthday.year;
+                //選択人物
+                foreach (var item in lstDispItems.Items)
+                {
+                    Person person = (Person)item;
+                    if (minYear > person.birthday.year) minYear = person.birthday.year;
+                    if (maxYear < person.birthday.year + (int)MAX_YEAR_RANGE) maxYear = person.birthday.year + (int)MAX_YEAR_RANGE;
+                }
             }
 
             grdViewNenUn.Rows.Clear();
-            grdViewNenUn.Rows.Add(maxYear + 120 - minYear);
+            grdViewNenUn.Rows.Add(maxYear - minYear);
 
             //年運表示
             int colIndex = 0;
@@ -409,7 +414,7 @@ namespace WinFormsApp2
             }
 
             int startYear = person.birthday.year;
-            int endYear = person.birthday.year + MAX_YEAR_RANGE - 1;
+            int endYear = (int)(person.birthday.year + MAX_YEAR_RANGE - 1);
 
             for (int year = startYear; year <= endYear; year++)
             {
@@ -428,7 +433,14 @@ namespace WinFormsApp2
                 }
 
                 //表示Rowインデックス
-                int idxRow = year - minYear;
+                int idxRow;
+                if (chkDispBaseYearRange.Checked)
+                {
+                    if (year < minYear || year >= maxYear) continue;
+                }
+                
+                idxRow = year - minYear;
+                
 
                 string title = string.Format("{0}歳({1})", (baseYear + year) - person.birthday.year, baseYear + year);
                 AddNenunItem(person, colindex, idxRow, title, nenkansiNo, taiunKansi,
@@ -551,7 +563,22 @@ namespace WinFormsApp2
 
         }
 
+        private void txtMaxNenNum_Leave(object sender, EventArgs e)
+        {
 
+            if(!uint.TryParse(txtMaxNenNum.Text, out MAX_YEAR_RANGE))
+            {
+                MessageBox.Show("異常な値が設定されました");
+                txtMaxNenNum.Text = MAX_YEAR_RANGE.ToString();
+                return;
+            }
+            DispNenun();
+        }
+
+        private void chkDispBaseYearRange_CheckedChanged(object sender, EventArgs e)
+        {
+            DispNenun();
+        }
     }
 
 
