@@ -74,6 +74,35 @@ namespace WinFormsApp2
             Spouse  //配偶者
         }
 
+        /// <summary>
+        /// 大運表カラム Index
+        /// </summary>
+        public enum ColTaiun
+        {
+            COL_TITLE = 0,
+            COL_KANSI,
+            COL_JUDAISHUSEI,
+            COL_JUNIDAIJUUSEI,
+            COL_GOUHOUSANPOU_NITI,
+            COL_GOUHOUSANPOU_GETU,
+            COL_GOUHOUSANPOU_NEN,
+            COL_CAREER
+        }
+        /// <summary>
+        /// 年運表カラム Index
+        /// </summary>
+        public enum ColNenunListView
+        {
+            COL_TITLE = 0,
+            COL_KANSI,
+            COL_JUDAISHUSEI,
+            COL_JUNIDAIJUUSEI,
+            COL_GOUHOUSANPOU_NITI,
+            COL_GOUHOUSANPOU_GETU,
+            COL_GOUHOUSANPOU_NEN,
+            COL_CAREER
+        }
+
 
         public const string sKangou = "干合";
         public const string sInyou = "陰陽";

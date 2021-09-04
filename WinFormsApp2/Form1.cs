@@ -51,20 +51,7 @@ namespace WinFormsApp2
 
         FormShugoSinHou FormShugoSinHou = null;
 
-        /// <summary>
-        /// 年運表カラム Index
-        /// </summary>
-        enum ColNenunListView
-        {
-            COL_TITLE = 0,
-            COL_KANSI,
-            COL_JUDAISHUSEI,
-            COL_JUNIDAIJUUSEI,
-            COL_GOUHOUSANPOU_NITI,
-            COL_GOUHOUSANPOU_GETU,
-            COL_GOUHOUSANPOU_NEN,
-            COL_CAREER
-        }
+
 
 
         public Form1( int _tabId, Persons _persons, Person targetPerson=null)
@@ -717,6 +704,7 @@ namespace WinFormsApp2
                 imigamiAttr = person.choukouImigamiAttr;
             }
 
+            //大運表示用の干支リストを取得
             var lstTaiunKansi = person.GetTaiunKansiList();
             for(int i=0; i< lstTaiunKansi.Count; i++)
             {
@@ -768,104 +756,39 @@ namespace WinFormsApp2
                                   string shugosinAttr, string imigamiAttr,  string[] shugosinKan
             )
         {
-            Kansi taiunKansi = person.GetKansi(kansiNo);
+
+
+            var item  = Common.GetTaiunItem(person, title, kansiNo, startNen,
+                                               shugosinAttr, imigamiAttr, shugosinKan);
+
+
 
             var lvItem = lvTaiun.Items.Add(title);
-            lvItem.SubItems.Add(string.Format("{0}{1}", taiunKansi.kan, taiunKansi.si)); //干支
-
-            string judai = person.GetJudaiShusei(person.nikkansi.kan, taiunKansi.kan).name;
-            string junidai = person.GetJunidaiShusei(person.nikkansi.kan, taiunKansi.si).name;
-
-            //"星"を削除
-            judai = judai.Replace("星", "");
-            junidai = junidai.Replace("星", "");
-
-            lvItem.SubItems.Add(judai); //十大主星
-            lvItem.SubItems.Add(junidai); //十二大従星
-     
-            int idxNanasatuItem = 0;
-
-            //日
-            GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, null, null);
-            string nanasatu = (person.IsNanasatu(taiunKansi, person.nikkansi, ref idxNanasatuItem)==true && idxNanasatuItem==1) ? Const.sNanasatu : "";   //七殺
-            string kangou = person.GetKangoStr(taiunKansi, person.nikkansi); //干合            
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu) );
-
-            //月
-            gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, null, null);
-            nanasatu = (person.IsNanasatu(taiunKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            kangou = person.GetKangoStr(taiunKansi, person.gekkansi); //干合
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
-
-            //年
-            gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, null, null);
-            nanasatu = (person.IsNanasatu(taiunKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
-            lvItem.SubItems.Add(GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+            //サブアイテム追加
+            for (int i = (int)Const.ColNenunListView.COL_KANSI; i < item.sItems.Length; i++)
+            {
+                lvItem.SubItems.Add(item.sItems[i]);
+            }
 
             //天中殺
-            Color color = Color.Black;
-            for(int i=0; i< person.nikkansi.tenchusatu.ToArray().Length; i++)
-            {
-                if(taiunKansi.kan == person.nikkansi.tenchusatu[i] ||
-                   taiunKansi.si == person.nikkansi.tenchusatu[i])
-                {
-                    color = Color.Red;
-                    break;
-                }
-            }
+            lvItem.ForeColor = item.colorTenchusatu;
 
-            lvItem.ForeColor = color;
-
-            //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[taiunKansi.kan].gogyou;
-            string siAttr = tblMng.jyunisiTbl[taiunKansi.si].gogyou;
-
-
-            //守護神判定
-            bool bShugosin = false;
-            if (!string.IsNullOrEmpty(shugosinAttr))
-            {
-                if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                {
-                    bShugosin = true;
-                }
-            }
-            else
-            {
-                if (shugosinKan != null)
-                {
-                    foreach (var kan in shugosinKan)
-                    {
-                        if (kan == taiunKansi.kan)
-                        {
-                            bShugosin = true;
-                        }
-                    }
-                }
-            }
-            //忌神判定
-            bool bImigami = false;
-            if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-            {
-                bImigami = true;
-            }
 
             TaiunLvItemData itemData = new TaiunLvItemData();
             itemData.startNen = startNen;   //開始年
             itemData.startYear = startNen + person.birthday.year;
-            itemData.kansi = taiunKansi;    //干支
-            itemData.bShugosin = bShugosin;  //守護神
-            itemData.bImigami = bImigami;  //忌神
+            itemData.kansi = item.targetKansi;    //干支
+            itemData.bShugosin = item.bShugosin;  //守護神
+            itemData.bImigami = item.bImigami;  //忌神
 
  
-            if (bShugosin)
+            if (item.bShugosin)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
             }
-            else if (bImigami)
+            else if (item.bImigami)
             {
-                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
+                itemData.lstItemColors.Add(new LvItemColor(1, Const.colorImigami));
             }
 
             //行のサブ情報を保持させておく
@@ -1032,7 +955,7 @@ namespace WinFormsApp2
             AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, shugosinAttr, imigamiAttr, choukouShugosinKan, lv);
             var lvItem = lv.Items[lv.Items.Count - 1];
 
-            lvItem.SubItems[(int)ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
+            lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
 
 
         }
@@ -1042,106 +965,32 @@ namespace WinFormsApp2
                                   ListView lv)
         {
 
-            Kansi taregetKansi = person.GetKansi(targetkansiNo);
-            int idxNanasatuItem = 0;
+            var item = Common.GetNenunGetuunItems(person,  title, targetkansiNo, taiunKansi,
+                                                        shugosinAttr, imigamiAttr, choukouShugosinKan);
 
-
-            string judai = person.GetJudaiShusei(person.nikkansi.kan, taregetKansi.kan).name;
-            string junidai = person.GetJunidaiShusei(person.nikkansi.kan, taregetKansi.si).name;
-
+    
             var lvItem = lv.Items.Add(title);
-            for (int i=0; i< Enum.GetNames(typeof(ColNenunListView)).Length-1; i++)
+            //サブアイテム追加
+            for (int i = (int)Const.ColNenunListView.COL_KANSI; i < item.sItems.Length; i++)
             {
-                lvItem.SubItems.Add("");
+                lvItem.SubItems.Add(item.sItems[i]);
             }
-            lvItem.SubItems[(int)ColNenunListView.COL_KANSI].Text = string.Format("{0}{1}", taregetKansi.kan, taregetKansi.si); //干支
-
-            //"星"を削除
-            judai = judai.Replace("星", "");
-            junidai = junidai.Replace("星", "");
-
-            lvItem.SubItems[(int)ColNenunListView.COL_JUDAISHUSEI].Text = judai; //十大主星
-            lvItem.SubItems[(int)ColNenunListView.COL_JUNIDAIJUUSEI].Text = junidai; //十二大従星
-
-            //合法三法(日)
-            GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nikkansi, taiunKansi, taregetKansi);
-            string kangou = person.GetKangoStr(taregetKansi, person.nikkansi); //干合            
-            string nanasatu = (person.IsNanasatu(taregetKansi, person.nikkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1)? Const.sNanasatu : "";   //七殺
-            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NITI].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-
-            //合法三法(月)
-            gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.gekkansi, taiunKansi, taregetKansi);
-            kangou = person.GetKangoStr(taregetKansi, person.gekkansi); //干合  
-            nanasatu = (person.IsNanasatu(taregetKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_GETU].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-
-            //合法三法(年)
-            gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nenkansi, taiunKansi, taregetKansi);
-            kangou = person.GetKangoStr(taregetKansi, person.nenkansi); //干合  
-            nanasatu = (person.IsNanasatu(taregetKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            lvItem.SubItems[(int)ColNenunListView.COL_GOUHOUSANPOU_NEN].Text = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-
 
             //天中殺
-            Color color = Color.Black;
-            for (int i = 0; i < 2; i++)
-            {
-                if (taregetKansi.IsExist(person.nikkansi.tenchusatu[i]) )
-                {
-                    color = Color.Red;
-                    break;
-                }
-            }
-
-            lvItem.ForeColor = color;
-
-            //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[taregetKansi.kan].gogyou;
-            string siAttr = tblMng.jyunisiTbl[taregetKansi.si].gogyou;
-
-
-            //守護神判定
-            bool bShugosin = false;
-            if (!string.IsNullOrEmpty(shugosinAttr))
-            {
-                if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                {
-                    bShugosin = true;
-                }
-            }
-            else
-            {
-                if (choukouShugosinKan != null)
-                {
-                    foreach (var kan in choukouShugosinKan)
-                    {
-                        if (kan == taregetKansi.kan)
-                        {
-                            bShugosin = true;
-                        }
-                    }
-                }
-            }
-            //忌神判定
-            bool bImigami = false;
-            if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-            {
-                bImigami = true;
-            }
-
+            lvItem.ForeColor = item.colorTenchusatu;
 
 
             GetuunNenunLvItemData itemData = new GetuunNenunLvItemData();
             itemData.keyValue = rowKeyValue;           //年 or 月
-            itemData.kansi = taregetKansi;    //干支
-            itemData.bShugosin = bShugosin;  //守護神
-            itemData.bImigami = bImigami;  //忌神
+            itemData.kansi = item.targetKansi;    //干支
+            itemData.bShugosin = item.bShugosin;  //守護神
+            itemData.bImigami = item.bImigami;  //忌神
 
-            if (bShugosin)
+            if (item.bShugosin)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
             }
-            else if (bImigami)
+            else if (item.bImigami)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorImigami));
             }
@@ -1149,25 +998,9 @@ namespace WinFormsApp2
             lvItem.Tag = itemData;
 
         }
-        string GetListViewItemString(GouhouSannpouResult[] lstGouhouSanpouResult, params string[] ary)
-        {
-            string result = "";
-            foreach (var item in lstGouhouSanpouResult)
-            {
-                if (!string.IsNullOrEmpty(result)) result += " ";
-                if (item.bEnable) result += item.displayName;
-                else result += string.Format("[{0}]", item.displayName);
-            }
-            foreach (var item in ary)
-            {
-                if (!string.IsNullOrEmpty(item))
-                {
-                    if (!string.IsNullOrEmpty(result)) result += " ";
-                    result += item;
-                }
-            }
-            return result;
-        }
+
+    
+
 
 
         /// <summary>
@@ -1674,7 +1507,7 @@ namespace WinFormsApp2
             if( frm.ShowDialog()==DialogResult.OK)
             {
                 //リストビューの経歴表示更新
-                item.SubItems[(int)ColNenunListView.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
+                item.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
                 DispCarrerList(curPerson);
             }
 

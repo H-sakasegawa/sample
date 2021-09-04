@@ -106,6 +106,258 @@ namespace WinFormsApp2
 
 
         }
+
+        public class TaiunItems
+        {
+            public string title;
+            public Kansi targetKansi;
+            public string[] sItems = new string[Enum.GetValues(typeof(Const.ColTaiun)).Length];
+
+            public Color colorTenchusatu = Color.Black;
+            public bool bShugosin = false;
+            public bool bImigami = false;
+
+        }
+        public class NenunGetuunItems
+        {
+            public string title;
+            public Kansi targetKansi;
+            public string[] sItems = new string[Enum.GetValues(typeof(Const.ColNenunListView)).Length];
+
+            public Color colorTenchusatu = Color.Black;
+            public bool bShugosin = false;
+            public bool bImigami = false;
+
+        }
+
+        public static TaiunItems GetTaiunItem(Person person, string title, int kansiNo, int startNen,
+                                  string shugosinAttr, string imigamiAttr, string[] shugosinKan
+            )
+        {
+            TaiunItems item = new TaiunItems();
+            TableMng tblMng = TableMng.GetTblManage();
+
+
+            item.title = title;
+
+            Kansi taiunKansi = person.GetKansi(kansiNo);
+            item.targetKansi = taiunKansi;
+
+            item.sItems[(int)Const.ColTaiun.COL_KANSI] = string.Format("{0}{1}", taiunKansi.kan, taiunKansi.si); //干支
+
+            string judai = person.GetJudaiShusei(person.nikkansi.kan, taiunKansi.kan).name;
+            string junidai = person.GetJunidaiShusei(person.nikkansi.kan, taiunKansi.si).name;
+
+            //"星"を削除
+            judai = judai.Replace("星", "");
+            junidai = junidai.Replace("星", "");
+
+            item.sItems[(int)Const.ColTaiun.COL_JUDAISHUSEI] = (judai); //十大主星
+            item.sItems[(int)Const.ColTaiun.COL_JUNIDAIJUUSEI] = (junidai); //十二大従星
+
+            int idxNanasatuItem = 0;
+
+            //日
+            GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nikkansi, null, null);
+            string nanasatu = (person.IsNanasatu(taiunKansi, person.nikkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            string kangou = person.GetKangoStr(taiunKansi, person.nikkansi); //干合            
+            item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_NITI] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+
+            //月
+            gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.gekkansi, null, null);
+            nanasatu = (person.IsNanasatu(taiunKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            kangou = person.GetKangoStr(taiunKansi, person.gekkansi); //干合
+            item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_GETU] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+
+            //年
+            gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, null, null);
+            nanasatu = (person.IsNanasatu(taiunKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
+            item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_GETU] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+
+            //天中殺
+            Color color = Color.Black;
+            for (int i = 0; i < person.nikkansi.tenchusatu.ToArray().Length; i++)
+            {
+                if (taiunKansi.kan == person.nikkansi.tenchusatu[i] ||
+                   taiunKansi.si == person.nikkansi.tenchusatu[i])
+                {
+                    color = Color.Red;
+                    break;
+                }
+            }
+
+            item.colorTenchusatu = color;
+
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[taiunKansi.kan].gogyou;
+            string siAttr = tblMng.jyunisiTbl[taiunKansi.si].gogyou;
+
+
+            //守護神判定
+            item.bShugosin = false;
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+                if (kanAttr == shugosinAttr ) //干のみ　支は見ない
+                {
+                    item.bShugosin = true;
+                }
+            }
+            else
+            {
+                if (shugosinKan != null)
+                {
+                    foreach (var kan in shugosinKan)
+                    {
+                        if (kan == taiunKansi.kan)
+                        {
+                            item.bShugosin = true;
+                        }
+                    }
+                }
+            }
+            //忌神判定
+            item.bImigami = false;
+            //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            if (kanAttr == imigamiAttr) //干のみ　支は見ない
+
+            {
+                item.bImigami = true;
+            }
+
+            return item;
+
+        }
+
+        /// <summary>
+        /// 年運、月運リスト表示データ取得
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="title"></param>
+        /// <param name="targetkansiNo"></param>
+        /// <param name="taiunKansi"></param>
+        /// <param name="shugosinAttr"></param>
+        /// <param name="imigamiAttr"></param>
+        /// <param name="choukouShugosinKan"></param>
+        /// <returns></returns>
+        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, int targetkansiNo, Kansi taiunKansi,
+                                   string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan)
+        {
+            NenunGetuunItems item = new NenunGetuunItems();
+            TableMng tblMng = TableMng.GetTblManage();
+
+            item.title = title;
+
+            Kansi targetKansi = person.GetKansi(targetkansiNo);
+            item.targetKansi = targetKansi;
+
+            int idxNanasatuItem = 0;
+
+
+            string judai = person.GetJudaiShusei(person.nikkansi.kan, targetKansi.kan).name;
+            string junidai = person.GetJunidaiShusei(person.nikkansi.kan, targetKansi.si).name;
+
+
+            item.sItems[(int)Const.ColNenunListView.COL_KANSI] = string.Format("{0}{1}", targetKansi.kan, targetKansi.si); //干支
+
+            //"星"を削除
+            judai = judai.Replace("星", "");
+            junidai = junidai.Replace("星", "");
+
+            item.sItems[(int)Const.ColNenunListView.COL_JUDAISHUSEI] = judai; //十大主星
+            item.sItems[(int)Const.ColNenunListView.COL_JUNIDAIJUUSEI] = junidai; //十二大従星
+
+            //合法三法(日)
+            GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(targetKansi, person.nikkansi, taiunKansi, targetKansi);
+            string kangou = person.GetKangoStr(targetKansi, person.nikkansi); //干合            
+            string nanasatu = (person.IsNanasatu(targetKansi, person.nikkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            item.sItems[(int)Const.ColNenunListView.COL_GOUHOUSANPOU_NITI] = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
+
+            //合法三法(月)
+            gouhouSanpoui = person.GetGouhouSanpouEx(targetKansi, person.gekkansi, taiunKansi, targetKansi);
+            kangou = person.GetKangoStr(targetKansi, person.gekkansi); //干合  
+            nanasatu = (person.IsNanasatu(targetKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            item.sItems[(int)Const.ColNenunListView.COL_GOUHOUSANPOU_GETU] = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
+
+            //合法三法(年)
+            gouhouSanpoui = person.GetGouhouSanpouEx(targetKansi, person.nenkansi, taiunKansi, targetKansi);
+            kangou = person.GetKangoStr(targetKansi, person.nenkansi); //干合  
+            nanasatu = (person.IsNanasatu(targetKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
+            item.sItems[(int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN] = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
+
+
+            //天中殺
+            item.colorTenchusatu = Color.Black;
+            for (int i = 0; i < 2; i++)
+            {
+                if (targetKansi.IsExist(person.nikkansi.tenchusatu[i]))
+                {
+                    item.colorTenchusatu = Color.Red;
+                    break;
+                }
+            }
+
+
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[targetKansi.kan].gogyou;
+            string siAttr = tblMng.jyunisiTbl[targetKansi.si].gogyou;
+
+
+            //守護神判定
+            item.bShugosin = false;
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+                if (kanAttr == shugosinAttr) //干のみ　支は見ない
+
+                {
+                    item.bShugosin = true;
+                }
+            }
+            else
+            {
+                if (choukouShugosinKan != null)
+                {
+                    foreach (var kan in choukouShugosinKan)
+                    {
+                        if (kan == targetKansi.kan)
+                        {
+                            item.bShugosin = true;
+                        }
+                    }
+                }
+            }
+            //忌神判定
+            item.bImigami = false;
+            //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            if (kanAttr == imigamiAttr)//干のみ　支は見ない
+            {
+                item.bImigami = true;
+            }
+
+            return item;
+        }
+
+        public static  string GetListViewItemString(GouhouSannpouResult[] lstGouhouSanpouResult, params string[] ary)
+        {
+            string result = "";
+            foreach (var item in lstGouhouSanpouResult)
+            {
+                if (!string.IsNullOrEmpty(result)) result += " ";
+                if (item.bEnable) result += item.displayName;
+                else result += string.Format("[{0}]", item.displayName);
+            }
+            foreach (var item in ary)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    if (!string.IsNullOrEmpty(result)) result += " ";
+                    result += item;
+                }
+            }
+            return result;
+        }
     }
 
 }

@@ -57,7 +57,7 @@ namespace WinFormsApp2
             txtMaxNenNum.Text = MAX_YEAR_RANGE.ToString();
             chkDispBaseYearRange.Checked = true;
 
-            DispNenun();
+            DispListItem();
 
 
 
@@ -106,7 +106,15 @@ namespace WinFormsApp2
             int cnt = 0;
             DataGridViewColumn column = new DataGridViewColumn();
 
-             idx = grdViewNenUn.Columns.Add(person.name, "干支");
+            //大運情報
+            idx = grdViewNenUn.Columns.Add(person.name, "干支(大)");
+            grdViewNenUn.Columns[idx].Width = 60;
+            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            cnt++;
+
+            //年運情報
+
+            idx = grdViewNenUn.Columns.Add(person.name, "干支");
             grdViewNenUn.Columns[idx].Width = 60;
             grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
             cnt++;
@@ -315,7 +323,7 @@ namespace WinFormsApp2
                 }
             }
             //年運表示
-            DispNenun();
+            DispListItem();
 
         }
         /// <summary>
@@ -331,7 +339,7 @@ namespace WinFormsApp2
             }
 
             //年運表示
-            DispNenun();
+            DispListItem();
 
         }
 
@@ -355,7 +363,7 @@ namespace WinFormsApp2
         }
 
 
-        public void DispNenun()
+        public void DispListItem()
         {
             CreateColumn();
 
@@ -379,28 +387,33 @@ namespace WinFormsApp2
             grdViewNenUn.Rows.Clear();
             grdViewNenUn.Rows.Add(maxYear - minYear);
 
-            //年運表示
             int colIndex = 0;
+            //年運表示
             int i = 0;
-            DispNenun(basePerson, colIndex);
+            DispListItem(basePerson, colIndex);
             colIndex += grpItemCnt;
 
             foreach (var item in lstDispItems.Items)
             {
 
                 Person person = (Person)item;
-                DispNenun(person, colIndex);
+
+                //年運表示
+                DispListItem(person, colIndex);
 
                 colIndex += grpItemCnt;
             }
 
         }
-        public void DispNenun(Person person, int colindex)
+
+        public void DispListItem(Person person, int colIndex)
         {
 
 
             int baseYear = person.birthday.year;
             int nenkansiNo = person.GetNenkansiNo(baseYear);
+
+            //大運表示用の干支リストを取得
 
             var lstTaiunKansi = person.GetTaiunKansiList();
             Kansi taiunKansi = null;
@@ -416,6 +429,9 @@ namespace WinFormsApp2
             int startYear = person.birthday.year;
             int endYear = (int)(person.birthday.year + MAX_YEAR_RANGE - 1);
 
+            //大運表示用の干支リストを取得
+
+            int prevTaiunKansiNo = 0;
             for (int year = startYear; year <= endYear; year++)
             {
                 //順行のみなので、60超えたら1にするだけ
@@ -425,12 +441,16 @@ namespace WinFormsApp2
                 {
                     var taiun = lstTaiunKansi[iTaiun];
 
-                    if (taiun.startYear > year)
+                    if (taiun.year <= year)
                     {
                         taiunKansi = person.GetKansi(taiun.kansiNo);
+                    }
+                    else
+                    {
                         break;
                     }
                 }
+
 
                 //表示Rowインデックス
                 int idxRow;
@@ -440,127 +460,46 @@ namespace WinFormsApp2
                 }
                 
                 idxRow = year - minYear;
-                
 
-                string title = string.Format("{0}歳({1})", (baseYear + year) - person.birthday.year, baseYear + year);
-                AddNenunItem(person, colindex, idxRow, title, nenkansiNo, taiunKansi,
-                                                   shugosinAttr, imigamiAttr, choukouShugosinKan);
+                //string title = string.Format("{0}歳({1})", (baseYear + year) - person.birthday.year, baseYear + year);
+
+                AddListItem(person,year, colIndex, idxRow, "", nenkansiNo, taiunKansi,
+                                                   shugosinAttr, imigamiAttr, choukouShugosinKan, ref prevTaiunKansiNo);
                 nenkansiNo += 1;
             }
         }
 
 
-        private void AddNenunItem(Person person, int startCol,
+        private void AddListItem(Person person, int year, int startCol,
                                 int idxRow, string title, int targetkansiNo, Kansi taiunKansi,
-                                  string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan)
+                                string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan,
+                                ref int prevTaiunKansiNo)
         {
 
-            Kansi taregetKansi = person.GetKansi(targetkansiNo);
-            int idxNanasatuItem = 0;
-
-
-            string judai = person.GetJudaiShusei(person.nikkansi.kan, taregetKansi.kan).name;
-            string junidai = person.GetJunidaiShusei(person.nikkansi.kan, taregetKansi.si).name;
+            //大運干支表示
+            var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year,
+                                        shugosinAttr, imigamiAttr, choukouShugosinKan);
+            //年運情報取得
+            var nenunItem = Common.GetNenunGetuunItems(person, title, targetkansiNo, taiunKansi,
+                                                        shugosinAttr, imigamiAttr, choukouShugosinKan);
 
             var row = grdViewNenUn.Rows[idxRow];
+
             int cnt = startCol;
-
-            //天中殺
-            Color color = Color.Black;
-            for (int i = 0; i < 2; i++)
+            if( taiunKansi.no != prevTaiunKansiNo)
             {
-                if (taregetKansi.IsExist(person.nikkansi.tenchusatu[i]))
-                {
-                    color = Color.Red;
-                    break;
-                }
+                row.Cells[cnt].Value = taiunItem.sItems[(int)Const.ColTaiun.COL_KANSI];
+                prevTaiunKansiNo = taiunKansi.no;
             }
-
-            row.Cells[cnt++].Value = string.Format("{0}{1}", taregetKansi.kan, taregetKansi.si); //干支
-
-            //"星"を削除
-            judai = judai.Replace("星", "");
-            junidai = junidai.Replace("星", "");
-
-
-            row.Cells[cnt++].Value = judai; //十大主星
-            row.Cells[cnt++].Value = junidai; //十二大従星
-
-            //合法三法(日)
-            GouhouSannpouResult[] gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nikkansi, taiunKansi, taregetKansi);
-            string kangou = person.GetKangoStr(taregetKansi, person.nikkansi); //干合            
-            string nanasatu = (person.IsNanasatu(taregetKansi, person.nikkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            row.Cells[cnt].Value = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-            row.Cells[cnt].Style.ForeColor = color;
+            row.Cells[cnt].Style.BackColor = (taiunItem.colorTenchusatu!= Color.Black? taiunItem.colorTenchusatu: row.Cells[cnt].Style.BackColor);
             cnt++;
 
-            //合法三法(月)
-            gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.gekkansi, taiunKansi, taregetKansi);
-            kangou = person.GetKangoStr(taregetKansi, person.gekkansi); //干合  
-            nanasatu = (person.IsNanasatu(taregetKansi, person.gekkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            row.Cells[cnt].Value = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-            row.Cells[cnt].Style.ForeColor = color;
-            cnt++;
-
-            //合法三法(年)
-            gouhouSanpoui = person.GetGouhouSanpouEx(taregetKansi, person.nenkansi, taiunKansi, taregetKansi);
-            kangou = person.GetKangoStr(taregetKansi, person.nenkansi); //干合  
-            nanasatu = (person.IsNanasatu(taregetKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
-            row.Cells[cnt].Value = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
-            row.Cells[cnt].Style.ForeColor = color;
-            cnt++;
-
-
-            //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[taregetKansi.kan].gogyou;
-            string siAttr = tblMng.jyunisiTbl[taregetKansi.si].gogyou;
-
-
-            //守護神判定
-            bool bShugosin = false;
-            if (!string.IsNullOrEmpty(shugosinAttr))
+            for (int i = (int)Const.ColNenunListView.COL_KANSI; i <= (int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN; i++)
             {
-                if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                {
-                    bShugosin = true;
-                }
+                row.Cells[cnt].Value = nenunItem.sItems[i];
+                row.Cells[cnt].Style.ForeColor = nenunItem.colorTenchusatu;
+                cnt++;
             }
-            else
-            {
-                foreach (var kan in choukouShugosinKan)
-                {
-                    if (kan == taregetKansi.kan)
-                    {
-                        bShugosin = true;
-                    }
-                }
-            }
-            //忌神判定
-            bool bImigami = false;
-            if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-            {
-                bImigami = true;
-            }
-
-
-
-            //GetuunNenunLvItemData itemData = new GetuunNenunLvItemData();
-            //itemData.keyValue = year;           //年 or 月
-            //itemData.kansi = taregetKansi;    //干支
-            //itemData.bShugosin = bShugosin;  //守護神
-            //itemData.bImigami = bImigami;  //忌神
-
-            //if (bShugosin)
-            //{
-            //    itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
-            //}
-            //else if (bImigami)
-            //{
-            //    itemData.lstItemColors.Add(new LvItemColor(1, Const.colorImigami));
-            //}
-            ////行のサブ情報を保持させておく
-            //lvItem.Tag = itemData;
-
         }
 
         private void txtMaxNenNum_Leave(object sender, EventArgs e)
@@ -572,12 +511,12 @@ namespace WinFormsApp2
                 txtMaxNenNum.Text = MAX_YEAR_RANGE.ToString();
                 return;
             }
-            DispNenun();
+            DispListItem();
         }
 
         private void chkDispBaseYearRange_CheckedChanged(object sender, EventArgs e)
         {
-            DispNenun();
+            DispListItem();
         }
     }
 

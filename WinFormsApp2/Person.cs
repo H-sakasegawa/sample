@@ -509,6 +509,36 @@ namespace WinFormsApp2
         }
 
         /// <summary>
+        /// 指定した年に該当する大運の干支情報を取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="lstTaiunKansiList"></param>
+        /// <returns></returns>
+        public TaiunKansiItem GetTaiunKansi(int year, List<TaiunKansiItem> lstTaiunKansiList = null)
+        {
+            if (lstTaiunKansiList == null)
+            {
+                lstTaiunKansiList = GetTaiunKansiList();
+            }
+
+            TaiunKansiItem result = null;
+            for (int i=0; i<lstTaiunKansiList.Count; i++)
+            {
+                TaiunKansiItem item = lstTaiunKansiList[i];
+                
+                if(item.startYear <= year)
+                {
+                    result = item;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return result;
+        }
+        
+        /// <summary>
         /// 年に関する年干支を取得
         /// </summary>
         /// <param name="year"></param>
