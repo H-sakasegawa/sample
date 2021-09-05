@@ -1481,7 +1481,7 @@ namespace WinFormsApp2
 
         /// <summary>
         /// 調和の忌神を取得
-        /// 宿命６項目のなかから３つ以上存在する五行属性
+        /// 宿命６項目（干支）の中から３つ以上存在する五行属性
         /// </summary>
         /// <returns></returns>
         public string GetChouwaImiGami()

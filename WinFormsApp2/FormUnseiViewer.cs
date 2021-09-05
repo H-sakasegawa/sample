@@ -491,7 +491,7 @@ namespace WinFormsApp2
                 row.Cells[cnt].Value = taiunItem.sItems[(int)Const.ColTaiun.COL_KANSI];
                 prevTaiunKansiNo = taiunKansi.no;
             }
-            row.Cells[cnt].Style.BackColor = (taiunItem.colorTenchusatu!= Color.Black? taiunItem.colorTenchusatu: row.Cells[cnt].Style.BackColor);
+            row.Cells[cnt].Style.BackColor = (taiunItem.bTenchusatu? Color.LightPink: row.Cells[cnt].Style.BackColor);
             cnt++;
 
             for (int i = (int)Const.ColNenunListView.COL_KANSI; i <= (int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN; i++)

@@ -46,8 +46,6 @@ namespace WinFormsApp2
 
             //第１守護神情報取得
             //調和の守護神属性, inigamiAttr
-            string shuigoAttr ="";
-            string inigamiAttr="";
             if (string.IsNullOrEmpty(person.shugosinAttr))
             {
                 lbl4.Text = lbl3.Text = "(なし)";

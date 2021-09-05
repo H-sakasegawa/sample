@@ -12,6 +12,14 @@ namespace WinFormsApp2
 
     /// <summary>
     /// 陰占 表示用クラス
+    /// 
+    /// 子  壬癸庚  辰
+    /// 丑  戌未子  巳 
+    /// 
+    ///     辛丁
+    ///     丁乙
+    ///     戊己癸
+    /// 
     /// </summary>
     class DrawInsen : IsouhouBase
     {
@@ -237,7 +245,7 @@ namespace WinFormsApp2
                     DrawZouganItem(g, insen.nikkansiHongen[idx].name, rectNikansiZogan[idx], colorNikkansiHongen.color, bBold);
 
                     bBold = insen.gekkansiHongen[idx].bJudaiShuseiGenso;
-                    DrawZouganItem(g, insen.gekkansiHongen[idx].name, rectGekkansiZogan[idx], colorGekkansiHongen.color, bBold);
+                    DrawZouganItem(g, insen.gekkansiHongen[idx].name, rectGekkansiZogan[idx], colorGekkansiHongen.color, bBold, false);
 
                     bBold = insen.nenkansiHongen[idx].bJudaiShuseiGenso;
                     DrawZouganItem(g, insen.nenkansiHongen[idx].name, rectNenkansiZogan[idx], colorNenkansiHongen.color, bBold);
@@ -258,8 +266,8 @@ namespace WinFormsApp2
                 {
 
 
-                    DrawZouganItem(g, NikkansiTenchusatu[i], rectNikkansiTenchusatu[i], Color.Black, false);
-                    DrawZouganItem(g, NenkansiTenchusatu[i], rectNenkansiTenchusatu[i], Color.Black, false);
+                    DrawTenchusatuItem(g, NikkansiTenchusatu[i], rectNikkansiTenchusatu[i], Color.Black, false);
+                    DrawTenchusatuItem(g, NenkansiTenchusatu[i], rectNenkansiTenchusatu[i], Color.Black, false);
                 }
 
             }
@@ -267,11 +275,31 @@ namespace WinFormsApp2
 
         }
 
-        private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold)
+        private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin=true)
         {
             var fntZougan = fnt;
-            if( bBold )
-            { fntZougan = fntBold;
+            if (bBold)
+            {
+                fntZougan = fntBold;
+            }
+            //干の守護神判定
+            if (!string.IsNullOrEmpty(genso) && bShugosin)
+            {
+                if (IsShugosin(genso)) g.FillRectangle(Const.brusShugosin, rect);
+                
+                if (IsImigami(genso)) g.FillRectangle(Const.brusImigami, rect);
+            }
+
+            var brush = new SolidBrush(color);
+            g.DrawString(genso, fntZougan, brush, rect, stringFormat);
+
+        }
+        private void DrawTenchusatuItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold)
+        {
+            var fntZougan = fnt;
+            if (bBold)
+            {
+                fntZougan = fntBold;
             }
             var brush = new SolidBrush(color);
             g.DrawString(genso, fntZougan, brush, rect, stringFormat);

@@ -26,6 +26,9 @@ namespace WinFormsApp2
         public StringFormat stringFormat = null;
         public StringFormat smallStringFormat = null;
 
+        TableMng tblMng = TableMng.GetTblManage();
+
+
         public bool bDrawRentangleKansi = true;//干支の枠表示有無
         /// </summary>
         PictureBox pictureBox = null;
@@ -203,7 +206,6 @@ namespace WinFormsApp2
             }
             var brush = Brushes.Black;
 
-            TableMng tblMng = TableMng.GetTblManage();
 
             string shugosinAttr = person.shugosinAttr;
             string[] choukouShugosinKan = person.choukouShugosin;
@@ -212,34 +214,37 @@ namespace WinFormsApp2
             //干の守護神判定
             //干、支の属性取得
             string kanAttr = tblMng.jyukanTbl[kansi.kan].gogyou;
-            string siAttr = tblMng.jyunisiTbl[kansi.si].gogyou;
+            //string siAttr = tblMng.jyunisiTbl[kansi.si].gogyou;
 
 
             //守護神判定
-            if (!string.IsNullOrEmpty(shugosinAttr))
-            {
-                if (kanAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectKan);
-                if (siAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectSi);
-            }
-            else
-            {
-                if (choukouShugosinKan != null)
-                {
-                    foreach (var kan in choukouShugosinKan)
-                    {
-                        if (kan == kansi.kan)
-                        {
-                            g.FillRectangle(Const.brusShugosin, rectKan);
-                            break;
-                        }
-                    }
-                }
-            }
+            //if (!string.IsNullOrEmpty(shugosinAttr))
+            //{
+            //    if (kanAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectKan);
+            //    //if (siAttr == shugosinAttr) g.FillRectangle(Const.brusShugosin, rectSi);
+            //}
+            //else
+            //{
+            //    if (choukouShugosinKan != null)
+            //    {
+            //        foreach (var kan in choukouShugosinKan)
+            //        {
+            //            if (kan == kansi.kan)
+            //            {
+            //                g.FillRectangle(Const.brusShugosin, rectKan);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
+            if(IsShugosin(kansi.kan)) g.FillRectangle(Const.brusShugosin, rectKan);
+
             //忌神判定
-            if (kanAttr == imigamiAttr)
-            {
-                g.FillRectangle(Const.brusImigami, rectKan);
-            }
+            //if (kanAttr == imigamiAttr)
+            //{
+            //    g.FillRectangle(Const.brusImigami, rectKan);
+            //}
+            if (IsImigami(kansi.kan)) g.FillRectangle(Const.brusImigami, rectKan); ;
 
             if ( foreColor!=default)
             {
@@ -250,7 +255,76 @@ namespace WinFormsApp2
             g.DrawString(kansi.si, fnt, brush, rectSi, stringFormat);
         }
 
+        /// <summary>
+        /// 十干 の守護神判定
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <returns></returns>
+        public bool IsShugosin(string kan)
+        {
+            string shugosinAttr = person.shugosinAttr;
+            string[] choukouShugosinKan = person.choukouShugosin;
 
+            //干の守護神判定
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+
+
+            //守護神判定
+            if (!string.IsNullOrEmpty(shugosinAttr))
+            {
+                if (kanAttr == shugosinAttr) return true;
+            }
+            else
+            {
+                if (choukouShugosinKan != null)
+                {
+                    foreach (var shugoKan in choukouShugosinKan)
+                    {
+                        if (shugoKan == kan)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 十干　 忌神判定
+        /// </summary>
+        /// <param name="kan"></param>
+        /// <returns></returns>
+        public bool IsImigami(string kan)
+        {
+            string imigamiAttr = person.imigamiAttr;
+            string choukouImigami = person.choukouImigamiAttr;
+
+            //干の守護神判定
+            //干、支の属性取得
+            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+
+            //忌神判定
+            if (!string.IsNullOrEmpty(imigamiAttr))
+            {
+                if (kanAttr == imigamiAttr)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (choukouImigami != null)
+                {
+                    if (choukouImigami.IndexOf(kanAttr) >= 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
         /// <summary>
         /// 干支描画
         /// </summary>

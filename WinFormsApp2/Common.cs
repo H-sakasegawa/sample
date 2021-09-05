@@ -114,6 +114,7 @@ namespace WinFormsApp2
             public string[] sItems = new string[Enum.GetValues(typeof(Const.ColTaiun)).Length];
 
             public Color colorTenchusatu = Color.Black;
+            public bool bTenchusatu = false;
             public bool bShugosin = false;
             public bool bImigami = false;
 
@@ -125,6 +126,7 @@ namespace WinFormsApp2
             public string[] sItems = new string[Enum.GetValues(typeof(Const.ColNenunListView)).Length];
 
             public Color colorTenchusatu = Color.Black;
+            public bool bTenchusatu = false;
             public bool bShugosin = false;
             public bool bImigami = false;
 
@@ -182,6 +184,7 @@ namespace WinFormsApp2
                 if (taiunKansi.kan == person.nikkansi.tenchusatu[i] ||
                    taiunKansi.si == person.nikkansi.tenchusatu[i])
                 {
+                    item.bTenchusatu = true;
                     color = Color.Red;
                     break;
                 }
@@ -293,6 +296,7 @@ namespace WinFormsApp2
             {
                 if (targetKansi.IsExist(person.nikkansi.tenchusatu[i]))
                 {
+                    item.bTenchusatu = true;
                     item.colorTenchusatu = Color.Red;
                     break;
                 }
