@@ -15,10 +15,14 @@ namespace WinFormsApp2
     /// </summary>
     public partial class FormJuniSinKanHou : Form
     {
+        public delegate void CloseHandler();
+        public event CloseHandler OnClose = null;
+
+
         JuniSinKanHou juniSinKanHou = null;
 
         DrawJuniSinKanhoun drawJuniSinKanhoun = null;
-        public event CloseHandler OnClose;
+
 
         //文字描画領域サイズ
         Rectangle rectKan;

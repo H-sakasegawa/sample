@@ -13,11 +13,21 @@ namespace WinFormsApp2
 
     public partial class FormUnseiViewer : Form
     {
+
+        public delegate void CloseHandler();
+        public delegate void DelegateOnChangeCurYear(int year);
+
         Persons persons = null;
         Person basePerson = null;
         int grpItemCnt =0;
         uint MAX_YEAR_RANGE = 120;
         Color basePersonColor = Color.PaleTurquoise;
+
+        bool bRowSelectEvent = false;
+
+
+        public event DelegateOnChangeCurYear OnChangeCurYear =null;
+        public event CloseHandler OnClose;
 
         TableMng tblMng = TableMng.GetTblManage();
 
@@ -92,6 +102,19 @@ namespace WinFormsApp2
          
         }
 
+        public void SelectYear( int year )
+        {
+            if (bRowSelectEvent) return;
+            if (year < minYear || year > maxYear) return;
+            int index = year - minYear;
+
+            var bk = OnChangeCurYear;
+            OnChangeCurYear = null;
+
+            grdViewNenUn.Rows[index].Selected = true;
+
+            OnChangeCurYear = bk;
+        }
 
 
         private void ColumnSetting()
@@ -491,15 +514,27 @@ namespace WinFormsApp2
                 row.Cells[cnt].Value = taiunItem.sItems[(int)Const.ColTaiun.COL_KANSI];
                 prevTaiunKansiNo = taiunKansi.no;
             }
-            row.Cells[cnt].Style.BackColor = (taiunItem.bTenchusatu? Color.LightPink: row.Cells[cnt].Style.BackColor);
+            row.Cells[cnt].Style.BackColor = (taiunItem.bTenchusatu? Color.Red: row.Cells[cnt].Style.BackColor);
             cnt++;
 
+           // row.Cells[cnt].Style.BackColor = (nenunItem.bTenchusatu ? Color.Red : row.Cells[cnt].Style.BackColor);
             for (int i = (int)Const.ColNenunListView.COL_KANSI; i <= (int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN; i++)
             {
                 row.Cells[cnt].Value = nenunItem.sItems[i];
                 row.Cells[cnt].Style.ForeColor = nenunItem.colorTenchusatu;
                 cnt++;
             }
+
+            row.Tag = new RowItems(year);
+        }
+
+        class RowItems
+        {
+            public RowItems(int _year)
+            {
+                year = _year;
+            }
+            public int year;
         }
 
         private void txtMaxNenNum_Leave(object sender, EventArgs e)
@@ -517,6 +552,23 @@ namespace WinFormsApp2
         private void chkDispBaseYearRange_CheckedChanged(object sender, EventArgs e)
         {
             DispListItem();
+        }
+
+        private void grdViewNenUn_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (grdViewNenUn.SelectedRows.Count > 0)
+            {
+                var row = grdViewNenUn.SelectedRows[0];
+                var rowItem = (RowItems)row.Tag;
+
+                bRowSelectEvent = true;
+                OnChangeCurYear?.Invoke(rowItem.year);
+                bRowSelectEvent = false;
+            }
+        }
+        private void FormUnseiViewer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            OnClose?.Invoke();
         }
     }
 

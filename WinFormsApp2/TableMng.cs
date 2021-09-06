@@ -939,7 +939,7 @@ namespace WinFormsApp2
         /// <summary>
         /// 五行属性どうしの関係テーブル
         /// </summary>
-        public class GogyouAttrRelationshipTbl
+        public class GogyouAttrRerationshipTbl
         {
             public Dictionary<string, GogyouAttrRelationship> dicGogyouAttrRelationship = new Dictionary<string, GogyouAttrRelationship>();
 
@@ -950,7 +950,7 @@ namespace WinFormsApp2
             }
         }
 
-        public GogyouAttrRelationshipTbl gogyouAttrRelationshipTbl;
+        public GogyouAttrRerationshipTbl gogyouAttrRelationshipTbl;
 
         //======================================================================
         // テーブルマネージャ初期化
@@ -1408,7 +1408,7 @@ namespace WinFormsApp2
             //-----------------------------------
             // 五行属性どうしの関係
             //-----------------------------------
-            gogyouAttrRelationshipTbl = new GogyouAttrRelationshipTbl();
+            gogyouAttrRelationshipTbl = new GogyouAttrRerationshipTbl();
             gogyouAttrRelationshipTbl.dicGogyouAttrRelationship = new Dictionary<string, GogyouAttrRelationship>()
             {
                 {"木", new GogyouAttrRelationship("木", "水", "火", "金","土") },

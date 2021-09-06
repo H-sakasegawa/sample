@@ -10,13 +10,13 @@ using System.Drawing.Drawing2D;
 
 namespace WinFormsApp2
 {
-    public delegate void CloseHandler();
 
     /// <summary>
     /// 十二親干法 表示用クラス
     /// </summary>
     class DrawJuniSinKanhoun
     {
+        public delegate void CloseHandler();
 
         Person person;
         PictureBox pictureBox;

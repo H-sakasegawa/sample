@@ -546,6 +546,9 @@ namespace WinFormsApp2
     //-------------------------------------------
     // 守護神テーブル項目
     //-------------------------------------------
+    /// <summary>
+    /// 守護神テーブル条件
+    /// </summary>
     public enum EnmSugosinCond
     {
         None = 0,
@@ -586,6 +589,9 @@ namespace WinFormsApp2
     
     }
 
+    /// <summary>
+    /// 守護神情報
+    /// </summary>
     public class ShugoSin
     {
         public ShugoSin( string[] _kan, EnmSugosinCond _cond, string _imi, string _explanation="")

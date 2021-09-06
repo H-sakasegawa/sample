@@ -50,6 +50,7 @@ namespace WinFormsApp2
         FormJuniSinKanHou formJuniSinKanHou = null;
 
         FormShugoSinHou FormShugoSinHou = null;
+        FormUnseiViewer frmUnseiViewer = null;
 
 
 
@@ -1347,6 +1348,11 @@ namespace WinFormsApp2
 
             //後天運 図の表示更新
             DispKoutenUn(curPerson, pictureBox2);
+
+            if(frmUnseiViewer!=null)
+            {
+                frmUnseiViewer.SelectYear(((GetuunNenunLvItemData)selectedItem[0].Tag).keyValue);
+            }
         }
         /// <summary>
         /// 年運リストビューのホイール操作イベント
@@ -1776,16 +1782,32 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button10_Click(object sender, EventArgs e)
         {
-            FormUnseiViewer frm = new FormUnseiViewer(personList, GetCurrentPerson());
-            frm.Show();
+            if (frmUnseiViewer == null)
+            {
+                frmUnseiViewer = new FormUnseiViewer(personList, GetCurrentPerson());
+                frmUnseiViewer.OnChangeCurYear += OnFromUnseiViewerChangeYear;
+                frmUnseiViewer.OnClose += OnFromUnseiViewerClose;
+                frmUnseiViewer.Show();
+            }
 
         }
 
-        //private void button7_Click(object sender, EventArgs e)
-        //{
-        //    FormUnseiViewer form = new FormUnseiViewer(personList);
-        //    form.ShowDialog();
-        //}
+        private void OnFromUnseiViewerChangeYear(int year)
+        {
+            DateTime dt = new DateTime(year, 2, 1);
+            var bk = frmUnseiViewer;
+            frmUnseiViewer = null; //年運選択時のfrmUnseiViewerへの通知をさせないための施策
+            DispDateView(dt);
+            frmUnseiViewer = bk;
+
+        }
+        void OnFromUnseiViewerClose()
+        {
+            frmUnseiViewer.OnChangeCurYear -= OnFromUnseiViewerChangeYear;
+            frmUnseiViewer.OnClose -= OnFromUnseiViewerClose;
+            frmUnseiViewer.Dispose();
+            frmUnseiViewer = null;
+        }
 
         /// <summary>
         /// タブ終了
