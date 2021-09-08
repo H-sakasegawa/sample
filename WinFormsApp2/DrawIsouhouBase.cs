@@ -207,9 +207,9 @@ namespace WinFormsApp2
             var brush = Brushes.Black;
 
 
-            string shugosinAttr = person.shugosinAttr;
+           // string shugosinAttr = person.ShugosinAttr;
             string[] choukouShugosinKan = person.choukouShugosin;
-            string imigamiAttr = person.imigamiAttr;
+           // string imigamiAttr = person.ImigamiAttr;
 
             //干の守護神判定
             //干、支の属性取得
@@ -262,7 +262,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsShugosin(string kan)
         {
-            string shugosinAttr = person.shugosinAttr;
+            var shugosinAttr = person.ShugosinAttr;
             string[] choukouShugosinKan = person.choukouShugosin;
 
             //干の守護神判定
@@ -271,9 +271,12 @@ namespace WinFormsApp2
 
 
             //守護神判定
-            if (!string.IsNullOrEmpty(shugosinAttr))
+            if (shugosinAttr.Count>0)
             {
-                if (kanAttr == shugosinAttr) return true;
+                foreach (var shugoKan in shugosinAttr)
+                {
+                    if (kanAttr == shugoKan) return true;
+                }
             }
             else
             {
@@ -297,7 +300,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsImigami(string kan)
         {
-            string imigamiAttr = person.imigamiAttr;
+            var imigamiAttr = person.ImigamiAttr;
             string choukouImigami = person.choukouImigamiAttr;
 
             //干の守護神判定
@@ -305,11 +308,11 @@ namespace WinFormsApp2
             string kanAttr = tblMng.jyukanTbl[kan].gogyou;
 
             //忌神判定
-            if (!string.IsNullOrEmpty(imigamiAttr))
+            if (imigamiAttr.Count>0)
             {
-                if (kanAttr == imigamiAttr)
+                foreach (var imigami in imigamiAttr)
                 {
-                    return true;
+                    if (kanAttr == imigami) return true;
                 }
             }
             else

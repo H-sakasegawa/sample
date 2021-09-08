@@ -34,7 +34,7 @@ namespace WinFormsApp2
             try
             {
                 // ファイルストリームを生成する。
-                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     // 標準エクセル.xls
                     if ("xls".Equals(version))

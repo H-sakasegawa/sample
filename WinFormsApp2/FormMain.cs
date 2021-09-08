@@ -50,7 +50,7 @@ namespace WinFormsApp2
         {
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
-            personList = new Persons();
+            personList = Persons.GetPersons();
             //setuiribiTbl = new SetuiribiTable();
             try
             {

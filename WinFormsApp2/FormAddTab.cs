@@ -33,7 +33,7 @@ namespace WinFormsApp2
             if (cmbGroup.SelectedIndex == 0)
             {
                 //全て
-                persons = personList.GetPersons();
+                persons = personList.GetPersonList();
             }
             else
             {

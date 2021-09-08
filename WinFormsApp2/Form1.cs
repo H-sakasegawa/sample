@@ -697,12 +697,12 @@ namespace WinFormsApp2
             }
 #else
             string[] choukouShugosinKan = null;
-            string shugosinAttr = person.shugosinAttr;
-            string imigamiAttr = person.imigamiAttr;
-            if (string.IsNullOrEmpty(imigamiAttr))
+            var shugosinAttr = person.ShugosinAttr;
+            var imigamiAttr = person.ImigamiAttr;
+            if (imigamiAttr.Count==0)
             {
+                imigamiAttr.Add( person.choukouImigamiAttr);
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr = person.choukouImigamiAttr;
             }
 
             //大運表示用の干支リストを取得
@@ -754,7 +754,7 @@ namespace WinFormsApp2
         /// <param name="title"></param>
         /// <param name="kansiNo"></param>
         private void AddTaiunItem(Person person , string title, int kansiNo, int startNen,
-                                  string shugosinAttr, string imigamiAttr,  string[] shugosinKan
+                                  List<string> shugosinAttr, List<string> imigamiAttr,  string[] shugosinKan
             )
         {
 
@@ -844,12 +844,12 @@ namespace WinFormsApp2
 #endif
 
             string[] choukouShugosinKan = null;
-            string shugosinAttr = person.shugosinAttr;
-            string imigamiAttr = person.imigamiAttr;
-            if (string.IsNullOrEmpty(imigamiAttr))
+            var shugosinAttr = person.ShugosinAttr;
+            var imigamiAttr = person.ImigamiAttr;
+            if (imigamiAttr.Count==0)
             {
+                imigamiAttr.Add( person.choukouImigamiAttr );
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr = person.choukouImigamiAttr;
             }
 
             //11年分を表示
@@ -897,12 +897,12 @@ namespace WinFormsApp2
             //int gekkansiNo = taiunItemData.kansi.no;
 
             string[] choukouShugosinKan =null;
-            string shugosinAttr = person.shugosinAttr;
-            string imigamiAttr = person.imigamiAttr;
-            if( string.IsNullOrEmpty(imigamiAttr))
+            var shugosinAttr = person.ShugosinAttr;
+            var imigamiAttr = person.ImigamiAttr;
+            if(imigamiAttr.Count==0)
             {
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr = person.choukouImigamiAttr;
+                imigamiAttr.Add(person.choukouImigamiAttr);
             }
 
             //2月～12月,1月分を表示
@@ -949,7 +949,7 @@ namespace WinFormsApp2
         /// <param name="targetkansiNo">年運干支No</param>
         /// <param name="kansi">大運干支No</param>
         private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
-                                  string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan, 
+                                  List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan, 
                                   ListView lv)
         {
 
@@ -962,7 +962,7 @@ namespace WinFormsApp2
         }
 
         private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
-                                  string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan, 
+                                  List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan, 
                                   ListView lv)
         {
 
@@ -1179,7 +1179,7 @@ namespace WinFormsApp2
             if (cmbGroup.SelectedIndex == 0)
             {
                 //全て
-                persons = personList.GetPersons();
+                persons = personList.GetPersonList();
             }
             else
             {
@@ -1765,6 +1765,8 @@ namespace WinFormsApp2
         {
             FormShugoSinHou = new FormShugoSinHou();
             FormShugoSinHou.OnClose += OnFormShugoSinHouClose;
+            FormShugoSinHou.OnUpdateShugosin += OnFormUpdateShugosin;
+
             FormShugoSinHou.Show();
             FormShugoSinHou.Update(curPerson);
 
@@ -1773,6 +1775,11 @@ namespace WinFormsApp2
         {
             FormShugoSinHou.Dispose();
             FormShugoSinHou = null;
+        }
+
+        void OnFormUpdateShugosin()
+        {
+            MainProc(curPerson);
         }
 
         /// <summary>

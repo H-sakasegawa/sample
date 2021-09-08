@@ -32,6 +32,14 @@ namespace WinFormsApp2
                     return dicJyukan[name];
                 }
             }
+            public Jyukan this[int index]
+            {
+                get
+                {
+                    if (index >= dicJyukan.Count) return null;
+                    return dicJyukan.Values.ToArray()[index];
+                }
+            }
             public int Count { get { return dicJyukan.Count; } }
             public List<Jyukan> ToList()
             {

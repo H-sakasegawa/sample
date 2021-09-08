@@ -45,7 +45,7 @@ namespace WinFormsApp2
         private void FormUnseiViewer_Load(object sender, EventArgs e)
         {
             //メンバーの表示状態を管理するディクショナリを作成
-            persons.GetPersons().ForEach(x => dicPersons.Add(x.name, x ) );
+            persons.GetPersonList().ForEach(x => dicPersons.Add(x.name, x ) );
 
             //グループコンボボックス
             Common.SetGroupCombobox(persons, cmbGroup);
@@ -440,13 +440,13 @@ namespace WinFormsApp2
 
             var lstTaiunKansi = person.GetTaiunKansiList();
             Kansi taiunKansi = null;
-            string shugosinAttr = person.shugosinAttr;
-            string imigamiAttr = person.imigamiAttr;
+            var shugosinAttr = person.ShugosinAttr;
+            var imigamiAttr = person.ImigamiAttr;
             string[] choukouShugosinKan = null;
-            if (string.IsNullOrEmpty(imigamiAttr))
+            if (imigamiAttr.Count==0)
             {
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr = person.choukouImigamiAttr;
+                imigamiAttr.Add( person.choukouImigamiAttr );
             }
 
             int startYear = person.birthday.year;
@@ -495,7 +495,7 @@ namespace WinFormsApp2
 
         private void AddListItem(Person person, int year, int startCol,
                                 int idxRow, string title, int targetkansiNo, Kansi taiunKansi,
-                                string shugosinAttr, string imigamiAttr, string[] choukouShugosinKan,
+                                List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan,
                                 ref int prevTaiunKansiNo)
         {
 

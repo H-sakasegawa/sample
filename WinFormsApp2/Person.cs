@@ -55,8 +55,13 @@ namespace WinFormsApp2
            COL_NAME=0,  //氏名
            COL_BIRTHDAY,//誕生日
            COL_GENDER,  //性別
-           COL_GROUP    //グループ
+           COL_GROUP,    //グループ
+           COL_CUST_SHUGOSIN ,   //カスタム守護神
+           COL_CUST_IMIGAMI    //カスタム忌神
         };
+
+        private static Persons persons = new Persons();
+        public static Persons GetPersons() { return persons; }
 
         private string readFilePath;
 
@@ -91,7 +96,7 @@ namespace WinFormsApp2
         {
             get { return dicPersons.Count; }
         }
-        public List<Person> GetPersons()
+        public List<Person> GetPersonList()
         {
             return dicPersons.Values.ToList();
         }
@@ -186,7 +191,13 @@ namespace WinFormsApp2
                 //グループ
                 string group = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_GROUP);
 
-                var person = new Person(name, birthday, gender, group);
+                //カスタム守護神
+                string custShugo = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_SHUGOSIN);
+
+                //カスタム忌神
+                string custImigami = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
+
+                var person = new Person(name, birthday, gender, group, custShugo, custImigami);
                 dicPersons.Add(name, person);
 
                 //グループディクショナリ
@@ -242,6 +253,14 @@ namespace WinFormsApp2
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GROUP);
             cell.SetCellValue("グループ");
             cell.CellStyle = style;
+            //カスタム守護神
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_SHUGOSIN);
+            cell.SetCellValue("カスタム守護神");
+            cell.CellStyle = style;
+            //カスタム守護神
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
+            cell.SetCellValue("カスタム忌神");
+            cell.CellStyle = style;
 
             iRow++;
             foreach (var item in dicPersons)
@@ -261,6 +280,15 @@ namespace WinFormsApp2
                 //グループ
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_GROUP);
                 cell.SetCellValue(person.group);
+
+                //カスタム守護神
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_SHUGOSIN);
+                cell.SetCellValue(person.customShugosin.ToString());
+
+                //カスタム忌神
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
+                cell.SetCellValue(person.customImigami.ToString());
+
                 iRow++;
             }
             ExcelReader.WriteExcel(workbook, filePath);
@@ -282,7 +310,8 @@ namespace WinFormsApp2
         public string group { get; set; }
 
         public Career career { get;  set; }
-
+        public CustomShugosinImigami customShugosin { get; set; } = new CustomShugosinImigami();
+        public CustomShugosinImigami customImigami { get; set; } = new CustomShugosinImigami();
 
         public int dayNumFromSetuiribi { get; set; }
 
@@ -312,30 +341,66 @@ namespace WinFormsApp2
         public string[] choukouShugosin { get; set; } = null;
         public string choukouImigamiAttr { get; set; } = "";
 
-        public string shugosinAttr { get; set; } = "";
-        public string imigamiAttr { get; set; } = "";
-        public string shugosinExplanation { get; set; } = "";
+        private string _shugosinAttr = "";  //調候の守護神
+        private string _imigamiAttr = "";   //調候の忌神
+        public string shugosinExplanation { get; set; } = ""; //説明文
+
+        public List<string> ShugosinAttr
+        {
+            get
+            {
+                if (customShugosin.lstJunisi.Count > 0) return customShugosin.GetAttrs();
+                else return new List<string> { _shugosinAttr };
+            }
+        }
+        public List<string> ImigamiAttr
+        {
+            get
+            {
+                if (customImigami.lstJunisi.Count > 0) return customImigami.GetAttrs();
+                else return new List<string> { _imigamiAttr };
+            }
+        }
+
 
 
         private TableMng tblMng;
         private SetuiribiTable tblSetuiribi;
 
  
-        public Person(string _name, int year, int month, int day, Gender _gender)
+        public Person(string _name, int year, int month, int day, Gender _gender, string custShugo=null, string custImigami = null)
         {
-            Init(_name, birthday, _gender, "");
+            Init(_name, birthday, _gender, "", custShugo, custImigami);
         }
-        public Person(string _name, Birthday _birthday, Gender _gender, string _group)
+        public Person(string _name, Birthday _birthday, Gender _gender, string _group, string custShugo=null, string custImigami=null)
         {
-            Init(_name, _birthday, _gender, _group);
+            Init(_name, _birthday, _gender, _group, custShugo, custImigami);
         }
-        public void Init(string _name, Birthday _birthday, Gender _gender, string _group)
+        private void Init(string _name, Birthday _birthday, Gender _gender, string _group, string _custShugo, string _custImigami)
         {
             name = _name;
             birthday = _birthday;
             gender = _gender;
             group = _group;
 
+            if (!string.IsNullOrEmpty(_custShugo))
+            {
+                var charAry = _custShugo.ToCharArray();
+                for (int i = 0; i < charAry.Length; i++)
+                {
+                    customShugosin.lstJunisi.Add(charAry[i].ToString());
+                }
+            }
+ 
+            if (!string.IsNullOrEmpty(_custImigami))
+            {
+                var charAry = _custImigami.ToCharArray();
+                for (int i = 0; i < charAry.Length; i++)
+                {
+                    customImigami.lstJunisi.Add(charAry[i].ToString());
+                }
+            }
+         
             ReadCareer();
 
         }
@@ -425,6 +490,7 @@ namespace WinFormsApp2
             //------------------
             SetChouwaShugosinAttr();
             SetChoukouShugosinAttr();
+
 
             return 0;
         }
@@ -1283,14 +1349,14 @@ namespace WinFormsApp2
         /// <returns></returns>
         private void SetChouwaShugosinAttr()
         {
-
-            imigamiAttr = GetChouwaImiGami();
-            if (!string.IsNullOrEmpty(imigamiAttr))
+            //調和の忌神
+            _imigamiAttr =  GetChouwaImiGami();
+            if (!string.IsNullOrEmpty(_imigamiAttr))
             {
                 //調和の守護神
                 //五行属性で忌神を剋するもの
-                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(imigamiAttr);
-                shugosinAttr = item.destoryFromName;
+                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(_imigamiAttr);
+                _shugosinAttr = item.destoryFromName;
             }
            
         }
@@ -1515,6 +1581,15 @@ namespace WinFormsApp2
                 dicAttr[gogyou]++;
             }
 
+        }
+
+        public void AddCustomShugosin(string attr)
+        {
+            customImigami.Add(attr);
+        }
+        public void RemoveCustomShugosin(string attr)
+        {
+            customImigami.Remove(attr);
         }
 
 
@@ -1795,4 +1870,52 @@ namespace WinFormsApp2
 
     }
 
+    /// <summary>
+    /// カスタム守護神、忌神情報
+    /// </summary>
+    public class CustomShugosinImigami
+    {
+        public  List<string> lstJunisi = new List<string>();
+
+        public bool IsExist(string s)
+        {
+            foreach (var item in lstJunisi)
+            {
+                if (item == s) return true;
+            }
+            return false;
+        }
+        public void Add( string s)
+        {
+            foreach (var item in lstJunisi)
+            {
+                if (item == s) return;
+            }
+            lstJunisi.Add(s);
+        }
+        public void Remove( string s )
+        {
+            lstJunisi.Remove(s);
+        }
+        public List<string> GetAttrs()
+        {
+            List<string> attrs = new List<string>();
+
+           TableMng tblMng = TableMng.GetTblManage();
+            foreach (var item in lstJunisi)
+            {
+                attrs.Add(tblMng.jyukanTbl[item].gogyou);
+            }
+            return attrs;
+        }
+        public override string ToString()
+        {
+            string s = "";
+            foreach(var item in lstJunisi)
+            {
+                s += item;
+            }
+            return s;
+        }
+    }
 }
