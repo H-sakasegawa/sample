@@ -133,7 +133,7 @@ namespace WinFormsApp2
         }
 
         public static TaiunItems GetTaiunItem(Person person, string title, int kansiNo, int startNen,
-                                  List<string> shugosinAttr, List<string> imigamiAttr, string[] shugosinKan
+                                  List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] shugosinKan
             )
         {
             TaiunItems item = new TaiunItems();
@@ -204,7 +204,7 @@ namespace WinFormsApp2
                 foreach (var shugosin in shugosinAttr)
                 {
                     //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                    if (kanAttr == shugosin) //干のみ　支は見ない
+                    if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
                     {
                         item.bShugosin = true;
                     }
@@ -228,7 +228,7 @@ namespace WinFormsApp2
             foreach (var imigami in imigamiAttr)
             {
                 //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-                if (kanAttr == imigami) //干のみ　支は見ない
+                if (kanAttr == imigami.gogyouAttr) //干のみ　支は見ない
                 {
                     item.bImigami = true;
                 }
@@ -250,7 +250,7 @@ namespace WinFormsApp2
         /// <param name="choukouShugosinKan"></param>
         /// <returns></returns>
         public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, int targetkansiNo, Kansi taiunKansi,
-                                   List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan)
+                                   List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] choukouShugosinKan)
         {
             NenunGetuunItems item = new NenunGetuunItems();
             TableMng tblMng = TableMng.GetTblManage();
@@ -320,7 +320,7 @@ namespace WinFormsApp2
                 foreach (var shugosin in shugosinAttr)
                 {
                     //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                    if (kanAttr == shugosin) //干のみ　支は見ない
+                    if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
 
                     {
                         item.bShugosin = true;
@@ -345,7 +345,7 @@ namespace WinFormsApp2
             foreach (var imigami in imigamiAttr)
             {
                 //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-                if (kanAttr == imigami)//干のみ　支は見ない
+                if (kanAttr == imigami.gogyouAttr)//干のみ　支は見ない
                 {
                     item.bImigami = true;
                 }

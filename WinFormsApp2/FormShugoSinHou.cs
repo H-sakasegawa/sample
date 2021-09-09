@@ -27,6 +27,7 @@ namespace WinFormsApp2
         CheckBox[] chkShugosin;
         CheckBox[] chkImigami;
 
+        bool bEditCustom = false;
 
         public FormShugoSinHou()
         {
@@ -55,9 +56,25 @@ namespace WinFormsApp2
 
         }
 
-        public void Update(Person _person )
+        //外からのユーザ指定で画面更新
+        public void Update(Person _person)
         {
+            if (bEditCustom)
+            {
+                //メンバー登録ファイル更新
+                Persons.GetPersons().WritePersonList();
+                bEditCustom = false;
+            }
             person = _person;
+            Update();
+
+        }
+        /// <summary>
+        /// 現在のpersonで表示更新
+        /// </summary>
+        private void Update( )
+        {
+
 
             //調候の守護神
             lbl1.Text = "";
@@ -75,25 +92,25 @@ namespace WinFormsApp2
             string sNone = "(なし)";
             //第１守護神情報取得
             //調和の守護神属性, inigamiAttr
-            if (person.ShugosinAttr.Count==0)
+            if (person.ShugosinAttrs.Count==0)
             {
                 lbl4.Text = lbl3.Text = sNone;
             }
             else {
                 //忌神
                 lbl4.Text = lbl3.Text = "";
-                foreach (var imigami in person.ImigamiAttr)
+                foreach (var imigami in person.ImigamiAttrs)
                 {
-                    if (lbl4.Text.Contains(imigami)) continue;
+                    if (lbl4.Text.Contains(imigami.gogyouAttr)) continue;
                     if (lbl4.Text != "") lbl4.Text += ",";
-                    lbl4.Text += imigami + "性";
+                    lbl4.Text += imigami.gogyouAttr + "性";
                 }
                 //調和の守護神
-                foreach (var shugosin in person.ShugosinAttr)
+                foreach (var shugosin in person.ShugosinAttrs)
                 {
-                    if (lbl3.Text.Contains(shugosin)) continue;
+                    if (lbl3.Text.Contains(shugosin.gogyouAttr)) continue;
                     if (lbl3.Text != "") lbl3.Text += ",";
-                    lbl3.Text += shugosin+ "性";
+                    lbl3.Text += shugosin.gogyouAttr+ "性";
                 }
 
                 if (lbl4.Text == "") { lbl4.Text = sNone; }
@@ -103,8 +120,23 @@ namespace WinFormsApp2
             //カスタム守護神チェックボックス設定
             for (int i = 0; i < chkShugosin.Length; i++)
             {
-                chkShugosin[i].Checked = person.customShugosin.IsExist(chkShugosin[i].Text);
-                chkImigami[i].Checked = person.customImigami.IsExist(chkImigami[i].Text);
+                var chkBoxShugo = chkShugosin[i];
+                var chkBoxImi = chkImigami[i];
+
+                //チェックボックス変更イベントが発生しないよういったんイベントハンドラを削除
+                chkBoxShugo.CheckedChanged -= chkShugosin_CheckedChanged;
+                chkBoxImi.CheckedChanged -= chkImigami_CheckedChanged;
+                {
+                    chkBoxShugo.Checked = person.customShugosin.IsExist(chkShugosin[i].Text);
+                    chkBoxImi.Checked = person.customImigami.IsExist(chkImigami[i].Text);
+                }
+                //イベントハンドラ再設定
+                chkBoxShugo.CheckedChanged += chkShugosin_CheckedChanged;
+                chkBoxImi.CheckedChanged += chkImigami_CheckedChanged;
+
+                SetChkboxDisp(chkImigami, chkBoxShugo.Text, !chkBoxShugo.Checked); //忌神チェックボックスで同じものを有効/無効化
+                SetChkboxDisp(chkShugosin, chkBoxImi.Text, !chkBoxImi.Checked); //守護神チェックボックスで同じものを有効/無効化
+
             }
 
 
@@ -113,11 +145,19 @@ namespace WinFormsApp2
 
         private void FormKonkihou_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (bEditCustom)
+            {
+                //メンバー登録ファイル更新
+                Persons.GetPersons().WritePersonList();
+                bEditCustom = false;
+            }
+
             OnClose?.Invoke();
         }
 
         private void chkShugosin_CheckedChanged(object sender, EventArgs e)
         {
+            bEditCustom = true; //編集ありフラグセット
             CheckBox chkBox = (CheckBox)sender;
             if (chkBox.Checked)
             {
@@ -127,13 +167,17 @@ namespace WinFormsApp2
             {
                 person.customShugosin.Remove(chkBox.Text);
             }
-            Update(person);
-            Persons.GetPersons().WritePersonList();
+            SetChkboxDisp(chkImigami, chkBox.Text, !chkBox.Checked ); //忌神チェックボックスで同じものを有効/無効化
 
+            //守護神法の画面表示更新
+            Update();
+            //メイン画面の守護神、忌神表示更新
             OnUpdateShugosin?.Invoke();
         }
+
         private void chkImigami_CheckedChanged(object sender, EventArgs e)
         {
+            bEditCustom = true; //編集ありフラグセット
             CheckBox chkBox = (CheckBox)sender;
             if (chkBox.Checked)
             {
@@ -143,11 +187,26 @@ namespace WinFormsApp2
             {
                 person.RemoveCustomShugosin(chkBox.Text);
             }
-            Update(person);
-            Persons.GetPersons().WritePersonList();
+            SetChkboxDisp(chkShugosin, chkBox.Text, !chkBox.Checked); //守護神チェックボックスで同じものを有効/無効化
+                                                                     //メンバー登録ファイル更新
+            //守護神法の画面表示更新
+            Update();
+            //メイン画面の守護神、忌神表示更新
             OnUpdateShugosin?.Invoke();
 
         }
-
+        /// <summary>
+        /// チェックボックスの有効、無効設定
+        /// </summary>
+        /// <param name="chkBoxes"></param>
+        /// <param name="junisi"></param>
+        /// <param name="enable"></param>
+        private void SetChkboxDisp(CheckBox[] chkBoxes, string junisi, bool enable)
+        {
+            foreach (var chkBox in chkBoxes)
+            {
+                if (chkBox.Text == junisi) { chkBox.Enabled = enable; break; }
+            }
+        }
     }
 }

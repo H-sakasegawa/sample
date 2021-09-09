@@ -257,12 +257,14 @@ namespace WinFormsApp2
 
         /// <summary>
         /// 十干 の守護神判定
+        /// ※守護神情報に十二支がある場合は、干に該当する項目を守護神とする
+        /// 　十二支がない場合は、五行属性に該当するものを守護神とする
         /// </summary>
-        /// <param name="kan"></param>
+        /// <param name="kan">十二支 干</param>
         /// <returns></returns>
         public bool IsShugosin(string kan)
         {
-            var shugosinAttr = person.ShugosinAttr;
+            var shugosinAttr = person.ShugosinAttrs;
             string[] choukouShugosinKan = person.choukouShugosin;
 
             //干の守護神判定
@@ -275,7 +277,14 @@ namespace WinFormsApp2
             {
                 foreach (var shugoKan in shugosinAttr)
                 {
-                    if (kanAttr == shugoKan) return true;
+                    if (shugoKan.junisi != null)
+                    {
+                        if (kan == shugoKan.junisi) return true;
+                    }
+                    else
+                    {
+                        if (kanAttr == shugoKan.gogyouAttr) return true;
+                    }
                 }
             }
             else
@@ -295,12 +304,14 @@ namespace WinFormsApp2
         }
         /// <summary>
         /// 十干　 忌神判定
+        /// ※忌神情報に十二支がある場合は、干に該当する項目を守護神とする
+        /// 　十二支がない場合は、五行属性に該当するものを守護神とする
         /// </summary>
         /// <param name="kan"></param>
         /// <returns></returns>
         public bool IsImigami(string kan)
         {
-            var imigamiAttr = person.ImigamiAttr;
+            var imigamiAttrs = person.ImigamiAttrs;
             string choukouImigami = person.choukouImigamiAttr;
 
             //干の守護神判定
@@ -308,11 +319,18 @@ namespace WinFormsApp2
             string kanAttr = tblMng.jyukanTbl[kan].gogyou;
 
             //忌神判定
-            if (imigamiAttr.Count>0)
+            if (imigamiAttrs.Count>0)
             {
-                foreach (var imigami in imigamiAttr)
+                foreach (var imigami in imigamiAttrs)
                 {
-                    if (kanAttr == imigami) return true;
+                    if (imigami.junisi != null)
+                    {
+                        if (kan == imigami.junisi) return true;
+                    }
+                    else
+                    {
+                        if (kanAttr == imigami.gogyouAttr) return true;
+                    }
                 }
             }
             else

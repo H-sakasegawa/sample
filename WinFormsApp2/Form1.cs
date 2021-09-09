@@ -697,11 +697,11 @@ namespace WinFormsApp2
             }
 #else
             string[] choukouShugosinKan = null;
-            var shugosinAttr = person.ShugosinAttr;
-            var imigamiAttr = person.ImigamiAttr;
-            if (imigamiAttr.Count==0)
+            var shugosinAttrs = person.ShugosinAttrs;
+            var imigamiAttrs = person.ImigamiAttrs;
+            if (imigamiAttrs.Count==0)
             {
-                imigamiAttr.Add( person.choukouImigamiAttr);
+                imigamiAttrs.Add( new CustomShugosinAttr( person.choukouImigamiAttr) );
                 choukouShugosinKan = person.choukouShugosin;
             }
 
@@ -713,13 +713,13 @@ namespace WinFormsApp2
                 if ( i==0)
                 {
                     //初旬
-                    AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0, shugosinAttr, imigamiAttr, choukouShugosinKan);
+                    AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0, shugosinAttrs, imigamiAttrs, choukouShugosinKan);
                 }
                 else
                 {
                     AddTaiunItem(person, string.Format("{0}旬 {1}～", i + 1, kansiItem.startYear),
                                  kansiItem.kansiNo, kansiItem.startYear,
-                                 shugosinAttr, imigamiAttr, choukouShugosinKan);
+                                 shugosinAttrs, imigamiAttrs, choukouShugosinKan);
                 }
             }
 
@@ -754,7 +754,7 @@ namespace WinFormsApp2
         /// <param name="title"></param>
         /// <param name="kansiNo"></param>
         private void AddTaiunItem(Person person , string title, int kansiNo, int startNen,
-                                  List<string> shugosinAttr, List<string> imigamiAttr,  string[] shugosinKan
+                                  List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr,  string[] shugosinKan
             )
         {
 
@@ -844,11 +844,11 @@ namespace WinFormsApp2
 #endif
 
             string[] choukouShugosinKan = null;
-            var shugosinAttr = person.ShugosinAttr;
-            var imigamiAttr = person.ImigamiAttr;
-            if (imigamiAttr.Count==0)
+            var shugosinAttrs = person.ShugosinAttrs;
+            var imigamiAttrs = person.ImigamiAttrs;
+            if (imigamiAttrs.Count==0)
             {
-                imigamiAttr.Add( person.choukouImigamiAttr );
+                imigamiAttrs.Add( new  CustomShugosinAttr(  person.choukouImigamiAttr ) );
                 choukouShugosinKan = person.choukouShugosin;
             }
 
@@ -863,8 +863,8 @@ namespace WinFormsApp2
                                     string.Format("{0}歳({1})", (baseYear +i) - person.birthday.year,  baseYear +i),
                                     nenkansiNo,
                                     taiunKansi,
-                                    shugosinAttr,
-                                    imigamiAttr,
+                                    shugosinAttrs,
+                                    imigamiAttrs,
                                     choukouShugosinKan,
                                     lvNenun
                                     );
@@ -897,12 +897,12 @@ namespace WinFormsApp2
             //int gekkansiNo = taiunItemData.kansi.no;
 
             string[] choukouShugosinKan =null;
-            var shugosinAttr = person.ShugosinAttr;
-            var imigamiAttr = person.ImigamiAttr;
-            if(imigamiAttr.Count==0)
+            var shugosinAttrs = person.ShugosinAttrs;
+            var imigamiAttrs = person.ImigamiAttrs;
+            if(imigamiAttrs.Count==0)
             {
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr.Add(person.choukouImigamiAttr);
+                imigamiAttrs.Add( new CustomShugosinAttr( person.choukouImigamiAttr) );
             }
 
             //2月～12月,1月分を表示
@@ -927,8 +927,8 @@ namespace WinFormsApp2
                                     string.Format("{0}月", mMonth),
                                     gekkansiNo,
                                     taiunItemData.kansi,
-                                    shugosinAttr,
-                                    imigamiAttr,
+                                    shugosinAttrs,
+                                    imigamiAttrs,
                                     choukouShugosinKan,
                                     lvGetuun
                                     );
@@ -949,7 +949,7 @@ namespace WinFormsApp2
         /// <param name="targetkansiNo">年運干支No</param>
         /// <param name="kansi">大運干支No</param>
         private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
-                                  List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan, 
+                                  List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] choukouShugosinKan, 
                                   ListView lv)
         {
 
@@ -962,7 +962,7 @@ namespace WinFormsApp2
         }
 
         private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,
-                                  List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan, 
+                                  List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] choukouShugosinKan, 
                                   ListView lv)
         {
 

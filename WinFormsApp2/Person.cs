@@ -345,20 +345,42 @@ namespace WinFormsApp2
         private string _imigamiAttr = "";   //調候の忌神
         public string shugosinExplanation { get; set; } = ""; //説明文
 
-        public List<string> ShugosinAttr
+        /// <summary>
+        /// カスタム守護神、忌神取得
+        /// </summary>
+        public List<CustomShugosinAttr> ShugosinAttrs
         {
             get
             {
-                if (customShugosin.lstJunisi.Count > 0) return customShugosin.GetAttrs();
-                else return new List<string> { _shugosinAttr };
+                List<CustomShugosinAttr> lstAttrs ;
+
+                if (customShugosin.Count > 0)
+                {
+                    lstAttrs = customShugosin.lstCustShugosin;
+                }
+                else
+                {
+                    lstAttrs = new List<CustomShugosinAttr>();
+                    if(_shugosinAttr!=null)lstAttrs.Add(new CustomShugosinAttr(null, _shugosinAttr));
+                }
+                return lstAttrs;
             }
         }
-        public List<string> ImigamiAttr
+        public List<CustomShugosinAttr> ImigamiAttrs
         {
             get
             {
-                if (customImigami.lstJunisi.Count > 0) return customImigami.GetAttrs();
-                else return new List<string> { _imigamiAttr };
+                List<CustomShugosinAttr> lstAttrs;
+                if (customImigami.Count > 0)
+                {
+                    lstAttrs = customImigami.lstCustShugosin;
+                }
+                else
+                {
+                    lstAttrs = new List<CustomShugosinAttr>();
+                    if(_imigamiAttr!=null) lstAttrs.Add(new CustomShugosinAttr(null,_imigamiAttr));
+                }
+                return lstAttrs;
             }
         }
 
@@ -388,7 +410,7 @@ namespace WinFormsApp2
                 var charAry = _custShugo.ToCharArray();
                 for (int i = 0; i < charAry.Length; i++)
                 {
-                    customShugosin.lstJunisi.Add(charAry[i].ToString());
+                    customShugosin.Add(charAry[i].ToString());
                 }
             }
  
@@ -397,7 +419,7 @@ namespace WinFormsApp2
                 var charAry = _custImigami.ToCharArray();
                 for (int i = 0; i < charAry.Length; i++)
                 {
-                    customImigami.lstJunisi.Add(charAry[i].ToString());
+                    customImigami.Add(charAry[i].ToString());
                 }
             }
          
@@ -1870,50 +1892,87 @@ namespace WinFormsApp2
 
     }
 
+
+    public class CustomShugosinAttr
+    {
+        public CustomShugosinAttr(string _junisi, string attr = null)
+        {
+            junisi = _junisi;
+            gogyouAttr = attr;
+        }
+        public  string gogyouAttr;
+        public string junisi;
+    }
+
     /// <summary>
     /// カスタム守護神、忌神情報
     /// </summary>
     public class CustomShugosinImigami
     {
-        public  List<string> lstJunisi = new List<string>();
+        TableMng tblMng = TableMng.GetTblManage();
+        public List<CustomShugosinAttr> lstCustShugosin = new List<CustomShugosinAttr>();
 
-        public bool IsExist(string s)
+        public int Count
         {
-            foreach (var item in lstJunisi)
+            get { return lstCustShugosin.Count; }
+        }
+        /// <summary>
+        /// 十二支の文字が登録されているか判定
+        /// </summary>
+        /// <param name="sJunisi"></param>
+        /// <returns></returns>
+        public bool IsExist(string sJunisi)
+        {
+            foreach (var item in lstCustShugosin)
             {
-                if (item == s) return true;
+                if (item.junisi == sJunisi) return true;
             }
             return false;
         }
-        public void Add( string s)
+        /// <summary>
+        /// 守護神、忌神の十二支文字登録
+        /// </summary>
+        /// <param name="sJunisi"></param>
+        public void Add( string sJunisi)
         {
-            foreach (var item in lstJunisi)
+            foreach (var item in lstCustShugosin)
             {
-                if (item == s) return;
+                if (item.junisi == sJunisi) return;
             }
-            lstJunisi.Add(s);
+
+            //十二支の属性取得
+            lstCustShugosin.Add(　new CustomShugosinAttr(sJunisi, tblMng.jyukanTbl[sJunisi].gogyou) );
         }
-        public void Remove( string s )
+        /// <summary>
+        /// カスタム守護神、忌神で指定された十二支の情報を削除
+        /// </summary>
+        /// <param name="sJunisi"></param>
+        public void Remove( string sJunisi)
         {
-            lstJunisi.Remove(s);
+            for (int i = lstCustShugosin.Count - 1; i >= 0; i--)
+            {
+                if (lstCustShugosin[i].junisi == sJunisi)
+                {
+                    lstCustShugosin.RemoveAt(i);
+                }
+            }
         }
         public List<string> GetAttrs()
         {
             List<string> attrs = new List<string>();
 
-           TableMng tblMng = TableMng.GetTblManage();
-            foreach (var item in lstJunisi)
+            foreach (var item in lstCustShugosin)
             {
-                attrs.Add(tblMng.jyukanTbl[item].gogyou);
+                attrs.Add(tblMng.jyukanTbl[item.junisi].gogyou);
             }
             return attrs;
         }
         public override string ToString()
         {
             string s = "";
-            foreach(var item in lstJunisi)
+            foreach(var item in lstCustShugosin)
             {
-                s += item;
+                s += item.junisi;
             }
             return s;
         }

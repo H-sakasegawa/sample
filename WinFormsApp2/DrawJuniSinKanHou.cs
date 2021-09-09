@@ -323,9 +323,9 @@ namespace WinFormsApp2
         {
             if (string.IsNullOrEmpty(kan)) return 0;
 
-            var shugosinAttr = person.ShugosinAttr;
+            var shugosinAttrs = person.ShugosinAttrs;
             string[] choukouShugosinKan = person.choukouShugosin;
-            var imigamiAttr = person.ImigamiAttr;
+            var imigamiAttrs = person.ImigamiAttrs;
 
             var tblMng = TableMng.GetTblManage();
             //干の守護神判定
@@ -334,11 +334,11 @@ namespace WinFormsApp2
 
 
             //守護神判定
-            if (shugosinAttr.Count > 0)
+            if (shugosinAttrs.Count > 0)
             {
-                foreach (var shugosin in shugosinAttr)
+                foreach (var shugosin in shugosinAttrs)
                 {
-                    if (kanAttr == shugosin) return 1;
+                    if (kanAttr == shugosin.gogyouAttr) return 1;
                 }
             }
             else
@@ -349,9 +349,9 @@ namespace WinFormsApp2
                 }
             }
             //忌神判定
-            foreach (var imigame in imigamiAttr)
+            foreach (var imigame in imigamiAttrs)
             {
-                if (kanAttr == imigame)
+                if (kanAttr == imigame.gogyouAttr)
                 {
                     return 2;
                 }

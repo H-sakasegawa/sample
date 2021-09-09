@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+using System.Windows.Forms;
+
 //共通 NPOI
 using NPOI;
 using NPOI.SS.UserModel;
@@ -116,11 +118,18 @@ namespace WinFormsApp2
         /// <param name="filepath"></param>
         public static void WriteExcel(IWorkbook workbook, string filepath)
         {
-            // ファイルストリームを生成する。
-            using (var file = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+            try
             {
-                // 格納する。
-                workbook.Write(file);
+                // ファイルストリームを生成する。
+                using (var file = new FileStream(filepath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                {
+                    // 格納する。
+                    workbook.Write(file);
+                }
+            }
+            catch
+            {
+                MessageBox.Show(string.Format("データの書き込みに失敗しました。\nファイルが書き込み不可となっています\n{0}", filepath) );
             }
         }
 

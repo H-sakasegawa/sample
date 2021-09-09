@@ -176,7 +176,6 @@ namespace WinFormsApp2
         private void grdViewNenUn_Paint(object sender, PaintEventArgs e)
         {
             int colCount = grdViewNenUn.Columns.Count;
-            int x = 0;
             int h = grdViewNenUn.ColumnHeadersHeight / 2;
             for (int col = 0; col < colCount; )
             {
@@ -221,7 +220,6 @@ namespace WinFormsApp2
                                     rect,
                                     format);
                 col += grpItemCnt;
-                x = 1;
             }
         }
 
@@ -412,7 +410,6 @@ namespace WinFormsApp2
 
             int colIndex = 0;
             //年運表示
-            int i = 0;
             DispListItem(basePerson, colIndex);
             colIndex += grpItemCnt;
 
@@ -432,7 +429,6 @@ namespace WinFormsApp2
         public void DispListItem(Person person, int colIndex)
         {
 
-
             int baseYear = person.birthday.year;
             int nenkansiNo = person.GetNenkansiNo(baseYear);
 
@@ -440,13 +436,13 @@ namespace WinFormsApp2
 
             var lstTaiunKansi = person.GetTaiunKansiList();
             Kansi taiunKansi = null;
-            var shugosinAttr = person.ShugosinAttr;
-            var imigamiAttr = person.ImigamiAttr;
+            var shugosinAttrs = person.ShugosinAttrs;
+            var imigamiAttrs = person.ImigamiAttrs;
             string[] choukouShugosinKan = null;
-            if (imigamiAttr.Count==0)
+            if (imigamiAttrs.Count==0)
             {
                 choukouShugosinKan = person.choukouShugosin;
-                imigamiAttr.Add( person.choukouImigamiAttr );
+                imigamiAttrs.Add( new  CustomShugosinAttr( person.choukouImigamiAttr ));
             }
 
             int startYear = person.birthday.year;
@@ -487,7 +483,7 @@ namespace WinFormsApp2
                 //string title = string.Format("{0}歳({1})", (baseYear + year) - person.birthday.year, baseYear + year);
 
                 AddListItem(person,year, colIndex, idxRow, "", nenkansiNo, taiunKansi,
-                                                   shugosinAttr, imigamiAttr, choukouShugosinKan, ref prevTaiunKansiNo);
+                                                   shugosinAttrs, imigamiAttrs, choukouShugosinKan, ref prevTaiunKansiNo);
                 nenkansiNo += 1;
             }
         }
@@ -495,16 +491,16 @@ namespace WinFormsApp2
 
         private void AddListItem(Person person, int year, int startCol,
                                 int idxRow, string title, int targetkansiNo, Kansi taiunKansi,
-                                List<string> shugosinAttr, List<string> imigamiAttr, string[] choukouShugosinKan,
+                                List<CustomShugosinAttr> shugosinAttrs, List<CustomShugosinAttr> imigamiAttrs, string[] choukouShugosinKan,
                                 ref int prevTaiunKansiNo)
         {
 
             //大運干支表示
             var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year,
-                                        shugosinAttr, imigamiAttr, choukouShugosinKan);
+                                        shugosinAttrs, imigamiAttrs, choukouShugosinKan);
             //年運情報取得
             var nenunItem = Common.GetNenunGetuunItems(person, title, targetkansiNo, taiunKansi,
-                                                        shugosinAttr, imigamiAttr, choukouShugosinKan);
+                                                        shugosinAttrs, imigamiAttrs, choukouShugosinKan);
 
             var row = grdViewNenUn.Rows[idxRow];
 
