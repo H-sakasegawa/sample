@@ -475,7 +475,11 @@ namespace WinFormsApp2
                 int idxRow;
                 if (chkDispBaseYearRange.Checked)
                 {
-                    if (year < minYear || year >= maxYear) continue;
+                    if (year < minYear || year >= maxYear)
+                    {
+                        nenkansiNo += 1;
+                        continue;
+                    }
                 }
                 
                 idxRow = year - minYear;
