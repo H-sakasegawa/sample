@@ -283,11 +283,11 @@ namespace WinFormsApp2
                 fntZougan = fntBold;
             }
             //干の守護神判定
-            if (!string.IsNullOrEmpty(genso) && bShugosin)
+            if (!string.IsNullOrEmpty( genso) && bShugosin)
             {
-                if (IsShugosin(genso)) g.FillRectangle(Const.brusShugosin, rect);
+                if (ShugosinUtil.IsShugosin(person, genso)) g.FillRectangle(Const.brusShugosin, rect);
                 
-                if (IsImigami(genso)) g.FillRectangle(Const.brusImigami, rect);
+                if (ShugosinUtil.IsImigami(person, genso)) g.FillRectangle(Const.brusImigami, rect);
             }
 
             var brush = new SolidBrush(color);

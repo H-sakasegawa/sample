@@ -57,7 +57,8 @@ namespace WinFormsApp2
            COL_GENDER,  //性別
            COL_GROUP,    //グループ
            COL_CUST_SHUGOSIN ,   //カスタム守護神
-           COL_CUST_IMIGAMI    //カスタム忌神
+           COL_CUST_IMIGAMI,    //カスタム忌神
+           COL_CUST_ONOFF     //カスタム設定の有効・無効フラグ
         };
 
         private static Persons persons = new Persons();
@@ -172,7 +173,7 @@ namespace WinFormsApp2
             {
                 //氏名
                 string name = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_NAME);
-                if (name == "") break;
+                if (string.IsNullOrEmpty(name)) break;
 
                 //生年月日
                 string sBirthday = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_BIRTHDAY);
@@ -197,7 +198,15 @@ namespace WinFormsApp2
                 //カスタム忌神
                 string custImigami = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
 
-                var person = new Person(name, birthday, gender, group, custShugo, custImigami);
+                //カスタム守護神・忌神の有効無効設定
+                string customFlg = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
+                if( string.IsNullOrEmpty(customFlg))
+                {
+                    customFlg = "false";
+                }
+                bool bCustomFlg = bool.Parse(customFlg);
+
+                var person = new Person(name, birthday, gender, group, bCustomFlg, custShugo, custImigami);
                 dicPersons.Add(name, person);
 
                 //グループディクショナリ
@@ -257,9 +266,13 @@ namespace WinFormsApp2
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_SHUGOSIN);
             cell.SetCellValue("カスタム守護神");
             cell.CellStyle = style;
-            //カスタム守護神
+            //カスタム忌神
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
             cell.SetCellValue("カスタム忌神");
+            cell.CellStyle = style;
+            //カスタム守護神・忌神　有効無効設定
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
+            cell.SetCellValue("カスタム設定有効フラグ");
             cell.CellStyle = style;
 
             iRow++;
@@ -288,6 +301,10 @@ namespace WinFormsApp2
                 //カスタム忌神
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
                 cell.SetCellValue(person.customImigami.ToString());
+
+                //カスタム守護神・忌神の有効無効設定
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
+                cell.SetCellValue(person.bCustomShugosin.ToString());
 
                 iRow++;
             }
@@ -341,48 +358,12 @@ namespace WinFormsApp2
         public string[] choukouShugosin { get; set; } = null;
         public string choukouImigamiAttr { get; set; } = "";
 
-        private string _shugosinAttr = "";  //調候の守護神
-        private string _imigamiAttr = "";   //調候の忌神
+        public string shugosinAttr { get; set; } = "";  //調和の守護神
+        public string imigamiAttr { get; set; } = "";   //調和の忌神
+
         public string shugosinExplanation { get; set; } = ""; //説明文
+        public bool bCustomShugosin = false; //true...カスタム守護神、カスタム忌神有効 fale...基本の守護神、忌神が有効
 
-        /// <summary>
-        /// カスタム守護神、忌神取得
-        /// </summary>
-        public List<CustomShugosinAttr> ShugosinAttrs
-        {
-            get
-            {
-                List<CustomShugosinAttr> lstAttrs ;
-
-                if (customShugosin.Count > 0)
-                {
-                    lstAttrs = customShugosin.lstCustShugosin;
-                }
-                else
-                {
-                    lstAttrs = new List<CustomShugosinAttr>();
-                    if(_shugosinAttr!=null)lstAttrs.Add(new CustomShugosinAttr(null, _shugosinAttr));
-                }
-                return lstAttrs;
-            }
-        }
-        public List<CustomShugosinAttr> ImigamiAttrs
-        {
-            get
-            {
-                List<CustomShugosinAttr> lstAttrs;
-                if (customImigami.Count > 0)
-                {
-                    lstAttrs = customImigami.lstCustShugosin;
-                }
-                else
-                {
-                    lstAttrs = new List<CustomShugosinAttr>();
-                    if(_imigamiAttr!=null) lstAttrs.Add(new CustomShugosinAttr(null,_imigamiAttr));
-                }
-                return lstAttrs;
-            }
-        }
 
 
 
@@ -390,20 +371,21 @@ namespace WinFormsApp2
         private SetuiribiTable tblSetuiribi;
 
  
-        public Person(string _name, int year, int month, int day, Gender _gender, string custShugo=null, string custImigami = null)
+        public Person(string _name, int year, int month, int day, Gender _gender, bool custShugosin = false, string custShugo=null, string custImigami = null)
         {
-            Init(_name, birthday, _gender, "", custShugo, custImigami);
+            Init(_name, birthday, _gender, "", custShugosin, custShugo, custImigami);
         }
-        public Person(string _name, Birthday _birthday, Gender _gender, string _group, string custShugo=null, string custImigami=null)
+        public Person(string _name, Birthday _birthday, Gender _gender, string _group, bool custShugosin = false, string custShugo=null, string custImigami=null)
         {
-            Init(_name, _birthday, _gender, _group, custShugo, custImigami);
+            Init(_name, _birthday, _gender, _group, custShugosin, custShugo, custImigami);
         }
-        private void Init(string _name, Birthday _birthday, Gender _gender, string _group, string _custShugo, string _custImigami)
+        private void Init(string _name, Birthday _birthday, Gender _gender, string _group, bool _bCustomShugosin, string _custShugo, string _custImigami)
         {
             name = _name;
             birthday = _birthday;
             gender = _gender;
             group = _group;
+            bCustomShugosin = _bCustomShugosin;
 
             if (!string.IsNullOrEmpty(_custShugo))
             {
@@ -881,8 +863,8 @@ namespace WinFormsApp2
             string tensatu = GetTensatuTichuString(unKansi1, unKansi2);//天殺地冲
             //string kangou = GetKangoStr(nenunTaiunKansi, kansi); //干合            
 
-            bool bExistNentin = (nentin == "" ? false : true);
-            bool bExistTensatuTichu = tensatu == "" ? false : true;
+            bool bExistNentin = ( string.IsNullOrEmpty(nentin) ? false : true);
+            bool bExistTensatuTichu = string.IsNullOrEmpty(tensatu ) ? false : true;
 
             string[] items = tblMng.gouhouSanpouTbl.GetGouhouSanpouEx(unKansi1.si, unKansi2.si, bExistTensatuTichu, bExistNentin);
             if (items != null)
@@ -1372,13 +1354,13 @@ namespace WinFormsApp2
         private void SetChouwaShugosinAttr()
         {
             //調和の忌神
-            _imigamiAttr =  GetChouwaImiGami();
-            if (!string.IsNullOrEmpty(_imigamiAttr))
+            imigamiAttr =  GetChouwaImiGami();
+            if (!string.IsNullOrEmpty(imigamiAttr))
             {
                 //調和の守護神
                 //五行属性で忌神を剋するもの
-                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(_imigamiAttr);
-                _shugosinAttr = item.destoryFromName;
+                var item = tblMng.gogyouAttrRelationshipTbl.GetRelation(imigamiAttr);
+                shugosinAttr = item.destoryFromName;
             }
            
         }
@@ -1767,7 +1749,7 @@ namespace WinFormsApp2
                         string[] values = line.Split(',');
                         //年
                         string sYear = values[(int)CarrerListCol.COL_YEAR];
-                        if (sYear == "") break;
+                        if (string.IsNullOrEmpty(sYear)) break;
                         if (sYear == KEY_MEMO)
                         {
                             memo = values[(int)CarrerListCol.COL_CAREER].Replace("\\n", "\r\n");

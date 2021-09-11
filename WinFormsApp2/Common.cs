@@ -132,9 +132,7 @@ namespace WinFormsApp2
 
         }
 
-        public static TaiunItems GetTaiunItem(Person person, string title, int kansiNo, int startNen,
-                                  List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] shugosinKan
-            )
+        public static TaiunItems GetTaiunItem(Person person, string title, int kansiNo, int startNen )
         {
             TaiunItems item = new TaiunItems();
             TableMng tblMng = TableMng.GetTblManage();
@@ -198,41 +196,46 @@ namespace WinFormsApp2
 
 
             //守護神判定
-            item.bShugosin = false;
-            if (shugosinAttr.Count>0)
-            {
-                foreach (var shugosin in shugosinAttr)
-                {
-                    //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                    if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
-                    {
-                        item.bShugosin = true;
-                    }
-                }
-            }
-            else
-            {
-                if (shugosinKan != null)
-                {
-                    foreach (var kan in shugosinKan)
-                    {
-                        if (kan == taiunKansi.kan)
-                        {
-                            item.bShugosin = true;
-                        }
-                    }
-                }
-            }
+            item.bShugosin = ShugosinUtil.IsShugosin(person, taiunKansi.kan);
+
+
+            //item.bShugosin = false;
+            //if (shugosinAttr.Count>0)
+            //{
+            //    foreach (var shugosin in shugosinAttr)
+            //    {
+            //        //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+            //        if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
+            //        {
+            //            item.bShugosin = true;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (shugosinKan != null)
+            //    {
+            //        foreach (var kan in shugosinKan)
+            //        {
+            //            if (kan == taiunKansi.kan)
+            //            {
+            //                item.bShugosin = true;
+            //            }
+            //        }
+            //    }
+            //}
             //忌神判定
-            item.bImigami = false;
-            foreach (var imigami in imigamiAttr)
-            {
-                //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-                if (kanAttr == imigami.gogyouAttr) //干のみ　支は見ない
-                {
-                    item.bImigami = true;
-                }
-            }
+            item.bImigami = ShugosinUtil.IsImigami(person, taiunKansi.kan);
+
+            //item.bImigami = false;
+            //foreach (var imigami in imigamiAttr)
+            //{
+            //    //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            //    if (kanAttr == imigami.gogyouAttr) //干のみ　支は見ない
+            //    {
+            //        item.bImigami = true;
+            //    }
+            //}
 
             return item;
 
@@ -245,12 +248,8 @@ namespace WinFormsApp2
         /// <param name="title"></param>
         /// <param name="targetkansiNo"></param>
         /// <param name="taiunKansi"></param>
-        /// <param name="shugosinAttr"></param>
-        /// <param name="imigamiAttr"></param>
-        /// <param name="choukouShugosinKan"></param>
         /// <returns></returns>
-        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, int targetkansiNo, Kansi taiunKansi,
-                                   List<CustomShugosinAttr> shugosinAttr, List<CustomShugosinAttr> imigamiAttr, string[] choukouShugosinKan)
+        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, int targetkansiNo, Kansi taiunKansi)
         {
             NenunGetuunItems item = new NenunGetuunItems();
             TableMng tblMng = TableMng.GetTblManage();
@@ -309,47 +308,49 @@ namespace WinFormsApp2
 
 
             //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[targetKansi.kan].gogyou;
-            string siAttr = tblMng.jyunisiTbl[targetKansi.si].gogyou;
+            //string kanAttr = tblMng.jyukanTbl[targetKansi.kan].gogyou;
+            //string siAttr = tblMng.jyunisiTbl[targetKansi.si].gogyou;
 
 
             //守護神判定
-            item.bShugosin = false;
-            if (shugosinAttr.Count>0)
-            {
-                foreach (var shugosin in shugosinAttr)
-                {
-                    //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
-                    if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
+            item.bShugosin = ShugosinUtil.IsShugosin(person, targetKansi.kan);
+            //item.bShugosin = false;
+            //if (shugosinAttr.Count>0)
+            //{
+            //    foreach (var shugosin in shugosinAttr)
+            //    {
+            //        //if (kanAttr == shugosinAttr || siAttr == shugosinAttr)
+            //        if (kanAttr == shugosin.gogyouAttr) //干のみ　支は見ない
 
-                    {
-                        item.bShugosin = true;
-                    }
-                }
-            }
-            else
-            {
-                if (choukouShugosinKan != null)
-                {
-                    foreach (var kan in choukouShugosinKan)
-                    {
-                        if (kan == targetKansi.kan)
-                        {
-                            item.bShugosin = true;
-                        }
-                    }
-                }
-            }
+            //        {
+            //            item.bShugosin = true;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (choukouShugosinKan != null)
+            //    {
+            //        foreach (var kan in choukouShugosinKan)
+            //        {
+            //            if (kan == targetKansi.kan)
+            //            {
+            //                item.bShugosin = true;
+            //            }
+            //        }
+            //    }
+            //}
             //忌神判定
-            item.bImigami = false;
-            foreach (var imigami in imigamiAttr)
-            {
-                //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
-                if (kanAttr == imigami.gogyouAttr)//干のみ　支は見ない
-                {
-                    item.bImigami = true;
-                }
-            }
+            item.bImigami = ShugosinUtil.IsImigami(person, targetKansi.kan);
+            //item.bImigami = false;
+            //foreach (var imigami in imigamiAttr)
+            //{
+            //    //if (kanAttr == imigamiAttr || siAttr == imigamiAttr)
+            //    if (kanAttr == imigami.gogyouAttr)//干のみ　支は見ない
+            //    {
+            //        item.bImigami = true;
+            //    }
+            //}
 
             return item;
         }

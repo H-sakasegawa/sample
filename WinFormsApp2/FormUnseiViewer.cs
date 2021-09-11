@@ -436,14 +436,14 @@ namespace WinFormsApp2
 
             var lstTaiunKansi = person.GetTaiunKansiList();
             Kansi taiunKansi = null;
-            var shugosinAttrs = person.ShugosinAttrs;
-            var imigamiAttrs = person.ImigamiAttrs;
-            string[] choukouShugosinKan = null;
-            if (imigamiAttrs.Count==0)
-            {
-                choukouShugosinKan = person.choukouShugosin;
-                imigamiAttrs.Add( new  CustomShugosinAttr( person.choukouImigamiAttr ));
-            }
+            //var shugosinAttrs = person.ShugosinAttrs;
+            //var imigamiAttrs = person.ImigamiAttrs;
+            //string[] choukouShugosinKan = null;
+            //if (imigamiAttrs.Count==0)
+            //{
+            //    choukouShugosinKan = person.choukouShugosin;
+            //    imigamiAttrs.Add( new  CustomShugosinAttr( person.choukouImigamiAttr ));
+            //}
 
             int startYear = person.birthday.year;
             int endYear = (int)(person.birthday.year + MAX_YEAR_RANGE - 1);
@@ -486,8 +486,7 @@ namespace WinFormsApp2
 
                 //string title = string.Format("{0}歳({1})", (baseYear + year) - person.birthday.year, baseYear + year);
 
-                AddListItem(person,year, colIndex, idxRow, "", nenkansiNo, taiunKansi,
-                                                   shugosinAttrs, imigamiAttrs, choukouShugosinKan, ref prevTaiunKansiNo);
+                AddListItem(person,year, colIndex, idxRow, "", nenkansiNo, taiunKansi, ref prevTaiunKansiNo);
                 nenkansiNo += 1;
             }
         }
@@ -495,16 +494,13 @@ namespace WinFormsApp2
 
         private void AddListItem(Person person, int year, int startCol,
                                 int idxRow, string title, int targetkansiNo, Kansi taiunKansi,
-                                List<CustomShugosinAttr> shugosinAttrs, List<CustomShugosinAttr> imigamiAttrs, string[] choukouShugosinKan,
                                 ref int prevTaiunKansiNo)
         {
 
             //大運干支表示
-            var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year,
-                                        shugosinAttrs, imigamiAttrs, choukouShugosinKan);
+            var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year);
             //年運情報取得
-            var nenunItem = Common.GetNenunGetuunItems(person, title, targetkansiNo, taiunKansi,
-                                                        shugosinAttrs, imigamiAttrs, choukouShugosinKan);
+            var nenunItem = Common.GetNenunGetuunItems(person, title, targetkansiNo, taiunKansi);
 
             var row = grdViewNenUn.Rows[idxRow];
 

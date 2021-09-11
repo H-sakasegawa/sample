@@ -60,8 +60,12 @@ namespace WinFormsApp2
             this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.grpCustom = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.chkCustom = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.grpCustom.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl1
@@ -89,7 +93,7 @@ namespace WinFormsApp2
             this.lbl3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbl3.Location = new System.Drawing.Point(140, 32);
             this.lbl3.Name = "lbl3";
-            this.lbl3.Size = new System.Drawing.Size(127, 41);
+            this.lbl3.Size = new System.Drawing.Size(103, 27);
             this.lbl3.TabIndex = 3;
             this.lbl3.Text = "label3";
             // 
@@ -142,7 +146,7 @@ namespace WinFormsApp2
             this.lbl4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbl4.Location = new System.Drawing.Point(140, 94);
             this.lbl4.Name = "lbl4";
-            this.lbl4.Size = new System.Drawing.Size(103, 41);
+            this.lbl4.Size = new System.Drawing.Size(103, 21);
             this.lbl4.TabIndex = 6;
             this.lbl4.Text = "label4";
             // 
@@ -151,7 +155,7 @@ namespace WinFormsApp2
             this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(12, 131);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(231, 36);
+            this.label3.Size = new System.Drawing.Size(231, 54);
             this.label3.TabIndex = 7;
             this.label3.Text = "text";
             // 
@@ -167,9 +171,9 @@ namespace WinFormsApp2
             this.groupBox1.Controls.Add(this.checkBox6);
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Location = new System.Drawing.Point(273, 12);
+            this.groupBox1.Location = new System.Drawing.Point(15, 30);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(229, 69);
+            this.groupBox1.Size = new System.Drawing.Size(239, 64);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "守護神";
@@ -177,7 +181,7 @@ namespace WinFormsApp2
             // checkBox10
             // 
             this.checkBox10.AutoSize = true;
-            this.checkBox10.Location = new System.Drawing.Point(191, 44);
+            this.checkBox10.Location = new System.Drawing.Point(191, 39);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(38, 19);
             this.checkBox10.TabIndex = 9;
@@ -188,7 +192,7 @@ namespace WinFormsApp2
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(191, 22);
+            this.checkBox5.Location = new System.Drawing.Point(107, 18);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(38, 19);
             this.checkBox5.TabIndex = 4;
@@ -199,7 +203,7 @@ namespace WinFormsApp2
             // checkBox9
             // 
             this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(147, 44);
+            this.checkBox9.Location = new System.Drawing.Point(191, 18);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(38, 19);
             this.checkBox9.TabIndex = 8;
@@ -210,7 +214,7 @@ namespace WinFormsApp2
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(147, 22);
+            this.checkBox4.Location = new System.Drawing.Point(63, 39);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(38, 19);
             this.checkBox4.TabIndex = 3;
@@ -221,7 +225,7 @@ namespace WinFormsApp2
             // checkBox8
             // 
             this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(103, 44);
+            this.checkBox8.Location = new System.Drawing.Point(147, 39);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(38, 19);
             this.checkBox8.TabIndex = 7;
@@ -232,7 +236,7 @@ namespace WinFormsApp2
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(103, 22);
+            this.checkBox3.Location = new System.Drawing.Point(63, 18);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(38, 19);
             this.checkBox3.TabIndex = 2;
@@ -243,7 +247,7 @@ namespace WinFormsApp2
             // checkBox7
             // 
             this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(63, 44);
+            this.checkBox7.Location = new System.Drawing.Point(147, 18);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(38, 19);
             this.checkBox7.TabIndex = 6;
@@ -254,7 +258,7 @@ namespace WinFormsApp2
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(19, 44);
+            this.checkBox6.Location = new System.Drawing.Point(107, 39);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(38, 19);
             this.checkBox6.TabIndex = 5;
@@ -265,7 +269,7 @@ namespace WinFormsApp2
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(63, 22);
+            this.checkBox2.Location = new System.Drawing.Point(19, 39);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(38, 19);
             this.checkBox2.TabIndex = 1;
@@ -276,7 +280,7 @@ namespace WinFormsApp2
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 22);
+            this.checkBox1.Location = new System.Drawing.Point(19, 18);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(38, 19);
             this.checkBox1.TabIndex = 0;
@@ -296,17 +300,17 @@ namespace WinFormsApp2
             this.groupBox2.Controls.Add(this.checkBox16);
             this.groupBox2.Controls.Add(this.checkBox12);
             this.groupBox2.Controls.Add(this.checkBox11);
-            this.groupBox2.Location = new System.Drawing.Point(273, 87);
+            this.groupBox2.Location = new System.Drawing.Point(15, 96);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(239, 69);
+            this.groupBox2.Size = new System.Drawing.Size(239, 73);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "守護神";
+            this.groupBox2.Text = "忌神";
             // 
             // checkBox20
             // 
             this.checkBox20.AutoSize = true;
-            this.checkBox20.Location = new System.Drawing.Point(191, 44);
+            this.checkBox20.Location = new System.Drawing.Point(191, 43);
             this.checkBox20.Name = "checkBox20";
             this.checkBox20.Size = new System.Drawing.Size(38, 19);
             this.checkBox20.TabIndex = 9;
@@ -317,7 +321,7 @@ namespace WinFormsApp2
             // checkBox15
             // 
             this.checkBox15.AutoSize = true;
-            this.checkBox15.Location = new System.Drawing.Point(191, 22);
+            this.checkBox15.Location = new System.Drawing.Point(103, 22);
             this.checkBox15.Name = "checkBox15";
             this.checkBox15.Size = new System.Drawing.Size(38, 19);
             this.checkBox15.TabIndex = 4;
@@ -328,7 +332,7 @@ namespace WinFormsApp2
             // checkBox19
             // 
             this.checkBox19.AutoSize = true;
-            this.checkBox19.Location = new System.Drawing.Point(147, 44);
+            this.checkBox19.Location = new System.Drawing.Point(191, 22);
             this.checkBox19.Name = "checkBox19";
             this.checkBox19.Size = new System.Drawing.Size(38, 19);
             this.checkBox19.TabIndex = 8;
@@ -339,7 +343,7 @@ namespace WinFormsApp2
             // checkBox14
             // 
             this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(147, 22);
+            this.checkBox14.Location = new System.Drawing.Point(63, 43);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(38, 19);
             this.checkBox14.TabIndex = 3;
@@ -350,7 +354,7 @@ namespace WinFormsApp2
             // checkBox18
             // 
             this.checkBox18.AutoSize = true;
-            this.checkBox18.Location = new System.Drawing.Point(103, 44);
+            this.checkBox18.Location = new System.Drawing.Point(147, 43);
             this.checkBox18.Name = "checkBox18";
             this.checkBox18.Size = new System.Drawing.Size(38, 19);
             this.checkBox18.TabIndex = 7;
@@ -361,7 +365,7 @@ namespace WinFormsApp2
             // checkBox13
             // 
             this.checkBox13.AutoSize = true;
-            this.checkBox13.Location = new System.Drawing.Point(103, 22);
+            this.checkBox13.Location = new System.Drawing.Point(63, 22);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(38, 19);
             this.checkBox13.TabIndex = 2;
@@ -372,7 +376,7 @@ namespace WinFormsApp2
             // checkBox17
             // 
             this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(63, 44);
+            this.checkBox17.Location = new System.Drawing.Point(147, 22);
             this.checkBox17.Name = "checkBox17";
             this.checkBox17.Size = new System.Drawing.Size(38, 19);
             this.checkBox17.TabIndex = 6;
@@ -383,7 +387,7 @@ namespace WinFormsApp2
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(19, 44);
+            this.checkBox16.Location = new System.Drawing.Point(103, 43);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(38, 19);
             this.checkBox16.TabIndex = 5;
@@ -394,7 +398,7 @@ namespace WinFormsApp2
             // checkBox12
             // 
             this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(63, 22);
+            this.checkBox12.Location = new System.Drawing.Point(19, 43);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(38, 19);
             this.checkBox12.TabIndex = 1;
@@ -413,13 +417,45 @@ namespace WinFormsApp2
             this.checkBox11.UseVisualStyleBackColor = true;
             this.checkBox11.CheckedChanged += new System.EventHandler(this.chkImigami_CheckedChanged);
             // 
+            // grpCustom
+            // 
+            this.grpCustom.Controls.Add(this.button1);
+            this.grpCustom.Controls.Add(this.groupBox2);
+            this.grpCustom.Controls.Add(this.groupBox1);
+            this.grpCustom.Location = new System.Drawing.Point(262, 9);
+            this.grpCustom.Name = "grpCustom";
+            this.grpCustom.Size = new System.Drawing.Size(270, 176);
+            this.grpCustom.TabIndex = 9;
+            this.grpCustom.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(200, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(54, 21);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "クリア";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // chkCustom
+            // 
+            this.chkCustom.AutoSize = true;
+            this.chkCustom.Location = new System.Drawing.Point(260, 8);
+            this.chkCustom.Name = "chkCustom";
+            this.chkCustom.Size = new System.Drawing.Size(142, 19);
+            this.chkCustom.TabIndex = 10;
+            this.chkCustom.Text = "守護神、忌神手動設定";
+            this.chkCustom.UseVisualStyleBackColor = true;
+            this.chkCustom.CheckedChanged += new System.EventHandler(this.chkCustom_CheckedChanged);
+            // 
             // FormShugoSinHou
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 176);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(544, 192);
+            this.Controls.Add(this.chkCustom);
+            this.Controls.Add(this.grpCustom);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbl4);
             this.Controls.Add(this.label2);
@@ -441,6 +477,7 @@ namespace WinFormsApp2
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.grpCustom.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -478,5 +515,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox checkBox16;
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.GroupBox grpCustom;
+        private System.Windows.Forms.CheckBox chkCustom;
+        private System.Windows.Forms.Button button1;
     }
 }

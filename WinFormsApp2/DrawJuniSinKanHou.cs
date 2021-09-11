@@ -323,39 +323,42 @@ namespace WinFormsApp2
         {
             if (string.IsNullOrEmpty(kan)) return 0;
 
-            var shugosinAttrs = person.ShugosinAttrs;
-            string[] choukouShugosinKan = person.choukouShugosin;
-            var imigamiAttrs = person.ImigamiAttrs;
+           // var shugosinAttrs = person.ShugosinAttrs;
+           // string[] choukouShugosinKan = person.choukouShugosin;
+           // var imigamiAttrs = person.ImigamiAttrs;
 
-            var tblMng = TableMng.GetTblManage();
+           // var tblMng = TableMng.GetTblManage();
             //干の守護神判定
             //干の属性取得
-            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+            //string kanAttr = tblMng.jyukanTbl[kan].gogyou;
 
 
             //守護神判定
-            if (shugosinAttrs.Count > 0)
-            {
-                foreach (var shugosin in shugosinAttrs)
-                {
-                    if (kanAttr == shugosin.gogyouAttr) return 1;
-                }
-            }
-            else
-            {
-                foreach (var k in choukouShugosinKan)
-                {
-                    if (k == kan) return 1;
-                }
-            }
+            if (ShugosinUtil.IsShugosin(person, kan)) return 1;
+            //if (shugosinAttrs.Count > 0)
+            //{
+            //    foreach (var shugosin in shugosinAttrs)
+            //    {
+            //        if (kanAttr == shugosin.gogyouAttr) return 1;
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var k in choukouShugosinKan)
+            //    {
+            //        if (k == kan) return 1;
+            //    }
+            //}
             //忌神判定
-            foreach (var imigame in imigamiAttrs)
-            {
-                if (kanAttr == imigame.gogyouAttr)
-                {
-                    return 2;
-                }
-            }
+            if (ShugosinUtil.IsImigami(person, kan)) return 2;
+
+            //foreach (var imigame in imigamiAttrs)
+            //{
+            //    if (kanAttr == imigame.gogyouAttr)
+            //    {
+            //        return 2;
+            //    }
+            //}
             return 0;
         }
     }

@@ -614,6 +614,7 @@ namespace WinFormsApp2
             // columnHeader2
             // 
             this.columnHeader2.Text = "干支";
+            this.columnHeader2.Width = 50;
             // 
             // columnHeader3
             // 
@@ -690,7 +691,7 @@ namespace WinFormsApp2
             this.lvNenun.MultiSelect = false;
             this.lvNenun.Name = "lvNenun";
             this.lvNenun.OwnerDraw = true;
-            this.lvNenun.Size = new System.Drawing.Size(734, 240);
+            this.lvNenun.Size = new System.Drawing.Size(727, 240);
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
@@ -706,6 +707,7 @@ namespace WinFormsApp2
             // columnHeader16
             // 
             this.columnHeader16.Text = "干支";
+            this.columnHeader16.Width = 50;
             // 
             // columnHeader17
             // 
@@ -1089,6 +1091,7 @@ namespace WinFormsApp2
             // columnHeader6
             // 
             this.columnHeader6.Text = "干支";
+            this.columnHeader6.Width = 50;
             // 
             // columnHeader7
             // 

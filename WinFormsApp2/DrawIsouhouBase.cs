@@ -237,14 +237,14 @@ namespace WinFormsApp2
             //        }
             //    }
             //}
-            if(IsShugosin(kansi.kan)) g.FillRectangle(Const.brusShugosin, rectKan);
+            if(ShugosinUtil.IsShugosin(person, kansi.kan)) g.FillRectangle(Const.brusShugosin, rectKan);
 
             //忌神判定
             //if (kanAttr == imigamiAttr)
             //{
             //    g.FillRectangle(Const.brusImigami, rectKan);
             //}
-            if (IsImigami(kansi.kan)) g.FillRectangle(Const.brusImigami, rectKan); ;
+            if (ShugosinUtil.IsImigami(person, kansi.kan)) g.FillRectangle(Const.brusImigami, rectKan); ;
 
             if ( foreColor!=default)
             {
@@ -255,97 +255,114 @@ namespace WinFormsApp2
             g.DrawString(kansi.si, fnt, brush, rectSi, stringFormat);
         }
 
-        /// <summary>
-        /// 十干 の守護神判定
-        /// ※守護神情報に十二支がある場合は、干に該当する項目を守護神とする
-        /// 　十二支がない場合は、五行属性に該当するものを守護神とする
-        /// </summary>
-        /// <param name="kan">十二支 干</param>
-        /// <returns></returns>
-        public bool IsShugosin(string kan)
-        {
-            var shugosinAttr = person.ShugosinAttrs;
-            string[] choukouShugosinKan = person.choukouShugosin;
+        ///// <summary>
+        ///// 十干 の守護神判定
+        ///// ※守護神情報に十二支がある場合は、干に該当する項目を守護神とする
+        ///// 　十二支がない場合は、五行属性に該当するものを守護神とする
+        ///// </summary>
+        ///// <param name="kan">十二支 干</param>
+        ///// <returns></returns>
+        //public bool IsShugosin(string kan)
+        //{
+        //    //干の属性取得
+        //    string kanAttr = tblMng.jyukanTbl[kan].gogyou;
 
-            //干の守護神判定
-            //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+        //    if (person.bCustomShugosin)
+        //    {
+        //        var shugosinAttr = person.ShugosinAttrs;
+        //        foreach (var shugoKan in shugosinAttr)
+        //        {
+        //            if (shugoKan.junisi != null)
+        //            {
+        //                if (kan == shugoKan.junisi) return true;
+        //            }
+        //            else
+        //            {
+        //                if (kanAttr == shugoKan.gogyouAttr) return true;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var shugosinAttr = person.shugosinAttr; //基本の守護神
+        //        string[] choukouShugosinKan = person.choukouShugosin;
+        //        //守護神判定
+        //        if (!string.IsNullOrEmpty(shugosinAttr))
+        //        {
+        //            if (kanAttr == shugosinAttr) return true;
+        //        }
+        //        else
+        //        {
+        //            if (choukouShugosinKan != null)
+        //            {
+        //                foreach (var shugoKan in choukouShugosinKan)
+        //                {
+        //                    if (shugoKan == kan)
+        //                    {
+        //                        return true;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return false;
+        //}
+        ///// <summary>
+        ///// 十干　 忌神判定
+        ///// ※忌神情報に十二支がある場合は、干に該当する項目を守護神とする
+        ///// 　十二支がない場合は、五行属性に該当するものを守護神とする
+        ///// </summary>
+        ///// <param name="kan"></param>
+        ///// <returns></returns>
+        //public bool IsImigami(string kan)
+        //{
+        //    //干の属性取得
+        //    string kanAttr = tblMng.jyukanTbl[kan].gogyou;
+
+        //    if (person.bCustomShugosin)
+        //    {
+        //        var imigamiAttrs = person.ImigamiAttrs;
+        //        foreach (var imigami in imigamiAttrs)
+        //        {
+        //            if (imigami.junisi != null)
+        //            {
+        //                if (kan == imigami.junisi) return true;
+        //            }
+        //            else
+        //            {
+        //                if (kanAttr == imigami.gogyouAttr) return true;
+        //            }
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        var imigami = person.imigamiAttr; //基本の忌神
+        //        string choukouImigami = person.choukouImigamiAttr;
 
 
-            //守護神判定
-            if (shugosinAttr.Count>0)
-            {
-                foreach (var shugoKan in shugosinAttr)
-                {
-                    if (shugoKan.junisi != null)
-                    {
-                        if (kan == shugoKan.junisi) return true;
-                    }
-                    else
-                    {
-                        if (kanAttr == shugoKan.gogyouAttr) return true;
-                    }
-                }
-            }
-            else
-            {
-                if (choukouShugosinKan != null)
-                {
-                    foreach (var shugoKan in choukouShugosinKan)
-                    {
-                        if (shugoKan == kan)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        /// <summary>
-        /// 十干　 忌神判定
-        /// ※忌神情報に十二支がある場合は、干に該当する項目を守護神とする
-        /// 　十二支がない場合は、五行属性に該当するものを守護神とする
-        /// </summary>
-        /// <param name="kan"></param>
-        /// <returns></returns>
-        public bool IsImigami(string kan)
-        {
-            var imigamiAttrs = person.ImigamiAttrs;
-            string choukouImigami = person.choukouImigamiAttr;
+        //        //忌神判定
+        //        if (!string.IsNullOrEmpty(imigami))
+        //        {
+        //            if (kanAttr == imigami) return true;
+        //        }
+        //        else
+        //        {
+        //            if (choukouImigami != null)
+        //            {
+        //                if (choukouImigami.IndexOf(kanAttr) >= 0)
+        //                {
+        //                    return true;
+        //                }
+        //            }
+        //        }
+        //    }
 
-            //干の守護神判定
-            //干、支の属性取得
-            string kanAttr = tblMng.jyukanTbl[kan].gogyou;
-
-            //忌神判定
-            if (imigamiAttrs.Count>0)
-            {
-                foreach (var imigami in imigamiAttrs)
-                {
-                    if (imigami.junisi != null)
-                    {
-                        if (kan == imigami.junisi) return true;
-                    }
-                    else
-                    {
-                        if (kanAttr == imigami.gogyouAttr) return true;
-                    }
-                }
-            }
-            else
-            {
-                if (choukouImigami != null)
-                {
-                    if (choukouImigami.IndexOf(kanAttr) >= 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
+        //    return false;
+        //}
+        
+        
         /// <summary>
         /// 干支描画
         /// </summary>
