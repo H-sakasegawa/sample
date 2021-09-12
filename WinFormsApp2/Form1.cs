@@ -1764,7 +1764,19 @@ namespace WinFormsApp2
 
         void OnFormUpdateShugosin()
         {
+            //守護神の編集で大運、年運、月運表示行が先頭行にもどされないよう
+            //現在選択されてる大運、年運、月運の選択行を記録
+            var idxTaiun = lvTaiun.SelectedIndices[0];
+            var idxNenun = lvNenun.SelectedIndices[0];
+            var idxGetuun = lvGetuun.SelectedIndices[0];
+
             MainProc(curPerson);
+
+            //表示更新後、前回選択されていた行を再選択
+            lvTaiun.Items[idxTaiun].Selected = true;
+            lvNenun.Items[idxNenun].Selected = true;
+            lvGetuun.Items[idxGetuun].Selected = true;
+
         }
 
         /// <summary>
