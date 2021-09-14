@@ -52,13 +52,19 @@ namespace WinFormsApp2
         /// </summary>
         enum PersonListCol
         {
-           COL_NAME=0,  //氏名
-           COL_BIRTHDAY,//誕生日
-           COL_GENDER,  //性別
-           COL_GROUP,    //グループ
-           COL_CUST_SHUGOSIN ,   //カスタム守護神
-           COL_CUST_IMIGAMI,    //カスタム忌神
-           COL_CUST_ONOFF     //カスタム設定の有効・無効フラグ
+            COL_NAME=0,  //氏名
+            COL_BIRTHDAY,//誕生日
+            COL_GENDER,  //性別
+            COL_GROUP,    //グループ
+            COL_CUST_SHUGOSIN ,   //カスタム守護神
+            COL_CUST_IMIGAMI,    //カスタム忌神
+            COL_CUST_ONOFF,     //カスタム設定の有効・無効フラグ
+            COL_CUST_REFRECT_SIGOU,             //支合 反映
+            COL_CUST_REFRECT_HANKAI,            //半会 反映
+            COL_CUST_REFRECT_HOUSANI,           //方三位 反映
+            COL_CUST_REFRECT_SANGOUKAIKYOKU,    //三合会局 反映
+
+
         };
 
         private static Persons persons = new Persons();
@@ -199,14 +205,18 @@ namespace WinFormsApp2
                 string custImigami = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_IMIGAMI);
 
                 //カスタム守護神・忌神の有効無効設定
-                string customFlg = ExcelReader.CellValue(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
-                if( string.IsNullOrEmpty(customFlg))
-                {
-                    customFlg = "false";
-                }
-                bool bCustomFlg = bool.Parse(customFlg);
+                bool bCustomFlg = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF, false);
 
                 var person = new Person(name, birthday, gender, group, bCustomFlg, custShugo, custImigami);
+
+                //支合 反映
+                person.bRefrectSigou = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU, false);
+                //半会 反映
+                person.bRefrectHankai = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI, false);
+                //方三位 反映
+                person.bRefrectHousani = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI, false);
+                //三合会局 反映
+                person.bRefrectSangouKaikyoku = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU, false);
                 dicPersons.Add(name, person);
 
                 //グループディクショナリ
@@ -274,6 +284,22 @@ namespace WinFormsApp2
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
             cell.SetCellValue("カスタム設定有効フラグ");
             cell.CellStyle = style;
+            //支合 反映
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
+            cell.SetCellValue("支合反映");
+            cell.CellStyle = style;
+            //半会 反映
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
+            cell.SetCellValue("半会反映");
+            cell.CellStyle = style;
+            //方三位 反映
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
+            cell.SetCellValue("方三位反映");
+            cell.CellStyle = style;
+            //三合会局 反映
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
+            cell.SetCellValue("三合会局反映");
+            cell.CellStyle = style;
 
             iRow++;
             foreach (var item in dicPersons)
@@ -304,7 +330,20 @@ namespace WinFormsApp2
 
                 //カスタム守護神・忌神の有効無効設定
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
-                cell.SetCellValue(person.bCustomShugosin.ToString());
+                cell.SetCellValue(Convert.ToInt32(person.bCustomShugosin));
+
+                //支合 反映
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
+                cell.SetCellValue(Convert.ToInt32( person.bRefrectSigou) );
+                //半会 反映
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
+                cell.SetCellValue(Convert.ToInt32(person.bRefrectHankai));
+                //方三位 反映
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
+                cell.SetCellValue(Convert.ToInt32(person.bRefrectHousani));
+                //三合会局 反映
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
+                cell.SetCellValue(Convert.ToInt32(person.bRefrectSangouKaikyoku));
 
                 iRow++;
             }
@@ -364,7 +403,11 @@ namespace WinFormsApp2
         public string shugosinExplanation { get; set; } = ""; //説明文
         public bool bCustomShugosin = false; //true...カスタム守護神、カスタム忌神有効 fale...基本の守護神、忌神が有効
 
-
+        //宿命、後天運図への反映項目、
+        public bool bRefrectSigou { get; set; } = false;    //支合
+        public bool bRefrectHankai { get; set; } = false;   //半会
+        public bool bRefrectHousani { get; set; } = false;  //方三位
+        public bool bRefrectSangouKaikyoku { get; set; } = false;//三合会局
 
 
         private TableMng tblMng;

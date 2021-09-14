@@ -66,13 +66,13 @@ namespace WinFormsApp2
                 bEditCustom = false;
             }
             person = _person;
-            Update();
+            UpdateShugosin();
 
         }
         /// <summary>
         /// 現在のpersonで表示更新
         /// </summary>
-        private void Update( )
+        private void UpdateShugosin( )
         {
 
 

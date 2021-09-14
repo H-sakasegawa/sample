@@ -25,6 +25,7 @@ namespace WinFormsApp2
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
         const int GetuunDispStartGetu = 2;
+        bool bControlEventEnable = true;
 
 
         //陰占 描画オブジェクト
@@ -59,133 +60,142 @@ namespace WinFormsApp2
         {
             InitializeComponent();
 
-            tabId = _tabId;
-
-            lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
-            lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
-            lvGetuun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvGetuun_MouseWheel);
-
-
-            exePath = Path.GetDirectoryName(Application.ExecutablePath);
-
-            personList = _persons;
-            //setuiribiTbl = new SetuiribiTable();
-            //try
-            //{
-            //    //節入り日テーブル読み込み
-            //    tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
-            //    return;
-            //}
-
-            //try
-            //{
-            //    //名簿読み込み
-            //    personList.ReadPersonList(exePath + @"\名簿.xls");
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
-            //    return;
-            //}
-
-
-
-
-            //----------------------------------------------
-            //ラベルの組み合わせを登録
-            //----------------------------------------------
-            ////日干支 ラベル
-            //lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
-            ////月干支 ラベル
-            //lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
-            ////年干支 ラベル
-            //lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
-
-            ////日干支 天中殺 ラベル
-            //lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
-            ////年干支 天中殺 ラベル
-            //lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
-
-            //未使用
-            ////日干支 二十八元素 ラベル
-            //lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-            ////月干支 二十八元素 ラベル
-            //lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-            ////年干支 二十八元素 ラベル
-            //lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
-
-
-            //lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-            //lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-            //lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
-
-            lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
-            lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
-
-            txtNikkansiSanshutuSu_TextChanged(null, null);
-
-
-
-            int baseYear = 0;
-            int baseMonth = 0;
-            int baseDay = 0;
-            int baseNenkansi = 0;
-            int baseGekkansi = 0;
-            int baseNikkansiSanshutusuu = 0;
-            //節入り日テーブルの先頭データを基準に基準情報を取得
-            tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
-                                              ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
-            txtBaseYear.Text = baseYear.ToString();
-            txtBaseMonth.Text = baseMonth.ToString();
-            txtBaseDay.Text = baseDay.ToString();
-            txtBaseNenkansiNo.Text = baseNenkansi.ToString();
-            txtBaseGekkansiNo.Text = baseGekkansi.ToString();
-            txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
-
-            for (int i = 0; i < lstLblGogyou.Count; i++)
+            try
             {
-                lstLblGogyou[i].BackColor = tblMng.gogyouAttrColorTbl[lstLblGogyou[i].Text];
+                bControlEventEnable = false;
+
+                tabId = _tabId;
+
+                lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
+                lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
+                lvGetuun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvGetuun_MouseWheel);
+
+
+                exePath = Path.GetDirectoryName(Application.ExecutablePath);
+
+                personList = _persons;
+                //setuiribiTbl = new SetuiribiTable();
+                //try
+                //{
+                //    //節入り日テーブル読み込み
+                //    tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
+                //}
+                //catch (Exception e)
+                //{
+                //    MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
+                //    return;
+                //}
+
+                //try
+                //{
+                //    //名簿読み込み
+                //    personList.ReadPersonList(exePath + @"\名簿.xls");
+                //}
+                //catch (Exception e)
+                //{
+                //    MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
+                //    return;
+                //}
+
+
+
+
+                //----------------------------------------------
+                //ラベルの組み合わせを登録
+                //----------------------------------------------
+                ////日干支 ラベル
+                //lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
+                ////月干支 ラベル
+                //lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
+                ////年干支 ラベル
+                //lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
+
+                ////日干支 天中殺 ラベル
+                //lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
+                ////年干支 天中殺 ラベル
+                //lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
+
+                //未使用
+                ////日干支 二十八元素 ラベル
+                //lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+                ////月干支 二十八元素 ラベル
+                //lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+                ////年干支 二十八元素 ラベル
+                //lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+
+
+                //lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
+                //lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
+                //lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
+
+                lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
+                lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
+
+                txtNikkansiSanshutuSu_TextChanged(null, null);
+
+
+
+                int baseYear = 0;
+                int baseMonth = 0;
+                int baseDay = 0;
+                int baseNenkansi = 0;
+                int baseGekkansi = 0;
+                int baseNikkansiSanshutusuu = 0;
+                //節入り日テーブルの先頭データを基準に基準情報を取得
+                tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
+                                                  ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
+                txtBaseYear.Text = baseYear.ToString();
+                txtBaseMonth.Text = baseMonth.ToString();
+                txtBaseDay.Text = baseDay.ToString();
+                txtBaseNenkansiNo.Text = baseNenkansi.ToString();
+                txtBaseGekkansiNo.Text = baseGekkansi.ToString();
+                txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
+
+                for (int i = 0; i < lstLblGogyou.Count; i++)
+                {
+                    lstLblGogyou[i].BackColor = tblMng.gogyouAttrColorTbl[lstLblGogyou[i].Text];
+                }
+                for (int i = 0; i < lstLblGotoku.Count; i++)
+                {
+                    lstLblGotoku[i].BackColor = tblMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
+                }
+
+
+                grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
+                //chkRefrectHousani.Enabled = false;
+
+                //グループコンボボックス設定
+                UpdateGroupCombobox();
+
+                //Properties.Settings.Default.Reload();
+
+                //if (cmbGroup.Items.Contains(Properties.Settings.Default.Group))
+                //{
+                //    cmbGroup.Text = Properties.Settings.Default.Group;
+                //}
+                if (targetPerson == null)
+                {
+                    ReloadSetting();
+                    btnTabClose.Visible = false;
+                }
+                else
+                {
+                    cmbGroup.Text = targetPerson.group;
+                    cmbPerson.Text = targetPerson.name;
+
+                    cmbGroup.Enabled = false;
+                    cmbPerson.Enabled = false;
+                    curPerson = targetPerson;
+                    button7.Visible = false;
+                    button8.Visible = false;
+                    button9.Visible = false;
+
+
+                }
             }
-            for (int i = 0; i < lstLblGotoku.Count; i++)
+            finally
             {
-                lstLblGotoku[i].BackColor = tblMng.gotokuAttrColorTbl[lstLblGotoku[i].Text];
-            }
-
-
-            grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
-            chkRefrectSangouKaikyokuHousani.Enabled = false;
-
-            //グループコンボボックス設定
-            UpdateGroupCombobox();
-
-            //Properties.Settings.Default.Reload();
-
-            //if (cmbGroup.Items.Contains(Properties.Settings.Default.Group))
-            //{
-            //    cmbGroup.Text = Properties.Settings.Default.Group;
-            //}
-            if (targetPerson == null)
-            {
-                ReloadSetting();
-                btnTabClose.Visible = false;
-            }
-            else
-            {
-                cmbGroup.Text = targetPerson.group;
-                cmbPerson.Text = targetPerson.name;
-
-                cmbGroup.Enabled = false;
-                cmbPerson.Enabled = false;
-                curPerson = targetPerson;
-                button7.Visible = false;
-                button8.Visible = false;
-                button9.Visible = false;
-
-
+                bControlEventEnable = true;
             }
 
 
@@ -193,6 +203,10 @@ namespace WinFormsApp2
 
         private void ReloadSetting()
         {
+            try
+            {
+                bControlEventEnable = false;
+
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
             SetInitComboBox( config, "Group", cmbGroup);
@@ -204,9 +218,12 @@ namespace WinFormsApp2
             SetInitCheckBox(config, "SangouKaikyoku", chkSangouKaikyoku);
             SetInitCheckBox(config, "Gogyou", chkGogyou);
             SetInitCheckBox(config, "Gotoku", chkGotoku);
-            SetInitCheckBox(config, "RefrectGouhou", chkRefrectGouhou);
-            SetInitCheckBox(config, "RefrectSangouKaikyokuHousani", chkRefrectSangouKaikyokuHousani);
 
+            }
+            finally
+            {
+                bControlEventEnable = true;
+            }
 
 
         }
@@ -247,8 +264,6 @@ namespace WinFormsApp2
                 config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
                 config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
                 config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
-                config.AppSettings.Settings["RefrectGouhou"].Value = chkRefrectGouhou.Checked.ToString();
-                config.AppSettings.Settings["RefrectSangouKaikyokuHousani"].Value = chkRefrectSangouKaikyokuHousani.Checked.ToString();
                 config.Save();
             }
         }
@@ -343,130 +358,149 @@ namespace WinFormsApp2
 
         private void MainProc(Person person)
         {
-            curPerson = person;
-
-            int baseYear = int.Parse(txtBaseYear.Text);
-            int baseMonth = int.Parse(txtBaseMonth.Text);
-            int baseDay = int.Parse(txtBaseDay.Text);
-
-            int baseNenkansiNo = int.Parse(txtBaseNenkansiNo.Text);
-            int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
-            int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
-
-            //節入り日テーブル有効範囲チェック
-            if ( !tblMng.setuiribiTbl.IsContainsYear(person.birthday.year))
+            try
             {
-                MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
-                return;
+                bControlEventEnable = false;
+                curPerson = person;
+
+                int baseYear = int.Parse(txtBaseYear.Text);
+                int baseMonth = int.Parse(txtBaseMonth.Text);
+                int baseDay = int.Parse(txtBaseDay.Text);
+
+                int baseNenkansiNo = int.Parse(txtBaseNenkansiNo.Text);
+                int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
+                int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
+
+                //節入り日テーブル有効範囲チェック
+                if (!tblMng.setuiribiTbl.IsContainsYear(person.birthday.year))
+                {
+                    MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
+                    return;
+                }
+                tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
+
+                //ユーザ情報初期設定
+                person.Init(tblMng);
+
+                //経歴リスト表示
+                DispCarrerList(person);
+
+                lblNikkansiNo.Text = person.nikkansiNo.ToString();
+                lblGekkansiNo.Text = person.gekkansiNo.ToString();
+                lblNenkansiNo.Text = person.nenkansiNo.ToString();
+
+                //============================================================
+                //陰占
+                //============================================================
+
+                //------------------
+                //日干支
+                //------------------
+                var Nikkansi = person.nikkansi;
+
+                //lblNikkansi1.Text = Nikkansi.kan;
+                //lblNikkansi2.Text = Nikkansi.si;
+
+                ////誕生日に該当する節入り日から誕生日までの経過日数
+                //int dayNumFromSetuiribi = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
+
+                ////節入日から７日を超える日数の日干支を太字にする
+                //if (person.dayNumFromSetuiribi > 7)
+                //{
+                //    Common.SetBold(lblNikkansi2, true);
+                //}
+                //else
+                //{
+                //    Common.SetBold(lblNikkansi2, false);
+                //}
+
+
+                //------------------
+                //月干支
+                //------------------
+                var Gekkansi = person.gekkansi;
+
+                //lblGekkansi1.Text = Gekkansi.kan;
+                //lblGekkansi2.Text = Gekkansi.si;
+
+                //------------------
+                //年干支
+                //------------------
+                var Nenkansi = person.nenkansi;
+
+                //lblNenkansi1.Text = Nenkansi.kan;
+                //lblNenkansi2.Text = Nenkansi.si;
+
+
+
+                //------------------
+                //二十八
+                //------------------
+                NijuhachiGenso nijuhachiGensoNikkansi = person.nijuhachiGensoNikkansi;
+                NijuhachiGenso nijuhachiGensoGekkansi = person.nijuhachiGensoGekkansi;
+                NijuhachiGenso nijuhachiGensoNenkansi = person.nijuhachiGensoNenkansi;
+
+                //十大主星判定用基準元素
+                var idxNikkansiGensoType = (int)nijuhachiGensoNikkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+                var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+                var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
+
+                //foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
+                //{
+                //    Label label = lstLblNikkansiZougan[(int)Value];
+                //    label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
+                //    if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
+                //    else                                  Common.SetBold(label, false);
+
+                //    label = lstLblGekkansiZougan[(int)Value];
+                //    label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
+                //    if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
+                //    else                                    Common.SetBold(label, false);
+
+                //    label = lstLblNenkansiZougan[(int)Value];
+                //    label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
+                //    if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
+                //    else                                    Common.SetBold(label, false);
+                //}
+                //============================================================
+                //支合、半会、方三位、三合会局反映チェックボックス
+                //============================================================
+                chkRefrectHankai.Checked = person.bRefrectHankai;
+                chkRefrectSigou.Checked = person.bRefrectSigou;
+                chkRefrectHousani.Checked = person.bRefrectHousani;
+                chkRefrectSangouKaikyoku.Checked = person.bRefrectSangouKaikyoku;
+
+                //============================================================
+                //陰占
+                //============================================================
+                DispInsen(person, pictureBox3);
+
+                //============================================================
+                //陽占
+                //============================================================
+                DispYousen(person, idxNikkansiGensoType, idxGekkansiGensoType, idxNenkaisiGensoType);
+
+                //============================================================
+                //天中殺
+                //============================================================
+                //DispTenchusatu(person);
+                SetYousenTenchusatuColor(drawInsen);
+
+                //============================================================
+                //後天運：大運
+                //============================================================
+                DispTaiun(person);
+
+                //============================================================
+                //位相法
+                //============================================================
+                DispShukumei(person, pictureBox1);
+
+            }finally
+            {
+                bControlEventEnable = true;
+
             }
-            tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
-
-            //ユーザ情報初期設定
-            person.Init(tblMng);
-
-            //経歴リスト表示
-            DispCarrerList(person);
-
-            lblNikkansiNo.Text = person.nikkansiNo.ToString();
-            lblGekkansiNo.Text = person.gekkansiNo.ToString();
-            lblNenkansiNo.Text = person.nenkansiNo.ToString();
-
-            //============================================================
-            //陰占
-            //============================================================
-
-            //------------------
-            //日干支
-            //------------------
-            var Nikkansi = person.nikkansi; 
-
-            //lblNikkansi1.Text = Nikkansi.kan;
-            //lblNikkansi2.Text = Nikkansi.si;
-
-            ////誕生日に該当する節入り日から誕生日までの経過日数
-            //int dayNumFromSetuiribi = setuiribiTbl.CalcDayCountFromSetuiribi(Year, Month, Day);
-
-            ////節入日から７日を超える日数の日干支を太字にする
-            //if (person.dayNumFromSetuiribi > 7)
-            //{
-            //    Common.SetBold(lblNikkansi2, true);
-            //}
-            //else
-            //{
-            //    Common.SetBold(lblNikkansi2, false);
-            //}
-
-
-            //------------------
-            //月干支
-            //------------------
-            var Gekkansi = person.gekkansi;
-
-            //lblGekkansi1.Text = Gekkansi.kan;
-            //lblGekkansi2.Text = Gekkansi.si;
-
-            //------------------
-            //年干支
-            //------------------
-            var Nenkansi = person.nenkansi;
-
-            //lblNenkansi1.Text = Nenkansi.kan;
-            //lblNenkansi2.Text = Nenkansi.si;
-
-
-
-            //------------------
-            //二十八
-            //------------------
-            NijuhachiGenso nijuhachiGensoNikkansi = person.nijuhachiGensoNikkansi;
-            NijuhachiGenso nijuhachiGensoGekkansi = person.nijuhachiGensoGekkansi;
-            NijuhachiGenso nijuhachiGensoNenkansi = person.nijuhachiGensoNenkansi;
-
-            //十大主星判定用基準元素
-            var idxNikkansiGensoType = (int)nijuhachiGensoNikkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
-            var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
-            var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
-
-            //foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
-            //{
-            //    Label label = lstLblNikkansiZougan[(int)Value];
-            //    label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
-            //    if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
-            //    else                                  Common.SetBold(label, false);
-
-            //    label = lstLblGekkansiZougan[(int)Value];
-            //    label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
-            //    if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
-            //    else                                    Common.SetBold(label, false);
-
-            //    label = lstLblNenkansiZougan[(int)Value];
-            //    label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
-            //    if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
-            //    else                                    Common.SetBold(label, false);
-            //}
-
-            DispInsen(person, pictureBox3);
-
-            //============================================================
-            //陽占
-            //============================================================
-            DispYousen(person, idxNikkansiGensoType, idxGekkansiGensoType, idxNenkaisiGensoType);
-
-            //============================================================
-            //天中殺
-            //============================================================
-            //DispTenchusatu(person);
-            SetYousenTenchusatuColor(drawInsen);
-
-            //============================================================
-            //後天運：大運
-            //============================================================
-            DispTaiun(person);
-
-            //============================================================
-            //位相法
-            //============================================================
-            DispShukumei(person, pictureBox1);
 
         }
 
@@ -1013,7 +1047,7 @@ namespace WinFormsApp2
         private void DispShukumei(Person person, PictureBox pictureBox)
         {
 
-            drawItem = new DrawShukumei(person, pictureBox, chkGogyou.Checked, chkGotoku.Checked, chkRefrectGouhou.Checked);
+            drawItem = new DrawShukumei(person, pictureBox, chkGogyou.Checked, chkGotoku.Checked, chkRefrectSigou.Checked);
             drawItem.Draw();
 
         }
@@ -1050,9 +1084,7 @@ namespace WinFormsApp2
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked, 
-                                        chkGotoku.Checked,
-                                        chkRefrectGouhou.Checked,
-                                        chkRefrectSangouKaikyokuHousani.Checked
+                                        chkGotoku.Checked
                                         );
             drawItem2.Draw();
 
@@ -1071,9 +1103,7 @@ namespace WinFormsApp2
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked,
-                                        chkGotoku.Checked,
-                                        chkRefrectGouhou.Checked,
-                                        chkRefrectSangouKaikyokuHousani.Checked
+                                        chkGotoku.Checked
                                     );;
             }
 
@@ -1209,8 +1239,8 @@ namespace WinFormsApp2
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked,
                                         chkGotoku.Checked,
-                                        chkRefrectGouhou.Checked,
-                                        chkRefrectSangouKaikyokuHousani.Checked
+                                        chkRefrectSigou.Checked,
+                                        chkRefrectHousani.Checked
                                     );
             }
             //根気法画面再描画
@@ -1637,21 +1667,46 @@ namespace WinFormsApp2
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
-        //合法反映
-        private void chkRefrectGouhou_CheckedChanged(object sender, EventArgs e)
+        //支合反映
+        private void chkRefrectSigou_CheckedChanged(object sender, EventArgs e)
         {
+            if (!bControlEventEnable) return;
+
+            curPerson.bRefrectSigou = chkRefrectSigou.Checked;
+            personList.WritePersonList();
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
 
-            chkRefrectSangouKaikyokuHousani.Enabled = chkRefrectGouhou.Checked;
+//            chkRefrectSangouKaikyokuHousani.Enabled = chkRefrectSigou.Checked;
         }
-
-        //三合会局・方三位 反映
-        private void chkSangouKaikyokuHousanni_CheckedChanged(object sender, EventArgs e)
+        //半会反映
+        private void chkRefrectHankai_CheckedChanged(object sender, EventArgs e)
         {
+            if (!bControlEventEnable) return;
+            curPerson.bRefrectHankai = chkRefrectHankai.Checked;
+            personList.WritePersonList();
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
+        //方三位 反映
+        private void chkRefrectHousani_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!bControlEventEnable) return;
+            curPerson.bRefrectHousani = chkRefrectHousani.Checked;
+            personList.WritePersonList();
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+        //三合会局 反映
+        private void chkRefrectSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!bControlEventEnable) return;
+            curPerson.bRefrectSangouKaikyoku = chkRefrectSangouKaikyoku.Checked;
+            personList.WritePersonList();
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+
 
         /// <summary>
         /// 虚気 変化パターン画面表示
@@ -1682,8 +1737,8 @@ namespace WinFormsApp2
                                     chkSangouKaikyoku.Checked,
                                     chkGogyou.Checked,
                                     chkGotoku.Checked,
-                                    chkRefrectGouhou.Checked,
-                                    chkRefrectSangouKaikyokuHousani.Checked
+                                    chkRefrectSigou.Checked,
+                                    chkRefrectHousani.Checked
                                     );
             //}
             //else
@@ -1823,7 +1878,6 @@ namespace WinFormsApp2
             if(onCloseTab!=null) onCloseTab(tabId);
         }
 
- 
 
 
 

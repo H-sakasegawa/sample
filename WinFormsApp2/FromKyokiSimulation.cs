@@ -63,9 +63,8 @@ namespace WinFormsApp2
                              _bDispGetuun,
                              _bDispSangouKaikyoku,
                              _bDispGogyou,
-                             _bDispGotoku,
-                             _bDispRefrectGouhou,
-                             _bDispRefrectSangouKaiyoku);
+                             _bDispGotoku
+                             );
 
 
         }
@@ -82,16 +81,13 @@ namespace WinFormsApp2
         /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示（ライン描画はしないので現在は未使用）</param>
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
-        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
-        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
         public void UpdateKyokiPatternOnly(Person _person, int year,
                             Kansi _getuunKansi, Kansi _nenunKansi, Kansi _taiunKansi,
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku,
-                            bool _bDispRefrectGouhou,
-                            bool _bDispRefrectSangouKaiyoku)
+                            bool _bDispGotoku
+                            )
         {
 
             //対象年を選択（リスト選択イベントは発生しません）
@@ -182,9 +178,7 @@ namespace WinFormsApp2
                                         _bDispGetuun,
                                         _bDispSangouKaikyoku,
                                         _bDispGogyou,
-                                        _bDispGotoku,
-                                        _bDispRefrectGouhou,
-                                        _bDispRefrectSangouKaiyoku
+                                        _bDispGotoku
                                         );
                 drawItem2.CalcCoord(0);
                 //虚気変化パターン表示用の描画関数呼び出し

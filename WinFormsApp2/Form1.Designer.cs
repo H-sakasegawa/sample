@@ -146,9 +146,11 @@ namespace WinFormsApp2
             this.lblGotoku5 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.chkRefrectGouhou = new System.Windows.Forms.CheckBox();
-            this.chkRefrectSangouKaikyokuHousani = new System.Windows.Forms.CheckBox();
+            this.chkRefrectSigou = new System.Windows.Forms.CheckBox();
+            this.chkRefrectHousani = new System.Windows.Forms.CheckBox();
             this.grpGogyouGotoku = new System.Windows.Forms.GroupBox();
+            this.chkRefrectSangouKaikyoku = new System.Windows.Forms.CheckBox();
+            this.chkRefrectHankai = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.lblKyokiNum = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -1232,7 +1234,7 @@ namespace WinFormsApp2
             // chkGogyou
             // 
             this.chkGogyou.AutoSize = true;
-            this.chkGogyou.Location = new System.Drawing.Point(318, 408);
+            this.chkGogyou.Location = new System.Drawing.Point(320, 403);
             this.chkGogyou.Name = "chkGogyou";
             this.chkGogyou.Size = new System.Drawing.Size(50, 19);
             this.chkGogyou.TabIndex = 53;
@@ -1243,7 +1245,7 @@ namespace WinFormsApp2
             // chkGotoku
             // 
             this.chkGotoku.AutoSize = true;
-            this.chkGotoku.Location = new System.Drawing.Point(375, 408);
+            this.chkGotoku.Location = new System.Drawing.Point(377, 403);
             this.chkGotoku.Name = "chkGotoku";
             this.chkGotoku.Size = new System.Drawing.Size(50, 19);
             this.chkGotoku.TabIndex = 53;
@@ -1369,41 +1371,65 @@ namespace WinFormsApp2
             this.label23.TabIndex = 61;
             this.label23.Text = "五徳";
             // 
-            // chkRefrectGouhou
+            // chkRefrectSigou
             // 
-            this.chkRefrectGouhou.AutoSize = true;
-            this.chkRefrectGouhou.Location = new System.Drawing.Point(6, 14);
-            this.chkRefrectGouhou.Name = "chkRefrectGouhou";
-            this.chkRefrectGouhou.Size = new System.Drawing.Size(98, 19);
-            this.chkRefrectGouhou.TabIndex = 64;
-            this.chkRefrectGouhou.Text = "合法反映表示";
-            this.chkRefrectGouhou.UseVisualStyleBackColor = true;
-            this.chkRefrectGouhou.CheckedChanged += new System.EventHandler(this.chkRefrectGouhou_CheckedChanged);
+            this.chkRefrectSigou.AutoSize = true;
+            this.chkRefrectSigou.Location = new System.Drawing.Point(6, 14);
+            this.chkRefrectSigou.Name = "chkRefrectSigou";
+            this.chkRefrectSigou.Size = new System.Drawing.Size(50, 19);
+            this.chkRefrectSigou.TabIndex = 64;
+            this.chkRefrectSigou.Text = "支合";
+            this.chkRefrectSigou.UseVisualStyleBackColor = true;
+            this.chkRefrectSigou.CheckedChanged += new System.EventHandler(this.chkRefrectSigou_CheckedChanged);
             // 
-            // chkRefrectSangouKaikyokuHousani
+            // chkRefrectHousani
             // 
-            this.chkRefrectSangouKaikyokuHousani.AutoSize = true;
-            this.chkRefrectSangouKaikyokuHousani.Location = new System.Drawing.Point(6, 32);
-            this.chkRefrectSangouKaikyokuHousani.Name = "chkRefrectSangouKaikyokuHousani";
-            this.chkRefrectSangouKaikyokuHousani.Size = new System.Drawing.Size(143, 19);
-            this.chkRefrectSangouKaikyokuHousani.TabIndex = 65;
-            this.chkRefrectSangouKaikyokuHousani.Text = "三合会局・方三位 反映";
-            this.chkRefrectSangouKaikyokuHousani.UseVisualStyleBackColor = true;
-            this.chkRefrectSangouKaikyokuHousani.CheckedChanged += new System.EventHandler(this.chkSangouKaikyokuHousanni_CheckedChanged);
+            this.chkRefrectHousani.AutoSize = true;
+            this.chkRefrectHousani.Location = new System.Drawing.Point(6, 34);
+            this.chkRefrectHousani.Name = "chkRefrectHousani";
+            this.chkRefrectHousani.Size = new System.Drawing.Size(62, 19);
+            this.chkRefrectHousani.TabIndex = 65;
+            this.chkRefrectHousani.Text = "方三位";
+            this.chkRefrectHousani.UseVisualStyleBackColor = true;
+            this.chkRefrectHousani.CheckedChanged += new System.EventHandler(this.chkRefrectHousani_CheckedChanged);
             // 
             // grpGogyouGotoku
             // 
-            this.grpGogyouGotoku.Controls.Add(this.chkRefrectGouhou);
-            this.grpGogyouGotoku.Controls.Add(this.chkRefrectSangouKaikyokuHousani);
-            this.grpGogyouGotoku.Location = new System.Drawing.Point(318, 423);
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectSangouKaikyoku);
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectHankai);
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectSigou);
+            this.grpGogyouGotoku.Controls.Add(this.chkRefrectHousani);
+            this.grpGogyouGotoku.Location = new System.Drawing.Point(318, 419);
             this.grpGogyouGotoku.Name = "grpGogyouGotoku";
-            this.grpGogyouGotoku.Size = new System.Drawing.Size(153, 60);
+            this.grpGogyouGotoku.Size = new System.Drawing.Size(153, 64);
             this.grpGogyouGotoku.TabIndex = 66;
             this.grpGogyouGotoku.TabStop = false;
             // 
+            // chkRefrectSangouKaikyoku
+            // 
+            this.chkRefrectSangouKaikyoku.AutoSize = true;
+            this.chkRefrectSangouKaikyoku.Location = new System.Drawing.Point(72, 33);
+            this.chkRefrectSangouKaikyoku.Name = "chkRefrectSangouKaikyoku";
+            this.chkRefrectSangouKaikyoku.Size = new System.Drawing.Size(74, 19);
+            this.chkRefrectSangouKaikyoku.TabIndex = 67;
+            this.chkRefrectSangouKaikyoku.Text = "三合会局";
+            this.chkRefrectSangouKaikyoku.UseVisualStyleBackColor = true;
+            this.chkRefrectSangouKaikyoku.CheckedChanged += new System.EventHandler(this.chkRefrectSangouKaikyoku_CheckedChanged);
+            // 
+            // chkRefrectHankai
+            // 
+            this.chkRefrectHankai.AutoSize = true;
+            this.chkRefrectHankai.Location = new System.Drawing.Point(72, 14);
+            this.chkRefrectHankai.Name = "chkRefrectHankai";
+            this.chkRefrectHankai.Size = new System.Drawing.Size(50, 19);
+            this.chkRefrectHankai.TabIndex = 66;
+            this.chkRefrectHankai.Text = "半会";
+            this.chkRefrectHankai.UseVisualStyleBackColor = true;
+            this.chkRefrectHankai.CheckedChanged += new System.EventHandler(this.chkRefrectHankai_CheckedChanged);
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(334, 370);
+            this.button3.Location = new System.Drawing.Point(321, 374);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(119, 23);
             this.button3.TabIndex = 67;
@@ -1414,7 +1440,7 @@ namespace WinFormsApp2
             // lblKyokiNum
             // 
             this.lblKyokiNum.AutoSize = true;
-            this.lblKyokiNum.Location = new System.Drawing.Point(334, 352);
+            this.lblKyokiNum.Location = new System.Drawing.Point(321, 356);
             this.lblKyokiNum.Name = "lblKyokiNum";
             this.lblKyokiNum.Size = new System.Drawing.Size(115, 15);
             this.lblKyokiNum.TabIndex = 68;
@@ -1682,8 +1708,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label lblGotoku5;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.CheckBox chkRefrectGouhou;
-        private System.Windows.Forms.CheckBox chkRefrectSangouKaikyokuHousani;
+        private System.Windows.Forms.CheckBox chkRefrectSigou;
+        private System.Windows.Forms.CheckBox chkRefrectHousani;
         private System.Windows.Forms.GroupBox grpGogyouGotoku;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lblKyokiNum;
@@ -1700,6 +1726,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.TextBox txtCarrerMemo;
         private System.Windows.Forms.Button btnTabClose;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.CheckBox chkRefrectHankai;
+        private System.Windows.Forms.CheckBox chkRefrectSangouKaikyoku;
     }
 }
 

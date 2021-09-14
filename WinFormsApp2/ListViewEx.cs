@@ -64,7 +64,7 @@ namespace WinFormsApp2
  
             {
                 LvItemDataBase lvItemData = (LvItemDataBase)e.Item.Tag;
-                if (lvItemData.lstItemColors != null)
+                if (lvItemData!=null && lvItemData.lstItemColors != null)
                 {
                     var itemColor = lvItemData.lstItemColors.Find(x => x.colmn == e.ColumnIndex);
                     if( itemColor!=null)

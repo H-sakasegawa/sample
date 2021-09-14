@@ -44,7 +44,6 @@ namespace WinFormsApp2
 
         bool bDispGogyou = false;
         bool bDispGotoku = false;
-        bool bDispRefrectGouhou = false;  //五行変換表示
 
         /// <summary>
         /// 宿命 図描画
@@ -68,7 +67,6 @@ namespace WinFormsApp2
 
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
-            bDispRefrectGouhou = _bDispRefrectGouhou;
         }
 
         /// <summary>
@@ -187,9 +185,9 @@ namespace WinFormsApp2
 
             if (bDispGogyou | bDispGotoku)
             {
-                //合法反映
-                if (bDispRefrectGouhou)
+                if (person.bRefrectSigou || person.bRefrectHankai) //支合、半会 反映指定あり
                 {
+                    //合法反映
                     RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
                     RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
                 }

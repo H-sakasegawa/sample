@@ -67,8 +67,6 @@ namespace WinFormsApp2
         bool bDispSangouKaikyoku = false;
         bool bDispGogyou = false;
         bool bDispGotoku = false;
-        bool bDispRefrectGouhou = false;  //合法反映表示
-        bool bDispRefrectSangouKaiyoku = false;  //三合会局・方三位反映表示
 
         /// <summary>
         /// 後天運 描画クラス コンストラクタ
@@ -84,8 +82,6 @@ namespace WinFormsApp2
         /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
-        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
-        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
         public DrawKoutenUn(Person person, 
                             PictureBox pictureBox, 
                             Kansi _taiunKansi,
@@ -96,10 +92,8 @@ namespace WinFormsApp2
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku,
-                            bool _bDispRefrectGouhou,
-                            bool _bDispRefrectSangouKaiyoku
-           ) 
+                            bool _bDispGotoku
+                            ) 
             :base(person, pictureBox)
         {
 
@@ -116,8 +110,6 @@ namespace WinFormsApp2
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
 
-            bDispRefrectGouhou = _bDispRefrectGouhou;
-            bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
 
         /// <summary>
@@ -133,8 +125,6 @@ namespace WinFormsApp2
         /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
-        /// <param name="_bDispRefrectGouhou">true...五行/五徳反映時の合法反映表示</param>
-        /// <param name="_bDispRefrectSangouKaiyoku">true...五行/五徳反映時の三合会局反映表示</param>
         public DrawKoutenUn(Person person, 
                             PictureBox pictureBox,
                             Kansi _taiunKansi, 
@@ -143,9 +133,7 @@ namespace WinFormsApp2
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku,
-                            bool _bDispRefrectGouhou,
-                            bool _bDispRefrectSangouKaiyoku
+                            bool _bDispGotoku
                             )
             : base(person, pictureBox)
         {
@@ -163,8 +151,6 @@ namespace WinFormsApp2
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
 
-            bDispRefrectGouhou = _bDispRefrectGouhou;
-            bDispRefrectSangouKaiyoku = _bDispRefrectSangouKaiyoku;
         }
 
         /// <summary>
@@ -288,7 +274,8 @@ namespace WinFormsApp2
             if (bDispGogyou || bDispGotoku)
             {
                 //合法反映
-                if (bDispRefrectGouhou)
+                //----------------------------
+                if (person.bRefrectSigou || person.bRefrectHankai) //支合、半会 反映指定あり
                 {
                     //支の変換
                     RefrectGouhou(
@@ -302,23 +289,23 @@ namespace WinFormsApp2
                                     colorNikkansi, colorGekkansi, colorNenkansi,
                                     colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
                                     getuunKansi, nenunKansi, taiunKansi,
-                                     bDispGetuun
-                                   );
+                                    bDispGetuun
+                                    );
 
                 }
                 //三合会局・方三位　反映
-                if (bDispRefrectSangouKaiyoku)
+                if (person.bRefrectHousani|| person.bRefrectSangouKaikyoku)//方三位、三合会局 反映指定あり
                 {
                     RefrectSangouKaikyokuHousanni(
-                                    lstSangouKaikyoku, lstHouSani,
-                                    colorNikkansi, colorGekkansi, colorNenkansi,
-                                    colorGetuunKansi, colorNenunKansi, colorTaiunKansi
-                                    );
+                                lstSangouKaikyoku, lstHouSani,
+                                colorNikkansi, colorGekkansi, colorNenkansi,
+                                colorGetuunKansi, colorNenunKansi, colorTaiunKansi
+                                );
                 }
             }
             //五徳表示の時に、合法反映、三合会局・方三位　反映があった場合は、属性が変わっているので
             //変わった属性をもとに再度表示カラーを求める
-            if (bDispGotoku && (bDispRefrectGouhou || bDispRefrectSangouKaiyoku))
+            if (bDispGotoku && (person.bRefrectHankai || person.bRefrectSigou || person.bRefrectHousani || person.bRefrectSangouKaikyoku))
             {
                 var attrBaseItem = GetAttrTblItem(Const.enumKansiItemID.NIKKANSI);
 

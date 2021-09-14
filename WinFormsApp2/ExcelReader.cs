@@ -186,6 +186,19 @@ namespace WinFormsApp2
             return value;
         }
 
+        public static bool CellBoolValue(ISheet sheet, int idxRow, int idxColumn, bool defaultValue=false)
+        {
+            string sFlg = ExcelReader.CellValue(sheet, idxRow, idxColumn);
+            if (string.IsNullOrEmpty(sFlg))
+            {
+                return defaultValue;
+            }
+            if( sFlg.ToLower()=="true" || sFlg.ToLower()=="false")
+            {
+                return bool.Parse(sFlg);
+            }
+            return  Convert.ToBoolean( int.Parse(sFlg));
+        }
 
         public static IWorkbook CreateWorkbook()
         {
