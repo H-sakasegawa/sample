@@ -1426,6 +1426,10 @@ namespace WinFormsApp2
 
                 shugosinExplanation = shugosin.explanation;
             }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("調候の守護神が取得できませんでした");
+            }
         }
 
         //調候の守護神 取得
@@ -1437,8 +1441,9 @@ namespace WinFormsApp2
             //守護神情報が１つの場合はそのまま返す
             if (aryShugosin.Length == 1) return aryShugosin[0];
 
+            string errStr = "";
 
- 
+
             //条件に合致した方の守護神情報を返す
             ShugoSin selectShugoSin = null;
             foreach (var shugosin in aryShugosin)
@@ -1519,22 +1524,32 @@ namespace WinFormsApp2
                         if  (GetGogyoAttrNum("土") == 1 && GetGogyoAttrNum("火") == 2) selectShugoSin = shugosin;
                         break;
                     case EnmSugosinCond.Natu_Mae://夏至前 ★★
+                        errStr += "夏至前の条件仕様が未確定です。 ";
                         break;
                     case EnmSugosinCond.Natu_Ato://夏至後 ★★
+                        errStr += "夏至後の条件仕様が未確定です。";
                         break;
                     case EnmSugosinCond.Aki_Mae://秋至前 ★★
+                        errStr += "秋至前の条件仕様が未確定です。";
                         break;
                     case EnmSugosinCond.Aki_Ato://秋至後 ★★
+                        errStr += "秋至後の条件仕様が未確定です。";
                         break;
                     case EnmSugosinCond.Fuyu_Mae://冬至前 ★★
+                        errStr += "冬至前の条件仕様が未確定です。";
                         break;
                     case EnmSugosinCond.Fuyu_Ato://冬至後 ★★
+                        errStr += "冬至後の条件仕様が未確定です。";
                         break;
 
                     case EnmSugosinCond.Hei_Nasi_and_Hi_Ari: //宿命に丙がなくかつ丁がある場合
                         if (GetKanNum("丙") == 0 && GetKanNum("丁") > 0) selectShugoSin = shugosin;
                         break;
                 }
+            }
+            if (errStr != "")
+            {
+                System.Windows.Forms.MessageBox.Show(errStr);
             }
             return selectShugoSin;
 
