@@ -77,8 +77,33 @@ namespace WinFormsApp2
 
             FindItem result = null;
 
-            //本元項目数
-            var items = lstItem.FindAll(x => x.type == NijuhachiGenso.enmGensoType.GENSO_HONGEN);
+            if (lstItem.Count > 0)
+            {
+                //本元項目数
+                var honganItems = lstItem.FindAll(x => x.type == NijuhachiGenso.enmGensoType.GENSO_HONGEN);
+                if (honganItems.Count > 0)
+                {
+                    //本元の項目から点数の高いものを取得
+                    result = SelectRootItem(kan, honganItems);
+                }else
+                {
+                    //本元以外の項目から点数が高いものを取得
+                    var otherItems = lstItem.FindAll(x => x.type != NijuhachiGenso.enmGensoType.GENSO_HONGEN);
+                    result = SelectRootItem(kan, otherItems);
+
+                }
+
+            }
+
+
+
+            return result;
+        }
+
+        private FindItem SelectRootItem(string kan, List< FindItem> items)
+        {
+            FindItem result = null;
+
             if (items.Count == 1)
             {
                 //本元の項目が１件あったので、この干支が根となる
@@ -88,27 +113,27 @@ namespace WinFormsApp2
             }
             else
             {
-                //本元に２つ以上または他の蔵元に複数存在する
+                //２つ以上存在する場合
 
                 //--------------------------
                 //点数が高いものを探す
                 //--------------------------
                 //十二大従星の表からkanとitems[*]の組み合わせに該当する十二大従星と点数を取得
-                for (int i = 0; i < lstItem.Count; i++)
+                for (int i = 0; i < items.Count; i++)
                 {
 
-                    var junidaiJusei = tblMng.junidaiJusei.GetJunidaiJusei(kan, lstItem[i].si);
-                    lstItem[i].junidaiJusei = junidaiJusei;
+                    var junidaiJusei = tblMng.junidaiJusei.GetJunidaiJusei(kan, items[i].si);
+                    items[i].junidaiJusei = junidaiJusei;
                 }
 
-                for (int i = 0; i < lstItem.Count; i++)
+                for (int i = 0; i < items.Count; i++)
                 {
                     if (result == null)
                     {
-                        result = lstItem[i];
+                        result = items[i];
                         continue;
                     }
-                    if (result.junidaiJusei.tensuu < lstItem[i].junidaiJusei.tensuu)
+                    if (result.junidaiJusei.tensuu < items[i].junidaiJusei.tensuu)
                     {
                         //点数の大きい方をresultに設定
                         result = items[i];
@@ -116,12 +141,11 @@ namespace WinFormsApp2
                 }
             }
 
-
-
             return result;
+
         }
- 
-        
+
+
     }
 
     class FindItem
