@@ -269,16 +269,6 @@ namespace WinFormsApp2
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Person person = new Person(cmbPerson.Text,
-                                        int.Parse(txtYear.Text),
-                                        int.Parse(txtMonth.Text),
-                                        int.Parse(txtDay.Text),
-                                        radMan.Checked ? Gender.MAN : Gender.WOMAN
-                                        );
-            MainProc(person);
-        }
         /// <summary>
         /// メンバー情報の追加ボタン
         /// </summary>

@@ -30,10 +30,10 @@ namespace WinFormsApp2
             public Dictionary<int, int> dicSetuiribi = new Dictionary<int, int>();
 
         }
-
-        int baseYear = 0;
-        int baseMonth = 0;
-        int baseDay = 0;
+        //節入り日テーブルの先頭行
+        int baseYear = 0;   //年
+        int baseMonth = 0;  //月
+        int baseDay = 0;    //日
         int baseNenkansiNo = 0;
         int baseGekkansiNo = 0;
         int baseNikkansiNo = 0;

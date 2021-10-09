@@ -29,7 +29,6 @@ namespace WinFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -174,16 +173,6 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(171, 96);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 27);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "設定";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -946,7 +935,6 @@ namespace WinFormsApp2
             this.tabPage1.Controls.Add(this.cmbGroup);
             this.tabPage1.Controls.Add(this.label18);
             this.tabPage1.Controls.Add(this.cmbPerson);
-            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.label24);
             this.tabPage1.Controls.Add(this.txtYear);
             this.tabPage1.Controls.Add(this.txtMonth);
@@ -1596,8 +1584,6 @@ namespace WinFormsApp2
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;

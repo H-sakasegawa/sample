@@ -95,6 +95,7 @@ namespace WinFormsApp2
             // 
             // txtYear
             // 
+            this.txtYear.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtYear.Location = new System.Drawing.Point(71, 64);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(56, 23);
@@ -103,6 +104,7 @@ namespace WinFormsApp2
             // 
             // txtMonth
             // 
+            this.txtMonth.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtMonth.Location = new System.Drawing.Point(156, 65);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
@@ -111,6 +113,7 @@ namespace WinFormsApp2
             // 
             // txtDay
             // 
+            this.txtDay.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtDay.Location = new System.Drawing.Point(209, 65);
             this.txtDay.Name = "txtDay";
             this.txtDay.Size = new System.Drawing.Size(33, 23);
