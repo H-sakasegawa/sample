@@ -173,7 +173,7 @@ namespace WinFormsApp2
             gouhouSanpoui = person.GetGouhouSanpouEx(taiunKansi, person.nenkansi, null, null);
             nanasatu = (person.IsNanasatu(taiunKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
-            item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_GETU] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
+            item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_NEN] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
             //天中殺
             Color color = Color.Black;
