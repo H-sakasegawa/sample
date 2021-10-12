@@ -284,15 +284,18 @@ namespace WinFormsApp2
                                     getuunKansi, nenunKansi, taiunKansi,
                                     bDispGetuun
                                     );
-                    //干の変換
+                }
+                if (person.bRefrectKangou)
+                {
+                    //干合反映　干の変換
                     RefrectKangou(
                                     colorNikkansi, colorGekkansi, colorNenkansi,
                                     colorGetuunKansi, colorNenunKansi, colorTaiunKansi,
                                     getuunKansi, nenunKansi, taiunKansi,
                                     bDispGetuun
                                     );
-
                 }
+
                 //三合会局・方三位　反映
                 if (person.bRefrectHousani|| person.bRefrectSangouKaikyoku)//方三位、三合会局 反映指定あり
                 {

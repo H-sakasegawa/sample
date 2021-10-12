@@ -189,6 +189,10 @@ namespace WinFormsApp2
                 {
                     //合法反映
                     RefrectGouhou(colorNikkansi, colorGekkansi, colorNenkansi);
+                }
+                if (person.bRefrectKangou)
+                {
+                    //干合反映
                     RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
                 }
             }

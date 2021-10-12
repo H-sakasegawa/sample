@@ -390,7 +390,7 @@ namespace WinFormsApp2
         /// </summary>
         public string sKangou1 { get; set; }
         /// <summary>
-        /// 干合(陰9
+        /// 干合(陰）
         /// </summary>
         public string sKangou2 { get; set; }
         /// <summary>

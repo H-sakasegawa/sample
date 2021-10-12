@@ -453,10 +453,11 @@ namespace WinFormsApp2
                 //    else                                    Common.SetBold(label, false);
                 //}
                 //============================================================
-                //支合、半会、方三位、三合会局反映チェックボックス
+                //支合、半会、干合、方三位、三合会局反映チェックボックス
                 //============================================================
                 chkRefrectHankai.Checked = person.bRefrectHankai;
                 chkRefrectSigou.Checked = person.bRefrectSigou;
+                chkRefrectKangou.Checked = person.bRefrectKangou;
                 chkRefrectHousani.Checked = person.bRefrectHousani;
                 chkRefrectSangouKaikyoku.Checked = person.bRefrectSangouKaikyoku;
 
@@ -1678,6 +1679,16 @@ namespace WinFormsApp2
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
         }
+        //干合反映
+        private void chkRefrectKangou_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!bControlEventEnable) return;
+            curPerson.bRefrectKangou = chkRefrectKangou.Checked;
+            personList.WritePersonList();
+            DispShukumei(curPerson, pictureBox1);
+            DispKoutenUn(curPerson, pictureBox2);
+        }
+
         //方三位 反映
         private void chkRefrectHousani_CheckedChanged(object sender, EventArgs e)
         {

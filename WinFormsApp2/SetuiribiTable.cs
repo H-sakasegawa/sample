@@ -169,6 +169,7 @@ namespace WinFormsApp2
         private int CalcNenkansi(int targetYear, int targetMonth)
         {
             int nenkansi = calcBaseNenkansi;
+
             if (calcBaseYear > targetYear)
             {
                 for (int i = calcBaseYear - 1; i >= targetYear; i--)
@@ -285,7 +286,7 @@ namespace WinFormsApp2
                 value = ((year - 1) - baseYear) + baseNenkansiNo;
             }
             else
-            {   //2月～12月
+            {   //1月節入り日～12月
                 value = (year - baseYear) + baseNenkansiNo;
             }
 

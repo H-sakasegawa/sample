@@ -61,6 +61,7 @@ namespace WinFormsApp2
             COL_CUST_ONOFF,     //カスタム設定の有効・無効フラグ
             COL_CUST_REFRECT_SIGOU,             //支合 反映
             COL_CUST_REFRECT_HANKAI,            //半会 反映
+            COL_CUST_REFRECT_KANGOU,            //干合 反映
             COL_CUST_REFRECT_HOUSANI,           //方三位 反映
             COL_CUST_REFRECT_SANGOUKAIKYOKU,    //三合会局 反映
 
@@ -213,6 +214,8 @@ namespace WinFormsApp2
                 person.bRefrectSigou = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU, false);
                 //半会 反映
                 person.bRefrectHankai = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI, false);
+                //干合 反映
+                person.bRefrectKangou = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU, false);
                 //方三位 反映
                 person.bRefrectHousani = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI, false);
                 //三合会局 反映
@@ -292,6 +295,10 @@ namespace WinFormsApp2
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
             cell.SetCellValue("半会反映");
             cell.CellStyle = style;
+            //干合 反映
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
+            cell.SetCellValue("干合反映");
+            cell.CellStyle = style;
             //方三位 反映
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
             cell.SetCellValue("方三位反映");
@@ -338,6 +345,9 @@ namespace WinFormsApp2
                 //半会 反映
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
                 cell.SetCellValue(Convert.ToInt32(person.bRefrectHankai));
+                //干合 反映
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
+                cell.SetCellValue(Convert.ToInt32(person.bRefrectKangou));
                 //方三位 反映
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
                 cell.SetCellValue(Convert.ToInt32(person.bRefrectHousani));
@@ -406,6 +416,7 @@ namespace WinFormsApp2
         //宿命、後天運図への反映項目、
         public bool bRefrectSigou { get; set; } = false;    //支合
         public bool bRefrectHankai { get; set; } = false;   //半会
+        public bool bRefrectKangou { get; set; } = false;   //干合
         public bool bRefrectHousani { get; set; } = false;  //方三位
         public bool bRefrectSangouKaikyoku { get; set; } = false;//三合会局
 
@@ -545,7 +556,6 @@ namespace WinFormsApp2
         /// <summary>
         /// 大運 順行、逆行判定
         /// </summary>
-        /// <param name="NenkansiNo"></param>
         /// <returns></returns>
         public int Direction()
         {

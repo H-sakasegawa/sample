@@ -1403,6 +1403,7 @@ namespace WinFormsApp2
 
         /// <summary>
         /// 干合 カラー変化設定
+        /// 日干支、月干支、日干支の色について干合のカラー設定
         /// </summary>
         /// <param name="colorNikkansi"></param>
         /// <param name="colorGekkansi"></param>
@@ -1468,6 +1469,7 @@ namespace WinFormsApp2
             int idxKan = 0;
             string gogyou = "";
             //宿命カラー設定
+            //日干支、月干支、日干支の色について干合のカラーに補正
             RefrectKangou(colorNikkansi, colorGekkansi, colorNenkansi);
 
             //月運、年運、大運 カラー設定
