@@ -660,7 +660,7 @@ namespace WinFormsApp2
             }
             return result;
         }
-        
+
         /// <summary>
         /// 年に関する年干支を取得
         /// </summary>
@@ -675,18 +675,25 @@ namespace WinFormsApp2
         }
 
         /// <summary>
-        /// 年に関する年干支番号を取得
+        /// 年運表表示用の年に関する年干支番号を取得
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public int GetNenkansiNo(int year)
+        public int GetNenkansiNo(int year, bool bForNenunHyou=false )
         {
             if (year < birthday.year) return -1;
 
-
+            int targetNenkansiNo = 0;
             //0才 干支番号
-            int targetNenkansiNo = nenkansiNo;
-
+            if (bForNenunHyou)
+            {
+                //１月の特殊性を考慮せず、純粋に年だけで干支番号を求める
+                targetNenkansiNo = tblSetuiribi.CalcNenkansi(birthday.year);
+            }
+            else
+            {
+                 targetNenkansiNo = nenkansiNo;
+            }
             //指定された年の干支番号
             targetNenkansiNo += year - birthday.year;
             targetNenkansiNo = targetNenkansiNo % 60;

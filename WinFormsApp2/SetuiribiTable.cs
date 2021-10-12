@@ -166,7 +166,7 @@ namespace WinFormsApp2
         /// <param name="targetYear"></param>
         /// <param name="targetMonth"></param>
         /// <returns></returns>
-        private int CalcNenkansi(int targetYear, int targetMonth)
+        public int CalcNenkansi(int targetYear, int targetMonth = -1)
         {
             int nenkansi = calcBaseNenkansi;
 

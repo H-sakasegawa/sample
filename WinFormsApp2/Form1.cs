@@ -742,7 +742,7 @@ namespace WinFormsApp2
                 }
                 else
                 {
-                    AddTaiunItem(person, string.Format("{0}旬 {1}～", i + 1, kansiItem.startYear),
+                    AddTaiunItem(person, string.Format("{0}旬 {1}～", i, kansiItem.startYear),
                                  kansiItem.kansiNo, kansiItem.startYear);
                 }
             }
@@ -861,7 +861,7 @@ namespace WinFormsApp2
             if (nenkansiNo == 0) nenkansiNo = 60;
 #else
 
-            int nenkansiNo = person.GetNenkansiNo(baseYear);
+            int nenkansiNo = person.GetNenkansiNo(baseYear, true);
 #endif
 
            // string[] choukouShugosinKan = null;

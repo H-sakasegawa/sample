@@ -430,7 +430,7 @@ namespace WinFormsApp2
         {
 
             int baseYear = person.birthday.year;
-            int nenkansiNo = person.GetNenkansiNo(baseYear);
+            int nenkansiNo = person.GetNenkansiNo(baseYear, true);
 
             //大運表示用の干支リストを取得
 
