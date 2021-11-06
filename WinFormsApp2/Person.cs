@@ -664,7 +664,7 @@ namespace WinFormsApp2
         /// <summary>
         /// 年に関する年干支を取得
         /// </summary>
-        /// <param name="year"></param>
+        /// <param name="year">年干支番号を求めたい年</param>
         /// <returns></returns>
         public Kansi GetNenkansi(int year)
         {
@@ -675,9 +675,13 @@ namespace WinFormsApp2
         }
 
         /// <summary>
-        /// 年運表表示用の年に関する年干支番号を取得
+        /// 年に関する年干支番号を取得
         /// </summary>
-        /// <param name="year"></param>
+        /// <param name="year">年干支番号を求めたい年</param>
+        /// <param name="bForNenunHyou">
+        /// true...１月の特殊処理をせず単純に年に該当する年干支番号を使って計算（年運表用）
+        /// false...誕生日から求めた１月の人は１つ前の年干支番号を使って計算
+        /// </param>
         /// <returns></returns>
         public int GetNenkansiNo(int year, bool bForNenunHyou=false )
         {
@@ -919,7 +923,7 @@ namespace WinFormsApp2
             List<GouhouSannpouResult> lstGouhouSanpouResult = new List<GouhouSannpouResult>();
 
             string nentin = GetNentin(unKansi1, unKansi2); //納音、準納音
-            string rittin = GetNittin(unKansi1, unKansi2); //律音、準律音
+            string rittin = GetRittin(unKansi1, unKansi2); //律音、準律音
             string tensatu = GetTensatuTichuString(unKansi1, unKansi2);//天殺地冲
             //string kangou = GetKangoStr(nenunTaiunKansi, kansi); //干合            
 
@@ -1128,24 +1132,24 @@ namespace WinFormsApp2
         /// <summary>
         /// 納音、準納音 取得
         /// </summary>
-        /// <param name="nenunKansi"></param>
-        /// <param name="kansi"></param>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
         /// <returns></returns>
-        public string GetNentin(Kansi nenunKansi, Kansi kansi)
+        public string GetNentin(Kansi kansi1, Kansi kansi2)
         {
-            int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
-            int kansiNo = tblMng.kansiTbl.GetKansiNo(kansi);
+            int kansiNo1 = tblMng.kansiTbl.GetKansiNo(kansi1);
+            int kansiNo2 = tblMng.kansiTbl.GetKansiNo(kansi2);
 
             int dif = 0;
-            if (nenunKansiNo <= kansiNo) dif = kansiNo - nenunKansiNo;
-            else dif = nenunKansiNo - kansiNo;
+            if (kansiNo1 <= kansiNo2) dif = kansiNo2 - kansiNo1;
+            else dif = kansiNo1 - kansiNo2;
 
             if (dif == 30) return "納音";
             if (dif == 29 || dif == 31)
             {
                 //nenunKansiの干とkansiの干が同じ五行の陰陽の関係か？
-                var nenunKansiJyukan = tblMng.jyukanTbl[nenunKansi.kan];
-                var kansiJyukan = tblMng.jyukanTbl[kansi.kan];
+                var nenunKansiJyukan = tblMng.jyukanTbl[kansi1.kan];
+                var kansiJyukan = tblMng.jyukanTbl[kansi2.kan];
 
                 if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準納音";
 
@@ -1157,25 +1161,25 @@ namespace WinFormsApp2
         /// <summary>
         /// 律音、準律音 取得
         /// </summary>
-        /// <param name="nenunKansi"></param>
-        /// <param name="kansi"></param>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
         /// <returns></returns>
-        public string GetNittin(Kansi nenunKansi, Kansi kansi)
+        public string GetRittin(Kansi kansi1, Kansi kansi2)
         {
-            int nenunKansiNo = tblMng.kansiTbl.GetKansiNo(nenunKansi);
-            int kansiNo = tblMng.kansiTbl.GetKansiNo(kansi);
+            int kansiNo1 = tblMng.kansiTbl.GetKansiNo(kansi1);
+            int kansiNo2 = tblMng.kansiTbl.GetKansiNo(kansi2);
 
-            if (nenunKansiNo == kansiNo) return "律音";
+            if (kansiNo1 == kansiNo2) return "律音";
             else
             {
-                int dif = Math.Abs(kansiNo - nenunKansiNo);
-                if ( kansiNo==1 && nenunKansiNo == 60 ||
-                    kansiNo == 60 && nenunKansiNo == 1 ||
+                int dif = Math.Abs(kansiNo2 - kansiNo1);
+                if ( kansiNo2==1 && kansiNo1 == 60 ||
+                    kansiNo2 == 60 && kansiNo1 == 1 ||
                     dif == 1)
                 {
                     //nenunKansiの干とkansiの干が同じ五行の陰陽の関係か？
-                    var nenunKansiJyukan = tblMng.jyukanTbl[nenunKansi.kan];
-                    var kansiJyukan = tblMng.jyukanTbl[kansi.kan];
+                    var nenunKansiJyukan = tblMng.jyukanTbl[kansi1.kan];
+                    var kansiJyukan = tblMng.jyukanTbl[kansi2.kan];
 
                     if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準律音";
                 }
@@ -1327,25 +1331,25 @@ namespace WinFormsApp2
         /// <summary>
         /// 天殺 文字列取得
         /// </summary>
-        /// <param name="taiunKansi"></param>
-        /// <param name="kansi"></param>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
         /// <returns></returns>
-        public string GetTensatuString(Kansi taiunKansi, Kansi kansi)
+        public string GetTensatuString(Kansi kansi1, Kansi kansi2)
         {
             int idxNanasatuItem = 0;
 
-            return IsNanasatu(taiunKansi, kansi, ref idxNanasatuItem) ? "天殺" : "";
+            return IsNanasatu(kansi1, kansi2, ref idxNanasatuItem) ? "天殺" : "";
         }
 
         /// <summary>
         /// 地冲 　文字列取得
         /// </summary>
-        /// <param name="taiunKansi"></param>
-        /// <param name="kansi"></param>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
         /// <returns></returns>
-        public string GetTichuString(Kansi taiunKansi, Kansi kansi)
+        public string GetTichuString(Kansi kansi1, Kansi kansi2)
         {
-            var values = GetGouhouSanpou(taiunKansi, kansi, false, false);
+            var values = GetGouhouSanpou(kansi1, kansi2, false, false);
             if (values != null)
             {
                 foreach (var item in values)
@@ -1358,13 +1362,13 @@ namespace WinFormsApp2
         /// <summary>
         /// 天殺地冲 　文字列取得
         /// </summary>
-        /// <param name="taiunKansi"></param>
-        /// <param name="kansi"></param>
+        /// <param name="kansi1"></param>
+        /// <param name="kansi2"></param>
         /// <returns></returns>
-        public string GetTensatuTichuString(Kansi taiunKansi, Kansi kansi)
+        public string GetTensatuTichuString(Kansi kansi1, Kansi kansi2)
         {
-            string tensatu = GetTensatuString(taiunKansi, kansi);
-            string tichu = GetTichuString(taiunKansi, kansi);
+            string tensatu = GetTensatuString(kansi1, kansi2);
+            string tichu = GetTichuString(kansi1, kansi2);
             if (tensatu != "" && tichu != "") return tensatu + tichu;
 
             return "";

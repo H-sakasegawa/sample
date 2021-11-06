@@ -122,13 +122,13 @@ namespace WinFormsApp2
             //日干支天中殺の文字チェック対象ラベル
             nikkansiTenchusatuChecColor = new TenchusatuColorPair[]
             {
-                  new TenchusatuColorPair( new TColor[]{ colorNenkansiKan, colorNenkansiSi }, new TColor[]{ colorNenkansiShogen, colorNenkansiChugen, colorNenkansiHongen }),
-                  new TenchusatuColorPair( new TColor[]{ colorGekkansiKan, colorGekkansiSi }, new TColor[]{ colorGekkansiShogen, colorGekkansiChugen, colorGekkansiHongen })
+                  new TenchusatuColorPair( new TColor[]{ colorNenkansiKan, colorNenkansiSi }, new TColor[]{ colorNenkansiShogen, colorNenkansiChugen, colorNenkansiHongen }),//年干支 天中殺
+                  new TenchusatuColorPair( new TColor[]{ colorGekkansiKan, colorGekkansiSi }, new TColor[]{ colorGekkansiShogen, colorGekkansiChugen, colorGekkansiHongen }) //月干支 天中殺
             };
             //年干支天中殺の文字チェック対象ラベル
             nenkansiTenchusatuCheckColor = new TenchusatuColorPair[]
             {
-                  new TenchusatuColorPair( new TColor[]{ colorNikkansiKan, colorNikkansiSi }, new TColor[]{ colorNikkansiShogen, colorNikkansiChugen, colorNikkansiHongen }),
+                  new TenchusatuColorPair( new TColor[]{ colorNikkansiKan, colorNikkansiSi }, new TColor[]{ colorNikkansiShogen, colorNikkansiChugen, colorNikkansiHongen }),//日干支　天中殺
             };
 
 
