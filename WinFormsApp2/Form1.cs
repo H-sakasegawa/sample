@@ -19,6 +19,7 @@ namespace WinFormsApp2
         public delegate void CloseTab( int tabId);
         public event CloseTab onCloseTab = null;
 
+        Form mainForm = null;
         int tabId = -1;
         string exePath = "";
 
@@ -56,7 +57,7 @@ namespace WinFormsApp2
 
 
 
-        public Form1( int _tabId, Persons _persons, Person targetPerson=null)
+        public Form1( Form mainFrm ,int _tabId, Persons _persons, Person targetPerson=null)
         {
             InitializeComponent();
 
@@ -64,6 +65,7 @@ namespace WinFormsApp2
             {
                 bControlEventEnable = false;
 
+                mainForm = mainFrm;
                 tabId = _tabId;
 
                 lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
@@ -1610,7 +1612,8 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void pictureBox2_SizeChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized) return;
+            
+            if (mainForm.WindowState == FormWindowState.Minimized) return;
             DispKoutenUn(curPerson, pictureBox2);
 
         }
@@ -1878,10 +1881,6 @@ namespace WinFormsApp2
         {
             if(onCloseTab!=null) onCloseTab(tabId);
         }
-
-
-
-
 
 
         //=================================================

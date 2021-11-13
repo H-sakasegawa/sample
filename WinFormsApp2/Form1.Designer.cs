@@ -148,6 +148,7 @@ namespace WinFormsApp2
             this.chkRefrectSigou = new System.Windows.Forms.CheckBox();
             this.chkRefrectHousani = new System.Windows.Forms.CheckBox();
             this.grpGogyouGotoku = new System.Windows.Forms.GroupBox();
+            this.chkRefrectKangou = new System.Windows.Forms.CheckBox();
             this.chkRefrectSangouKaikyoku = new System.Windows.Forms.CheckBox();
             this.chkRefrectHankai = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -159,7 +160,6 @@ namespace WinFormsApp2
             this.txtCarrerMemo = new System.Windows.Forms.TextBox();
             this.btnTabClose = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
-            this.chkRefrectKangou = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -772,7 +772,7 @@ namespace WinFormsApp2
             this.lblJunidaiJuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblJunidaiJuseiC.Location = new System.Drawing.Point(3, 59);
             this.lblJunidaiJuseiC.Name = "lblJunidaiJuseiC";
-            this.lblJunidaiJuseiC.Size = new System.Drawing.Size(74, 31);
+            this.lblJunidaiJuseiC.Size = new System.Drawing.Size(73, 31);
             this.lblJunidaiJuseiC.TabIndex = 8;
             this.lblJunidaiJuseiC.Text = "A";
             this.lblJunidaiJuseiC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -784,9 +784,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiE.AutoSize = true;
             this.lblJudaiShuseiE.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiE.Location = new System.Drawing.Point(83, 59);
+            this.lblJudaiShuseiE.Location = new System.Drawing.Point(82, 59);
             this.lblJudaiShuseiE.Name = "lblJudaiShuseiE";
-            this.lblJudaiShuseiE.Size = new System.Drawing.Size(85, 31);
+            this.lblJudaiShuseiE.Size = new System.Drawing.Size(84, 31);
             this.lblJudaiShuseiE.TabIndex = 7;
             this.lblJudaiShuseiE.Text = "A";
             this.lblJudaiShuseiE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -798,9 +798,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJunidaiJuseiB.AutoSize = true;
             this.lblJunidaiJuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJunidaiJuseiB.Location = new System.Drawing.Point(174, 59);
+            this.lblJunidaiJuseiB.Location = new System.Drawing.Point(172, 59);
             this.lblJunidaiJuseiB.Name = "lblJunidaiJuseiB";
-            this.lblJunidaiJuseiB.Size = new System.Drawing.Size(78, 31);
+            this.lblJunidaiJuseiB.Size = new System.Drawing.Size(80, 31);
             this.lblJunidaiJuseiB.TabIndex = 6;
             this.lblJunidaiJuseiB.Text = "A";
             this.lblJunidaiJuseiB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -812,9 +812,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiC.AutoSize = true;
             this.lblJudaiShuseiC.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiC.Location = new System.Drawing.Point(174, 29);
+            this.lblJudaiShuseiC.Location = new System.Drawing.Point(172, 29);
             this.lblJudaiShuseiC.Name = "lblJudaiShuseiC";
-            this.lblJudaiShuseiC.Size = new System.Drawing.Size(78, 30);
+            this.lblJudaiShuseiC.Size = new System.Drawing.Size(80, 30);
             this.lblJudaiShuseiC.TabIndex = 5;
             this.lblJudaiShuseiC.Text = "A";
             this.lblJudaiShuseiC.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -826,9 +826,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiB.AutoSize = true;
             this.lblJudaiShuseiB.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiB.Location = new System.Drawing.Point(83, 29);
+            this.lblJudaiShuseiB.Location = new System.Drawing.Point(82, 29);
             this.lblJudaiShuseiB.Name = "lblJudaiShuseiB";
-            this.lblJudaiShuseiB.Size = new System.Drawing.Size(85, 30);
+            this.lblJudaiShuseiB.Size = new System.Drawing.Size(84, 30);
             this.lblJudaiShuseiB.TabIndex = 4;
             this.lblJudaiShuseiB.Text = "A";
             this.lblJudaiShuseiB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -842,7 +842,7 @@ namespace WinFormsApp2
             this.lblJudaiShuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblJudaiShuseiA.Location = new System.Drawing.Point(3, 29);
             this.lblJudaiShuseiA.Name = "lblJudaiShuseiA";
-            this.lblJudaiShuseiA.Size = new System.Drawing.Size(74, 30);
+            this.lblJudaiShuseiA.Size = new System.Drawing.Size(73, 30);
             this.lblJudaiShuseiA.TabIndex = 3;
             this.lblJudaiShuseiA.Text = "A";
             this.lblJudaiShuseiA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -854,9 +854,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJudaiShuseiD.AutoSize = true;
             this.lblJudaiShuseiD.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJudaiShuseiD.Location = new System.Drawing.Point(83, 0);
+            this.lblJudaiShuseiD.Location = new System.Drawing.Point(82, 0);
             this.lblJudaiShuseiD.Name = "lblJudaiShuseiD";
-            this.lblJudaiShuseiD.Size = new System.Drawing.Size(85, 29);
+            this.lblJudaiShuseiD.Size = new System.Drawing.Size(84, 29);
             this.lblJudaiShuseiD.TabIndex = 2;
             this.lblJudaiShuseiD.Text = "A";
             this.lblJudaiShuseiD.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -868,9 +868,9 @@ namespace WinFormsApp2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJunidaiJuseiA.AutoSize = true;
             this.lblJunidaiJuseiA.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblJunidaiJuseiA.Location = new System.Drawing.Point(174, 0);
+            this.lblJunidaiJuseiA.Location = new System.Drawing.Point(172, 0);
             this.lblJunidaiJuseiA.Name = "lblJunidaiJuseiA";
-            this.lblJunidaiJuseiA.Size = new System.Drawing.Size(78, 29);
+            this.lblJunidaiJuseiA.Size = new System.Drawing.Size(80, 29);
             this.lblJunidaiJuseiA.TabIndex = 1;
             this.lblJunidaiJuseiA.Text = "A";
             this.lblJunidaiJuseiA.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1395,6 +1395,17 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.TabIndex = 66;
             this.grpGogyouGotoku.TabStop = false;
             // 
+            // chkRefrectKangou
+            // 
+            this.chkRefrectKangou.AutoSize = true;
+            this.chkRefrectKangou.Location = new System.Drawing.Point(120, 14);
+            this.chkRefrectKangou.Name = "chkRefrectKangou";
+            this.chkRefrectKangou.Size = new System.Drawing.Size(50, 19);
+            this.chkRefrectKangou.TabIndex = 68;
+            this.chkRefrectKangou.Text = "干合";
+            this.chkRefrectKangou.UseVisualStyleBackColor = true;
+            this.chkRefrectKangou.CheckedChanged += new System.EventHandler(this.chkRefrectKangou_CheckedChanged);
+            // 
             // chkRefrectSangouKaikyoku
             // 
             this.chkRefrectSangouKaikyoku.AutoSize = true;
@@ -1507,17 +1518,6 @@ namespace WinFormsApp2
             this.button10.Text = "年運比較表";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
-            // 
-            // chkRefrectKangou
-            // 
-            this.chkRefrectKangou.AutoSize = true;
-            this.chkRefrectKangou.Location = new System.Drawing.Point(120, 14);
-            this.chkRefrectKangou.Name = "chkRefrectKangou";
-            this.chkRefrectKangou.Size = new System.Drawing.Size(50, 19);
-            this.chkRefrectKangou.TabIndex = 68;
-            this.chkRefrectKangou.Text = "干合";
-            this.chkRefrectKangou.UseVisualStyleBackColor = true;
-            this.chkRefrectKangou.CheckedChanged += new System.EventHandler(this.chkRefrectKangou_CheckedChanged);
             // 
             // Form1
             // 

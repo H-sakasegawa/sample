@@ -77,7 +77,7 @@ namespace WinFormsApp2
 
             tabControl1.TabPages.Add("基本");
 
-            Form1 frm = new Form1(0, personList);
+            Form1 frm = new Form1(this, 0, personList);
             addform(tabControl1.TabPages[0], frm);
 
         }
@@ -88,7 +88,7 @@ namespace WinFormsApp2
             if (frmAddTab.ShowDialog() == DialogResult.OK)
             {
                 ++tabId;
-                Form1 frm = new Form1(tabId, personList, frmAddTab.selectPerson);
+                Form1 frm = new Form1(this, tabId, personList, frmAddTab.selectPerson);
                 frm.onCloseTab += OnTabClose;
 
                 tabControl1.TabPages.Add(frmAddTab.selectPerson.name);
