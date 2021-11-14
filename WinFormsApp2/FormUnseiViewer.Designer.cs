@@ -29,8 +29,7 @@ namespace WinFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.grdViewNenUn = new WinFormsApp2.DataGridViewEx();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmbGroup = new System.Windows.Forms.ComboBox();
             this.chkListPerson = new System.Windows.Forms.CheckedListBox();
             this.lstDispItems = new System.Windows.Forms.ListBox();
@@ -40,35 +39,15 @@ namespace WinFormsApp2
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chkDispBaseYearRange = new System.Windows.Forms.CheckBox();
+            this.grdViewNenUn = new WinFormsApp2.DataGridViewEx();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.grdViewNenUn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // grdViewNenUn
-            // 
-            this.grdViewNenUn.AllowUserToAddRows = false;
-            this.grdViewNenUn.AllowUserToDeleteRows = false;
-            this.grdViewNenUn.AllowUserToResizeRows = false;
-            this.grdViewNenUn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grdViewNenUn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdViewNenUn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.grdViewNenUn.Location = new System.Drawing.Point(115, 30);
-            this.grdViewNenUn.MultiSelect = false;
-            this.grdViewNenUn.Name = "grdViewNenUn";
-            this.grdViewNenUn.RowTemplate.Height = 25;
-            this.grdViewNenUn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdViewNenUn.Size = new System.Drawing.Size(994, 460);
-            this.grdViewNenUn.TabIndex = 0;
-            this.grdViewNenUn.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdViewNenUn_CellFormatting);
-            this.grdViewNenUn.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdViewNenUn_RowEnter);
             // 
             // cmbGroup
             // 
@@ -91,7 +70,6 @@ namespace WinFormsApp2
             this.chkListPerson.Name = "chkListPerson";
             this.chkListPerson.Size = new System.Drawing.Size(107, 231);
             this.chkListPerson.TabIndex = 2;
-            this.chkListPerson.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chkListPerson_ItemCheck);
             // 
             // lstDispItems
             // 
@@ -163,11 +141,63 @@ namespace WinFormsApp2
             this.chkDispBaseYearRange.UseVisualStyleBackColor = true;
             this.chkDispBaseYearRange.CheckedChanged += new System.EventHandler(this.chkDispBaseYearRange_CheckedChanged);
             // 
+            // grdViewNenUn
+            // 
+            this.grdViewNenUn.AllowUserToAddRows = false;
+            this.grdViewNenUn.AllowUserToDeleteRows = false;
+            this.grdViewNenUn.AllowUserToResizeRows = false;
+            this.grdViewNenUn.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdViewNenUn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.grdViewNenUn.Location = new System.Drawing.Point(15, 35);
+            this.grdViewNenUn.MultiSelect = false;
+            this.grdViewNenUn.Name = "grdViewNenUn";
+            this.grdViewNenUn.RowTemplate.Height = 25;
+            this.grdViewNenUn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grdViewNenUn.Size = new System.Drawing.Size(539, 140);
+            this.grdViewNenUn.TabIndex = 1;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.splitContainer1.Location = new System.Drawing.Point(116, 43);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.flowLayoutPanel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.grdViewNenUn);
+            this.splitContainer1.Size = new System.Drawing.Size(993, 447);
+            this.splitContainer1.SplitterDistance = 223;
+            this.splitContainer1.TabIndex = 12;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(96, 57);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(200, 100);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
             // FormUnseiViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1121, 502);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.chkDispBaseYearRange);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -177,12 +207,15 @@ namespace WinFormsApp2
             this.Controls.Add(this.lstDispItems);
             this.Controls.Add(this.chkListPerson);
             this.Controls.Add(this.cmbGroup);
-            this.Controls.Add(this.grdViewNenUn);
             this.Name = "FormUnseiViewer";
             this.Text = "年運比較表";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormUnseiViewer_FormClosed);
             this.Load += new System.EventHandler(this.FormUnseiViewer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdViewNenUn)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,7 +230,10 @@ namespace WinFormsApp2
         private System.Windows.Forms.TextBox txtMaxNenNum;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private DataGridViewEx grdViewNenUn;
         private System.Windows.Forms.CheckBox chkDispBaseYearRange;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private DataGridViewEx grdViewNenUn;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

@@ -632,12 +632,24 @@ namespace WinFormsApp2
         }
 
         /// <summary>
+        /// 年に該当する大運干支番号取得
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public Kansi GetTaiunKansi(int year)
+        {
+            int kansiNo = GetTaiunKansiNo(year);
+            if (kansiNo < 0) return null;
+
+            return GetKansi(kansiNo);
+        }
+        /// <summary>
         /// 指定した年に該当する大運の干支情報を取得
         /// </summary>
         /// <param name="year"></param>
         /// <param name="lstTaiunKansiList"></param>
         /// <returns></returns>
-        public TaiunKansiItem GetTaiunKansi(int year, List<TaiunKansiItem> lstTaiunKansiList = null)
+        private int GetTaiunKansiNo(int year, List<TaiunKansiItem> lstTaiunKansiList = null)
         {
             if (lstTaiunKansiList == null)
             {
@@ -649,7 +661,7 @@ namespace WinFormsApp2
             {
                 TaiunKansiItem item = lstTaiunKansiList[i];
                 
-                if(item.startYear <= year)
+                if(item.year <= year)
                 {
                     result = item;
                 }
@@ -658,17 +670,21 @@ namespace WinFormsApp2
                     break;
                 }
             }
-            return result;
+            if( result!=null)  return result.kansiNo;
+            return -1;
         }
 
         /// <summary>
         /// 年に関する年干支を取得
         /// </summary>
         /// <param name="year">年干支番号を求めたい年</param>
+        /// <param name="bForNenunHyou">
+        /// true...１月の特殊処理をせず単純に年に該当する年干支番号を使って計算（年運表用）
+        /// false...誕生日から求めた１月の人は１つ前の年干支番号を使って計算
         /// <returns></returns>
-        public Kansi GetNenkansi(int year)
+        public Kansi GetNenkansi(int year, bool bForNenunHyou = false)
         {
-            int kansiNo = GetNenkansiNo(year);
+            int kansiNo = GetNenkansiNo(year, bForNenunHyou);
             if (kansiNo < 0) return null;
 
             return GetKansi(kansiNo);
@@ -704,6 +720,58 @@ namespace WinFormsApp2
             if (targetNenkansiNo == 0) targetNenkansiNo = 60;
 
             return targetNenkansiNo;
+        }
+
+
+        /// <summary>
+        /// 月干支取得(節入り日無視で単純月で取得）
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        public Kansi GetGekkansi(int year, int month)
+        {
+            int kansiNo = GetGekkansiNo(year, month);
+            if (kansiNo < 0) return null;
+
+            return GetKansi(kansiNo);
+
+        }
+        /// <summary>
+        /// 月干支取得(節入り日を考慮）
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <param name="day">日</param>
+        /// <returns></returns>
+        public Kansi GetGekkansi(int year, int month, int day)
+        {
+            int kansiNo = GetGekkansiNo(year, month, day);
+            if (kansiNo < 0) return null;
+
+            return GetKansi(kansiNo);
+
+        }
+        /// <summary>
+        /// 月干支番号取得(節入り日無視で単純月で取得）
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        public int GetGekkansiNo(int year, int month)
+        {
+            return tblMng.setuiribiTbl.GetGekkansiNo(year, month);
+        }
+        /// <summary>
+        /// 月干支番号取得(節入り日を考慮）
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <param name="day">日</param>
+        /// <returns></returns>
+        public int GetGekkansiNo(int year, int month, int day)
+        {
+            return tblMng.setuiribiTbl.GetGekkansiNo(year, month, day);
         }
 
         /// <summary>
@@ -798,6 +866,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsInyou(Kansi kansi1, Kansi kansi2)
         {
+            if (kansi1 == null || kansi2 == null) return false;
             return tblMng.jyukanTbl.IsInyou(kansi1.kan, kansi2.kan);
         }
 
@@ -920,7 +989,10 @@ namespace WinFormsApp2
         /// <returns></returns>
         public GouhouSannpouResult[] GetGouhouSanpouEx(Kansi unKansi1, Kansi unKansi2, Kansi taiunKansi, Kansi nenunKansi)
         {
+            if (unKansi1 == null || unKansi2 == null) return null;
+
             List<GouhouSannpouResult> lstGouhouSanpouResult = new List<GouhouSannpouResult>();
+
 
             string nentin = GetNentin(unKansi1, unKansi2); //納音、準納音
             string rittin = GetRittin(unKansi1, unKansi2); //律音、準律音
@@ -1224,6 +1296,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsKango(Kansi kansi1, Kansi kansi2)
         {
+            if (kansi1 == null || kansi2 == null) return false;
             return tblMng.kangouTbl.IsKangou(kansi1.kan, kansi2.kan);
         }
         /// <summary>
@@ -1234,6 +1307,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public string GetKangoStr(Kansi taiunKansi, Kansi kansi)
         {
+            if (taiunKansi == null || kansi == null) return null;
             return tblMng.kangouTbl.GetKangouStr(taiunKansi.kan, kansi.kan);
         }
 
@@ -1297,6 +1371,7 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsNanasatu(Kansi kansi1, Kansi kansi2, ref int nanasatuKansi)
         {
+            if (kansi1 == null || kansi2 == null) return false;
             return IsNanasatu(kansi1.kan, kansi2.kan, ref nanasatuKansi);
         }
         /// <summary>

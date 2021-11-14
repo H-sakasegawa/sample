@@ -581,21 +581,20 @@ namespace WinFormsApp2
             public List<SangouKaikyokuResult> GetSangouKaikyoku(Kansi getuun, Kansi nenun, Kansi taiun,          
                                                                 Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
             {
-                SiItems[] arySi = {
-                       new SiItems(getuun.si, Const.bitFlgGetuun),
-                       new SiItems(nenun.si, Const.bitFlgNenun),
-                       new SiItems(taiun.si, Const.bitFlgTaiun),
-                       new SiItems(nikkansi.si, Const.bitFlgNiti),
-                       new SiItems(gekkansi.si, Const.bitFlgGetu),
-                       new SiItems(nenkansi.si, Const.bitFlgNen),
-                };
+                List<SiItems> arySi = new List<SiItems>();
+                if (getuun != null) arySi.Add(new SiItems(getuun.si, Const.bitFlgGetuun));
+                arySi.Add(new SiItems(nenun.si, Const.bitFlgNenun));
+                arySi.Add(new SiItems(taiun.si, Const.bitFlgTaiun));
+                arySi.Add(new SiItems(nikkansi.si, Const.bitFlgNiti));
+                arySi.Add(new SiItems(gekkansi.si, Const.bitFlgGetu));
+                arySi.Add(new SiItems(nenkansi.si, Const.bitFlgNen));
 
                 List<SangouKaikyokuResult> lstResult = new List<SangouKaikyokuResult>() ;
-                for (int i = 0; i < arySi.Length - 2; i++)
+                for (int i = 0; i < arySi.Count - 2; i++)
                 {
-                    for (int j = i + 1; j < arySi.Length - 1; j++)
+                    for (int j = i + 1; j < arySi.Count - 1; j++)
                     {
-                        for (int k = j + 1; k < arySi.Length; k++)
+                        for (int k = j + 1; k < arySi.Count; k++)
                         {
                             if( arySi[i].si == arySi[j].si ||
                                 arySi[i].si == arySi[k].si ||
@@ -650,21 +649,20 @@ namespace WinFormsApp2
                                       Kansi nikkansi, Kansi gekkansi, Kansi nenkansi)
             {
 
-                SiItems[] arySi = {
-                       new SiItems(getuun.si, Const.bitFlgGetuun),
-                       new SiItems(nenun.si, Const.bitFlgNenun),
-                       new SiItems(taiun.si, Const.bitFlgTaiun),
-                       new SiItems(nikkansi.si, Const.bitFlgNiti),
-                       new SiItems(gekkansi.si, Const.bitFlgGetu),
-                       new SiItems(nenkansi.si, Const.bitFlgNen),
-                };
+                List<SiItems> arySi = new List<SiItems>();
+                if (getuun != null) arySi.Add(new SiItems(getuun.si, Const.bitFlgGetuun));
+                arySi.Add(new SiItems(nenun.si, Const.bitFlgNenun));
+                arySi.Add(new SiItems(taiun.si, Const.bitFlgTaiun));
+                arySi.Add(new SiItems(nikkansi.si, Const.bitFlgNiti));
+                arySi.Add(new SiItems(gekkansi.si, Const.bitFlgGetu));
+                arySi.Add(new SiItems(nenkansi.si, Const.bitFlgNen));
 
                 List<HouSaniResult> lstResult = new List<HouSaniResult>();
-                for (int i = 0; i < arySi.Length - 2; i++)
+                for (int i = 0; i < arySi.Count - 2; i++)
                 {
-                    for (int j = i + 1; j < arySi.Length - 1; j++)
+                    for (int j = i + 1; j < arySi.Count - 1; j++)
                     {
-                        for (int k = j + 1; k < arySi.Length; k++)
+                        for (int k = j + 1; k < arySi.Count; k++)
                         {
                             if (arySi[i].si == arySi[j].si ||
                                 arySi[i].si == arySi[k].si ||

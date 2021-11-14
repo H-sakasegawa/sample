@@ -14,6 +14,12 @@ namespace WinFormsApp2
     /// </summary>
     abstract class IsouhouBase : IDisposable
     {
+
+        protected enum DrawMode
+        {
+            DRAW = 0,
+            CALC_DRAW_AREA_SIZE
+        }
         public Person person;
         public Font fnt = null;
         public Font fntBold = null;
@@ -26,6 +32,8 @@ namespace WinFormsApp2
         public StringFormat stringFormat = null;
         public StringFormat smallStringFormat = null;
 
+        protected DrawMode drawMode = DrawMode.DRAW;
+
         TableMng tblMng = TableMng.GetTblManage();
 
 
@@ -33,7 +41,8 @@ namespace WinFormsApp2
         /// </summary>
         PictureBox pictureBox = null;
         Graphics g;
-        int offsetY = 20;
+        protected int offsetX = 5;
+        protected int offsetY = 20;
 
         protected int dircUp = -1;  //上方向ライン描画
         protected int dircDown = +1;//下方向ライン描画
@@ -52,12 +61,31 @@ namespace WinFormsApp2
         protected int idxMtx = 0;
         protected int idxMtxButtom = 0;
 
+        protected int drawTopKan;      //干文字表示領域TOP
+        protected int drawTopSi;       //支文字表示領域TOP
+        protected int drawBottomSi;    //支文字表示領域BOTTOM
+        protected int rangeHeight;     //干支文字領域高さ
+        public int rangeWidth;      //干支文字領域幅
+
+
+        //干支文字表示領域
+        protected Rectangle rectNikansiKan;
+        protected Rectangle rectNikansiSi;
+        protected Rectangle rectGekkansiKan;
+        protected Rectangle rectGekkansiSi;
+        protected Rectangle rectNenkansiKan;
+        protected Rectangle rectNenkansiSi;
+
+        //文字描画領域の最大Y方向サイズ
+        private int maxDrawStringAreaY = 0;
         ///// <summary>
         ///// 干支　五行情報管理テーブル
         ///// </summary>
         //AttrTblItem[] attrTbl = new AttrTblItem[6];  //月運、年運、大運, 日干支、月干支、年干支
 
         TableMng.KansiAttrTblMng kansiAttrTbl = null;
+
+        public int fntSize = 14;
 
         public Graphics graph
         {
@@ -69,19 +97,21 @@ namespace WinFormsApp2
         /// </summary>
         /// <param name="_person"></param>
         /// <param name="_pictureBox"></param>
-        public IsouhouBase(Person _person, PictureBox _pictureBox)
+        public IsouhouBase(Person _person, PictureBox _pictureBox, int _fontSize=-1)
         {
+
             person = _person;
             pictureBox = _pictureBox;
 
+            if (_fontSize >= 0) fntSize = _fontSize;
 
-            blackPen = new Pen(Color.Black, 1);
+             blackPen = new Pen(Color.Black, 1);
             redPen = new Pen(Color.Red, 1); 
             redPenBold = new Pen(Color.Red, 2);
 
             var fontName = "メイリオ";
-            fnt =  new Font(fontName, 14, FontStyle.Regular);
-            fntBold = new Font(fontName, 14, FontStyle.Regular | FontStyle.Bold);
+            fnt =  new Font(fontName, fntSize, FontStyle.Regular);
+            fntBold = new Font(fontName, fntSize, FontStyle.Regular | FontStyle.Bold);
             fntSmall = new Font(fontName, 8, FontStyle.Regular);
             fntSmallMark = new Font(fontName, 5, FontStyle.Regular);
             fntSmallDisable = new Font(fontName, 8, FontStyle.Regular | FontStyle.Strikeout);
@@ -96,20 +126,15 @@ namespace WinFormsApp2
             smallStringFormat.Alignment = StringAlignment.Center;
             smallStringFormat.LineAlignment = StringAlignment.Center;
 
-            matrix.Add(0);
-            matrixBottom.Add(0);
-
+ 
             //干支の五行属性管理テーブル
             kansiAttrTbl = new TableMng.KansiAttrTblMng();
-           // for(int i=0; i<attrTbl.Length; i++) attrTbl[i] = new AttrTblItem();
-        }
-        /// <summary>
-        /// 描画領域サイズ取得
-        /// </summary>
-        /// <returns></returns>
-        public Size GetDrawArea()
-        {
-            return new Size(pictureBox.Width, pictureBox.Height);
+            // for(int i=0; i<attrTbl.Length; i++) attrTbl[i] = new AttrTblItem();
+
+            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
+            rangeWidth = 45;
+
+
         }
         /// <summary>
         /// フォント高さ取得
@@ -128,6 +153,14 @@ namespace WinFormsApp2
             return fntSmall.Height;
         }
         /// <summary>
+        /// ライン描画位置 X方向オフセット値取得
+        /// </summary>
+        /// <returns></returns>
+        public int GetLineOffsetX()
+        {
+            return offsetX;
+        }
+        /// <summary>
         /// ライン描画位置 Y方向オフセット値取得
         /// </summary>
         /// <returns></returns>
@@ -139,11 +172,39 @@ namespace WinFormsApp2
         protected abstract void DrawItem(Graphics g);
         protected virtual void DrawKansi(Graphics g) { }
 
+
+        /// <summary>
+        /// 描画領域サイズ取得
+        /// </summary>
+        /// <returns></returns>
+        public Size GetDrawPictureArea()
+        {
+            return new Size(pictureBox.Width, pictureBox.Height);
+        }
+
+        public Size CalcDrawAreaSize()
+        {
+            return new Size(
+                offsetX + rectNenkansiKan.X + rectNenkansiKan.Width,
+                maxDrawStringAreaY
+                );
+
+
+        }
         /// <summary>
         /// 描画処理メイン
         /// </summary>
         public void Draw()
         {
+            matrix.Clear();
+            matrixBottom.Clear();
+            matrix.Add(0);
+            matrixBottom.Add(0);
+
+            idxMtx = 0;
+            idxMtxButtom = 0;
+            maxDrawStringAreaY = 0;
+
             //派生先クラスの描画I/F呼び出し
             Bitmap canvas = new Bitmap(pictureBox.Width, pictureBox.Height);
             // Graphicsオブジェクトの作成
@@ -626,6 +687,10 @@ namespace WinFormsApp2
                 y += fntSmall.Height;
             }
 
+            //文字描画Y座標＋文字の高さ
+            int bottom = y + fntSmall.Height / 2;
+            if (maxDrawStringAreaY < bottom) maxDrawStringAreaY = bottom;
+
         }
         /// <summary>
         /// 文字列描画
@@ -663,6 +728,9 @@ namespace WinFormsApp2
                 g.DrawString(s, fntSmall, brush, rect, smallStringFormat);
                 y += fntSmall.Height;
             }
+            //文字描画Y座標＋文字の高さ
+            int bottom = y + fntSmall.Height / 2;
+            if (maxDrawStringAreaY < bottom) maxDrawStringAreaY = bottom;
 
         }
 
@@ -785,6 +853,7 @@ namespace WinFormsApp2
 
             var attrTblItem = kansiAttrTbl[(int)kansiItemId];
 
+            if (attrTblItem.attrKan == null || attrTblItem.attrSi == null) return null;
             Color[] color = new Color[2];
             //十干支テーブルから 干に該当する五行名
             color[0] = tblMng.gogyouAttrColorTbl[attrTblItem.attrKan ]; //干の色
@@ -803,6 +872,8 @@ namespace WinFormsApp2
         /// <returns></returns>
         protected Color[] GetGotokuColor(string nikkansiKan, Kansi kansi, bool bBaseKan = false)
         {
+            if (kansi == null) return null;
+
             var tblMng = TableMng.GetTblManage();
             Color[] color = new Color[2];
 
@@ -885,15 +956,18 @@ namespace WinFormsApp2
         {
             var tblMng = TableMng.GetTblManage();
 
-            //合法反映前の属性について"土"の数をカウント
+            //宿命の合法反映前の属性について"土"の数をカウント
             int cnt = GetAttrDoCount();
-            //日干支
-            if (tblMng.jyukanTbl[kansiGetuun.kan].gogyou == Const.sGogyouDo) cnt++;
-            if (tblMng.jyunisiTbl[kansiGetuun.si].gogyou == Const.sGogyouDo) cnt++;
-            //月干支
+            //月運
+            if (kansiGetuun != null)
+            {
+                if (tblMng.jyukanTbl[kansiGetuun.kan].gogyou == Const.sGogyouDo) cnt++;
+                if (tblMng.jyunisiTbl[kansiGetuun.si].gogyou == Const.sGogyouDo) cnt++;
+            }
+            //年運
             if (tblMng.jyukanTbl[kansiNenun.kan].gogyou == Const.sGogyouDo) cnt++;
             if (tblMng.jyunisiTbl[kansiNenun.si].gogyou == Const.sGogyouDo) cnt++;
-            //年干支
+            //大運
             if (tblMng.jyukanTbl[kansiTaiun.kan].gogyou == Const.sGogyouDo) cnt++;
             if (tblMng.jyunisiTbl[kansiTaiun.si].gogyou == Const.sGogyouDo) cnt++;
 

@@ -134,8 +134,7 @@ namespace WinFormsApp2
                 sc.IsSplitterFixed = true;
                 sc.Orientation = Orientation.Vertical;
                 sc.SplitterWidth = 1;
-                sc.FixedPanel = FixedPanel.Panel1;  //分割パネル左側を固定パネルにシチエ
-                sc.FixedPanel = FixedPanel.Panel1;  //分割パネル左側を固定パネルにシチエ
+                sc.FixedPanel = FixedPanel.Panel1;  //分割パネル左側を固定パネルにする
                 sc.Panel1MinSize =50;               //分割パネル左側の幅設定
                 sc.Panel1.Controls.Add(lbl);        //分割パネル左側に回数ラベルを追加
                 sc.Panel2.Controls.Add(pictureBox); //分割パネル右側に干支図表示ピクチャーボックスを追加

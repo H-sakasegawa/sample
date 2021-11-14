@@ -13,7 +13,30 @@ namespace WinFormsApp2
 
     public partial class FormUnseiViewer : Form
     {
+        //年運表行データTag情報
+        class RowItems
+        {
+            public RowItems(int _year)
+            {
+                year = _year;
+            }
+            public int year;
+        }
 
+        class KoutenUn
+        {
+            public KoutenUn(Person _person, SplitContainer _sc, PictureBox _picture)
+            {
+                person = _person;
+                sc = _sc;
+                picture = _picture;
+            }
+            public Person person;
+            public SplitContainer sc;
+            public PictureBox picture;
+        }
+
+ 
         public delegate void CloseHandler();
         public delegate void DelegateOnChangeCurYear(int year);
 
@@ -25,25 +48,30 @@ namespace WinFormsApp2
 
         bool bRowSelectEvent = false;
 
-
+        bool bInitializeLoad = true;
         public event DelegateOnChangeCurYear OnChangeCurYear =null;
         public event CloseHandler OnClose;
 
         TableMng tblMng = TableMng.GetTblManage();
 
         Dictionary<string, Person> dicPersons = new Dictionary<string, Person>();
+        List<KoutenUn> lstKoutenUn = new List<KoutenUn>();
 
- 
-        public FormUnseiViewer(Persons _persons, Person _basePerson)
+        Form1 parentForm;
+
+
+        public FormUnseiViewer(Form _parenForm, Persons _persons, Person _basePerson)
         {
             InitializeComponent();
 
+            parentForm = (Form1)_parenForm;
             this.persons = _persons;
             basePerson = _basePerson;
         }
 
         private void FormUnseiViewer_Load(object sender, EventArgs e)
         {
+            bInitializeLoad = true;
             //メンバーの表示状態を管理するディクショナリを作成
             persons.GetPersonList().ForEach(x => dicPersons.Add(x.name, x ) );
 
@@ -54,11 +82,15 @@ namespace WinFormsApp2
             grdViewNenUn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             grdViewNenUn.ColumnHeadersHeight = this.grdViewNenUn.ColumnHeadersHeight * 2;
             grdViewNenUn.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
+            grdViewNenUn.Dock = DockStyle.Fill;
+            grdViewNenUn.Cursor = Cursors.Arrow;
+
             grdViewNenUn.CellPainting += new DataGridViewCellPaintingEventHandler(grdViewNenUn_CellPainting);
             grdViewNenUn.Paint += new PaintEventHandler(grdViewNenUn_Paint);
             grdViewNenUn.ColumnWidthChanged += grdViewNenUn_ColumnWidthChanged;
             grdViewNenUn.Resize += grdViewNenUn_Resize;
             grdViewNenUn.Scroll += grdViewNenUn_Scroll;
+            grdViewNenUn.RowEnter += grdViewNenUn_RowEnter;
 
             grdViewNenUn.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             grdViewNenUn.ReadOnly = true;
@@ -67,9 +99,13 @@ namespace WinFormsApp2
             txtMaxNenNum.Text = MAX_YEAR_RANGE.ToString();
             chkDispBaseYearRange.Checked = true;
 
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.WrapContents = false;
+
             DispListItem();
 
-
+            bInitializeLoad = false;
 
         }
 
@@ -117,12 +153,6 @@ namespace WinFormsApp2
         }
 
 
-        private void ColumnSetting()
-        {
-
-
-        }
-
         private int AddColmnOnPerson(Person person,Color bkColor)
         {
             int idx;
@@ -130,49 +160,42 @@ namespace WinFormsApp2
             DataGridViewColumn column = new DataGridViewColumn();
 
             //大運情報
-            idx = grdViewNenUn.Columns.Add(person.name, "干支(大)");
-            grdViewNenUn.Columns[idx].Width = 60;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "干支(大)", 60, bkColor);
             cnt++;
 
             //年運情報
-
-            idx = grdViewNenUn.Columns.Add(person.name, "干支");
-            grdViewNenUn.Columns[idx].Width = 60;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "干支", 60, bkColor);
             cnt++;
 
-            idx = grdViewNenUn.Columns.Add(person.name, "十大主星");
-            grdViewNenUn.Columns[idx].Width = 40;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "十大主星", 40, bkColor);
             cnt++;
 
-            idx = grdViewNenUn.Columns.Add(person.name, "十二大従星");
-            grdViewNenUn.Columns[idx].Width = 40;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "十二大従星", 40, bkColor);
             cnt++;
 
-            idx = grdViewNenUn.Columns.Add(person.name, "日");
-            grdViewNenUn.Columns[idx].Width = 100;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "日", 100, bkColor);
             cnt++;
 
-            idx = grdViewNenUn.Columns.Add(person.name, "月");
-            grdViewNenUn.Columns[idx].Width = 100;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "月", 100, bkColor);
             cnt++;
 
-            idx = grdViewNenUn.Columns.Add(person.name, "年");
-            grdViewNenUn.Columns[idx].Width = 100;
-            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            AddColumn(person, "年", 100, bkColor);
             cnt++;
 
 
             return cnt;
         }
+        void AddColumn(Person person, string title, int width, Color bkColor)
+        {
+            int idx = grdViewNenUn.Columns.Add(person.name, title);
+            grdViewNenUn.Columns[idx].Width = width;
+            grdViewNenUn.Columns[idx].DefaultCellStyle.BackColor = bkColor;
+            grdViewNenUn.Columns[idx].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+        }
 
 
- 
+
         private void grdViewNenUn_Paint(object sender, PaintEventArgs e)
         {
             int colCount = grdViewNenUn.Columns.Count;
@@ -317,10 +340,6 @@ namespace WinFormsApp2
             return result;
         }
 
-        private void chkListPerson_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-        }
-
         int minYear = 9999;
         int maxYear = 0;
         /// <summary>
@@ -356,7 +375,7 @@ namespace WinFormsApp2
         {
             while (lstDispItems.SelectedIndex > -1)
             {
-                lstDispItems.Items.RemoveAt(lstDispItems.SelectedIndex);
+                 lstDispItems.Items.RemoveAt(lstDispItems.SelectedIndex);
             }
 
             //年運表示
@@ -386,6 +405,10 @@ namespace WinFormsApp2
 
         public void DispListItem()
         {
+
+            RemoveKoutenunAll();
+            flowLayoutPanel1.Controls.Clear();
+
             CreateColumn();
 
             //表示人物の中の最大、最小年
@@ -409,8 +432,9 @@ namespace WinFormsApp2
             grdViewNenUn.Rows.Add(maxYear - minYear);
 
             int colIndex = 0;
-            //年運表示
+            //基準となる人の年運表示
             DispListItem(basePerson, colIndex);
+
             colIndex += grpItemCnt;
 
             foreach (var item in lstDispItems.Items)
@@ -418,12 +442,15 @@ namespace WinFormsApp2
 
                 Person person = (Person)item;
 
-                //年運表示
+                //表示追加した人の年運表示
                 DispListItem(person, colIndex);
-
                 colIndex += grpItemCnt;
             }
 
+            //-------------------------------------
+            // 後天運表示更新
+            //-------------------------------------
+            DispKoutenUn();
         }
 
         public void DispListItem(Person person, int colIndex)
@@ -524,14 +551,137 @@ namespace WinFormsApp2
             row.Tag = new RowItems(year);
         }
 
-        class RowItems
+
+
+
+        public void DispKoutenUn()
         {
-            public RowItems(int _year)
+            flowLayoutPanel1.SuspendLayout();
+
+            RemoveKoutenunAll();
+            flowLayoutPanel1.Controls.Clear();
+
+            //基準となる人の後天運表示
+            AddKoutenun(basePerson);
+
+            foreach (var item in lstDispItems.Items)
             {
-                year = _year;
+                Person person = (Person)item;
+                //表示追加した人の後天運表示
+                AddKoutenun(person);
             }
-            public int year;
+            DrawKoutenun();
+
+            flowLayoutPanel1.ResumeLayout();
         }
+        public void UpdateKoutenUn()
+        {
+            foreach(var item in lstKoutenUn)
+            {
+                DrawKoutenun(item);
+            }
+        }
+
+
+        private void AddKoutenun(Person person)
+        {
+            Label lbl = new Label();
+            lbl.Dock = DockStyle.Fill;
+            lbl.Text = person.name;
+            lbl.TextAlign = ContentAlignment.MiddleCenter;
+
+
+            PictureBox pictureBox = new PictureBox();
+           // pictureBox.BorderStyle = BorderStyle.FixedSingle;
+            pictureBox.Dock = DockStyle.Fill;
+            pictureBox.SizeChanged += KoutenunPicture_OnSizeChanged;
+
+            SplitContainer sc = new SplitContainer();
+            sc.IsSplitterFixed = true;
+            sc.Orientation = Orientation.Horizontal;
+            sc.SplitterWidth = 1;
+            sc.FixedPanel = FixedPanel.Panel1;  //分割パネル上側を固定パネルにする
+            sc.Panel1MinSize = lbl.Height;
+            sc.SplitterDistance = lbl.Height; //分割パネル上側の高さ設定
+            sc.Panel1.Controls.Add(lbl);        //分割パネル上側に回数ラベルを追加
+            sc.Panel2.Controls.Add(pictureBox); //分割パネル下側に後天運表示ピクチャーボックスを追加
+            sc.Width = 200;
+            sc.Height = 200; //この高さは、DrawKoutenun()で再設定されます。
+
+            flowLayoutPanel1.Controls.Add(sc);
+            lstKoutenUn.Add(new KoutenUn(person, sc, pictureBox));
+
+
+        }
+        private void RemoveKoutenun(Person person)
+        {
+            var item = lstKoutenUn.FirstOrDefault(x => x.person.name == person.name);
+            if (item == null) return;
+
+            flowLayoutPanel1.Controls.Remove(item.sc);
+            lstKoutenUn.Remove(item);
+        }
+        private void RemoveKoutenunAll()
+        {
+            flowLayoutPanel1.Controls.Clear();
+
+            lstKoutenUn.Clear();
+        }
+
+        public void DrawKoutenun()
+        {
+            foreach (var item in lstKoutenUn)
+            {
+                DrawKoutenun(item);
+            }
+        }
+        private void DrawKoutenun(KoutenUn koutenun)
+        {
+            //初回描画はsc.Heightと描画エリアサイズが不一致のため、sc.Heightが設定されると、
+            //PictureBoxサイズが連動して変わるので、KoutenunPicture_OnSizeChangedから再度呼び出されます。
+            //そのタイミング、正しい表示になります。
+            var row = grdViewNenUn.SelectedRows[0];
+            var rowItem = (RowItems)row.Tag;
+
+
+            if (rowItem.year < koutenun.person.birthday.year)
+            {
+                koutenun.picture.Image = null;
+                //koutenun.picture.BackColor = Color.LightGray;
+                return;
+            }
+           // koutenun.picture.BackColor = SystemColors.Control;
+
+            var taiunKansi = koutenun.person.GetTaiunKansi(rowItem.year);
+            var nenunKansi = koutenun.person.GetNenkansi(rowItem.year, true);
+
+            bool bSangouKaikyoku = parentForm.IsChkSangouKaikyoku();
+            bool bGogyou = parentForm.IsChkGogyou();
+            bool bGotoku = parentForm.IsChkGotoku();
+
+            DrawKoutenUn drawItem2 = new DrawKoutenUn(koutenun.person, koutenun.picture,
+                                        taiunKansi, nenunKansi, null,
+                                        true, //大運との情報表示
+                                        true, //年運との情報表示
+                                        false,//月運との情報なし
+                                        bSangouKaikyoku,
+                                        bGogyou,
+                                        bGotoku,
+                                        10
+                                        );
+            drawItem2.rangeWidth = 35;
+            drawItem2.Draw();
+            koutenun.sc.Height = drawItem2.CalcDrawAreaSize().Height + koutenun.sc.SplitterDistance + koutenun.sc.SplitterWidth;
+        }
+
+        
+        private void KoutenunPicture_OnSizeChanged(object sender, EventArgs e)
+        {
+            KoutenUn item = lstKoutenUn.FirstOrDefault(x => x.picture == sender);
+            if (item == null) return;
+            DrawKoutenun(item);
+        }
+
 
         private void txtMaxNenNum_Leave(object sender, EventArgs e)
         {
@@ -547,6 +697,7 @@ namespace WinFormsApp2
 
         private void chkDispBaseYearRange_CheckedChanged(object sender, EventArgs e)
         {
+            if (bInitializeLoad) return;
             DispListItem();
         }
 
@@ -554,6 +705,9 @@ namespace WinFormsApp2
         {
             if (grdViewNenUn.SelectedRows.Count > 0)
             {
+                //後天運再描画
+                UpdateKoutenUn();
+
                 var row = grdViewNenUn.SelectedRows[0];
                 var rowItem = (RowItems)row.Tag;
 
@@ -566,6 +720,7 @@ namespace WinFormsApp2
         {
             OnClose?.Invoke();
         }
+
     }
 
 

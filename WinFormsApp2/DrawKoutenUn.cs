@@ -28,13 +28,6 @@ namespace WinFormsApp2
         public int gekkansiCenterX;
         public int nenkansiCenterX;
 
-        public int drawTopKan;      //干文字表示領域TOP
-        public int drawTopSi;       //支文字表示領域TOP
-        public int drawBottomSi;    //支文字表示領域BOTTOM
-        public int rangeHeight;     //干支文字領域高さ
-        public int rangeWidth;      //干支文字領域幅
-
-
 
         //干支文字表示領域
         Rectangle rectGetuunTitle;
@@ -48,14 +41,6 @@ namespace WinFormsApp2
         Rectangle rectTaiunTitle;
         Rectangle rectTaiunKan;
         Rectangle rectTaiunSi;
-
-        Rectangle rectNikansiKan;
-        Rectangle rectNikansiSi;
-        Rectangle rectGekkansiKan;
-        Rectangle rectGekkansiSi;
-        Rectangle rectNenkansiKan;
-        Rectangle rectNenkansiSi;
-
 
         Kansi taiunKansi = null;
         Kansi nenunKansi = null;
@@ -92,17 +77,16 @@ namespace WinFormsApp2
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku
+                            bool _bDispGotoku,
+                            int _fntSize = -1
                             ) 
-            :base(person, pictureBox)
+            :base(person, pictureBox, _fntSize)
         {
 
             taiunKansi = _taiunKansi;
             nenunKansi = _nenunKansi;
             getuunKansi = _getuunKansi;
 
-            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
-            rangeWidth = 45;
             bDispTaiun = _bDispTaiun;
             bDispNenun = _bDispNenun;
             bDispGetuun = _bDispGetuun;
@@ -162,7 +146,7 @@ namespace WinFormsApp2
         }
         public void CalcCoord(int topLineCnt)
         {
-            int ofsX = 5;
+            int ofsX = GetLineOffsetX();
             int ofsY = (topLineCnt) * GetLineOffsetY() + 10;
             if (bDispGetuun)
             {
@@ -173,7 +157,7 @@ namespace WinFormsApp2
                 ofsX += rangeWidth;
             }
 
-            //年運表示開始位置
+            //年運 表示開始位置
             nenun.X = ofsX;
             nenun.Y = ofsY;
             nenunCenterX = nenun.X + rangeWidth / 2;
@@ -343,12 +327,12 @@ namespace WinFormsApp2
             if (bDispGetuun)
             {
                 DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, Const.enumKansiItemID.GETUUN);　//月運干支
-                DrawString(rectGetuunTitle, "<月運>");
+                DrawString(rectGetuunTitle, "月運");
             }
             DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, Const.enumKansiItemID.NENUN);//年運干支
             DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, Const.enumKansiItemID.TAIUN);//大運干支
-            DrawString(rectNenunTitle, "<年運>");
-            DrawString(rectTaiunTitle, "<大運>");
+            DrawString(rectNenunTitle, "年運");
+            DrawString(rectTaiunTitle, "大運");
 
             DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, Const.enumKansiItemID.NIKKANSI);//日干支
             DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, Const.enumKansiItemID.GEKKANSI);//月干支

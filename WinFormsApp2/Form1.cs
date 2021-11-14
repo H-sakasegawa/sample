@@ -347,6 +347,22 @@ namespace WinFormsApp2
             return (Person)cmbPerson.SelectedItem;
         }
 
+        //三合会局 表示有無チェックボックス情報取得
+        public bool IsChkSangouKaikyoku()
+        {
+            return chkSangouKaikyoku.Checked;
+        }
+        //五行 表示有無チェックボックス情報取得
+        public bool IsChkGogyou()
+        {
+            return chkGogyou.Checked;
+        }
+        //五徳 表示有無チェックボックス情報取得
+        public bool IsChkGotoku()
+        {
+            return chkGotoku.Checked;
+        }
+
 
         private void MainProc(Person person)
         {
@@ -1614,30 +1630,31 @@ namespace WinFormsApp2
         {
             
             if (mainForm.WindowState == FormWindowState.Minimized) return;
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
 
         }
         //大運表示チェックボックス
         private void chkDispTaiun_CheckedChanged(object sender, EventArgs e)
         {
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         //年運表示チェックボックス
         private void chkDispNenun_CheckedChanged(object sender, EventArgs e)
         {
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         //月運表示チェックボックス
         private void chkDispGetuun_CheckedChanged(object sender, EventArgs e)
         {
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
             if (frmKykiSim != null) frmKykiSim.UpdateKyokiPatternYearList(curPerson);
         }
         //三合会局・方三位チェックボックス
         private void chkSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
         {
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
+
         // 五徳表示チェックボックス
         private void chkGotoku_CheckedChanged(object sender, EventArgs e)
         {
@@ -1647,8 +1664,7 @@ namespace WinFormsApp2
             }
             grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
 
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         // 五行表示チェックボックス
         private void chkGogyou_CheckedChanged(object sender, EventArgs e)
@@ -1658,8 +1674,7 @@ namespace WinFormsApp2
                 chkGotoku.Checked = false;
             }
             grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         //支合反映
         private void chkRefrectSigou_CheckedChanged(object sender, EventArgs e)
@@ -1668,10 +1683,9 @@ namespace WinFormsApp2
 
             curPerson.bRefrectSigou = chkRefrectSigou.Checked;
             personList.WritePersonList();
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
 
-//            chkRefrectSangouKaikyokuHousani.Enabled = chkRefrectSigou.Checked;
+            //            chkRefrectSangouKaikyokuHousani.Enabled = chkRefrectSigou.Checked;
         }
         //半会反映
         private void chkRefrectHankai_CheckedChanged(object sender, EventArgs e)
@@ -1679,8 +1693,7 @@ namespace WinFormsApp2
             if (!bControlEventEnable) return;
             curPerson.bRefrectHankai = chkRefrectHankai.Checked;
             personList.WritePersonList();
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         //干合反映
         private void chkRefrectKangou_CheckedChanged(object sender, EventArgs e)
@@ -1688,8 +1701,7 @@ namespace WinFormsApp2
             if (!bControlEventEnable) return;
             curPerson.bRefrectKangou = chkRefrectKangou.Checked;
             personList.WritePersonList();
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
 
         //方三位 反映
@@ -1698,8 +1710,7 @@ namespace WinFormsApp2
             if (!bControlEventEnable) return;
             curPerson.bRefrectHousani = chkRefrectHousani.Checked;
             personList.WritePersonList();
-            DispShukumei(curPerson, pictureBox1);
-            DispKoutenUn(curPerson, pictureBox2);
+            UpdateShukumeiAndKoutenunDraw();
         }
         //三合会局 反映
         private void chkRefrectSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
@@ -1707,10 +1718,22 @@ namespace WinFormsApp2
             if (!bControlEventEnable) return;
             curPerson.bRefrectSangouKaikyoku = chkRefrectSangouKaikyoku.Checked;
             personList.WritePersonList();
+            UpdateShukumeiAndKoutenunDraw();
+        }
+        /// <summary>
+        /// 宿命図、後天運図の表示更新
+        /// 年運比較表が表示されていたら、年運比較表の後天運表示も更新
+        /// </summary>
+        private void UpdateShukumeiAndKoutenunDraw()
+        {
             DispShukumei(curPerson, pictureBox1);
             DispKoutenUn(curPerson, pictureBox2);
-        }
+            if (frmUnseiViewer != null)
+            {
+                frmUnseiViewer.DrawKoutenun();
+            }
 
+        }
 
         /// <summary>
         /// 虚気 変化パターン画面表示
@@ -1847,7 +1870,7 @@ namespace WinFormsApp2
         {
             if (frmUnseiViewer == null)
             {
-                frmUnseiViewer = new FormUnseiViewer(personList, GetCurrentPerson());
+                frmUnseiViewer = new FormUnseiViewer(this, personList, GetCurrentPerson());
                 frmUnseiViewer.OnChangeCurYear += OnFromUnseiViewerChangeYear;
                 frmUnseiViewer.OnClose += OnFromUnseiViewerClose;
                 frmUnseiViewer.Show();

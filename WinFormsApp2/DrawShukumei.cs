@@ -23,21 +23,6 @@ namespace WinFormsApp2
         public int gekkansiCenterX;
         public int nenkansiCenterX;
 
-        public int drawTopKan;      //干文字表示領域TOP
-        public int drawTopSi;       //支文字表示領域TOP
-        public int drawBottomSi;    //支文字表示領域BOTTOM
-        public int rangeHeight;     //干支文字領域高さ
-        public int rangeWidth;      //干支文字領域幅
-
-
-        //干支文字表示領域
-        Rectangle rectNikansiKan;
-        Rectangle rectNikansiSi;
-        Rectangle rectGekkansiKan;
-        Rectangle rectGekkansiSi;
-        Rectangle rectNenkansiKan;
-        Rectangle rectNenkansiSi;
-
         const int bitFlgNiti = 0x04;
         const int bitFlgGetu = 0x02;
         const int bitFlgNen = 0x01;
@@ -62,8 +47,6 @@ namespace WinFormsApp2
             ) : base(person, pictureBox)
         {
 
-            rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
-            rangeWidth = 45;
 
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
@@ -74,7 +57,7 @@ namespace WinFormsApp2
         /// </summary>
         private void CalcCoord()
         {
-            nikkansi.X = 5;
+            nikkansi.X = GetLineOffsetX(); 
             //nikkansi.Y = GetDrawArea().Height / 2 - rangeHeight;
             nikkansi.Y = (idxMtx + 1) * GetLineOffsetY() + 10;
             nikkansiCenterX = nikkansi.X + rangeWidth / 2;
