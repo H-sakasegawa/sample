@@ -13,6 +13,7 @@ namespace WinFormsApp2
     /// </summary>
     class DrawKoutenUn : IsouhouBase
     {
+        Insen insen;
         //干支表示座標
         public Point getuun;
         public Point nenun;
@@ -42,6 +43,25 @@ namespace WinFormsApp2
         Rectangle rectTaiunKan;
         Rectangle rectTaiunSi;
 
+        //日干支 初元、中元、本元
+        Rectangle[] rectNikansiZogan = new Rectangle[3];
+
+        //月干支 初元、中元、本元
+        Rectangle[] rectGekkansiZogan = new Rectangle[3];
+
+        //年干支 初元、中元、本元
+        Rectangle[] rectNenkansiZogan = new Rectangle[3];
+
+        //月運　初元、中元、本元
+        Rectangle[] rectGetuunZogan = new Rectangle[3];
+
+        //年運 初元、中元、本元
+        Rectangle[] rectNenunZogan = new Rectangle[3];
+
+        //大運 初元、中元、本元
+        Rectangle[] rectTaiunZogan = new Rectangle[3];
+
+
         Kansi taiunKansi = null;
         Kansi nenunKansi = null;
         Kansi getuunKansi = null;
@@ -52,6 +72,7 @@ namespace WinFormsApp2
         bool bDispSangouKaikyoku = false;
         bool bDispGogyou = false;
         bool bDispGotoku = false;
+        bool bDispZougan = false; //蔵元表示　有無
 
         /// <summary>
         /// 後天運 描画クラス コンストラクタ
@@ -67,6 +88,7 @@ namespace WinFormsApp2
         /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispZougan">true... 蔵元表示</param>
         public DrawKoutenUn(Person person, 
                             PictureBox pictureBox, 
                             Kansi _taiunKansi,
@@ -78,10 +100,13 @@ namespace WinFormsApp2
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
                             bool _bDispGotoku,
+                            bool _bDispZougan,
                             int _fntSize = -1
                             ) 
             :base(person, pictureBox, _fntSize)
         {
+
+            insen = new Insen(person);
 
             taiunKansi = _taiunKansi;
             nenunKansi = _nenunKansi;
@@ -93,6 +118,7 @@ namespace WinFormsApp2
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
+            bDispZougan = _bDispZougan;
 
         }
 
@@ -180,7 +206,7 @@ namespace WinFormsApp2
 
             drawTopKan = nikkansi.Y;
             drawTopSi = drawTopKan + rangeHeight;
-            drawBottomSi = drawTopSi + rangeHeight;
+            drawBottomStartY = drawTopSi + rangeHeight;
 
 
             //干支表示領域
@@ -196,6 +222,52 @@ namespace WinFormsApp2
             rectGekkansiSi = new Rectangle(gekkansi.X, drawTopSi, rangeWidth, rangeHeight);
             rectNenkansiKan = new Rectangle(nenkansi.X, nenkansi.Y, rangeWidth, rangeHeight);
             rectNenkansiSi = new Rectangle(nenkansi.X, drawTopSi, rangeWidth, rangeHeight);
+
+            if (bDispZougan)
+            {
+                int zouganStartY = drawTopSi + rangeHeight +2;
+                int zouganY = zouganStartY;
+                 ofsY = 20;
+                //日干支 初元、中元、本元
+                rectNikansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(nikkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNikansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(nikkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNikansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(nikkansi.X, zouganY, rangeWidth, rangeHeight);
+
+                //月干支 初元、中元、本元
+                zouganY = zouganStartY;
+                rectGekkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(gekkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectGekkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(gekkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectGekkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(gekkansi.X, zouganY, rangeWidth, rangeHeight);
+
+                //年干支 初元、中元、本元
+                zouganY = zouganStartY;
+                rectNenkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(nenkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNenkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(nenkansi.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNenkansiZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(nenkansi.X, zouganY, rangeWidth, rangeHeight);
+
+
+                //月運 初元、中元、本元
+                zouganY = zouganStartY;
+                rectGetuunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(getuun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectGetuunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(getuun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectGetuunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(getuun.X, zouganY, rangeWidth, rangeHeight);
+                //年運 初元、中元、本元
+                zouganY = zouganStartY;
+                rectNenunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(nenun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNenunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(nenun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectNenunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(nenun.X, zouganY, rangeWidth, rangeHeight);
+                //大運 初元、中元、本元
+                zouganY = zouganStartY;
+                rectTaiunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN] = new Rectangle(taiun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectTaiunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN] = new Rectangle(taiun.X, zouganY, rangeWidth, rangeHeight); zouganY += ofsY;
+                rectTaiunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN] = new Rectangle(taiun.X, zouganY, rangeWidth, rangeHeight);
+               
+                //干支表より下の表示のライン描画開始座標を変更する                    
+                drawBottomStartY = rectTaiunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].Y + rangeHeight-10;
+
+
+            }
+
 
 
         }
@@ -340,6 +412,55 @@ namespace WinFormsApp2
 
         }
 
+        private void DrawZougan(Graphics g)
+        {
+            if (bDispZougan)
+            {
+                var getuunHongen = insen.GetHongen(getuunKansi);
+                var nenunHongen = insen.GetHongen(nenunKansi);
+                var taiunHongen = insen.GetHongen(taiunKansi);
+
+
+                foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
+                {
+                    int idx = (int)item;
+                    //bool bBold = insen.nikkansiHongen[idx].bJudaiShuseiGenso;
+                    DrawZouganItem(g, insen.nikkansiHongen[idx].name, rectNikansiZogan[idx], Color.Black, false);
+
+                    //bBold = insen.gekkansiHongen[idx].bJudaiShuseiGenso;
+                    DrawZouganItem(g, insen.gekkansiHongen[idx].name, rectGekkansiZogan[idx], Color.Black, false, false);
+
+                    //bBold = insen.nenkansiHongen[idx].bJudaiShuseiGenso;
+                    DrawZouganItem(g, insen.nenkansiHongen[idx].name, rectNenkansiZogan[idx], Color.Black, false);
+
+                    //月運
+                    if(getuunHongen!=null) DrawZouganItem(g, getuunHongen[idx].name, rectGetuunZogan[idx], Color.Black, false);
+                    DrawZouganItem(g, nenunHongen[idx].name, rectNenunZogan[idx], Color.Black, false);
+                    DrawZouganItem(g, taiunHongen[idx].name, rectTaiunZogan[idx], Color.Black, false);
+                }
+            }
+
+
+        }
+        private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin = true)
+        {
+            var fntZougan = fnt;
+            if (bBold)
+            {
+                fntZougan = fntBold;
+            }
+            ////干の守護神判定
+            //if (!string.IsNullOrEmpty(genso) && bShugosin)
+            //{
+            //    if (ShugosinUtil.IsShugosin(person, genso)) g.FillRectangle(Const.brusShugosin, rect);
+
+            //    if (ShugosinUtil.IsImigami(person, genso)) g.FillRectangle(Const.brusImigami, rect);
+            //}
+
+            var brush = new SolidBrush(color);
+            g.DrawString(genso, fntZougan, brush, rect, stringFormat);
+
+        }
 
         /// <summary>
         /// 描画処理
@@ -658,6 +779,7 @@ namespace WinFormsApp2
             */
             DrawKansi(g);
 
+            DrawZougan(g);
 
             //陰陽(年運→大運）
             //-------------------               
@@ -944,8 +1066,8 @@ namespace WinFormsApp2
                 if (gouhouSanpouNenunTaiun != null && gouhouSanpouNenunTaiun.Length > 0)//年運 - 大運
                 {
                     idx = SetMatrixDown(true, Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgNenun | Const.bitFlgTaiun));
-                    DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, nenunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouNenunTaiun);
+                    DrawLine(idx, nenunCenterX, taiunCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, taiunCenterX, drawBottomStartY, dircDown, gouhouSanpouNenunTaiun);
 
                 }
             }
@@ -956,8 +1078,8 @@ namespace WinFormsApp2
                     if (gouhouSanpouGetuunNenun != null && gouhouSanpouGetuunNenun.Length > 0)//月運 - 年運
                     {
                         idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun, (Const.bitFlgGetuun | Const.bitFlgNenun));
-                        DrawLine(idx, getuunCenterX, nenunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                        DrawString(idx, getuunCenterX, nenunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunNenun);
+                        DrawLine(idx, getuunCenterX, nenunCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                        DrawString(idx, getuunCenterX, nenunCenterX, drawBottomStartY, dircDown, gouhouSanpouGetuunNenun);
 
                     }
                 }
@@ -966,8 +1088,8 @@ namespace WinFormsApp2
                     if (gouhouSanpouGetuunTaiun != null && gouhouSanpouGetuunTaiun.Length > 0)//月運 - 大運
                     {
                         idx = SetMatrixDown(true, Const.bitFlgGetuun | Const.bitFlgNenun | Const.bitFlgTaiun, (Const.bitFlgGetuun | Const.bitFlgTaiun));
-                        DrawLine(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                        DrawString(idx, getuunCenterX, taiunCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunTaiun);
+                        DrawLine(idx, getuunCenterX, taiunCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                        DrawString(idx, getuunCenterX, taiunCenterX, drawBottomStartY, dircDown, gouhouSanpouGetuunTaiun);
 
                     }
                 }
@@ -983,22 +1105,22 @@ namespace WinFormsApp2
                 if (gouhouSanpouTaiunNiti != null && gouhouSanpouTaiunNiti.Length > 0)//大運 - 日
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNiti));
-                    DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNiti);
+                    DrawLine(idx, taiunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouTaiunNiti);
 
                 }
                 if (gouhouSanpouTaiunGetu != null && gouhouSanpouTaiunGetu.Length > 0)//大運 - 月
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgGetu));
-                    DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunGetu);
+                    DrawLine(idx, taiunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouTaiunGetu);
                 }
 
                 if (gouhouSanpouTaiunNen != null && gouhouSanpouTaiunNen.Length > 0)//大運 - 年
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgTaiun | Const.bitFlgNen));
-                    DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouTaiunNen);
+                    DrawLine(idx, taiunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, taiunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouTaiunNen);
                 }
             }
             //年運 →＊
@@ -1012,21 +1134,21 @@ namespace WinFormsApp2
                 if (gouhouSanpouNenunNiti != null && gouhouSanpouNenunNiti.Length > 0)//年運 - 日
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNiti));
-                    DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNiti);
+                    DrawLine(idx, nenunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouNenunNiti);
                 }
                 if (gouhouSanpouNenunGetu != null && gouhouSanpouNenunGetu.Length > 0)//年運 - 月
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgGetu));
-                    DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunGetu);
+                    DrawLine(idx, nenunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouNenunGetu);
                 }
 
                 if (gouhouSanpouNenunNen != null && gouhouSanpouNenunNen.Length > 0)//年運 - 年
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgNenun | Const.bitFlgNen));
-                    DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNenunNen);
+                    DrawLine(idx, nenunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, nenunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouNenunNen);
                 }
             }
 
@@ -1041,21 +1163,21 @@ namespace WinFormsApp2
                 if (gouhouSanpouGetuunNiti != null && gouhouSanpouGetuunNiti.Length > 0)//月運 - 日
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgGetuun | Const.bitFlgNiti));
-                    DrawLine(idx, getuunCenterX, nikkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, getuunCenterX, nikkansiCenterX, drawBottomSi, dircDown, gouhouSanpouGetuunNiti);
+                    DrawLine(idx, getuunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, getuunCenterX, nikkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouGetuunNiti);
                 }
                 if (gouhouSanpouuGetuunGetu != null && gouhouSanpouuGetuunGetu.Length > 0)//月運 - 月
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgGetuun | Const.bitFlgGetu));
-                    DrawLine(idx, getuunCenterX, gekkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, getuunCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouuGetuunGetu);
+                    DrawLine(idx, getuunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, getuunCenterX, gekkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouuGetuunGetu);
                 }
 
                 if (gouhouSanpouuGetuunNen != null && gouhouSanpouuGetuunNen.Length > 0)//月運 - 年
                 {
                     idx = SetMatrixDown(true, chkBitFlg, (Const.bitFlgGetuun | Const.bitFlgNen));
-                    DrawLine(idx, getuunCenterX, nenkansiCenterX, drawBottomSi, dircDown, dircDownOfsX);
-                    DrawString(idx, getuunCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouuGetuunNen);
+                    DrawLine(idx, getuunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, dircDownOfsX);
+                    DrawString(idx, getuunCenterX, nenkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouuGetuunNen);
                 }
             }
             //---------------------------------------
@@ -1082,8 +1204,8 @@ namespace WinFormsApp2
 
                     idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
                     dircDownOfsX += 4;
-                    DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Red);
-                    DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "三合会局", Brushes.Red);
+                    DrawLine3Point(idx, posX, drawBottomStartY, dircDown, dircDownOfsX, Color.Red);
+                    DrawString(idx, posX[0], posX[2], drawBottomStartY, dircDown, "三合会局", Brushes.Red);
                 }
                 //---------------------------------------
                 // 方三位
@@ -1106,8 +1228,8 @@ namespace WinFormsApp2
 
                     idx = SetMatrixDown(true, bitFlgAll, bitFlgAll);
                     dircDownOfsX += 4;
-                    DrawLine3Point(idx, posX, drawBottomSi, dircDown, dircDownOfsX, Color.Blue);
-                    DrawString(idx, posX[0], posX[2], drawBottomSi, dircDown, "方三位", Brushes.Blue);
+                    DrawLine3Point(idx, posX, drawBottomStartY, dircDown, dircDownOfsX, Color.Blue);
+                    DrawString(idx, posX[0], posX[2], drawBottomStartY, dircDown, "方三位", Brushes.Blue);
                 }
             }
 

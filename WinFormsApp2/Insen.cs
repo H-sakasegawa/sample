@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp2
 {
-    class hongen
+    class Hongen
     {
-        public hongen( string _name, bool _bJudaiShuseiGenso)
+        public Hongen( string _name, bool _bJudaiShuseiGenso)
         {
             name = _name;
             bJudaiShuseiGenso = _bJudaiShuseiGenso;
@@ -27,19 +27,27 @@ namespace WinFormsApp2
         public Kansi gekkansi;
         public Kansi nenkansi;
 
-        public hongen[] nikkansiHongen = null;
-        public hongen[] gekkansiHongen = null;
-        public hongen[] nenkansiHongen = null;
+        public Hongen[] nikkansiHongen = null;
+        public Hongen[] gekkansiHongen = null;
+        public Hongen[] nenkansiHongen = null;
+
+        public Hongen[] getuunHongen = null;
+        public Hongen[] nenunHongen = null;
+        public Hongen[] taiuniHongen = null;
+
 
         public Insen(Person _person)
         {
             person = _person;
 
             int num = Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)).Length;
-            nikkansiHongen = new hongen[num];
-            gekkansiHongen = new hongen[num];
-            nenkansiHongen = new hongen[num];
+            nikkansiHongen = new Hongen[num];
+            gekkansiHongen = new Hongen[num];
+            nenkansiHongen = new Hongen[num];
 
+            getuunHongen = new Hongen[num];
+            nenunHongen = new Hongen[num];
+            taiuniHongen = new Hongen[num];
 
             //干支
             nikkansi = person.nikkansi;
@@ -61,16 +69,37 @@ namespace WinFormsApp2
             {
 
                 bool bBold = (idxNikkansiGensoType == (int)Value) ? true : false;
-                nikkansiHongen[(int)Value] = new hongen( nijuhachiGensoNikkansi.genso[(int)Value].name, bBold);
+                nikkansiHongen[(int)Value] = new Hongen( nijuhachiGensoNikkansi.genso[(int)Value].name, bBold);
 
                 bBold = (idxGekkansiGensoType == (int)Value) ? true : false;
-                gekkansiHongen[(int)Value] = new hongen(nijuhachiGensoGekkansi.genso[(int)Value].name, bBold);
+                gekkansiHongen[(int)Value] = new Hongen(nijuhachiGensoGekkansi.genso[(int)Value].name, bBold);
 
                 bBold = (idxNenkaisiGensoType == (int)Value) ? true : false;
-                nenkansiHongen[(int)Value] = new hongen(nijuhachiGensoNenkansi.genso[(int)Value].name, bBold);
+                nenkansiHongen[(int)Value] = new Hongen(nijuhachiGensoNenkansi.genso[(int)Value].name, bBold);
+
+
 
             }
 
+        }
+
+        public Hongen[] GetHongen(Kansi kansi)
+        {
+            if (kansi == null) return null;
+
+           var  tblMng = TableMng.GetTblManage();
+           
+            var tblSetuiribi = tblMng.setuiribiTbl;
+
+           var nijuhachiGenso =  tblMng.nijuhachiGensoTbl[kansi.si];
+
+            Hongen[] hongen = new Hongen[3];
+            foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
+            {
+                hongen[(int)Value] = new Hongen(nijuhachiGenso.genso[(int)Value].name, false);
+            }
+
+            return hongen;
         }
 
         //陰占の文字に含まれているか？

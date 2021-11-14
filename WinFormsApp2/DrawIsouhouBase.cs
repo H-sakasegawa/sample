@@ -63,7 +63,7 @@ namespace WinFormsApp2
 
         protected int drawTopKan;      //干文字表示領域TOP
         protected int drawTopSi;       //支文字表示領域TOP
-        protected int drawBottomSi;    //支文字表示領域BOTTOM
+        protected int drawBottomStartY;    //干支の下方向の描画開始Y座標
         protected int rangeHeight;     //干支文字領域高さ
         public int rangeWidth;      //干支文字領域幅
 

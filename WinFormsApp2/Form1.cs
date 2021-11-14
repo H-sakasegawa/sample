@@ -362,6 +362,15 @@ namespace WinFormsApp2
         {
             return chkGotoku.Checked;
         }
+        //蔵元表示有無チェックボックス情報取得
+        public bool IsChkZougan()
+        {
+            return chkZougan.Checked;
+        }
+
+        
+
+
 
 
         private void MainProc(Person person)
@@ -1093,7 +1102,8 @@ namespace WinFormsApp2
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked, 
-                                        chkGotoku.Checked
+                                        chkGotoku.Checked,
+                                        chkZougan.Checked
                                         );
             drawItem2.Draw();
 
@@ -1102,8 +1112,8 @@ namespace WinFormsApp2
             KyokiSimulation sim = new KyokiSimulation();
 
             sim.Simulation(person, curGetuun.kansi, curNenun.kansi, curTaiun.kansi, chkDispGetuun.Checked);
-            lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
-
+            //lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
+            button3.Text = string.Format("虚気変化 [ パターン数：{0} ]", sim.lstKansPattern.Count - 1);
             if (frmKykiSim != null && frmKykiSim.Visible==true)
             {
                 frmKykiSim.UpdateKyokiPatternOnly(curPerson,
@@ -1651,6 +1661,11 @@ namespace WinFormsApp2
         }
         //三合会局・方三位チェックボックス
         private void chkSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateShukumeiAndKoutenunDraw();
+        }
+        //蔵元表示チェックボックス
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             UpdateShukumeiAndKoutenunDraw();
         }

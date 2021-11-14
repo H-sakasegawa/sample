@@ -72,7 +72,7 @@ namespace WinFormsApp2
 
             drawTopKan = nikkansi.Y;
             drawTopSi = drawTopKan + rangeHeight;
-            drawBottomSi = drawTopSi + rangeHeight;
+            drawBottomStartY = drawTopSi + rangeHeight;
 
 
             //干支表示領域
@@ -247,19 +247,19 @@ namespace WinFormsApp2
 
             if (gouhouSanpouNitiGetu != null && gouhouSanpouNitiGetu.Length > 0)
             {
-                DrawLine(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiGetu);
+                DrawLine(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomStartY, dircDown);
+                DrawString(idxGouhouSanpouNitiGetu, nikkansiCenterX, gekkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouNitiGetu);
             }
             if (gouhouSanpouGetuNen != null && gouhouSanpouGetuNen.Length > 0)
             {
-                DrawLine(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouGetuNen);
+                DrawLine(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomStartY, dircDown);
+                DrawString(idxGouhouSanpouGetuNen, gekkansiCenterX, nenkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouGetuNen);
             }
 
             if (gouhouSanpouNitiNen != null && gouhouSanpouNitiNen.Length > 0)
             {
-                DrawLine(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown);
-                DrawString(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomSi, dircDown, gouhouSanpouNitiNen);
+                DrawLine(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomStartY, dircDown);
+                DrawString(idxGouhouSanpouNitiNen, nikkansiCenterX, nenkansiCenterX, drawBottomStartY, dircDown, gouhouSanpouNitiNen);
             }
         }
     }

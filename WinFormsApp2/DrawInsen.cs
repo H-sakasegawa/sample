@@ -89,7 +89,6 @@ namespace WinFormsApp2
         TenchusatuColorPair[] nikkansiTenchusatuChecColor = null;
         TenchusatuColorPair[] nenkansiTenchusatuCheckColor = null;
 
-
         bool bDispZougan = true;
         bool bDispTenchusatu = true;
 
@@ -215,8 +214,6 @@ namespace WinFormsApp2
         {
             if (person == null) return;
 
-
-
             //干支の上部に表示する情報の段数から干支表示基準座標を計算
             CalcCoord();
 
@@ -227,9 +224,6 @@ namespace WinFormsApp2
                 //------------------
                 SetTenchusatuColor(person);
             }
-
-
-
             //干支表示
             DrawInsenKansi(insen.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansiKan.color);
             DrawInsenKansi(insen.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansiKan.color);
@@ -237,7 +231,6 @@ namespace WinFormsApp2
 
             if (bDispZougan)
             {
-
                 foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
                 {
                     int idx = (int)item;
@@ -264,15 +257,10 @@ namespace WinFormsApp2
                 string[] NenkansiTenchusatu = Nenkansi.tenchusatu.ToArray();
                 for (int i = 0; i < 2; i++)
                 {
-
-
                     DrawTenchusatuItem(g, NikkansiTenchusatu[i], rectNikkansiTenchusatu[i], Color.Black, false);
                     DrawTenchusatuItem(g, NenkansiTenchusatu[i], rectNenkansiTenchusatu[i], Color.Black, false);
                 }
-
             }
-
-
         }
 
         private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin=true)

@@ -392,6 +392,7 @@ namespace WinFormsApp2
         public NijuhachiGenso nijuhachiGensoNikkansi { get; set; }
         public NijuhachiGenso nijuhachiGensoGekkansi { get; set; }
         public NijuhachiGenso nijuhachiGensoNenkansi { get; set; }
+
         //十大主星
         public JudaiShusei judaiShuseiA { get; set; }
         public JudaiShusei judaiShuseiB { get; set; }
@@ -507,7 +508,6 @@ namespace WinFormsApp2
             nijuhachiGensoNikkansi = tblMng.nijuhachiGensoTbl[nikkansi.si];
             nijuhachiGensoGekkansi = tblMng.nijuhachiGensoTbl[gekkansi.si];
             nijuhachiGensoNenkansi = tblMng.nijuhachiGensoTbl[nenkansi.si];
-
 
             NijuhachiGenso gensoNikkansi = nijuhachiGensoNikkansi;
             NijuhachiGenso gensoGekkansi = nijuhachiGensoGekkansi;

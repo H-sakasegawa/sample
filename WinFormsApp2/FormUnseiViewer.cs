@@ -658,6 +658,7 @@ namespace WinFormsApp2
             bool bSangouKaikyoku = parentForm.IsChkSangouKaikyoku();
             bool bGogyou = parentForm.IsChkGogyou();
             bool bGotoku = parentForm.IsChkGotoku();
+            bool bZougan = parentForm.IsChkZougan();
 
             DrawKoutenUn drawItem2 = new DrawKoutenUn(koutenun.person, koutenun.picture,
                                         taiunKansi, nenunKansi, null,
@@ -667,6 +668,7 @@ namespace WinFormsApp2
                                         bSangouKaikyoku,
                                         bGogyou,
                                         bGotoku,
+                                        bZougan,
                                         10
                                         );
             drawItem2.rangeWidth = 35;
