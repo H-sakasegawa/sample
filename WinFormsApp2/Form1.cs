@@ -1100,13 +1100,13 @@ namespace WinFormsApp2
                                         chkDispTaiun.Checked,
                                         chkDispNenun.Checked,
                                         chkDispGetuun.Checked,
-                                        chkSangouKaikyoku.Checked,
-                                        chkGogyou.Checked, 
-                                        chkGotoku.Checked,
-                                        chkZougan.Checked
+                                        chkSangouKaikyoku.Checked,  //三合会局
+                                        chkGogyou.Checked,          //五行 
+                                        chkGotoku.Checked,          //五徳
+                                        chkZougan.Checked,          //蔵元
+                                        false                         //十二親干法
                                         );
             drawItem2.Draw();
-
 
             //虚気変化数表示
             KyokiSimulation sim = new KyokiSimulation();

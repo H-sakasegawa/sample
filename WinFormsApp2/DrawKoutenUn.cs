@@ -14,6 +14,8 @@ namespace WinFormsApp2
     class DrawKoutenUn : IsouhouBase
     {
         Insen insen;
+        JuniSinKanHou juniSinKanHou;
+
         //干支表示座標
         public Point getuun;
         public Point nenun;
@@ -43,24 +45,13 @@ namespace WinFormsApp2
         Rectangle rectTaiunKan;
         Rectangle rectTaiunSi;
 
-        //日干支 初元、中元、本元
-        Rectangle[] rectNikansiZogan = new Rectangle[3];
-
-        //月干支 初元、中元、本元
-        Rectangle[] rectGekkansiZogan = new Rectangle[3];
-
-        //年干支 初元、中元、本元
-        Rectangle[] rectNenkansiZogan = new Rectangle[3];
-
-        //月運　初元、中元、本元
-        Rectangle[] rectGetuunZogan = new Rectangle[3];
-
-        //年運 初元、中元、本元
-        Rectangle[] rectNenunZogan = new Rectangle[3];
-
-        //大運 初元、中元、本元
-        Rectangle[] rectTaiunZogan = new Rectangle[3];
-
+       
+        Rectangle[] rectNikansiZogan = new Rectangle[3];    //日干支 初元、中元、本元
+        Rectangle[] rectGekkansiZogan = new Rectangle[3];   //月干支 初元、中元、本元
+        Rectangle[] rectNenkansiZogan = new Rectangle[3];   //年干支 初元、中元、本元
+        Rectangle[] rectGetuunZogan = new Rectangle[3];     //月運   初元、中元、本元
+        Rectangle[] rectNenunZogan = new Rectangle[3];      //年運   初元、中元、本元
+        Rectangle[] rectTaiunZogan = new Rectangle[3];      //大運   初元、中元、本元
 
         Kansi taiunKansi = null;
         Kansi nenunKansi = null;
@@ -73,6 +64,7 @@ namespace WinFormsApp2
         bool bDispGogyou = false;
         bool bDispGotoku = false;
         bool bDispZougan = false; //蔵元表示　有無
+        bool bDispJuniSinkanHou = false;
 
         /// <summary>
         /// 後天運 描画クラス コンストラクタ
@@ -89,6 +81,7 @@ namespace WinFormsApp2
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
         /// <param name="_bDispZougan">true... 蔵元表示</param>
+        /// <param name="_bDispJuniSinkanHou">true... 十二親干法</param>
         public DrawKoutenUn(Person person, 
                             PictureBox pictureBox, 
                             Kansi _taiunKansi,
@@ -101,12 +94,14 @@ namespace WinFormsApp2
                             bool _bDispGogyou,
                             bool _bDispGotoku,
                             bool _bDispZougan,
+                            bool _bDispJuniSinkanHou,
                             int _fntSize = -1
                             ) 
             :base(person, pictureBox, _fntSize)
         {
 
             insen = new Insen(person);
+            juniSinKanHou = new JuniSinKanHou();
 
             taiunKansi = _taiunKansi;
             nenunKansi = _nenunKansi;
@@ -119,6 +114,7 @@ namespace WinFormsApp2
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
             bDispZougan = _bDispZougan;
+            bDispJuniSinkanHou = _bDispJuniSinkanHou;
 
         }
 
@@ -135,6 +131,7 @@ namespace WinFormsApp2
         /// <param name="_bDispSangouKaikyoku">true...三合会局・方三位表示</param>
         /// <param name="_bDispGogyou">true...五行反映</param>
         /// <param name="_bDispGotoku">true... 五徳反映</param>
+        /// <param name="_bDispJuniSinkanHou">true... 十二親干法</param>
         public DrawKoutenUn(Person person, 
                             PictureBox pictureBox,
                             Kansi _taiunKansi, 
@@ -143,7 +140,8 @@ namespace WinFormsApp2
                             bool _bDispGetuun,
                             bool _bDispSangouKaikyoku,
                             bool _bDispGogyou,
-                            bool _bDispGotoku
+                            bool _bDispGotoku,
+                            bool _bDispJuniSinkanHou
                             )
             : base(person, pictureBox)
         {
@@ -151,6 +149,7 @@ namespace WinFormsApp2
             taiunKansi = _taiunKansi;
             nenunKansi = _nenunKansi;
             getuunKansi = _getuunKansi;
+
 
             rangeHeight = (int)(GetFontHeight() * Const.dKansiHeightRate);
             rangeWidth = 45;
@@ -160,7 +159,8 @@ namespace WinFormsApp2
             bDispSangouKaikyoku = _bDispSangouKaikyoku;
             bDispGogyou = _bDispGogyou;
             bDispGotoku = _bDispGotoku;
-
+            bDispJuniSinkanHou = _bDispJuniSinkanHou;
+ 
         }
 
         /// <summary>
@@ -264,15 +264,14 @@ namespace WinFormsApp2
                
                 //干支表より下の表示のライン描画開始座標を変更する                    
                 drawBottomStartY = rectTaiunZogan[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].Y + rangeHeight-10;
-
-
             }
-
-
-
         }
 
-        protected override void DrawKansi( Graphics g )
+        /// <summary>
+        /// 干支描画
+        /// </summary>
+        /// <param name="g"></param>
+        protected void DrawKansi( Graphics g, JuniSinkankanHouAttr attrJuniSinkanHou = null)
         {
 
             //三合会局
@@ -390,29 +389,49 @@ namespace WinFormsApp2
             }
 
 
+            Kansi getuunKansiWk = null;
+            if(getuunKansi!=null) getuunKansiWk = getuunKansi.Clone();
+            Kansi nenunKansiWk = nenunKansi.Clone();
+            Kansi taiunKansiWk = taiunKansi.Clone();
+            Kansi nikkansiWk = person.nikkansi.Clone();
+            Kansi gekkansiWk = person.gekkansi.Clone();
+            Kansi nenkansiWk = person.nenkansi.Clone();
+            if(attrJuniSinkanHou!=null)
+            {
+                if (getuunKansi != null) getuunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(getuunKansi);
+                nenunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(nenunKansi);
+                taiunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(taiunKansi);
+                nikkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nikkansi);
+                gekkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.gekkansi);
+                nenkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nenkansi);
+            }
+
             //干支表示
-            int titleHeithg = (int)(GetSmallFontHeight()*0.7);
-            rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
-            rectNenunTitle = new Rectangle(nenun.X, nenun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
-            rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - titleHeithg / 2, rangeWidth, titleHeithg);
+            int titleHeight = (int)(GetSmallFontHeight()*0.7);
+            rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - titleHeight / 2, rangeWidth, titleHeight);
+            rectNenunTitle = new Rectangle(nenun.X, nenun.Y - titleHeight / 2, rangeWidth, titleHeight);
+            rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - titleHeight / 2, rangeWidth, titleHeight);
 
             if (bDispGetuun)
             {
-                DrawKansi(getuunKansi, rectGetuunKan, rectGetuunSi, colorGetuunKansi, Const.enumKansiItemID.GETUUN);　//月運干支
+                DrawKansi(getuunKansiWk, rectGetuunKan, rectGetuunSi, colorGetuunKansi, Const.enumKansiItemID.GETUUN);　//月運干支
                 DrawString(rectGetuunTitle, "月運");
             }
-            DrawKansi(nenunKansi, rectNenunKan, rectNenunSi, colorNenunKansi, Const.enumKansiItemID.NENUN);//年運干支
-            DrawKansi(taiunKansi, rectTaiunKan, rectTaiunSi, colorTaiunKansi, Const.enumKansiItemID.TAIUN);//大運干支
+            DrawKansi(nenunKansiWk, rectNenunKan, rectNenunSi, colorNenunKansi, Const.enumKansiItemID.NENUN);//年運干支
+            DrawKansi(taiunKansiWk, rectTaiunKan, rectTaiunSi, colorTaiunKansi, Const.enumKansiItemID.TAIUN);//大運干支
             DrawString(rectNenunTitle, "年運");
             DrawString(rectTaiunTitle, "大運");
 
-            DrawKansi(person.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansi, Const.enumKansiItemID.NIKKANSI);//日干支
-            DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, Const.enumKansiItemID.GEKKANSI);//月干支
-            DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, Const.enumKansiItemID.NENKANSI);//年干支
+            DrawKansi(nikkansiWk, rectNikansiKan, rectNikansiSi, colorNikkansi, Const.enumKansiItemID.NIKKANSI);//日干支
+            DrawKansi(gekkansiWk, rectGekkansiKan, rectGekkansiSi, colorGekkansi, Const.enumKansiItemID.GEKKANSI);//月干支
+            DrawKansi(nenkansiWk, rectNenkansiKan, rectNenkansiSi, colorNenkansi, Const.enumKansiItemID.NENKANSI);//年干支
 
         }
-
-        private void DrawZougan(Graphics g)
+        /// <summary>
+        /// 蔵元描画
+        /// </summary>
+        /// <param name="g"></param>
+        private void DrawZougan(Graphics g, JuniSinkankanHouAttr attrJuniSinkanHou=null)
         {
             if (bDispZougan)
             {
@@ -424,9 +443,8 @@ namespace WinFormsApp2
                 foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
                 {
                     int idx = (int)item;
-                    //bool bBold = insen.nikkansiHongen[idx].bJudaiShuseiGenso;
+                        //bool bBold = insen.nikkansiHongen[idx].bJudaiShuseiGenso;
                     DrawZouganItem(g, insen.nikkansiHongen[idx].name, rectNikansiZogan[idx], Color.Black, false);
-
                     //bBold = insen.gekkansiHongen[idx].bJudaiShuseiGenso;
                     DrawZouganItem(g, insen.gekkansiHongen[idx].name, rectGekkansiZogan[idx], Color.Black, false, false);
 
@@ -434,7 +452,10 @@ namespace WinFormsApp2
                     DrawZouganItem(g, insen.nenkansiHongen[idx].name, rectNenkansiZogan[idx], Color.Black, false);
 
                     //月運
-                    if(getuunHongen!=null) DrawZouganItem(g, getuunHongen[idx].name, rectGetuunZogan[idx], Color.Black, false);
+                    if (bDispGetuun)
+                    {
+                        if (getuunHongen != null) DrawZouganItem(g, getuunHongen[idx].name, rectGetuunZogan[idx], Color.Black, false);
+                    }
                     DrawZouganItem(g, nenunHongen[idx].name, rectNenunZogan[idx], Color.Black, false);
                     DrawZouganItem(g, taiunHongen[idx].name, rectTaiunZogan[idx], Color.Black, false);
                 }
@@ -442,6 +463,15 @@ namespace WinFormsApp2
 
 
         }
+        /// <summary>
+        /// 蔵元描画 サブ関数
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="genso"></param>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        /// <param name="bBold"></param>
+        /// <param name="bShugosin"></param>
         private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin = true)
         {
             var fntZougan = fnt;
@@ -461,6 +491,38 @@ namespace WinFormsApp2
             g.DrawString(genso, fntZougan, brush, rect, stringFormat);
 
         }
+
+
+        private JuniSinkankanHouAttr GetJuniSinkanHou()
+        {
+            var node = juniSinKanHou.Create(person);
+            JuniSinkankanHouAttr attr = new JuniSinkankanHouAttr();
+            //自分
+            attr.mine = node.kan;
+            //母親
+            attr.mother = node.parent.kan;
+            //父親
+            attr.father = node.parent.partnerMan.kan;
+
+            if (person.gender == Gender.WOMAN)
+            {
+                //夫
+                attr.husband = node.partnerMan.kan;
+                //子
+                attr.child = node.child.kan;
+            }
+            else
+            {
+                //妻
+                attr.wife = node.partnerWoman.kan;
+                //子
+                attr.child = node.partnerWoman.child.kan;
+            }
+
+ 
+            return attr;
+        }
+
 
         /// <summary>
         /// 描画処理
@@ -777,9 +839,22 @@ namespace WinFormsApp2
                         DrawKansi(person.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansi, Const.enumKansiItemID.GEKKANSI);//月干支
                         DrawKansi(person.nenkansi, rectNenkansiKan, rectNenkansiSi, colorNenkansi, Const.enumKansiItemID.NENKANSI);//年干支
             */
-            DrawKansi(g);
+            if (bDispJuniSinkanHou)
+            {
+                var attr = GetJuniSinkanHou();
+                //干支描画
+                DrawKansi(g, attr);
+                //蔵元描画
+                DrawZougan(g, attr);
 
-            DrawZougan(g);
+            }
+            else
+            {
+                //干支描画
+                DrawKansi(g);
+                //蔵元描画
+                DrawZougan(g);
+            }
 
             //陰陽(年運→大運）
             //-------------------               

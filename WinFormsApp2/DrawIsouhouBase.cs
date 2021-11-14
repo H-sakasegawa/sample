@@ -91,7 +91,42 @@ namespace WinFormsApp2
         {
             get { return g; }
         }
- 
+
+
+
+        protected class JuniSinkankanHouAttr
+        {
+            //自分
+            public string mine = "";
+            //母親
+            public string mother = "";
+            //父親
+            public string father = "";
+            //夫
+            public string husband = "";
+            //妻
+            public string wife = "";
+            //子
+            public string child = "";
+
+            public Kansi GeJuniSinkanHouString(Kansi kansi)
+            {
+                return new Kansi(0, GeJuniSinkanHouString(kansi.kan), "", "");
+            }
+            public string GeJuniSinkanHouString(string s)
+            {
+
+                if (s == mother) return "母";
+                else if (s == father) return "父";
+                else if (s == husband) return "夫";
+                else if (s == wife) return "妻";
+                else if (s == child) return "子";
+
+                return "";
+            }
+
+        }
+
         /// <summary>
         /// 位相法基準クラス　コンストラクタ
         /// </summary>
@@ -170,7 +205,7 @@ namespace WinFormsApp2
         }
 
         protected abstract void DrawItem(Graphics g);
-        protected virtual void DrawKansi(Graphics g) { }
+        protected virtual void DrawKansi(Graphics g, JuniSinkankanHouAttr attrJuniSinkanHou = null) { }
 
 
         /// <summary>

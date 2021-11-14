@@ -665,11 +665,12 @@ namespace WinFormsApp2
                                         true, //大運との情報表示
                                         true, //年運との情報表示
                                         false,//月運との情報なし
-                                        bSangouKaikyoku,
-                                        bGogyou,
-                                        bGotoku,
-                                        bZougan,
-                                        10
+                                        bSangouKaikyoku, //三合会局
+                                        bGogyou,         //五行 
+                                        bGotoku,         //五徳
+                                        bZougan,         //蔵元
+                                        false,           //十二親干法
+                                        10               //フォントサイズ
                                         );
             drawItem2.rangeWidth = 35;
             drawItem2.Draw();

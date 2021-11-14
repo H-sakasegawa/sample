@@ -100,14 +100,14 @@ namespace WinFormsApp2
 
             if (node.gender == Gender.MAN)
             {
-                DrawNodeToParent(g, node.parent, drawPnt, DIRC.enumLeft);
-                DrawNodeToPartner(g, node.partnerWoman, drawPnt, DIRC.enumRight);
+                DrawNodeToParent(g, node.parent, drawPnt, DIRC.enumLeft); //母親
+                DrawNodeToPartner(g, node.partnerWoman, drawPnt, DIRC.enumRight); //妻
             }
             else
             {
-                DrawNodeToParent(g, node.parent, drawPnt, DIRC.enumLeft);
-                DrawNodeToPartner(g, node.partnerMan, drawPnt, DIRC.enumRight);
-                DrawNodeToChild(g, node.child, drawPnt, DIRC.enumLeft);
+                DrawNodeToParent(g, node.parent, drawPnt, DIRC.enumLeft); //母親
+                DrawNodeToPartner(g, node.partnerMan, drawPnt, DIRC.enumRight);//夫
+                DrawNodeToChild(g, node.child, drawPnt, DIRC.enumLeft);//子
             }
 
 

@@ -177,7 +177,8 @@ namespace WinFormsApp2
                                         _bDispGetuun,
                                         _bDispSangouKaikyoku,
                                         _bDispGogyou,
-                                        _bDispGotoku
+                                        _bDispGotoku,
+                                        true
                                         );
                 drawItem2.CalcCoord(0);
                 //虚気変化パターン表示用の描画関数呼び出し
