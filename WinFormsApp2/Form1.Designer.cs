@@ -161,6 +161,7 @@ namespace WinFormsApp2
             this.button10 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.chkZougan = new System.Windows.Forms.CheckBox();
+            this.chkJuniSinkanHou = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1137,7 +1138,7 @@ namespace WinFormsApp2
             // 
             this.chkSangouKaikyoku.Checked = true;
             this.chkSangouKaikyoku.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSangouKaikyoku.Location = new System.Drawing.Point(302, 413);
+            this.chkSangouKaikyoku.Location = new System.Drawing.Point(307, 468);
             this.chkSangouKaikyoku.Name = "chkSangouKaikyoku";
             this.chkSangouKaikyoku.Size = new System.Drawing.Size(116, 19);
             this.chkSangouKaikyoku.TabIndex = 53;
@@ -1223,7 +1224,7 @@ namespace WinFormsApp2
             // chkGogyou
             // 
             this.chkGogyou.AutoSize = true;
-            this.chkGogyou.Location = new System.Drawing.Point(302, 433);
+            this.chkGogyou.Location = new System.Drawing.Point(302, 383);
             this.chkGogyou.Name = "chkGogyou";
             this.chkGogyou.Size = new System.Drawing.Size(50, 19);
             this.chkGogyou.TabIndex = 53;
@@ -1234,7 +1235,7 @@ namespace WinFormsApp2
             // chkGotoku
             // 
             this.chkGotoku.AutoSize = true;
-            this.chkGotoku.Location = new System.Drawing.Point(364, 433);
+            this.chkGotoku.Location = new System.Drawing.Point(360, 383);
             this.chkGotoku.Name = "chkGotoku";
             this.chkGotoku.Size = new System.Drawing.Size(50, 19);
             this.chkGotoku.TabIndex = 53;
@@ -1363,7 +1364,7 @@ namespace WinFormsApp2
             // chkRefrectSigou
             // 
             this.chkRefrectSigou.AutoSize = true;
-            this.chkRefrectSigou.Location = new System.Drawing.Point(6, 14);
+            this.chkRefrectSigou.Location = new System.Drawing.Point(6, 16);
             this.chkRefrectSigou.Name = "chkRefrectSigou";
             this.chkRefrectSigou.Size = new System.Drawing.Size(50, 19);
             this.chkRefrectSigou.TabIndex = 64;
@@ -1374,7 +1375,7 @@ namespace WinFormsApp2
             // chkRefrectHousani
             // 
             this.chkRefrectHousani.AutoSize = true;
-            this.chkRefrectHousani.Location = new System.Drawing.Point(6, 34);
+            this.chkRefrectHousani.Location = new System.Drawing.Point(6, 36);
             this.chkRefrectHousani.Name = "chkRefrectHousani";
             this.chkRefrectHousani.Size = new System.Drawing.Size(62, 19);
             this.chkRefrectHousani.TabIndex = 65;
@@ -1389,16 +1390,16 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.Controls.Add(this.chkRefrectHankai);
             this.grpGogyouGotoku.Controls.Add(this.chkRefrectSigou);
             this.grpGogyouGotoku.Controls.Add(this.chkRefrectHousani);
-            this.grpGogyouGotoku.Location = new System.Drawing.Point(296, 449);
+            this.grpGogyouGotoku.Location = new System.Drawing.Point(296, 396);
             this.grpGogyouGotoku.Name = "grpGogyouGotoku";
-            this.grpGogyouGotoku.Size = new System.Drawing.Size(175, 64);
+            this.grpGogyouGotoku.Size = new System.Drawing.Size(175, 66);
             this.grpGogyouGotoku.TabIndex = 66;
             this.grpGogyouGotoku.TabStop = false;
             // 
             // chkRefrectKangou
             // 
             this.chkRefrectKangou.AutoSize = true;
-            this.chkRefrectKangou.Location = new System.Drawing.Point(120, 14);
+            this.chkRefrectKangou.Location = new System.Drawing.Point(120, 16);
             this.chkRefrectKangou.Name = "chkRefrectKangou";
             this.chkRefrectKangou.Size = new System.Drawing.Size(50, 19);
             this.chkRefrectKangou.TabIndex = 68;
@@ -1409,7 +1410,7 @@ namespace WinFormsApp2
             // chkRefrectSangouKaikyoku
             // 
             this.chkRefrectSangouKaikyoku.AutoSize = true;
-            this.chkRefrectSangouKaikyoku.Location = new System.Drawing.Point(67, 33);
+            this.chkRefrectSangouKaikyoku.Location = new System.Drawing.Point(67, 35);
             this.chkRefrectSangouKaikyoku.Name = "chkRefrectSangouKaikyoku";
             this.chkRefrectSangouKaikyoku.Size = new System.Drawing.Size(74, 19);
             this.chkRefrectSangouKaikyoku.TabIndex = 67;
@@ -1420,7 +1421,7 @@ namespace WinFormsApp2
             // chkRefrectHankai
             // 
             this.chkRefrectHankai.AutoSize = true;
-            this.chkRefrectHankai.Location = new System.Drawing.Point(67, 14);
+            this.chkRefrectHankai.Location = new System.Drawing.Point(67, 16);
             this.chkRefrectHankai.Name = "chkRefrectHankai";
             this.chkRefrectHankai.Size = new System.Drawing.Size(50, 19);
             this.chkRefrectHankai.TabIndex = 66;
@@ -1443,7 +1444,7 @@ namespace WinFormsApp2
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox3.Location = new System.Drawing.Point(8, 169);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(301, 199);
+            this.pictureBox3.Size = new System.Drawing.Size(301, 197);
             this.pictureBox3.TabIndex = 69;
             this.pictureBox3.TabStop = false;
             // 
@@ -1515,7 +1516,7 @@ namespace WinFormsApp2
             this.listBox1.BackColor = System.Drawing.SystemColors.Control;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(312, 169);
+            this.listBox1.Location = new System.Drawing.Point(315, 165);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(115, 199);
             this.listBox1.TabIndex = 74;
@@ -1523,21 +1524,33 @@ namespace WinFormsApp2
             // chkZougan
             // 
             this.chkZougan.AutoSize = true;
-            this.chkZougan.Checked = true;
-            this.chkZougan.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkZougan.Location = new System.Drawing.Point(302, 390);
+            this.chkZougan.Location = new System.Drawing.Point(307, 490);
             this.chkZougan.Name = "chkZougan";
-            this.chkZougan.Size = new System.Drawing.Size(74, 19);
+            this.chkZougan.Size = new System.Drawing.Size(50, 19);
             this.chkZougan.TabIndex = 75;
-            this.chkZougan.Text = "蔵元表示";
+            this.chkZougan.Text = "蔵元";
             this.chkZougan.UseVisualStyleBackColor = true;
             this.chkZougan.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // chkJuniSinkanHou
+            // 
+            this.chkJuniSinkanHou.AutoSize = true;
+            this.chkJuniSinkanHou.Location = new System.Drawing.Point(363, 490);
+            this.chkJuniSinkanHou.Name = "chkJuniSinkanHou";
+            this.chkJuniSinkanHou.Size = new System.Drawing.Size(86, 19);
+            this.chkJuniSinkanHou.TabIndex = 76;
+            this.chkJuniSinkanHou.Text = "十二親干法";
+            this.chkJuniSinkanHou.UseVisualStyleBackColor = true;
+            this.chkJuniSinkanHou.CheckedChanged += new System.EventHandler(this.chkJuniSinkanHou_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.Controls.Add(this.chkGotoku);
+            this.Controls.Add(this.chkGogyou);
+            this.Controls.Add(this.chkJuniSinkanHou);
             this.Controls.Add(this.chkZougan);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button10);
@@ -1565,8 +1578,6 @@ namespace WinFormsApp2
             this.Controls.Add(this.chkDispNenun);
             this.Controls.Add(this.lvCareer);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.chkGotoku);
-            this.Controls.Add(this.chkGogyou);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
             this.Controls.Add(this.lvGetuun);
@@ -1744,6 +1755,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox chkRefrectKangou;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.CheckBox chkZougan;
+        private System.Windows.Forms.CheckBox chkJuniSinkanHou;
     }
 }
 

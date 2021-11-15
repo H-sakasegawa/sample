@@ -1104,7 +1104,7 @@ namespace WinFormsApp2
                                         chkGogyou.Checked,          //五行 
                                         chkGotoku.Checked,          //五徳
                                         chkZougan.Checked,          //蔵元
-                                        false                         //十二親干法
+                                        chkJuniSinkanHou.Checked    //十二親干法
                                         );
             drawItem2.Draw();
 
@@ -1669,6 +1669,11 @@ namespace WinFormsApp2
         {
             UpdateShukumeiAndKoutenunDraw();
         }
+        //十二親干法
+        private void chkJuniSinkanHou_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateShukumeiAndKoutenunDraw();
+        }
 
         // 五徳表示チェックボックス
         private void chkGotoku_CheckedChanged(object sender, EventArgs e)
@@ -1919,6 +1924,8 @@ namespace WinFormsApp2
         {
             if(onCloseTab!=null) onCloseTab(tabId);
         }
+
+
 
 
         //=================================================

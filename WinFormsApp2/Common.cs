@@ -374,6 +374,31 @@ namespace WinFormsApp2
             }
             return result;
         }
+
+        public static Font FindFont(
+           System.Drawing.Graphics g,
+           string longString,
+           Size Room,
+           Font PreferedFont
+        )
+        {
+            if (string.IsNullOrEmpty(longString)) return PreferedFont;
+
+            // you should perform some scale functions!!!
+            SizeF RealSize = g.MeasureString(longString, PreferedFont);
+            float HeightScaleRatio = Room.Height / RealSize.Height;
+            float WidthScaleRatio = Room.Width / RealSize.Width;
+
+            float ScaleRatio = (HeightScaleRatio < WidthScaleRatio)
+               ? ScaleRatio = HeightScaleRatio
+               : ScaleRatio = WidthScaleRatio;
+
+            float ScaleFontSize = PreferedFont.Size * ScaleRatio;
+            //基準となるフォントサイズより小さい場合は、新しいサイズのフォントを返す
+            if (PreferedFont.Size< ScaleFontSize) return PreferedFont;
+
+            return new Font(PreferedFont.FontFamily, ScaleFontSize);
+        }
     }
 
 }

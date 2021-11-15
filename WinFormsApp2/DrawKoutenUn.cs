@@ -396,8 +396,10 @@ namespace WinFormsApp2
             Kansi nikkansiWk = person.nikkansi.Clone();
             Kansi gekkansiWk = person.gekkansi.Clone();
             Kansi nenkansiWk = person.nenkansi.Clone();
+
             if(attrJuniSinkanHou!=null)
             {
+                //十二親干法の表示文字に切り替える
                 if (getuunKansi != null) getuunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(getuunKansi);
                 nenunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(nenunKansi);
                 taiunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(taiunKansi);
@@ -475,10 +477,10 @@ namespace WinFormsApp2
         private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin = true)
         {
             var fntZougan = fnt;
-            if (bBold)
-            {
-                fntZougan = fntBold;
-            }
+            //if (bBold)
+            //{
+            //    fntZougan = fntBold;
+            //}
             ////干の守護神判定
             //if (!string.IsNullOrEmpty(genso) && bShugosin)
             //{

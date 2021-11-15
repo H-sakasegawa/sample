@@ -30,12 +30,12 @@ namespace WinFormsApp2
         public string kan
         {
             get { return kansi.kan; }
-            set { kansi.kan = value; bChange = true; }
+            set { bChange = (kansi.kan != value);  kansi.kan = value;  }
         }
         public string si
         {
             get { return kansi.si; }
-            set { kansi.si = value; bChange = true; }
+            set { bChange = (kansi.si != value); kansi.si = value; }
         }
 
         public Kansi kansi;
@@ -133,11 +133,18 @@ namespace WinFormsApp2
         {
             int rc = 0;
 
-            lstKansPattern.Add(new KansiInfo(aryKansi));
+            KansiInfo kansiInfo = new KansiInfo(aryKansi);
+
+            lstKansPattern.Add( kansiInfo );
 
             if( lstKansPattern.Count >= MaxPatternNum)
             {
                 return 0;
+            }
+            //干支の変化ありフラグを次の変化シミュレーションに向けてリセット
+            for(int i=0; i< aryKansi.Length; i++)
+            {
+                aryKansi[i].bChange = false;
             }
 
             //現在の干支属性情報をバックアップ

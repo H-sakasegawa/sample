@@ -115,14 +115,41 @@ namespace WinFormsApp2
             }
             public string GeJuniSinkanHouString(string s)
             {
+                string result = "";
+                var tblMng = TableMng.GetTblManage();
+                
+                if (s == mother) addResult( "母", ref result);
+                if (s == father) addResult( "父", ref result);
+                if (s == husband) addResult( "夫", ref result);
+                if (s == wife) addResult( "妻", ref result);
+                if (s == child) addResult( "子", ref result);
+                
+                string sInyou = "";
+                //子（陰陽違い）
+                sInyou = tblMng.jyukanTbl.GetInyouOtherString(child);
+                if (s == sInyou) addResult( "子", ref result);
 
-                if (s == mother) return "母";
-                else if (s == father) return "父";
-                else if (s == husband) return "夫";
-                else if (s == wife) return "妻";
-                else if (s == child) return "子";
+                //愛人
+                if (! string.IsNullOrEmpty(husband))
+                {
+                    sInyou = tblMng.jyukanTbl.GetInyouOtherString(husband);
+                }else if (!string.IsNullOrEmpty(wife))
+                {
+                    sInyou = tblMng.jyukanTbl.GetInyouOtherString(wife);
+                }
+                if( s == sInyou) addResult( "愛人", ref result);
 
-                return "";
+                //兄弟
+                sInyou = tblMng.jyukanTbl.GetInyouOtherString(mine);
+                if (s == sInyou) addResult( "兄弟", ref result);
+
+                return result;
+            }
+
+            private void addResult( string s, ref string result)
+            {
+                if (!string.IsNullOrEmpty(result)) result += ",";
+                result += s;
             }
 
         }
@@ -516,7 +543,10 @@ namespace WinFormsApp2
                 g.DrawRectangle(blackPen, rectSi);
             }
             var brushKan = Brushes.Black;
-            var fntKan = fnt;
+
+            Font goodFont = Common.FindFont(g, kansi.kan, rectKan.Size, fnt);
+
+            var fntKan = goodFont;
             if (redColorItemBit != 0)
             {
                 int bit = Common.ConvEnumKansiItemIDToItemBit(attrNo);
@@ -529,7 +559,7 @@ namespace WinFormsApp2
             }
 
             g.DrawString(kansi.kan, fntKan, brushKan, rectKan, stringFormat);
-            g.DrawString(kansi.si, fnt, Brushes.Black, rectSi, stringFormat);
+            g.DrawString(kansi.si, goodFont, Brushes.Black, rectSi, stringFormat);
         }
 
 
