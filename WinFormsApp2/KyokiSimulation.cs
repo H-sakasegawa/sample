@@ -343,7 +343,7 @@ namespace WinFormsApp2
                 gekkansi.kan = kyoki[1];
             }
             //大運（干） - 年（干）
-            kyoki = tblMng.kangouTbl.GetKyoki(_taiunKansi.kan, nenkansi.kan);
+            kyoki = tblMng.kangouTbl.GetKyoki(_taiunKansi.kan, _nenkansi.kan);
             if (kyoki != null)
             {
                 taiunKansi.kan = kyoki[0];

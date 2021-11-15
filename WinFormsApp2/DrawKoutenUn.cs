@@ -271,7 +271,7 @@ namespace WinFormsApp2
         /// 干支描画
         /// </summary>
         /// <param name="g"></param>
-        protected void DrawKansi( Graphics g, JuniSinkankanHouAttr attrJuniSinkanHou = null)
+        protected override void DrawKansi( Graphics g, JuniSinkankanHouAttr attrJuniSinkanHou = null)
         {
 
             //三合会局
