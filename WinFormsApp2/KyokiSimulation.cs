@@ -30,12 +30,12 @@ namespace WinFormsApp2
         public string kan
         {
             get { return kansi.kan; }
-            set { bChange = (kansi.kan != value);  kansi.kan = value;  }
+            set { bChange =true;  kansi.kan = value;  }
         }
         public string si
         {
             get { return kansi.si; }
-            set { bChange = (kansi.si != value); kansi.si = value; }
+            set { bChange = true; kansi.si = value; }
         }
 
         public Kansi kansi;
