@@ -115,6 +115,7 @@ namespace WinFormsApp2
             }
             public string GeJuniSinkanHouString(string s)
             {
+                if (string.IsNullOrEmpty(s)) return "";
                 string result = "";
                 var tblMng = TableMng.GetTblManage();
                 

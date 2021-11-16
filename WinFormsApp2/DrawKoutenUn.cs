@@ -390,12 +390,12 @@ namespace WinFormsApp2
 
 
             Kansi getuunKansiWk = null;
-            if(getuunKansi!=null) getuunKansiWk = getuunKansi.Clone();
-            Kansi nenunKansiWk = nenunKansi.Clone();
-            Kansi taiunKansiWk = taiunKansi.Clone();
-            Kansi nikkansiWk = person.nikkansi.Clone();
-            Kansi gekkansiWk = person.gekkansi.Clone();
-            Kansi nenkansiWk = person.nenkansi.Clone();
+            Kansi nenunKansiWk = null;
+            Kansi taiunKansiWk = null;
+            Kansi nikkansiWk = null;
+            Kansi gekkansiWk = null;
+            Kansi nenkansiWk = null;
+
 
             if(attrJuniSinkanHou!=null)
             {
@@ -407,9 +407,18 @@ namespace WinFormsApp2
                 gekkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.gekkansi);
                 nenkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nenkansi);
             }
+            else
+            {
+                //干支表示 
+                if (getuunKansi != null) getuunKansiWk = getuunKansi.Clone();
+                nenunKansiWk = nenunKansi.Clone();
+                taiunKansiWk = taiunKansi.Clone();
+                nikkansiWk = person.nikkansi.Clone();
+                gekkansiWk = person.gekkansi.Clone();
+                nenkansiWk = person.nenkansi.Clone();
+            }
 
-            //干支表示
-            int titleHeight = (int)(GetSmallFontHeight()*0.7);
+            int titleHeight = (int)(GetSmallFontHeight() * 0.7);
             rectGetuunTitle = new Rectangle(getuun.X, getuun.Y - titleHeight / 2, rangeWidth, titleHeight);
             rectNenunTitle = new Rectangle(nenun.X, nenun.Y - titleHeight / 2, rangeWidth, titleHeight);
             rectTaiunTitle = new Rectangle(taiun.X, taiun.Y - titleHeight / 2, rangeWidth, titleHeight);
@@ -441,25 +450,59 @@ namespace WinFormsApp2
                 var nenunHongen = insen.GetHongen(nenunKansi);
                 var taiunHongen = insen.GetHongen(taiunKansi);
 
+                string[] nikkansiWk = new string[3];
+                string[] gekkansiWk = new string[3];
+                string[] nenkansiWk = new string[3];
+                string[] getuunWk = new string[3];
+                string[] nenunWK = new string[3];
+                string[] taiunWk = new string[3];
+
+                if (attrJuniSinkanHou!=null)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        nikkansiWk[i] = attrJuniSinkanHou.GeJuniSinkanHouString( insen.nikkansiHongen[i].name);
+                        gekkansiWk[i] = attrJuniSinkanHou.GeJuniSinkanHouString( insen.gekkansiHongen[i].name);
+                        nenkansiWk[i] = attrJuniSinkanHou.GeJuniSinkanHouString( insen.nenkansiHongen[i].name);
+
+                        if(getuunHongen!=null)getuunWk[i] = attrJuniSinkanHou.GeJuniSinkanHouString(getuunHongen[i].name);
+                        nenunWK[i] = attrJuniSinkanHou.GeJuniSinkanHouString(nenunHongen[i].name);
+                        taiunWk[i] = attrJuniSinkanHou.GeJuniSinkanHouString(taiunHongen[i].name);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        nikkansiWk[i] = insen.nikkansiHongen[i].name;
+                        gekkansiWk[i] = insen.gekkansiHongen[i].name;
+                        nenkansiWk[i] = insen.nenkansiHongen[i].name;
+
+                        if (getuunHongen != null) getuunWk[i] = getuunHongen[i].name;
+                        nenunWK[i] = nenunHongen[i].name;
+                        taiunWk[i] = taiunHongen[i].name;
+                    }
+                }
+
 
                 foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
                 {
                     int idx = (int)item;
-                        //bool bBold = insen.nikkansiHongen[idx].bJudaiShuseiGenso;
-                    DrawZouganItem(g, insen.nikkansiHongen[idx].name, rectNikansiZogan[idx], Color.Black, false);
+                    //bool bBold = insen.nikkansiHongen[idx].bJudaiShuseiGenso;
+                    DrawZouganItem(g, nikkansiWk[idx], rectNikansiZogan[idx], Color.Black, false);
                     //bBold = insen.gekkansiHongen[idx].bJudaiShuseiGenso;
-                    DrawZouganItem(g, insen.gekkansiHongen[idx].name, rectGekkansiZogan[idx], Color.Black, false, false);
+                    DrawZouganItem(g, gekkansiWk[idx], rectGekkansiZogan[idx], Color.Black, false, false);
 
                     //bBold = insen.nenkansiHongen[idx].bJudaiShuseiGenso;
-                    DrawZouganItem(g, insen.nenkansiHongen[idx].name, rectNenkansiZogan[idx], Color.Black, false);
+                    DrawZouganItem(g, nenkansiWk[idx], rectNenkansiZogan[idx], Color.Black, false);
 
                     //月運
                     if (bDispGetuun)
                     {
-                        if (getuunHongen != null) DrawZouganItem(g, getuunHongen[idx].name, rectGetuunZogan[idx], Color.Black, false);
+                        if (getuunHongen != null) DrawZouganItem(g, getuunWk[idx], rectGetuunZogan[idx], Color.Black, false);
                     }
-                    DrawZouganItem(g, nenunHongen[idx].name, rectNenunZogan[idx], Color.Black, false);
-                    DrawZouganItem(g, taiunHongen[idx].name, rectTaiunZogan[idx], Color.Black, false);
+                    DrawZouganItem(g, nenunWK[idx], rectNenunZogan[idx], Color.Black, false);
+                    DrawZouganItem(g, taiunWk[idx], rectTaiunZogan[idx], Color.Black, false);
                 }
             }
 
@@ -477,6 +520,8 @@ namespace WinFormsApp2
         private void DrawZouganItem(Graphics g, string genso, Rectangle rect, Color color, bool bBold, bool bShugosin = true)
         {
             var fntZougan = fnt;
+            Font goodFont = Common.FindFont(g, genso, rect.Size, fnt);
+
             //if (bBold)
             //{
             //    fntZougan = fntBold;
@@ -488,9 +533,8 @@ namespace WinFormsApp2
 
             //    if (ShugosinUtil.IsImigami(person, genso)) g.FillRectangle(Const.brusImigami, rect);
             //}
-
             var brush = new SolidBrush(color);
-            g.DrawString(genso, fntZougan, brush, rect, stringFormat);
+            g.DrawString(genso, goodFont, brush, rect, stringFormat);
 
         }
 

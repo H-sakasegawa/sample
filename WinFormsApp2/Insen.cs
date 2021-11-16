@@ -83,6 +83,34 @@ namespace WinFormsApp2
 
         }
 
+        public string[] GetNikkansiHongen()
+        {
+            string[] names = new string[nikkansiHongen.Length];
+            for (int i = 0; i < nikkansiHongen.Length; i++)
+            {
+                names[i] = nikkansiHongen[i].name;
+            }
+            return names;
+        }
+        public string[] GetGekkansiHongen()
+        {
+            string[] names = new string[gekkansiHongen.Length];
+            for (int i = 0; i < gekkansiHongen.Length; i++)
+            {
+                names[i] = gekkansiHongen[i].name;
+            }
+            return names;
+        }
+        public string[] GetNenkansiHongen()
+        {
+            string[] names = new string[nenkansiHongen.Length];
+            for (int i = 0; i < nenkansiHongen.Length; i++)
+            {
+                names[i] = nenkansiHongen[i].name;
+            }
+            return names;
+        }
+
         public Hongen[] GetHongen(Kansi kansi)
         {
             if (kansi == null) return null;
