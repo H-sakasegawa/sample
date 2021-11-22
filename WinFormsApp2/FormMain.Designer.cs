@@ -35,6 +35,8 @@ namespace WinFormsApp2
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.機能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAddTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSerch = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +85,9 @@ namespace WinFormsApp2
             // 機能ToolStripMenuItem
             // 
             this.機能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAddTab});
+            this.mnuAddTab,
+            this.toolStripSeparator1,
+            this.mnuSerch});
             this.機能ToolStripMenuItem.Name = "機能ToolStripMenuItem";
             this.機能ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.機能ToolStripMenuItem.Text = "機能";
@@ -94,6 +98,18 @@ namespace WinFormsApp2
             this.mnuAddTab.Size = new System.Drawing.Size(180, 22);
             this.mnuAddTab.Text = "タブ追加";
             this.mnuAddTab.Click += new System.EventHandler(this.mnuAddTab_Click);
+            // 
+            // mnuSerch
+            // 
+            this.mnuSerch.Name = "mnuSerch";
+            this.mnuSerch.Size = new System.Drawing.Size(180, 22);
+            this.mnuSerch.Text = "検索";
+            this.mnuSerch.Click += new System.EventHandler(this.mnuSerch_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // FormMain
             // 
@@ -122,5 +138,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 機能ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuAddTab;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem mnuSerch;
     }
 }

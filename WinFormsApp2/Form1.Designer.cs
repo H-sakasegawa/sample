@@ -125,12 +125,8 @@ namespace WinFormsApp2
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.lvCareer = new System.Windows.Forms.ListView();
-            this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
             this.chkDispNenun = new System.Windows.Forms.CheckBox();
             this.chkDispTaiun = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
             this.chkGogyou = new System.Windows.Forms.CheckBox();
             this.chkGotoku = new System.Windows.Forms.CheckBox();
             this.lblGgyou1 = new System.Windows.Forms.Label();
@@ -162,6 +158,21 @@ namespace WinFormsApp2
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.chkZougan = new System.Windows.Forms.CheckBox();
             this.chkJuniSinkanHou = new System.Windows.Forms.CheckBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader26 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader27 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader28 = new System.Windows.Forms.ColumnHeader();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader24 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader25 = new System.Windows.Forms.ColumnHeader();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
+            this.lvCareer = new System.Windows.Forms.ListView();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -175,6 +186,10 @@ namespace WinFormsApp2
             this.tabPage2.SuspendLayout();
             this.grpGogyouGotoku.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -594,7 +609,7 @@ namespace WinFormsApp2
             this.lvTaiun.MultiSelect = false;
             this.lvTaiun.Name = "lvTaiun";
             this.lvTaiun.OwnerDraw = true;
-            this.lvTaiun.Size = new System.Drawing.Size(527, 240);
+            this.lvTaiun.Size = new System.Drawing.Size(486, 240);
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
@@ -603,12 +618,12 @@ namespace WinFormsApp2
             // columnHeader1
             // 
             this.columnHeader1.Text = "旬";
-            this.columnHeader1.Width = 70;
+            this.columnHeader1.Width = 64;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "干支";
-            this.columnHeader2.Width = 50;
+            this.columnHeader2.Width = 40;
             // 
             // columnHeader3
             // 
@@ -623,17 +638,17 @@ namespace WinFormsApp2
             // columnHeader9
             // 
             this.columnHeader9.Text = "日";
-            this.columnHeader9.Width = 100;
+            this.columnHeader9.Width = 90;
             // 
             // columnHeader10
             // 
             this.columnHeader10.Text = "月";
-            this.columnHeader10.Width = 100;
+            this.columnHeader10.Width = 90;
             // 
             // columnHeader11
             // 
             this.columnHeader11.Text = "年";
-            this.columnHeader11.Width = 100;
+            this.columnHeader11.Width = 90;
             // 
             // label11
             // 
@@ -685,7 +700,7 @@ namespace WinFormsApp2
             this.lvNenun.MultiSelect = false;
             this.lvNenun.Name = "lvNenun";
             this.lvNenun.OwnerDraw = true;
-            this.lvNenun.Size = new System.Drawing.Size(727, 240);
+            this.lvNenun.Size = new System.Drawing.Size(756, 240);
             this.lvNenun.TabIndex = 43;
             this.lvNenun.UseCompatibleStateImageBehavior = false;
             this.lvNenun.View = System.Windows.Forms.View.Details;
@@ -696,12 +711,12 @@ namespace WinFormsApp2
             // columnHeader15
             // 
             this.columnHeader15.Text = "歳";
-            this.columnHeader15.Width = 70;
+            this.columnHeader15.Width = 64;
             // 
             // columnHeader16
             // 
             this.columnHeader16.Text = "干支";
-            this.columnHeader16.Width = 50;
+            this.columnHeader16.Width = 40;
             // 
             // columnHeader17
             // 
@@ -716,17 +731,17 @@ namespace WinFormsApp2
             // columnHeader19
             // 
             this.columnHeader19.Text = "日";
-            this.columnHeader19.Width = 100;
+            this.columnHeader19.Width = 90;
             // 
             // columnHeader20
             // 
             this.columnHeader20.Text = "月";
-            this.columnHeader20.Width = 100;
+            this.columnHeader20.Width = 90;
             // 
             // columnHeader21
             // 
             this.columnHeader21.Text = "年";
-            this.columnHeader21.Width = 100;
+            this.columnHeader21.Width = 90;
             // 
             // columnHeader22
             // 
@@ -1069,7 +1084,7 @@ namespace WinFormsApp2
             this.lvGetuun.MultiSelect = false;
             this.lvGetuun.Name = "lvGetuun";
             this.lvGetuun.OwnerDraw = true;
-            this.lvGetuun.Size = new System.Drawing.Size(530, 256);
+            this.lvGetuun.Size = new System.Drawing.Size(486, 256);
             this.lvGetuun.TabIndex = 51;
             this.lvGetuun.UseCompatibleStateImageBehavior = false;
             this.lvGetuun.View = System.Windows.Forms.View.Details;
@@ -1079,12 +1094,12 @@ namespace WinFormsApp2
             // columnHeader5
             // 
             this.columnHeader5.Text = "月";
-            this.columnHeader5.Width = 70;
+            this.columnHeader5.Width = 64;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "干支";
-            this.columnHeader6.Width = 50;
+            this.columnHeader6.Width = 40;
             // 
             // columnHeader7
             // 
@@ -1099,17 +1114,17 @@ namespace WinFormsApp2
             // columnHeader12
             // 
             this.columnHeader12.Text = "日";
-            this.columnHeader12.Width = 100;
+            this.columnHeader12.Width = 90;
             // 
             // columnHeader13
             // 
             this.columnHeader13.Text = "月";
-            this.columnHeader13.Width = 100;
+            this.columnHeader13.Width = 90;
             // 
             // columnHeader14
             // 
             this.columnHeader14.Text = "年";
-            this.columnHeader14.Width = 100;
+            this.columnHeader14.Width = 90;
             // 
             // label17
             // 
@@ -1148,42 +1163,13 @@ namespace WinFormsApp2
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(853, 0);
+            this.button2.Location = new System.Drawing.Point(827, -1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(136, 24);
             this.button2.TabIndex = 54;
             this.button2.Text = "今日へ移動";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // lvCareer
-            // 
-            this.lvCareer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvCareer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader30,
-            this.columnHeader31});
-            this.lvCareer.FullRowSelect = true;
-            this.lvCareer.GridLines = true;
-            this.lvCareer.HideSelection = false;
-            this.lvCareer.Location = new System.Drawing.Point(1010, 26);
-            this.lvCareer.MultiSelect = false;
-            this.lvCareer.Name = "lvCareer";
-            this.lvCareer.Size = new System.Drawing.Size(201, 176);
-            this.lvCareer.TabIndex = 55;
-            this.lvCareer.UseCompatibleStateImageBehavior = false;
-            this.lvCareer.View = System.Windows.Forms.View.Details;
-            this.lvCareer.SelectedIndexChanged += new System.EventHandler(this.lvCareer_SelectedIndexChanged);
-            // 
-            // columnHeader30
-            // 
-            this.columnHeader30.Text = "年";
-            this.columnHeader30.Width = 40;
-            // 
-            // columnHeader31
-            // 
-            this.columnHeader31.Text = "経歴";
-            this.columnHeader31.Width = 300;
             // 
             // chkDispNenun
             // 
@@ -1210,16 +1196,6 @@ namespace WinFormsApp2
             this.chkDispTaiun.Text = "大運";
             this.chkDispTaiun.UseVisualStyleBackColor = true;
             this.chkDispTaiun.CheckedChanged += new System.EventHandler(this.chkDispTaiun_CheckedChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label21.Location = new System.Drawing.Point(1010, 3);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(69, 20);
-            this.label21.TabIndex = 13;
-            this.label21.Text = "経歴一覧";
             // 
             // chkGogyou
             // 
@@ -1431,7 +1407,7 @@ namespace WinFormsApp2
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1013, 609);
+            this.button3.Location = new System.Drawing.Point(969, 609);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(156, 23);
             this.button3.TabIndex = 67;
@@ -1450,7 +1426,7 @@ namespace WinFormsApp2
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(1013, 555);
+            this.button4.Location = new System.Drawing.Point(969, 555);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 21);
             this.button4.TabIndex = 70;
@@ -1460,7 +1436,7 @@ namespace WinFormsApp2
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(1094, 555);
+            this.button5.Location = new System.Drawing.Point(1050, 555);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 21);
             this.button5.TabIndex = 70;
@@ -1470,7 +1446,7 @@ namespace WinFormsApp2
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(1013, 582);
+            this.button6.Location = new System.Drawing.Point(969, 582);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 21);
             this.button6.TabIndex = 70;
@@ -1482,18 +1458,18 @@ namespace WinFormsApp2
             // 
             this.txtCarrerMemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCarrerMemo.Location = new System.Drawing.Point(1009, 208);
+            this.txtCarrerMemo.Location = new System.Drawing.Point(973, 204);
             this.txtCarrerMemo.Multiline = true;
             this.txtCarrerMemo.Name = "txtCarrerMemo";
             this.txtCarrerMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCarrerMemo.Size = new System.Drawing.Size(202, 76);
+            this.txtCarrerMemo.Size = new System.Drawing.Size(263, 83);
             this.txtCarrerMemo.TabIndex = 71;
             this.txtCarrerMemo.Leave += new System.EventHandler(this.txtCarrerMemo_Leave);
             // 
             // btnTabClose
             // 
             this.btnTabClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTabClose.Location = new System.Drawing.Point(1179, 0);
+            this.btnTabClose.Location = new System.Drawing.Point(1208, 0);
             this.btnTabClose.Name = "btnTabClose";
             this.btnTabClose.Size = new System.Drawing.Size(31, 22);
             this.btnTabClose.TabIndex = 72;
@@ -1503,7 +1479,7 @@ namespace WinFormsApp2
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(1094, 582);
+            this.button10.Location = new System.Drawing.Point(1050, 582);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(75, 21);
             this.button10.TabIndex = 73;
@@ -1543,11 +1519,150 @@ namespace WinFormsApp2
             this.chkJuniSinkanHou.UseVisualStyleBackColor = true;
             this.chkJuniSinkanHou.CheckedChanged += new System.EventHandler(this.chkJuniSinkanHou_CheckedChanged);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.listView2);
+            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(265, 147);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "律音、準律音";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // listView2
+            // 
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader26,
+            this.columnHeader27,
+            this.columnHeader28});
+            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView2.FullRowSelect = true;
+            this.listView2.GridLines = true;
+            this.listView2.HideSelection = false;
+            this.listView2.Location = new System.Drawing.Point(3, 3);
+            this.listView2.MultiSelect = false;
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(259, 141);
+            this.listView2.TabIndex = 57;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader26
+            // 
+            this.columnHeader26.Text = "年";
+            this.columnHeader26.Width = 40;
+            // 
+            // columnHeader27
+            // 
+            this.columnHeader27.Text = "大/年";
+            this.columnHeader27.Width = 50;
+            // 
+            // columnHeader28
+            // 
+            this.columnHeader28.Text = "種別";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.listView1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(265, 147);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "納音、準納音";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader23,
+            this.columnHeader24,
+            this.columnHeader25});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(259, 141);
+            this.listView1.TabIndex = 56;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader23
+            // 
+            this.columnHeader23.Text = "年";
+            this.columnHeader23.Width = 40;
+            // 
+            // columnHeader24
+            // 
+            this.columnHeader24.Text = "大/年";
+            this.columnHeader24.Width = 50;
+            // 
+            // columnHeader25
+            // 
+            this.columnHeader25.Text = "種別";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.lvCareer);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(265, 147);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "経歴一覧";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Location = new System.Drawing.Point(969, 27);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(273, 175);
+            this.tabControl2.TabIndex = 77;
+            // 
+            // columnHeader30
+            // 
+            this.columnHeader30.Text = "年";
+            this.columnHeader30.Width = 40;
+            // 
+            // columnHeader31
+            // 
+            this.columnHeader31.Text = "経歴";
+            this.columnHeader31.Width = 300;
+            // 
+            // lvCareer
+            // 
+            this.lvCareer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader30,
+            this.columnHeader31});
+            this.lvCareer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvCareer.FullRowSelect = true;
+            this.lvCareer.GridLines = true;
+            this.lvCareer.HideSelection = false;
+            this.lvCareer.Location = new System.Drawing.Point(3, 3);
+            this.lvCareer.MultiSelect = false;
+            this.lvCareer.Name = "lvCareer";
+            this.lvCareer.Size = new System.Drawing.Size(259, 141);
+            this.lvCareer.TabIndex = 55;
+            this.lvCareer.UseCompatibleStateImageBehavior = false;
+            this.lvCareer.View = System.Windows.Forms.View.Details;
+            this.lvCareer.SelectedIndexChanged += new System.EventHandler(this.lvCareer_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1216, 819);
+            this.ClientSize = new System.Drawing.Size(1245, 819);
+            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.chkGotoku);
             this.Controls.Add(this.chkGogyou);
             this.Controls.Add(this.chkJuniSinkanHou);
@@ -1576,7 +1691,6 @@ namespace WinFormsApp2
             this.Controls.Add(this.lblGgyou1);
             this.Controls.Add(this.chkDispTaiun);
             this.Controls.Add(this.chkDispNenun);
-            this.Controls.Add(this.lvCareer);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.chkSangouKaikyoku);
             this.Controls.Add(this.chkDispGetuun);
@@ -1590,7 +1704,6 @@ namespace WinFormsApp2
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lvNenun);
             this.Controls.Add(this.lvTaiun);
-            this.Controls.Add(this.label21);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Name = "Form1";
@@ -1617,6 +1730,10 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.ResumeLayout(false);
             this.grpGogyouGotoku.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1713,12 +1830,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.ColumnHeader columnHeader22;
-        private System.Windows.Forms.ListView lvCareer;
-        private System.Windows.Forms.ColumnHeader columnHeader30;
-        private System.Windows.Forms.ColumnHeader columnHeader31;
         private System.Windows.Forms.CheckBox chkDispNenun;
         private System.Windows.Forms.CheckBox chkDispTaiun;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.CheckBox chkGogyou;
         private System.Windows.Forms.CheckBox chkGotoku;
         private System.Windows.Forms.Label lblGgyou1;
@@ -1756,6 +1869,21 @@ namespace WinFormsApp2
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.CheckBox chkZougan;
         private System.Windows.Forms.CheckBox chkJuniSinkanHou;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader columnHeader26;
+        private System.Windows.Forms.ColumnHeader columnHeader27;
+        private System.Windows.Forms.ColumnHeader columnHeader28;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader23;
+        private System.Windows.Forms.ColumnHeader columnHeader24;
+        private System.Windows.Forms.ColumnHeader columnHeader25;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListView lvCareer;
+        private System.Windows.Forms.ColumnHeader columnHeader30;
+        private System.Windows.Forms.ColumnHeader columnHeader31;
+        private System.Windows.Forms.TabControl tabControl2;
     }
 }
 

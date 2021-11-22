@@ -80,7 +80,9 @@ namespace WinFormsApp2
         {
             var groups = persons.GetGroups();
             cmb.Items.Clear();
-            cmb.Items.Add("全て");
+
+            cmb.Items.Add(new Group("全て", Group.GroupType.ALL));
+
             foreach (var group in groups)
             {
                 cmb.Items.Add(group);

@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 using NPOI;
 using NPOI.SS.UserModel;
@@ -428,13 +429,15 @@ namespace WinFormsApp2
  
         public Person(string _name, int year, int month, int day, Gender _gender, bool custShugosin = false, string custShugo=null, string custImigami = null)
         {
-            Init(_name, birthday, _gender, "", custShugosin, custShugo, custImigami);
+            Birthday _birthday = new Birthday(year,  month,  day);
+            Init(_name, _birthday, _gender, "", custShugosin, custShugo, custImigami);
         }
         public Person(string _name, Birthday _birthday, Gender _gender, string _group, bool custShugosin = false, string custShugo=null, string custImigami=null)
         {
             Init(_name, _birthday, _gender, _group, custShugosin, custShugo, custImigami);
         }
-        private void Init(string _name, Birthday _birthday, Gender _gender, string _group, bool _bCustomShugosin, string _custShugo, string _custImigami)
+
+        private int Init(string _name, Birthday _birthday, Gender _gender, string _group, bool _bCustomShugosin, string _custShugo, string _custImigami)
         {
             name = _name;
             birthday = _birthday;
@@ -462,26 +465,26 @@ namespace WinFormsApp2
          
             ReadCareer();
 
+            ////節入り日テーブル有効範囲チェック
+            //if (!tblMng.setuiribiTbl.IsContainsYear(birthday.year))
+            //{
+            //    MessageBox.Show(string.Format("{0}さんの節入り日テーブルに指定された年度の情報が不足しています", name));
+            //    return -1;
+            //}
+
+            ////節入り日テーブルの先頭データを基準に基準情報を取得
+            //tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
+            //                                  ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
+
+            //tblMng.setuiribiTbl.Init(birthday.year, birthday.month, birthday.day, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
+
+            ////ユーザ情報初期設定
+            //person.Init(tblMng);
+
+            return 0;
+
         }
-
-        private int ReadCareer()
-        {
-
-            career = new Career( this );
-            return career.ReaCareerFile();
-        }
-
-        public override string ToString()
-        {
-            return name;
-        }
-
-        public Person Clone()
-        {
-            // Object型で返ってくるのでキャストが必要
-            return (Person)MemberwiseClone();
-        }
-
+ 
 
         public int Init(TableMng _tblMng)
         {
@@ -551,6 +554,25 @@ namespace WinFormsApp2
 
 
             return 0;
+        }
+
+
+        private int ReadCareer()
+        {
+
+            career = new Career(this);
+            return career.ReaCareerFile();
+        }
+
+        public override string ToString()
+        {
+            return name;
+        }
+
+        public Person Clone()
+        {
+            // Object型で返ってくるのでキャストが必要
+            return (Person)MemberwiseClone();
         }
 
         /// <summary>
@@ -708,7 +730,7 @@ namespace WinFormsApp2
             if (bForNenunHyou)
             {
                 //１月の特殊性を考慮せず、純粋に年だけで干支番号を求める
-                targetNenkansiNo = tblSetuiribi.CalcNenkansi(birthday.year);
+                targetNenkansiNo = tblSetuiribi.CalcNenkansiNo(birthday.year);
             }
             else
             {
@@ -1216,14 +1238,14 @@ namespace WinFormsApp2
             if (kansiNo1 <= kansiNo2) dif = kansiNo2 - kansiNo1;
             else dif = kansiNo1 - kansiNo2;
 
-            if (dif == 30) return "納音";
+            if (dif == 30) return Const.sNattin; //"納音"
             if (dif == 29 || dif == 31)
             {
                 //nenunKansiの干とkansiの干が同じ五行の陰陽の関係か？
                 var nenunKansiJyukan = tblMng.jyukanTbl[kansi1.kan];
                 var kansiJyukan = tblMng.jyukanTbl[kansi2.kan];
 
-                if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準納音";
+                if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return Const.sJunNattin; // "準納音";
 
             }
 
@@ -1241,7 +1263,7 @@ namespace WinFormsApp2
             int kansiNo1 = tblMng.kansiTbl.GetKansiNo(kansi1);
             int kansiNo2 = tblMng.kansiTbl.GetKansiNo(kansi2);
 
-            if (kansiNo1 == kansiNo2) return "律音";
+            if (kansiNo1 == kansiNo2) return Const.sRittin; // "律音";
             else
             {
                 int dif = Math.Abs(kansiNo2 - kansiNo1);
@@ -1253,7 +1275,7 @@ namespace WinFormsApp2
                     var nenunKansiJyukan = tblMng.jyukanTbl[kansi1.kan];
                     var kansiJyukan = tblMng.jyukanTbl[kansi2.kan];
 
-                    if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return "準律音";
+                    if (nenunKansiJyukan.gogyou == kansiJyukan.gogyou) return Const.sJunRittin; // "準律音";
                 }
 
             }
@@ -1620,22 +1642,22 @@ namespace WinFormsApp2
                         if  (GetGogyoAttrNum("土") == 1 && GetGogyoAttrNum("火") == 2) selectShugoSin = shugosin;
                         break;
                     case EnmSugosinCond.Natu_Mae://夏至前 ★★
-                        errStr += "夏至前の条件仕様が未確定です。 ";
+                        errStr += "夏至前の条件仕様が未確定です。\n";
                         break;
                     case EnmSugosinCond.Natu_Ato://夏至後 ★★
-                        errStr += "夏至後の条件仕様が未確定です。";
+                        errStr += "夏至後の条件仕様が未確定です。\n";
                         break;
                     case EnmSugosinCond.Aki_Mae://秋至前 ★★
-                        errStr += "秋至前の条件仕様が未確定です。";
+                        errStr += "秋至前の条件仕様が未確定です。\n";
                         break;
                     case EnmSugosinCond.Aki_Ato://秋至後 ★★
-                        errStr += "秋至後の条件仕様が未確定です。";
+                        errStr += "秋至後の条件仕様が未確定です。\n";
                         break;
                     case EnmSugosinCond.Fuyu_Mae://冬至前 ★★
-                        errStr += "冬至前の条件仕様が未確定です。";
+                        errStr += "冬至前の条件仕様が未確定です。\n";
                         break;
                     case EnmSugosinCond.Fuyu_Ato://冬至後 ★★
-                        errStr += "冬至後の条件仕様が未確定です。";
+                        errStr += "冬至後の条件仕様が未確定です。\n";
                         break;
 
                     case EnmSugosinCond.Hei_Nasi_and_Hi_Ari: //宿命に丙がなくかつ丁がある場合
@@ -1645,7 +1667,7 @@ namespace WinFormsApp2
             }
             if (errStr != "")
             {
-                System.Windows.Forms.MessageBox.Show(errStr);
+                System.Windows.Forms.MessageBox.Show(string.Format("{0}さんの\n{1}", name, errStr));
             }
             return selectShugoSin;
 
@@ -1791,9 +1813,15 @@ namespace WinFormsApp2
     /// </summary>
     public class Group
     {
-        public Group(string name)
+        public enum GroupType
+        {
+            ALL = 0,
+            GROUP
+        }
+        public Group(string name, GroupType _type = GroupType.GROUP)
         {
             groupName = name;
+            type = _type;
         }
         public void AddMember(Person member)
         {
@@ -1803,6 +1831,7 @@ namespace WinFormsApp2
         {
             return groupName;
         }
+        public GroupType type;
         public string groupName;
         public List<Person> members = new List<Person>();
     }

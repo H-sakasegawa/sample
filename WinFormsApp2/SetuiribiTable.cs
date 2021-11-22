@@ -31,12 +31,14 @@ namespace WinFormsApp2
 
         }
         //節入り日テーブルの先頭行
-        int baseYear = 0;   //年
-        int baseMonth = 0;  //月
-        int baseDay = 0;    //日
-        int baseNenkansiNo = 0;
-        int baseGekkansiNo = 0;
-        int baseNikkansiNo = 0;
+        public int baseYear = 0;   //年
+        public int baseMonth = 0;  //月
+        public int baseDay = 0;    //日
+        public int baseNenkansiNo = 0;
+        public int baseGekkansiNo = 0;
+        public int baseNikkansiNo = 0;
+        public int baseNikkansiSanshutuSu = 0;
+
         List<int> lstColMonth = new List<int>();
         Dictionary<int, YearItem> dicSetuiribiTbl = new Dictionary<int, YearItem>();
         
@@ -103,70 +105,89 @@ namespace WinFormsApp2
                 dicSetuiribiTbl.Add(item.year, item);
                 iRow++;
             }
+
+            //読み込んだデータの先頭データ
+            {
+                var value = dicSetuiribiTbl.ToArray()[0];
+
+                YearItem yearItem = value.Value;
+                baseYear = yearItem.year;
+                var item = yearItem.dicSetuiribi.ToArray()[0];
+                baseMonth = item.Key;
+                baseDay = item.Value;
+                baseNenkansiNo = CalcNenkansiNo(baseYear, baseMonth);
+                baseGekkansiNo = CalcGekkansiNo(baseYear, baseMonth);
+                baseNikkansiSanshutuSu = CalcNikkansiSanshutuSu(baseYear, baseMonth, baseDay);
+
+                baseNikkansiNo = baseNikkansiSanshutuSu + baseDay;
+
+            }
+
+
             return 0;
         }
-        /// <summary>
-        /// 節入り日基準データ取得
-        /// </summary>
-        /// <param name="baseYear"></param>
-        /// <param name="baseMonth"></param>
-        /// <param name="baseDay"></param>
-        /// <param name="baseNenkansi"></param>
-        /// <param name="baseGekkansi"></param>
-        /// <param name="baseNikkansiSanshutuSu"></param>
-        public void GetBaseSetuiribiData(ref int baseYear,
-                                          ref int baseMonth,
-                                          ref int baseDay,
-                                          ref int baseNenkansi,
-                                          ref int baseGekkansi,
-                                          ref int baseNikkansiSanshutuSu
-            )
-        {
-            var value = dicSetuiribiTbl.ToArray()[0];
+        ///// <summary>
+        ///// 節入り日基準データ取得
+        ///// </summary>
+        ///// <param name="baseYear"></param>
+        ///// <param name="baseMonth"></param>
+        ///// <param name="baseDay"></param>
+        ///// <param name="baseNenkansi"></param>
+        ///// <param name="baseGekkansi"></param>
+        ///// <param name="baseNikkansiSanshutuSu"></param>
+        //public void GetBaseSetuiribiData(ref int baseYear,
+        //                                  ref int baseMonth,
+        //                                  ref int baseDay,
+        //                                  ref int baseNenkansi,
+        //                                  ref int baseGekkansi,
+        //                                  ref int baseNikkansiSanshutuSu
+        //    )
+        //{
+        //    var value = dicSetuiribiTbl.ToArray()[0];
 
-            YearItem yearItem = value.Value;
-            baseYear = yearItem.year;
-            var item = yearItem.dicSetuiribi.ToArray()[0];
-            baseMonth = item.Key;
-            baseDay = item.Value;
-            baseNenkansi = CalcNenkansi( baseYear, baseMonth);
-            baseGekkansi = CalcGekkansi(baseYear, baseMonth);
-            baseNikkansiSanshutuSu = CalcNikkansiSanshutuSu(baseYear, baseMonth, baseDay);
+        //    YearItem yearItem = value.Value;
+        //    baseYear = yearItem.year;
+        //    var item = yearItem.dicSetuiribi.ToArray()[0];
+        //    baseMonth = item.Key;
+        //    baseDay = item.Value;
+        //    baseNenkansi = CalcNenkansiNo( baseYear, baseMonth);
+        //    baseGekkansi = CalcGekkansiNo(baseYear, baseMonth);
+        //    baseNikkansiSanshutuSu = CalcNikkansiSanshutuSu(baseYear, baseMonth, baseDay);
 
-            /*
-                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"G:\Temp\test.csv",false) )
-                        {
-                            for (int y = 1937; y >= baseYear; y--)
-                            {
-                                int year = y;
+        //    /*
+        //                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"G:\Temp\test.csv",false) )
+        //                {
+        //                    for (int y = 1937; y >= baseYear; y--)
+        //                    {
+        //                        int year = y;
 
-                                int m = 2;
-                                for (int i = 0; i < 12; i++)
-                                {
-                                    if (m == 0)
-                                    {
-                                        m = 12;
-                                        year = y - 1;
-                                    }
+        //                        int m = 2;
+        //                        for (int i = 0; i < 12; i++)
+        //                        {
+        //                            if (m == 0)
+        //                            {
+        //                                m = 12;
+        //                                year = y - 1;
+        //                            }
 
-                                    var baseNenkansiWk = CalcNenkansi(year, m);
-                                    var baseGekkansiWk = CalcGekkansi(year, m);
-                                    var baseNikkansiSanshutuSuWk = CalcNikkansiSanshutuSu(year, m);
+        //                            var baseNenkansiWk = CalcNenkansi(year, m);
+        //                            var baseGekkansiWk = CalcGekkansi(year, m);
+        //                            var baseNikkansiSanshutuSuWk = CalcNikkansiSanshutuSu(year, m);
 
-                                    sw.WriteLine(string.Format("{0}/{1}, {2},{3},{4}", year, m, baseNenkansiWk, baseGekkansiWk, baseNikkansiSanshutuSuWk));
-                                    m--;
-                                }
-                            }
-                        }
-            */
-        }
+        //                            sw.WriteLine(string.Format("{0}/{1}, {2},{3},{4}", year, m, baseNenkansiWk, baseGekkansiWk, baseNikkansiSanshutuSuWk));
+        //                            m--;
+        //                        }
+        //                    }
+        //                }
+        //    */
+        //}
         /// <summary>
         /// 年干支番号計算
         /// </summary>
         /// <param name="targetYear"></param>
         /// <param name="targetMonth"></param>
         /// <returns></returns>
-        public int CalcNenkansi(int targetYear, int targetMonth = -1)
+        public int CalcNenkansiNo(int targetYear, int targetMonth = -1)
         {
             int nenkansi = calcBaseNenkansi;
 
@@ -204,7 +225,7 @@ namespace WinFormsApp2
         /// <param name="targetYear"></param>
         /// <param name="targetMonth"></param>
         /// <returns></returns>
-        private int CalcGekkansi(int targetYear, int targetMonth)
+        private int CalcGekkansiNo(int targetYear, int targetMonth)
         {
             int gekkansi = calcBaseGekkansi;
             DateTime dateFrom = new System.DateTime(calcBaseYear, calcBaseMonth, 1);

@@ -52,10 +52,13 @@ namespace WinFormsApp2
 
             personList = Persons.GetPersons();
             //setuiribiTbl = new SetuiribiTable();
+
             try
             {
                 //節入り日テーブル読み込み
                 tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
+
+
             }
             catch (Exception ex)
             {
@@ -67,6 +70,12 @@ namespace WinFormsApp2
             {
                 //名簿読み込み
                 personList.ReadPersonList(exePath + @"\名簿.xls");
+                foreach(var person in personList.GetPersonList())
+                {
+                    //ユーザ情報初期設定
+                 //   person.Init(tblMng);
+
+                }
             }
             catch (Exception ex)
             {
@@ -114,6 +123,41 @@ namespace WinFormsApp2
 
         }
 
+        private void mnuSerch_Click(object sender, EventArgs e)
+        {
+            //アクティブタブ
+            var tab = tabControl1.SelectedTab;
+            Form1 frm = (Form1)tab.Controls[0];
 
+            Person person = frm.GetCurrentPerson();
+            Group group = frm.GetCurrentGroup();
+
+            FormFinder frmSerch = new FormFinder(this, group, person);
+            frmSerch.Show();
+        }
+
+        /// <summary>
+        /// 検索結果を選択したときの大運、年運表示連動
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        public void SelectFindResult(Person person ,int year, int month=Const.GetuunDispStartGetu)
+        {
+            //アクティブタブ
+            var tab = tabControl1.SelectedTab;
+            Form1 frm = (Form1)tab.Controls[0];
+
+            //現在表示されている氏名と異なる場合は氏名を選択しなおす
+            if( frm.GetCurrentPerson()!=person)
+            {
+                frm.SelectGroupAndPersonCombobox(person);
+            }
+
+            DateTime dt = new DateTime(year, month, 1);
+            frm.DispDateView(dt);
+
+
+        }
     }
 }

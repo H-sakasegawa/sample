@@ -33,20 +33,20 @@ namespace WinFormsApp2
         public int gekkansiCenterX;
         public int nenkansiCenterX;
 
-        public int drawTopKan;      //干文字表示領域TOP
-        public int drawTopSi;       //支文字表示領域TOP
-        public int drawBottomSi;    //支文字表示領域BOTTOM
-        public int rangeHeight;     //干支文字領域高さ
-        public int rangeWidth;      //干支文字領域幅
+        //public int drawTopKan;      //干文字表示領域TOP
+        //public int drawTopSi;       //支文字表示領域TOP
+        //public int drawBottomSi;    //支文字表示領域BOTTOM
+        //public int rangeHeight;     //干支文字領域高さ
+        //public int rangeWidth;      //干支文字領域幅
 
 
-        //干支文字表示領域
-        public Rectangle rectNikansiKan;
-        public Rectangle rectNikansiSi;
-        public Rectangle rectGekkansiKan;
-        public Rectangle rectGekkansiSi;
-        public Rectangle rectNenkansiKan;
-        public Rectangle rectNenkansiSi;
+        ////干支文字表示領域
+        //public Rectangle rectNikansiKan;
+        //public Rectangle rectNikansiSi;
+        //public Rectangle rectGekkansiKan;
+        //public Rectangle rectGekkansiSi;
+        //public Rectangle rectNenkansiKan;
+        //public Rectangle rectNenkansiSi;
 
         //日干支 初元、中元、本元
         Rectangle[] rectNikansiZogan = new Rectangle[3];

@@ -14,7 +14,6 @@ namespace WinFormsApp2
     class DrawKoutenUn : IsouhouBase
     {
         Insen insen;
-        JuniSinKanHou juniSinKanHou;
 
         //干支表示座標
         public Point getuun;
@@ -101,7 +100,6 @@ namespace WinFormsApp2
         {
 
             insen = new Insen(person);
-            juniSinKanHou = new JuniSinKanHou();
 
             taiunKansi = _taiunKansi;
             nenunKansi = _nenunKansi;
@@ -384,8 +382,6 @@ namespace WinFormsApp2
 
                 attrItem = GetAttrTblItem(Const.enumKansiItemID.TAIUN);
                 colorTaiunKansi = GetGotokuColor(colorTaiunKansi, attrBaseItem.attrKan, attrItem.attrKan, attrItem.attrSi);
-
-
             }
 
 
@@ -536,37 +532,6 @@ namespace WinFormsApp2
             var brush = new SolidBrush(color);
             g.DrawString(genso, goodFont, brush, rect, stringFormat);
 
-        }
-
-
-        private JuniSinkankanHouAttr GetJuniSinkanHou()
-        {
-            var node = juniSinKanHou.Create(person);
-            JuniSinkankanHouAttr attr = new JuniSinkankanHouAttr();
-            //自分
-            attr.mine = node.kan;
-            //母親
-            attr.mother = node.parent.kan;
-            //父親
-            attr.father = node.parent.partnerMan.kan;
-
-            if (person.gender == Gender.WOMAN)
-            {
-                //夫
-                attr.husband = node.partnerMan.kan;
-                //子
-                attr.child = node.child.kan;
-            }
-            else
-            {
-                //妻
-                attr.wife = node.partnerWoman.kan;
-                //子
-                attr.child = node.partnerWoman.child.kan;
-            }
-
- 
-            return attr;
         }
 
 
@@ -887,7 +852,7 @@ namespace WinFormsApp2
             */
             if (bDispJuniSinkanHou)
             {
-                var attr = GetJuniSinkanHou();
+                var attr = new JuniSinkankanHouAttr(person);
                 //干支描画
                 DrawKansi(g, attr);
                 //蔵元描画

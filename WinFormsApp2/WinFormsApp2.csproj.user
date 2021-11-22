@@ -25,6 +25,9 @@
     <Compile Update="FormPersonInfo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormFinder.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormUnseiViewer.cs">
       <SubType>Form</SubType>
     </Compile>

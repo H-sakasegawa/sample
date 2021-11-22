@@ -25,8 +25,7 @@ namespace WinFormsApp2
 
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
-        const int GetuunDispStartGetu = 2;
-        bool bControlEventEnable = true;
+         bool bControlEventEnable = true;
 
 
         //陰占 描画オブジェクト
@@ -137,21 +136,21 @@ namespace WinFormsApp2
 
 
 
-                int baseYear = 0;
-                int baseMonth = 0;
-                int baseDay = 0;
-                int baseNenkansi = 0;
-                int baseGekkansi = 0;
-                int baseNikkansiSanshutusuu = 0;
-                //節入り日テーブルの先頭データを基準に基準情報を取得
-                tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
-                                                  ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
-                txtBaseYear.Text = baseYear.ToString();
-                txtBaseMonth.Text = baseMonth.ToString();
-                txtBaseDay.Text = baseDay.ToString();
-                txtBaseNenkansiNo.Text = baseNenkansi.ToString();
-                txtBaseGekkansiNo.Text = baseGekkansi.ToString();
-                txtNikkansiSanshutuSu.Text = baseNikkansiSanshutusuu.ToString();
+                //int baseYear = 0;
+                //int baseMonth = 0;
+                //int baseDay = 0;
+                //int baseNenkansi = 0;
+                //int baseGekkansi = 0;
+                //int baseNikkansiSanshutusuu = 0;
+                ////節入り日テーブルの先頭データを基準に基準情報を取得
+                //tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
+                //                                  ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
+                txtBaseYear.Text = tblMng.setuiribiTbl.baseYear.ToString();
+                txtBaseMonth.Text = tblMng.setuiribiTbl.baseMonth.ToString();
+                txtBaseDay.Text = tblMng.setuiribiTbl.baseDay.ToString();
+                txtBaseNenkansiNo.Text = tblMng.setuiribiTbl.baseNenkansiNo.ToString();
+                txtBaseGekkansiNo.Text = tblMng.setuiribiTbl.baseGekkansiNo.ToString();
+                txtNikkansiSanshutuSu.Text = tblMng.setuiribiTbl.baseNikkansiSanshutuSu.ToString();
 
                 for (int i = 0; i < lstLblGogyou.Count; i++)
                 {
@@ -314,7 +313,7 @@ namespace WinFormsApp2
 
         }
 
-        void SelectGroupAndPersonCombobox(Person person)
+        public void SelectGroupAndPersonCombobox(Person person)
         {
             string groupName = person.group;
             if (cmbGroup.SelectedIndex == 0)
@@ -337,11 +336,14 @@ namespace WinFormsApp2
         //グループコンボボックス更新
         void UpdateGroupCombobox(string selectGroup=null)
         {
-
             Common.SetGroupCombobox(personList, cmbGroup, selectGroup);
 
          }
 
+        public Group GetCurrentGroup()
+        {
+            return (Group)cmbGroup.SelectedItem;
+        }
         public Person GetCurrentPerson()
         {
             return (Person)cmbPerson.SelectedItem;
@@ -368,10 +370,6 @@ namespace WinFormsApp2
             return chkZougan.Checked;
         }
 
-        
-
-
-
 
         private void MainProc(Person person)
         {
@@ -380,21 +378,21 @@ namespace WinFormsApp2
                 bControlEventEnable = false;
                 curPerson = person;
 
-                int baseYear = int.Parse(txtBaseYear.Text);
-                int baseMonth = int.Parse(txtBaseMonth.Text);
-                int baseDay = int.Parse(txtBaseDay.Text);
+                //int baseYear = int.Parse(txtBaseYear.Text);
+                //int baseMonth = int.Parse(txtBaseMonth.Text);
+                //int baseDay = int.Parse(txtBaseDay.Text);
 
-                int baseNenkansiNo = int.Parse(txtBaseNenkansiNo.Text);
-                int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
-                int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
+                //int baseNenkansiNo = int.Parse(txtBaseNenkansiNo.Text);
+                //int baseGekkansiNo = int.Parse(txtBaseGekkansiNo.Text);
+                //int baseNikkansiNo = int.Parse(txtBaseNikkansiNo.Text);
 
                 //節入り日テーブル有効範囲チェック
                 if (!tblMng.setuiribiTbl.IsContainsYear(person.birthday.year))
                 {
-                    MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
+                    MessageBox.Show(string.Format("{0}さんの節入り日テーブルに指定された年度の情報が不足しています", person.name));
                     return;
                 }
-                tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
+               // tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
                 //ユーザ情報初期設定
                 person.Init(tblMng);
@@ -953,7 +951,7 @@ namespace WinFormsApp2
             //2月～12月,1月分を表示
             for (int i = 0; i < 12; i++)
             {
-                int mMonth = GetuunDispStartGetu + i;
+                int mMonth = Const.GetuunDispStartGetu + i;
                 if (mMonth > 12)
                 {
                     mMonth = (mMonth - 12);
@@ -1128,7 +1126,7 @@ namespace WinFormsApp2
 
         }
 
-        void DispDateView(DateTime today)
+        public void DispDateView(DateTime today)
         {
             int year = today.Year;
 
@@ -1146,7 +1144,7 @@ namespace WinFormsApp2
                     if (itemData.startYear == year)
                     {
                         //１月の場合、前年を表示する必要がある
-                        if (today.Month < GetuunDispStartGetu)
+                        if (today.Month < Const.GetuunDispStartGetu)
                         {
                             index--;
                             if (index < 0) index = 0; //このチェックで引っかかることはない
@@ -1158,7 +1156,7 @@ namespace WinFormsApp2
                 }
             }
             //年運リストビューで年に該当する行を選択
-            if( today.Month< GetuunDispStartGetu)
+            if( today.Month< Const.GetuunDispStartGetu)
             {
                 //月運で選択される月は、次の年度の月となるので、
                 //年運の選択を１年前に設定する必要がある。
@@ -1194,7 +1192,7 @@ namespace WinFormsApp2
         public void UpdateNeunTaiunDisp(int year)
         {
             //月運リストビューは年度の最初の月を選択
-            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
+            DispDateView(new DateTime(year, Const.GetuunDispStartGetu, 1));
 
         }
 
@@ -1210,14 +1208,14 @@ namespace WinFormsApp2
         private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<Person> persons = null;
-            if (cmbGroup.SelectedIndex == 0)
+            var item = (Group)cmbGroup.SelectedItem;
+            if (item.type == Group.GroupType.ALL)
             {
                 //全て
                 persons = personList.GetPersonList();
             }
             else
             {
-                var item = (Group)cmbGroup.SelectedItem;
                 persons = item.members;
 
             }
@@ -1316,7 +1314,7 @@ namespace WinFormsApp2
             var item = lvCareer.SelectedItems[0];
             int year = int.Parse(item.SubItems[0].Text);
             //月運リストビューは年度の最初の月を選択
-            DispDateView(new DateTime(year, GetuunDispStartGetu, 1));
+            DispDateView(new DateTime(year, Const.GetuunDispStartGetu, 1));
         }
 
 
@@ -1907,6 +1905,7 @@ namespace WinFormsApp2
             frmUnseiViewer = bk;
 
         }
+
         void OnFromUnseiViewerClose()
         {
             frmUnseiViewer.OnChangeCurYear -= OnFromUnseiViewerChangeYear;

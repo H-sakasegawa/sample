@@ -63,18 +63,19 @@ namespace WinFormsApp2
 
         protected int drawTopKan;      //干文字表示領域TOP
         protected int drawTopSi;       //支文字表示領域TOP
+        public int drawBottomSi;    //支文字表示領域BOTTOM
         protected int drawBottomStartY;    //干支の下方向の描画開始Y座標
         protected int rangeHeight;     //干支文字領域高さ
         public int rangeWidth;      //干支文字領域幅
 
 
         //干支文字表示領域
-        protected Rectangle rectNikansiKan;
-        protected Rectangle rectNikansiSi;
-        protected Rectangle rectGekkansiKan;
-        protected Rectangle rectGekkansiSi;
-        protected Rectangle rectNenkansiKan;
-        protected Rectangle rectNenkansiSi;
+        public Rectangle rectNikansiKan;
+        public Rectangle rectNikansiSi;
+        public Rectangle rectGekkansiKan;
+        public Rectangle rectGekkansiSi;
+        public Rectangle rectNenkansiKan;
+        public Rectangle rectNenkansiSi;
 
         //文字描画領域の最大Y方向サイズ
         private int maxDrawStringAreaY = 0;
@@ -96,6 +97,8 @@ namespace WinFormsApp2
 
         protected class JuniSinkankanHouAttr
         {
+            private JuniSinKanHou juniSinKanHou ;
+
             //自分
             public string mine = "";
             //母親
@@ -108,6 +111,33 @@ namespace WinFormsApp2
             public string wife = "";
             //子
             public string child = "";
+
+            public JuniSinkankanHouAttr(Person person )
+            {
+                juniSinKanHou = new JuniSinKanHou();
+                var node = juniSinKanHou.Create(person);
+                //自分
+                mine = node.kan;
+                //母親
+                mother = node.parent.kan;
+                //父親
+                father = node.parent.partnerMan.kan;
+
+                if (person.gender == Gender.WOMAN)
+                {
+                    //夫
+                    husband = node.partnerMan.kan;
+                    //子
+                    child = node.child.kan;
+                }
+                else
+                {
+                    //妻
+                    wife = node.partnerWoman.kan;
+                    //子
+                    child = node.partnerWoman.child.kan;
+                }
+            }
 
             public Kansi GeJuniSinkanHouString(Kansi kansi)
             {

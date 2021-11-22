@@ -50,6 +50,12 @@ namespace WinFormsApp2
         public static Color colorImigami = Color.LightGray;
 
         /// <summary>
+        /// 月運開始月
+        /// </summary>
+        public const int GetuunDispStartGetu = 2;
+
+
+        /// <summary>
         /// 干支項目の識別ID
         /// </summary>
         public enum enumKansiItemID
@@ -103,6 +109,11 @@ namespace WinFormsApp2
             COL_CAREER
         }
 
+        public const string sNattin = "納音";
+        public const string sJunNattin = "準納音";
+
+        public const string sRittin = "律音";
+        public const string sJunRittin = "準律音";
 
         public const string sKangou = "干合";
         public const string sInyou = "陰陽";
@@ -115,5 +126,9 @@ namespace WinFormsApp2
         public const string sGogyouDo = "土";
         public const string sGogyouKin = "金";
         public const string sGogyouSui = "水";
+
+        public const string sTaiun = "大運";
+        public const string sNenun = "年運";
+        public const string sGetuun = "月運";
     }
 }
