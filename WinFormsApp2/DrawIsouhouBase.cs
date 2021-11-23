@@ -531,6 +531,7 @@ namespace WinFormsApp2
         /// <param name="rectSi"></param>
         protected void DrawKansi(Kansi kansi, Rectangle rectKan, Rectangle rectSi, Color[] bkColor, Const.enumKansiItemID attrNo)
         {
+
             if (bkColor != null)
             {
                 if (bkColor.Length >= 2)
@@ -579,6 +580,9 @@ namespace WinFormsApp2
                 g.DrawRectangle(blackPen, rectKan);
                 g.DrawRectangle(blackPen, rectSi);
             }
+            //以下、kansi=null　の場合はSKIP
+            if (kansi == null) return;
+
             var brushKan = Brushes.Black;
 
             Font goodFont = Common.FindFont(g, kansi.kan, rectKan.Size, fnt);

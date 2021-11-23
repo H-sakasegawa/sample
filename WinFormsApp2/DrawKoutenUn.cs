@@ -399,7 +399,8 @@ namespace WinFormsApp2
                 if (getuunKansi != null) getuunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(getuunKansi);
                 nenunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(nenunKansi);
                 taiunKansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(taiunKansi);
-                nikkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nikkansi);
+                //自分は表示不要
+                //nikkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nikkansi);
                 gekkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.gekkansi);
                 nenkansiWk = attrJuniSinkanHou.GeJuniSinkanHouString(person.nenkansi);
             }
