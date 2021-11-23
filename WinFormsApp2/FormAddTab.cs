@@ -44,7 +44,7 @@ namespace WinFormsApp2
             cmbPerson.Items.Clear();
             for (int i = 0; i < persons.Count; i++)
             {
-                cmbPerson.Items.Add(persons[i]);
+               cmbPerson.Items.Add(persons[i]);
             }
             if (cmbPerson.Items.Count > 0)
             {
@@ -52,11 +52,14 @@ namespace WinFormsApp2
             }
 
         }
-
+        /// <summary>
+        /// タブ追加
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-
-            selectPerson = personList[cmbPerson.Text];
+            selectPerson = (Person) cmbPerson.SelectedItem;
             this.Close();
         }
     }

@@ -75,43 +75,44 @@ namespace WinFormsApp2
         private string readFilePath;
 
         // ユーザ基本データ <人名,　ユーザ情報>
-        private Dictionary<string, Person> dicPersons = null;
+        //private Dictionary<string, Person> dicPersons = null;
+        private List<Person> lstPersons = null;
         // グループデータ <グループ名,　グループ情報>
         private Dictionary<string, Group> dicGroup = null;
   
         public Persons( )
         {
-            dicPersons = new Dictionary<string, Person>();
+            lstPersons = new List<Person>();
             dicGroup = new Dictionary<string, Group>();
         }
-        public Person this[string name]
-        {
-            get
-            {
-                if (!dicPersons.ContainsKey(name)) return null;
-                return dicPersons[name];
-            }
-        }
+        //public Person this[string name]
+        //{
+        //    get
+        //    {
+        //        if (!dicPersons.ContainsKey(name)) return null;
+        //        return dicPersons[name];
+        //    }
+        //}
         public Person this[int index]
         {
             get
             {
-                if (dicPersons.Count<index) return null;
-                return dicPersons.Values.ToList()[index];
+                if (lstPersons.Count<index) return null;
+                return lstPersons[index];
             }
         }
 
         public int Count
         {
-            get { return dicPersons.Count; }
+            get { return lstPersons.Count; }
         }
         public List<Person> GetPersonList()
         {
-            return dicPersons.Values.ToList();
+            return lstPersons;
         }
         public void Add(Person person)
         {
-            dicPersons.Add(person.name, person);
+            lstPersons.Add(person);
         }
         public void Add(string groupName, Person person)
         {
@@ -128,25 +129,25 @@ namespace WinFormsApp2
         {
             try
             {
-                dicPersons.Remove(person.name);
+                lstPersons.Remove(person);
             }
             catch { }
         }
 
-        public bool IsExistName(string name)
-        {
-            foreach( var person in dicPersons)
-            {
-                string s = person.Key;
-                s = s.Replace("　", "");
-                s = s.Replace(" ", "");
-                if( s == name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //public bool IsExistName(string name)
+        //{
+        //    foreach( var person in dicPersons)
+        //    {
+        //        string s = person.Key;
+        //        s = s.Replace("　", "");
+        //        s = s.Replace(" ", "");
+        //        if( s == name)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
 
         /// <summary>
@@ -221,7 +222,7 @@ namespace WinFormsApp2
                 person.bRefrectHousani = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI, false);
                 //三合会局 反映
                 person.bRefrectSangouKaikyoku = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU, false);
-                dicPersons.Add(name, person);
+                lstPersons.Add(person);
 
                 //グループディクショナリ
                 if( !dicGroup.ContainsKey(group))
@@ -310,9 +311,9 @@ namespace WinFormsApp2
             cell.CellStyle = style;
 
             iRow++;
-            foreach (var item in dicPersons)
+            foreach (var item in lstPersons)
             {
-                var person = item.Value;
+                var person = item;
                 //氏名
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_NAME);
                 cell.SetCellValue(person.name );
