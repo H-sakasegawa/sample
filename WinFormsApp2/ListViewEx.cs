@@ -25,6 +25,9 @@ namespace WinFormsApp2
 
     class ListViewEx : ListView
     {
+        public Brush HeaderBackColor { get; set; } = Brushes.Gainsboro;
+
+
         public ListViewEx()
         {
             DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(OnDrawColumnHeader);
@@ -34,7 +37,17 @@ namespace WinFormsApp2
         }
         public void OnDrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
-            e.DrawDefault = true;
+            // e.DrawDefault = true;
+            // カラムヘッダに四角を描画する。
+            e.Graphics.FillRectangle(HeaderBackColor, e.Bounds);
+            StringFormat sf = new StringFormat();
+            sf.LineAlignment = StringAlignment.Center;
+            sf.Trimming = StringTrimming.EllipsisCharacter;
+            sf.FormatFlags |= StringFormatFlags.NoWrap;
+            // カラムヘッダ文字列を描画する。
+            e.Graphics.DrawString(e.Header.Text, this.Font, Brushes.Black, e.Bounds, sf);
+
+
         }
 
         public void OnDrawItem(object sender, DrawListViewItemEventArgs e)

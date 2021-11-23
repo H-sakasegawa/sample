@@ -23,6 +23,7 @@ namespace WinFormsApp2
         {
             InitializeComponent();
 
+            //tabControl1.Dock = DockStyle.Fill;
             tabControl1.TabPages.Clear();
         }
 
@@ -108,6 +109,12 @@ namespace WinFormsApp2
 
             }
         }
+        private void toolAdd_Click(object sender, EventArgs e)
+        {
+            mnuAddTab_Click(sender, e);
+        }
+
+
 
         private void OnTabClose( int tagId)
         {
@@ -136,6 +143,11 @@ namespace WinFormsApp2
             frmSerch.Show();
         }
 
+        private void toolFind_Click(object sender, EventArgs e)
+        {
+            mnuSerch_Click(sender, e);
+        }
+
         /// <summary>
         /// 検索結果を選択したときの大運、年運表示連動
         /// </summary>
@@ -159,5 +171,6 @@ namespace WinFormsApp2
 
 
         }
+
     }
 }

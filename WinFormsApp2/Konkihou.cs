@@ -11,6 +11,25 @@ namespace WinFormsApp2
     /// </summary>
     class Konkihou : Insen
     {
+
+        public class FindItem
+        {
+            public FindItem(NijuhachiGenso.enmGensoType _type, string _si, int _kansiBit)
+            {
+                type = _type;
+                si = _si;
+                kansiBit = _kansiBit;
+
+            }
+            public NijuhachiGenso.enmGensoType type;
+            public string si;
+            public int kansiBit;
+
+            public JunidaiJusei junidaiJusei;
+
+        }
+
+
         TableMng tblMng = null;
         FindItem[] kansiRoot = new FindItem[3];
 
@@ -148,21 +167,5 @@ namespace WinFormsApp2
 
     }
 
-    class FindItem
-    {
-        public FindItem(NijuhachiGenso.enmGensoType _type, string _si, int _kansiBit)
-        {
-            type = _type;
-            si = _si;
-            kansiBit = _kansiBit;
-
-        }
-        public NijuhachiGenso.enmGensoType type;
-        public string  si;
-        public int kansiBit;
-
-        public JunidaiJusei junidaiJusei;
-
-    }
 
 }

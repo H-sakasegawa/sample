@@ -54,7 +54,7 @@ namespace WinFormsApp2
 
         }
 
-        private void DrawRootInfo(Label lbl, Kansi kansi, FindItem item)
+        private void DrawRootInfo(Label lbl, Kansi kansi, Konkihou.FindItem item)
         {
             var attr1 = tblMng.jyukanTbl[person.nikkansi.kan].gogyou;
             var attr2 = tblMng.jyukanTbl[kansi.kan].gogyou;
@@ -77,7 +77,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void DrawAllow(Rectangle rectStart, FindItem item)
+        private void DrawAllow(Rectangle rectStart, Konkihou.FindItem item)
         {
             if (item == null) return;
 

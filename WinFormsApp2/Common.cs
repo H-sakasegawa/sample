@@ -179,10 +179,12 @@ namespace WinFormsApp2
 
             //天中殺
             Color color = Color.Black;
-            for (int i = 0; i < person.nikkansi.tenchusatu.ToArray().Length; i++)
+            foreach( var tenchusatu in person.nikkansi.tenchusatu.ToArray() )
             {
-                if (taiunKansi.kan == person.nikkansi.tenchusatu[i] ||
-                   taiunKansi.si == person.nikkansi.tenchusatu[i])
+                //支に天中殺文字があるか？
+                //IsExist()では、干と支で同じものがあるかをチェックしている。
+                //tenchusatuには支の文字しかこないので、この関数でチェックしてもOK
+                if (taiunKansi.IsExist(tenchusatu))
                 {
                     item.bTenchusatu = true;
                     color = Color.Red;
@@ -298,9 +300,12 @@ namespace WinFormsApp2
 
             //天中殺
             item.colorTenchusatu = Color.Black;
-            for (int i = 0; i < 2; i++)
+            foreach(var tenchusatu in person.nikkansi.tenchusatu.ToArray())
             {
-                if (targetKansi.IsExist(person.nikkansi.tenchusatu[i]))
+                //支に天中殺文字があるか？
+                //IsExist()では、干と支で同じものがあるかをチェックしている。
+                //tenchusatuには支の文字しかこないので、この関数でチェックしてもOK
+                if (targetKansi.IsExist(tenchusatu))
                 {
                     item.bTenchusatu = true;
                     item.colorTenchusatu = Color.Red;
