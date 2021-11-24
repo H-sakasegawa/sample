@@ -111,8 +111,9 @@ namespace WinFormsApp2
         /// <param name="person">検索対象人情報</param>
         /// <param name="mode">0..納音、準納音 検索,  1..律音、準律音　検索</param>
         /// <param name="bTenchusatu">true...天中殺のものを抽出</param>
+        /// <param name="bIncludeGetuun">true...月運を含める</param>
         /// <returns></returns>
-        public FindResult FindNattinOrRittin(Person person, int mode, bool bTenchusatu)
+        public FindResult FindNattinOrRittin(Person person, int mode, bool bTenchusatu, bool bIncludeGetuun)
         {
 
             FindResult result = new FindResult();
@@ -179,7 +180,7 @@ namespace WinFormsApp2
                     }
                 }
                 //年運・月運検索
-                result.Add( FindNattinOrRittinNenuni(person, item.year, findStr, aryKansi, mode, bTenchusatu));
+                result.Add( FindNattinOrRittinNenuni(person, item.year, findStr, aryKansi, mode, bTenchusatu, bIncludeGetuun));
 
             }
             return result;
@@ -214,8 +215,9 @@ namespace WinFormsApp2
         /// <param name="aryKansi">日干支、月干支、年干支</param>
         /// <param name="mode">0..納音、準納音 検索,  1..律音、準律音　検索</param>
         /// <param name="bTenchusatu">true...天中殺のものを抽出</param>
+        /// <param name="bIncludeGetuun">true...月運を含める</param>
         /// <returns></returns>
-        private FindResult FindNattinOrRittinNenuni(Person person, int year, string[] findStr, Kansi[] aryKansi, int mode, bool bTenchusatu)
+        private FindResult FindNattinOrRittinNenuni(Person person, int year, string[] findStr, Kansi[] aryKansi, int mode, bool bTenchusatu,  bool bIncludeGetuun)
         {
             FindResult result = new FindResult();
             //年運検索
@@ -251,8 +253,12 @@ namespace WinFormsApp2
                         result.Add(findItem);
                     }
                 }
-                //月運検索
-                result.Add(FindNattinOrRittinGetuun(person, targetYear, findStr, aryKansi, mode, bTenchusatu));
+
+                if (bIncludeGetuun)
+                {
+                    //月運検索
+                    result.Add(FindNattinOrRittinGetuun(person, targetYear, findStr, aryKansi, mode, bTenchusatu));
+                }
 
                 nenunKansi += 1;
             }

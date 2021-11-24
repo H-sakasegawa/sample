@@ -81,7 +81,7 @@ namespace WinFormsApp2
                     if (radNattin.Checked) mode = 0;
                     if (radRittin.Checked) mode = 1;
 
-                    result = finder.FindNattinOrRittin(curPerson, mode, chkTenchusatu.Checked);
+                    result = finder.FindNattinOrRittin(curPerson, mode, chkTenchusatu.Checked, chkIncludeGetuun.Checked);
                     if (!result.IsFinded()) return;
 
                 }
@@ -107,12 +107,14 @@ namespace WinFormsApp2
                     colHeader.Tag = fmt.type;
                     colHeader.TextAlign = fmt.alignment;
 
+
                 }
 
                 foreach (var item in result.lstFindItems)
                 {
-
                     ListViewItem lvItem = null;
+                    int unColIndex = -1;
+                    //カラム数分ループ
                     for (int i = 0; i < item.lstItem.Count; i++)
                     {
                         if (i == 0)
@@ -123,9 +125,34 @@ namespace WinFormsApp2
                         {
                             lvItem.SubItems.Add(item.lstItem[i]);
                         }
+
+
+                        if (result.lstFormat[i].type == Finder.ResultFormat.Type.UN)
+                        {
+                            unColIndex = i;
+                        }
+
                     }
 
-                    lvItem.Tag = new FindResultItem(item); //FindResultItem
+                    var tagIAttr = new FindResultItem(item); //FindResultItem
+                    if (unColIndex >= 0)
+                    {
+                        switch(item.lstItem[unColIndex])
+                        {
+                            case Const.sTaiun:
+                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightBlue));
+                                break;
+                            case Const.sNenun:
+                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightYellow));
+                                break;
+                            case Const.sGetuun:
+                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightGreen));
+                                break;
+
+                        }
+                    }
+                    lvItem.Tag = tagIAttr;
+
 
                 }
 
@@ -311,6 +338,7 @@ namespace WinFormsApp2
         private void DispCtrl()
         {
             chkTenchusatu.Enabled = (radNattin.Checked || radRittin.Checked);
+            chkIncludeGetuun.Enabled = (radNattin.Checked || radRittin.Checked);
         }
 
         private void radNattin_CheckedChanged(object sender, EventArgs e)

@@ -45,6 +45,7 @@ namespace WinFormsApp2
             this.radRittin = new System.Windows.Forms.RadioButton();
             this.radNattin = new System.Windows.Forms.RadioButton();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.chkIncludeGetuun = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -95,6 +96,7 @@ namespace WinFormsApp2
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chkIncludeGetuun);
             this.panel1.Controls.Add(this.chkTenchusatu);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.cmbGroup);
@@ -113,7 +115,7 @@ namespace WinFormsApp2
             // chkTenchusatu
             // 
             this.chkTenchusatu.AutoSize = true;
-            this.chkTenchusatu.Location = new System.Drawing.Point(309, 11);
+            this.chkTenchusatu.Location = new System.Drawing.Point(309, 28);
             this.chkTenchusatu.Name = "chkTenchusatu";
             this.chkTenchusatu.Size = new System.Drawing.Size(62, 19);
             this.chkTenchusatu.TabIndex = 7;
@@ -214,6 +216,16 @@ namespace WinFormsApp2
             this.lblStatus.Size = new System.Drawing.Size(503, 19);
             this.lblStatus.TabIndex = 3;
             // 
+            // chkIncludeGetuun
+            // 
+            this.chkIncludeGetuun.AutoSize = true;
+            this.chkIncludeGetuun.Location = new System.Drawing.Point(309, 8);
+            this.chkIncludeGetuun.Name = "chkIncludeGetuun";
+            this.chkIncludeGetuun.Size = new System.Drawing.Size(90, 19);
+            this.chkIncludeGetuun.TabIndex = 8;
+            this.chkIncludeGetuun.Text = "月運を含める";
+            this.chkIncludeGetuun.UseVisualStyleBackColor = true;
+            // 
             // FormFinder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -249,5 +261,6 @@ namespace WinFormsApp2
         private System.Windows.Forms.ToolStripMenuItem mnuJumpForSi;
         private System.Windows.Forms.CheckBox chkTenchusatu;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.CheckBox chkIncludeGetuun;
     }
 }
