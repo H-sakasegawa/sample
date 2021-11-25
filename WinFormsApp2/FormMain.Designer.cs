@@ -34,13 +34,17 @@ namespace WinFormsApp2
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.機能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAddTab = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSerch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolOpen = new System.Windows.Forms.ToolStripButton();
             this.toolAdd = new System.Windows.Forms.ToolStripButton();
             this.toolFind = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -82,12 +86,28 @@ namespace WinFormsApp2
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
             this.機能ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1313, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuOpen});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(67, 20);
+            this.toolStripMenuItem2.Text = "ファイル(&F)";
+            // 
+            // mnuOpen
+            // 
+            this.mnuOpen.Name = "mnuOpen";
+            this.mnuOpen.Size = new System.Drawing.Size(143, 22);
+            this.mnuOpen.Text = "名簿を開く(&O)";
+            this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // 機能ToolStripMenuItem
             // 
@@ -96,8 +116,8 @@ namespace WinFormsApp2
             this.toolStripSeparator1,
             this.mnuSerch});
             this.機能ToolStripMenuItem.Name = "機能ToolStripMenuItem";
-            this.機能ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.機能ToolStripMenuItem.Text = "機能";
+            this.機能ToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.機能ToolStripMenuItem.Text = "機能(&U)";
             // 
             // mnuAddTab
             // 
@@ -121,6 +141,8 @@ namespace WinFormsApp2
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolOpen,
+            this.toolStripSeparator2,
             this.toolAdd,
             this.toolFind});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
@@ -128,6 +150,16 @@ namespace WinFormsApp2
             this.toolStrip1.Size = new System.Drawing.Size(1313, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolOpen
+            // 
+            this.toolOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolOpen.Image")));
+            this.toolOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolOpen.Name = "toolOpen";
+            this.toolOpen.Size = new System.Drawing.Size(23, 22);
+            this.toolOpen.Text = "toolStripButton1";
+            this.toolOpen.Click += new System.EventHandler(this.toolOpen_Click);
             // 
             // toolAdd
             // 
@@ -149,6 +181,11 @@ namespace WinFormsApp2
             this.toolFind.Size = new System.Drawing.Size(23, 22);
             this.toolFind.Text = "検索";
             this.toolFind.Click += new System.EventHandler(this.toolFind_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // FormMain
             // 
@@ -185,5 +222,9 @@ namespace WinFormsApp2
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolAdd;
         private System.Windows.Forms.ToolStripButton toolFind;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem mnuOpen;
+        private System.Windows.Forms.ToolStripButton toolOpen;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

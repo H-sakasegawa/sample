@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 using System.IO;
+using System.Configuration;
 
 namespace WinFormsApp2
 {
@@ -18,6 +20,8 @@ namespace WinFormsApp2
         Persons personList = null;
         string exePath = "";
         int tabId = -1;
+
+        const string keyLastDataFile = "LastDataFile";
 
         public FormMain()
         {
@@ -67,28 +71,40 @@ namespace WinFormsApp2
                 return;
             }
 
-            try
-            {
-                //名簿読み込み
-                personList.ReadPersonList(exePath + @"\名簿.xls");
-                foreach(var person in personList.GetPersonList())
-                {
-                    //ユーザ情報初期設定
-                 //   person.Init(tblMng);
 
-                }
-            }
-            catch (Exception ex)
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string lastDataFile = config.AppSettings.Settings[keyLastDataFile].Value;
+            if (string.IsNullOrEmpty(lastDataFile))
             {
-                MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", ex.Message));
-                return;
+                lastDataFile = exePath + @"\名簿.xls";
             }
 
+            //try
+            //{
+            //    //名簿読み込み
+            //    personList.ReadPersonList(lastDataFile);
+            //    foreach(var person in personList.GetPersonList())
+            //    {
+            //        //ユーザ情報初期設定
+            //     //   person.Init(tblMng);
 
-            tabControl1.TabPages.Add("基本");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(string.Format("{0} \nが読み込めません。\n{1}", lastDataFile, ex.Message));
+            //    return;
+            //}
 
-            Form1 frm = new Form1(this, 0, personList);
-            addform(tabControl1.TabPages[0], frm);
+
+            //tabControl1.TabPages.Add("基本");
+
+            //Form1 frm = new Form1(this, 0, personList);
+            //addform(tabControl1.TabPages[0], frm);
+            //基本タブを追加
+            AddBasicForm(lastDataFile);
+
 
         }
 
@@ -170,6 +186,60 @@ namespace WinFormsApp2
             frm.DispDateView(dt);
 
 
+        }
+        /// <summary>
+        /// 名簿を開く
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolOpen_Click(object sender, EventArgs e)
+        {
+            mnuOpen_Click(sender, e);
+        }
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            if( dlg.ShowDialog()==DialogResult.OK)
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                config.AppSettings.Settings[keyLastDataFile].Value = dlg.FileName;
+                config.Save();
+
+
+                //基本タブを追加
+                AddBasicForm(dlg.FileName);
+
+
+
+            }
+        }
+        private void AddBasicForm( string dataFile)
+        {
+            //全てのタブを閉じる
+            tabControl1.TabPages.Clear();
+            try
+            {
+                //名簿読み込み
+                personList.ReadPersonList(dataFile);
+                foreach (var person in personList.GetPersonList())
+                {
+                    //ユーザ情報初期設定
+                    //   person.Init(tblMng);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0} \nが読み込めません。\n{1}", dataFile, ex.Message));
+                return;
+            }
+
+
+            tabControl1.TabPages.Add("基本");
+
+            Form1 frm = new Form1(this, 0, personList);
+            addform(tabControl1.TabPages[0], frm);
         }
 
     }

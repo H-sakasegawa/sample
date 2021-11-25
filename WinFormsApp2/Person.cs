@@ -134,6 +134,12 @@ namespace WinFormsApp2
             catch { }
         }
 
+        public void Clear()
+        {
+            lstPersons.Clear();
+            dicGroup.Clear();
+        }
+
         //public bool IsExistName(string name)
         //{
         //    foreach( var person in dicPersons)
@@ -167,6 +173,8 @@ namespace WinFormsApp2
         public int ReadPersonList(string filePath)
         {
             readFilePath = filePath;
+
+            Clear();
 
             var version = "xls";
             var workbook = ExcelReader.GetWorkbook(filePath, version);
