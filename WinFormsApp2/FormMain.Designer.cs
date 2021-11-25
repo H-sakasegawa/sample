@@ -42,9 +42,9 @@ namespace WinFormsApp2
             this.mnuSerch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolOpen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolAdd = new System.Windows.Forms.ToolStripButton();
             this.toolFind = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -158,8 +158,13 @@ namespace WinFormsApp2
             this.toolOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolOpen.Name = "toolOpen";
             this.toolOpen.Size = new System.Drawing.Size(23, 22);
-            this.toolOpen.Text = "toolStripButton1";
+            this.toolOpen.Text = "名簿を開く";
             this.toolOpen.Click += new System.EventHandler(this.toolOpen_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolAdd
             // 
@@ -181,11 +186,6 @@ namespace WinFormsApp2
             this.toolFind.Size = new System.Drawing.Size(23, 22);
             this.toolFind.Text = "検索";
             this.toolFind.Click += new System.EventHandler(this.toolFind_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // FormMain
             // 
