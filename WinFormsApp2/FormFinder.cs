@@ -21,8 +21,7 @@ namespace WinFormsApp2
             public Finder.FindItem findItem;
         }
 
-        public delegate void CloseHandler();
-        public event CloseHandler OnClose = null;
+        public event Common.CloseHandler OnClose = null;
 
 
         FormMain parentForm = null;
@@ -358,6 +357,11 @@ namespace WinFormsApp2
         private void radKyakkaHoukai_CheckedChanged(object sender, EventArgs e)
         {
             DispCtrl();
+        }
+
+        private void FormFinder_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (OnClose != null) OnClose(this);
         }
     }
 }

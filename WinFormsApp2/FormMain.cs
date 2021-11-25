@@ -147,10 +147,10 @@ namespace WinFormsApp2
             lstModlessForms.Add(frmSerch);
         }
 
-        private void OnFrmSerch_Close()
+        private void OnFrmSerch_Close(Form frm)
         {
-            lstModlessForms.Remove(frmSerch);
-            frmSerch = null;
+            lstModlessForms.Remove(frm);
+            if(frm == frmSerch) frmSerch = null;
         }
 
         private void toolFind_Click(object sender, EventArgs e)

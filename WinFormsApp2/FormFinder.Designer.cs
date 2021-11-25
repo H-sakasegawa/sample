@@ -35,6 +35,7 @@ namespace WinFormsApp2
             this.mnuJumpForKan = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuJumpForSi = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkIncludeGetuun = new System.Windows.Forms.CheckBox();
             this.chkTenchusatu = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbGroup = new System.Windows.Forms.ComboBox();
@@ -45,7 +46,6 @@ namespace WinFormsApp2
             this.radRittin = new System.Windows.Forms.RadioButton();
             this.radNattin = new System.Windows.Forms.RadioButton();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.chkIncludeGetuun = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -111,6 +111,16 @@ namespace WinFormsApp2
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(503, 100);
             this.panel1.TabIndex = 2;
+            // 
+            // chkIncludeGetuun
+            // 
+            this.chkIncludeGetuun.AutoSize = true;
+            this.chkIncludeGetuun.Location = new System.Drawing.Point(309, 8);
+            this.chkIncludeGetuun.Name = "chkIncludeGetuun";
+            this.chkIncludeGetuun.Size = new System.Drawing.Size(90, 19);
+            this.chkIncludeGetuun.TabIndex = 8;
+            this.chkIncludeGetuun.Text = "月運を含める";
+            this.chkIncludeGetuun.UseVisualStyleBackColor = true;
             // 
             // chkTenchusatu
             // 
@@ -216,16 +226,6 @@ namespace WinFormsApp2
             this.lblStatus.Size = new System.Drawing.Size(503, 19);
             this.lblStatus.TabIndex = 3;
             // 
-            // chkIncludeGetuun
-            // 
-            this.chkIncludeGetuun.AutoSize = true;
-            this.chkIncludeGetuun.Location = new System.Drawing.Point(309, 8);
-            this.chkIncludeGetuun.Name = "chkIncludeGetuun";
-            this.chkIncludeGetuun.Size = new System.Drawing.Size(90, 19);
-            this.chkIncludeGetuun.TabIndex = 8;
-            this.chkIncludeGetuun.Text = "月運を含める";
-            this.chkIncludeGetuun.UseVisualStyleBackColor = true;
-            // 
             // FormFinder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -236,6 +236,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.lstFindResult);
             this.Name = "FormFinder";
             this.Text = "検索";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormFinder_FormClosing);
             this.Load += new System.EventHandler(this.FormSerch_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
