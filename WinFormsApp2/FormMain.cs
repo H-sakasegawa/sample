@@ -50,7 +50,7 @@ namespace WinFormsApp2
            // Refresh();
         }
 
- 
+
         private void FormMain_Load(object sender, EventArgs e)
         {
             exePath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -80,31 +80,11 @@ namespace WinFormsApp2
                 lastDataFile = exePath + @"\名簿.xls";
             }
 
-            //try
-            //{
-            //    //名簿読み込み
-            //    personList.ReadPersonList(lastDataFile);
-            //    foreach(var person in personList.GetPersonList())
-            //    {
-            //        //ユーザ情報初期設定
-            //     //   person.Init(tblMng);
-
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(string.Format("{0} \nが読み込めません。\n{1}", lastDataFile, ex.Message));
-            //    return;
-            //}
-
-
-            //tabControl1.TabPages.Add("基本");
-
-            //Form1 frm = new Form1(this, 0, personList);
-            //addform(tabControl1.TabPages[0], frm);
-            //基本タブを追加
-            AddBasicForm(lastDataFile);
-
+            if (File.Exists(lastDataFile))
+            {
+                //基本タブを追加
+                AddBasicForm(lastDataFile);
+            }
 
         }
 
