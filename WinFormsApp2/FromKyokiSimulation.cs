@@ -14,7 +14,6 @@ namespace WinFormsApp2
     public partial class FromKyokiSimulation : Form
     {
 
-        public delegate void CloseHandler();
 
         Form1 frmParent;
         //List<PictureBox> lstPictureBox = new List<PictureBox>();
@@ -25,7 +24,7 @@ namespace WinFormsApp2
         /// </summary>
         private const bool bReflectGetuunToYearList = false;
 
-        public event CloseHandler OnClose;
+        public event Common.CloseHandler OnClose;
 
         public FromKyokiSimulation( Form1 parent)
         {
@@ -281,7 +280,7 @@ namespace WinFormsApp2
 
         private void FromKyokiSimulation_FormClosed(object sender, FormClosedEventArgs e)
         {
-            OnClose?.Invoke();
+            OnClose?.Invoke(this);
         }
     }
 }

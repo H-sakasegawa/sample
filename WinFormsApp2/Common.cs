@@ -11,8 +11,11 @@ namespace WinFormsApp2
     /// <summary>
     /// 共通処理
     /// </summary>
-    class Common
+    public class Common
     {
+
+        public delegate void CloseHandler(Form frm);
+
 
         /// <summary>
         /// 経過月数計算

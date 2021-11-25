@@ -21,7 +21,7 @@ namespace WinFormsApp2
         TableMng tblMng = TableMng.GetTblManage();
         //陰占 描画オブジェクト
         DrawInsen drawInsen = null;
-        public event CloseHandler OnClose;
+        public event Common.CloseHandler OnClose;
 
         public FormKonkihou()
         {
@@ -92,7 +92,7 @@ namespace WinFormsApp2
 
         private void FormKonkihou_FormClosed(object sender, FormClosedEventArgs e)
         {
-            OnClose?.Invoke();
+            OnClose?.Invoke(this);
         }
     }
 }

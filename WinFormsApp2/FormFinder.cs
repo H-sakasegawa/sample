@@ -21,6 +21,10 @@ namespace WinFormsApp2
             public Finder.FindItem findItem;
         }
 
+        public delegate void CloseHandler();
+        public event CloseHandler OnClose = null;
+
+
         FormMain parentForm = null;
         TableMng tblMng;
         Persons personList;
@@ -140,7 +144,7 @@ namespace WinFormsApp2
                         switch(item.lstItem[unColIndex])
                         {
                             case Const.sTaiun:
-                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightBlue));
+                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.PeachPuff));
                                 break;
                             case Const.sNenun:
                                 tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightYellow));

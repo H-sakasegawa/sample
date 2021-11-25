@@ -50,11 +50,11 @@ namespace WinFormsApp2
 
         bool bInitializeLoad = true;
         public event DelegateOnChangeCurYear OnChangeCurYear =null;
-        public event CloseHandler OnClose;
+        public event Common.CloseHandler OnClose;
 
         TableMng tblMng = TableMng.GetTblManage();
 
-        Dictionary<string, Person> dicPersons = new Dictionary<string, Person>();
+        List<Person> dicPersons = new List<Person>();
         List<KoutenUn> lstKoutenUn = new List<KoutenUn>();
 
         Form1 parentForm;
@@ -73,7 +73,7 @@ namespace WinFormsApp2
         {
             bInitializeLoad = true;
             //メンバーの表示状態を管理するディクショナリを作成
-            persons.GetPersonList().ForEach(x => dicPersons.Add(x.name, x ) );
+            persons.GetPersonList().ForEach(x => dicPersons.Add( x ) );
 
             //グループコンボボックス
             Common.SetGroupCombobox(persons, cmbGroup);
@@ -115,7 +115,7 @@ namespace WinFormsApp2
             if (cmbGroup.SelectedIndex == 0)
             {
                 //全て
-                personsEx = dicPersons.Values.ToList();
+                personsEx = dicPersons;
             }
             else
             {
@@ -123,7 +123,7 @@ namespace WinFormsApp2
                 var item = (Group)cmbGroup.SelectedItem;
                 foreach (var person in item.members)
                 {
-                    personsEx.Add(dicPersons[person.name]);
+                    personsEx.Add(person);
                 }
 
             }
@@ -721,7 +721,7 @@ namespace WinFormsApp2
         }
         private void FormUnseiViewer_FormClosed(object sender, FormClosedEventArgs e)
         {
-            OnClose?.Invoke();
+            OnClose?.Invoke(this);
         }
 
     }

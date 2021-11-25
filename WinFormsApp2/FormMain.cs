@@ -23,6 +23,9 @@ namespace WinFormsApp2
 
         const string keyLastDataFile = "LastDataFile";
 
+        List<Form> lstModlessForms = new List<Form>();
+        FormFinder frmSerch = null;
+
         public FormMain()
         {
             InitializeComponent();
@@ -125,9 +128,12 @@ namespace WinFormsApp2
             }
 
         }
-
         private void mnuSerch_Click(object sender, EventArgs e)
         {
+            if(frmSerch!=null)
+            {
+                frmSerch.Show();
+            }
             //アクティブタブ
             var tab = tabControl1.SelectedTab;
             Form1 frm = (Form1)tab.Controls[0];
@@ -135,8 +141,16 @@ namespace WinFormsApp2
             Person person = frm.GetCurrentPerson();
             Group group = frm.GetCurrentGroup();
 
-            FormFinder frmSerch = new FormFinder(this, group, person);
+            frmSerch = new FormFinder(this, group, person);
+            frmSerch.OnClose += OnFrmSerch_Close;
             frmSerch.Show();
+            lstModlessForms.Add(frmSerch);
+        }
+
+        private void OnFrmSerch_Close()
+        {
+            lstModlessForms.Remove(frmSerch);
+            frmSerch = null;
         }
 
         private void toolFind_Click(object sender, EventArgs e)
@@ -186,6 +200,12 @@ namespace WinFormsApp2
                 config.AppSettings.Settings[keyLastDataFile].Value = dlg.FileName;
                 config.Save();
 
+                //MainFormから表示されているモードレスダイアログを閉じる
+                foreach(var frm in lstModlessForms)
+                {
+                    frm.Close();
+                }
+                lstModlessForms.Clear();
 
                 //基本タブを追加
                 AddBasicForm(dlg.FileName);
@@ -196,6 +216,10 @@ namespace WinFormsApp2
         }
         private void AddBasicForm( string dataFile)
         {
+            foreach(TabPage tp in tabControl1.TabPages)
+            {
+                ((Form)tp.Controls[0]).Close();
+            }
             //全てのタブを閉じる
             tabControl1.TabPages.Clear();
             try
@@ -219,6 +243,7 @@ namespace WinFormsApp2
             tabControl1.TabPages.Add("基本");
 
             Form1 frm = new Form1(this, 0, personList);
+            frm.onCloseTab += OnTabClose;
             addform(tabControl1.TabPages[0], frm);
         }
 

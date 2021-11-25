@@ -21,7 +21,7 @@ namespace WinFormsApp2
         Person person;
         TableMng tblMng = TableMng.GetTblManage();
 
-        public event CloseHandler OnClose = null;
+        public event Common.CloseHandler OnClose = null;
         public event UpdateShugoSin OnUpdateShugosin=null;
 
         CheckBox[] chkShugosin;
@@ -142,7 +142,7 @@ namespace WinFormsApp2
                 bEditCustom = false;
             }
 
-            OnClose?.Invoke();
+            OnClose?.Invoke(this);
         }
 
         private void chkShugosin_CheckedChanged(object sender, EventArgs e)

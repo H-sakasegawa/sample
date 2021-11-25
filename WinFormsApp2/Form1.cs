@@ -54,7 +54,28 @@ namespace WinFormsApp2
         FormUnseiViewer frmUnseiViewer = null;
 
 
+        List<Form> lstModlessForms = new List<Form>();
+        void OnModelessFormClose(Form frm)
+        {
+            frm.Dispose();
+            lstModlessForms.Remove(frm);
 
+            if (frm == frmKykiSim) frmKykiSim = null;
+            else if (frm == frmKonkihou) frmKonkihou = null;
+            else if (frm == formJuniSinKanHou) formJuniSinKanHou = null;
+            else if (frm == FormShugoSinHou) FormShugoSinHou = null;
+            else if (frm == frmUnseiViewer) frmUnseiViewer = null;
+
+
+        }
+
+        void ShowModless(Form frm)
+        {
+            frm.Show();
+            lstModlessForms.Add(frm);
+
+        }
+ 
 
         public Form1( Form mainFrm ,int _tabId, Persons _persons, Person targetPerson=null)
         {
@@ -267,6 +288,13 @@ namespace WinFormsApp2
                 config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
                 config.Save();
             }
+
+            //モードレスダイアログを終了する
+            for(int i=lstModlessForms.Count-1; i>=0; i--)
+            {
+                lstModlessForms[i].Close();
+            }
+            lstModlessForms.Clear();
         }
 
 
@@ -1768,13 +1796,13 @@ namespace WinFormsApp2
 
             if (frmKykiSim != null)
             {
-                OnFormKyokiSimulationClose();
+                OnModelessFormClose(frmKykiSim);
             }
 
 
-            frmKykiSim = new FromKyokiSimulation( this);
-            frmKykiSim.OnClose += OnFormKyokiSimulationClose;
-            frmKykiSim.Show();
+            frmKykiSim = new FromKyokiSimulation( this );
+            frmKykiSim.OnClose += OnModelessFormClose;
+            ShowModless(frmKykiSim);
 
             frmKykiSim.UpdateAll(curPerson, curNenun.keyValue,
                                     curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
@@ -1800,27 +1828,28 @@ namespace WinFormsApp2
             //}
         }
 
-        void OnFormKyokiSimulationClose()
-        {
-            frmKykiSim.Dispose();
-            frmKykiSim = null;
-        }
+        //void OnFormKyokiSimulationClose()
+        //{
+        //    frmKykiSim.Dispose();
+        //    frmKykiSim = null;
+        //}
+
+
 
         //根気法画面表示
         private void button4_Click(object sender, EventArgs e)
         {
             frmKonkihou = new FormKonkihou();
-            frmKonkihou.OnClose += OnFormKonkihouClose;
+            frmKonkihou.OnClose += OnModelessFormClose;
 
-
-            frmKonkihou.Show();
+            ShowModless(frmKonkihou);
             frmKonkihou.Update(curPerson);
         }
-        void OnFormKonkihouClose()
-        {
-            frmKonkihou.Dispose();
-            frmKonkihou = null;
-        }
+        //void OnFormKonkihouClose()
+        //{
+        //    frmKonkihou.Dispose();
+        //    frmKonkihou = null;
+        //}
 
         /// <summary>
         /// 十二親干法　画面表示
@@ -1830,16 +1859,16 @@ namespace WinFormsApp2
         private void button5_Click(object sender, EventArgs e)
         {
             formJuniSinKanHou = new FormJuniSinKanHou();
-            formJuniSinKanHou.OnClose += OnFormJuniSinKanHouClose;
+            formJuniSinKanHou.OnClose += OnModelessFormClose;
 
-            formJuniSinKanHou.Show();
+            ShowModless(formJuniSinKanHou);
             formJuniSinKanHou.Update(curPerson);
         }
-        void OnFormJuniSinKanHouClose()
-        {
-            formJuniSinKanHou.Dispose();
-            formJuniSinKanHou = null;
-        }
+        //void OnFormJuniSinKanHouClose()
+        //{
+        //    formJuniSinKanHou.Dispose();
+        //    formJuniSinKanHou = null;
+        //}
 
         /// <summary>
         /// 守護神法
@@ -1849,18 +1878,18 @@ namespace WinFormsApp2
         private void button6_Click(object sender, EventArgs e)
         {
             FormShugoSinHou = new FormShugoSinHou();
-            FormShugoSinHou.OnClose += OnFormShugoSinHouClose;
+            FormShugoSinHou.OnClose += OnModelessFormClose;
             FormShugoSinHou.OnUpdateShugosin += OnFormUpdateShugosin;
 
-            FormShugoSinHou.Show();
+            ShowModless(FormShugoSinHou);
             FormShugoSinHou.Update(curPerson);
 
         }
-        void OnFormShugoSinHouClose()
-        {
-            FormShugoSinHou.Dispose();
-            FormShugoSinHou = null;
-        }
+        //void OnFormShugoSinHouClose()
+        //{
+        //    FormShugoSinHou.Dispose();
+        //    FormShugoSinHou = null;
+        //}
 
         void OnFormUpdateShugosin()
         {
@@ -1890,8 +1919,8 @@ namespace WinFormsApp2
             {
                 frmUnseiViewer = new FormUnseiViewer(this, personList, GetCurrentPerson());
                 frmUnseiViewer.OnChangeCurYear += OnFromUnseiViewerChangeYear;
-                frmUnseiViewer.OnClose += OnFromUnseiViewerClose;
-                frmUnseiViewer.Show();
+                frmUnseiViewer.OnClose += OnModelessFormClose;
+                ShowModless(frmUnseiViewer);
             }
 
         }
@@ -1906,13 +1935,13 @@ namespace WinFormsApp2
 
         }
 
-        void OnFromUnseiViewerClose()
-        {
-            frmUnseiViewer.OnChangeCurYear -= OnFromUnseiViewerChangeYear;
-            frmUnseiViewer.OnClose -= OnFromUnseiViewerClose;
-            frmUnseiViewer.Dispose();
-            frmUnseiViewer = null;
-        }
+        //void OnFromUnseiViewerClose()
+        //{
+        //    frmUnseiViewer.OnChangeCurYear -= OnFromUnseiViewerChangeYear;
+        //    frmUnseiViewer.OnClose -= OnFromUnseiViewerClose;
+        //    frmUnseiViewer.Dispose();
+        //    frmUnseiViewer = null;
+        //}
 
         /// <summary>
         /// タブ終了
@@ -1922,6 +1951,11 @@ namespace WinFormsApp2
         private void btnTabClose_Click(object sender, EventArgs e)
         {
             if(onCloseTab!=null) onCloseTab(tabId);
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (onCloseTab != null) onCloseTab(tabId);
         }
 
 

@@ -142,6 +142,13 @@ namespace WinFormsApp2
             foreach (var item in lstTaiunKansi)
             {
                 Kansi taiunKansi = person.GetKansi(item.kansiNo);
+                bool bTaiunTenchusatu = IsTenchusatu(person, taiunKansi); //天中殺
+                
+                //天中殺指定があった場合で天中殺でなければSIKIP
+                if (bTenchusatu)
+                {
+                    if (!bTaiunTenchusatu) continue;
+                }
 
                 for (int i = 0; i < aryKansi.Length; i++)
                 {
@@ -163,10 +170,8 @@ namespace WinFormsApp2
                         }
                     }
                     if (str == findStr[0] || str == findStr[1])
-                    { 
-                        //天中殺指定があった場合で天中殺でなければSIKIP
-                        if (bTenchusatu && !IsTenchusatu(person, taiunKansi)) continue;
-
+                    {
+ 
                         //発見！
                         FindItem findItem = new FindItem(person);
                        // findItem.lstItem.Add(person.name);
@@ -180,7 +185,14 @@ namespace WinFormsApp2
                     }
                 }
                 //年運・月運検索
-                result.Add( FindNattinOrRittinNenuni(person, item.year, findStr, aryKansi, mode, bTenchusatu, bIncludeGetuun));
+                result.Add( FindNattinOrRittinNenuni(person, 
+                                                    item.year, 
+                                                    findStr, 
+                                                    aryKansi, 
+                                                    mode, 
+                                                    bTenchusatu, 
+                                                    bTaiunTenchusatu, 
+                                                    bIncludeGetuun));
 
             }
             return result;
@@ -215,13 +227,22 @@ namespace WinFormsApp2
         /// <param name="aryKansi">日干支、月干支、年干支</param>
         /// <param name="mode">0..納音、準納音 検索,  1..律音、準律音　検索</param>
         /// <param name="bTenchusatu">true...天中殺のものを抽出</param>
+        /// <param name="bTaiunTenchusatu">true...大運が天中殺</param>
         /// <param name="bIncludeGetuun">true...月運を含める</param>
         /// <returns></returns>
-        private FindResult FindNattinOrRittinNenuni(Person person, int year, string[] findStr, Kansi[] aryKansi, int mode, bool bTenchusatu,  bool bIncludeGetuun)
+        private FindResult FindNattinOrRittinNenuni(Person person, 
+                                                    int year, 
+                                                    string[] findStr, 
+                                                    Kansi[] aryKansi, 
+                                                    int mode, 
+                                                    bool bTenchusatu,
+                                                    bool bTaiunTenchusatu,  
+                                                    bool bIncludeGetuun)
         {
             FindResult result = new FindResult();
             //年運検索
             int nenunKansi = person.GetNenkansiNo(year, true);
+
 
             for (int nenCnt = 0; nenCnt < 10; nenCnt++)
             {
@@ -229,6 +250,8 @@ namespace WinFormsApp2
                 if (nenunKansi > 60) nenunKansi = 1;
                 Kansi nenkansi = person.GetKansi(nenunKansi);
                 int targetYear = year + nenCnt;
+
+                bool bNenunTenchusatu = IsTenchusatu(person, nenkansi);
 
                 for (int i = 0; i < aryKansi.Length; i++)
                 {
@@ -238,9 +261,14 @@ namespace WinFormsApp2
 
                     if (str == findStr[0] || str == findStr[1])
                     {
-                        //天中殺指定があった場合で天中殺でなければSIKIP
-                        if (bTenchusatu && !IsTenchusatu(person, nenkansi)) continue;
-
+                        if (bTenchusatu)
+                        {
+                            //天中殺指定があった場合大運が天中殺でなくかつ年運も天中殺でなければ、SKIP
+                            if (!bTaiunTenchusatu && !bNenunTenchusatu)
+                            {
+                                continue;
+                            }
+                        }
                         //発見！
                         FindItem findItem = new FindItem(person);
                         //findItem.lstItem.Add(person.name);

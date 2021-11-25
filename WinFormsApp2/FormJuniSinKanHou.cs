@@ -16,7 +16,7 @@ namespace WinFormsApp2
     public partial class FormJuniSinKanHou : Form
     {
         public delegate void CloseHandler();
-        public event CloseHandler OnClose = null;
+        public event Common.CloseHandler OnClose = null;
 
 
         JuniSinKanHou juniSinKanHou = null;
@@ -46,7 +46,7 @@ namespace WinFormsApp2
         {
             drawJuniSinKanhoun.Dispose();
 
-            OnClose?.Invoke();
+            OnClose?.Invoke(this);
         }
     }
 }

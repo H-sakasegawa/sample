@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WinFormsApp2
 {
-    class Const
+    public class Const
     {
         //-----------------------------------
         // 月運、年運、大運、日干支、月干支、年干支　識別フラグ

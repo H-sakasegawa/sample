@@ -169,10 +169,10 @@ namespace WinFormsApp2
             this.columnHeader24 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader25 = new System.Windows.Forms.ColumnHeader();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.lvCareer = new System.Windows.Forms.ListView();
             this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
-            this.lvCareer = new System.Windows.Forms.ListView();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1616,29 +1616,6 @@ namespace WinFormsApp2
             this.tabPage3.Text = "経歴一覧";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // tabControl2
-            // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage5);
-            this.tabControl2.Location = new System.Drawing.Point(969, 27);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(273, 175);
-            this.tabControl2.TabIndex = 77;
-            // 
-            // columnHeader30
-            // 
-            this.columnHeader30.Text = "年";
-            this.columnHeader30.Width = 40;
-            // 
-            // columnHeader31
-            // 
-            this.columnHeader31.Text = "経歴";
-            this.columnHeader31.Width = 300;
-            // 
             // lvCareer
             // 
             this.lvCareer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1656,6 +1633,29 @@ namespace WinFormsApp2
             this.lvCareer.UseCompatibleStateImageBehavior = false;
             this.lvCareer.View = System.Windows.Forms.View.Details;
             this.lvCareer.SelectedIndexChanged += new System.EventHandler(this.lvCareer_SelectedIndexChanged);
+            // 
+            // columnHeader30
+            // 
+            this.columnHeader30.Text = "年";
+            this.columnHeader30.Width = 40;
+            // 
+            // columnHeader31
+            // 
+            this.columnHeader31.Text = "経歴";
+            this.columnHeader31.Width = 300;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Location = new System.Drawing.Point(969, 27);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(273, 175);
+            this.tabControl2.TabIndex = 77;
             // 
             // Form1
             // 
@@ -1709,6 +1709,7 @@ namespace WinFormsApp2
             this.Name = "Form1";
             this.Text = "占いソフト";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
