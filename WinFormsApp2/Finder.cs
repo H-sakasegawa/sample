@@ -576,7 +576,6 @@ namespace WinFormsApp2
                     // }
                     nenkansiNo++;
                 }
-                return result;
             }
 
             ////日干支
