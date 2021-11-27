@@ -64,7 +64,7 @@ namespace WinFormsApp2
             this.lstFindResult.MultiSelect = false;
             this.lstFindResult.Name = "lstFindResult";
             this.lstFindResult.OwnerDraw = true;
-            this.lstFindResult.Size = new System.Drawing.Size(503, 329);
+            this.lstFindResult.Size = new System.Drawing.Size(422, 329);
             this.lstFindResult.TabIndex = 1;
             this.lstFindResult.UseCompatibleStateImageBehavior = false;
             this.lstFindResult.View = System.Windows.Forms.View.Details;
@@ -109,7 +109,7 @@ namespace WinFormsApp2
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(503, 100);
+            this.panel1.Size = new System.Drawing.Size(422, 100);
             this.panel1.TabIndex = 2;
             // 
             // chkIncludeGetuun
@@ -127,9 +127,9 @@ namespace WinFormsApp2
             this.chkTenchusatu.AutoSize = true;
             this.chkTenchusatu.Location = new System.Drawing.Point(309, 28);
             this.chkTenchusatu.Name = "chkTenchusatu";
-            this.chkTenchusatu.Size = new System.Drawing.Size(62, 19);
+            this.chkTenchusatu.Size = new System.Drawing.Size(107, 19);
             this.chkTenchusatu.TabIndex = 7;
-            this.chkTenchusatu.Text = "天中殺";
+            this.chkTenchusatu.Text = "天中殺のみ検索";
             this.chkTenchusatu.UseVisualStyleBackColor = true;
             // 
             // label2
@@ -173,7 +173,7 @@ namespace WinFormsApp2
             // btnFind
             // 
             this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFind.Location = new System.Drawing.Point(404, 71);
+            this.btnFind.Location = new System.Drawing.Point(323, 71);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(94, 26);
             this.btnFind.TabIndex = 2;
@@ -223,17 +223,18 @@ namespace WinFormsApp2
             this.lblStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblStatus.Location = new System.Drawing.Point(0, 431);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(503, 19);
+            this.lblStatus.Size = new System.Drawing.Size(422, 19);
             this.lblStatus.TabIndex = 3;
             // 
             // FormFinder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 450);
+            this.ClientSize = new System.Drawing.Size(422, 450);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstFindResult);
+            this.MinimumSize = new System.Drawing.Size(438, 489);
             this.Name = "FormFinder";
             this.Text = "検索";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormFinder_FormClosing);

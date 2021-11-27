@@ -9,6 +9,8 @@ namespace WinFormsApp2
 {
     public class Const
     {
+        public const string ApplicationName = "占いソフト";
+
         //-----------------------------------
         // 月運、年運、大運、日干支、月干支、年干支　識別フラグ
         //-----------------------------------

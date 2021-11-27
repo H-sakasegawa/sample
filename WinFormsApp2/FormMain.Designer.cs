@@ -197,7 +197,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
-            this.Text = "FormMain";
+            this.Text = "占いソフト";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.tabControl1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);

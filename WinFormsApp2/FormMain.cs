@@ -232,6 +232,8 @@ namespace WinFormsApp2
                     //   person.Init(tblMng);
 
                 }
+
+                this.Text = string.Format("{0} : {1}", Const.ApplicationName, dataFile); 
             }
             catch (Exception ex)
             {
