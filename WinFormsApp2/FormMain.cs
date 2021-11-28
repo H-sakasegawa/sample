@@ -96,21 +96,26 @@ namespace WinFormsApp2
             FormAddTab frmAddTab = new FormAddTab(personList);
             if (frmAddTab.ShowDialog() == DialogResult.OK)
             {
-                ++tabId;
-                Form1 frm = new Form1(this, tabId, personList, frmAddTab.selectPerson);
-                frm.onCloseTab += OnTabClose;
-
-                tabControl1.TabPages.Add(frmAddTab.selectPerson.name);
-                tabControl1.TabPages[tabControl1.TabPages.Count - 1].Tag = tabId;
-
-                addform(tabControl1.TabPages[tabControl1.TabPages.Count - 1], frm);
-                tabControl1.SelectedTab = tabControl1.TabPages[tabControl1.TabPages.Count - 1];
-
+                AddTab(frmAddTab.selectPerson);
             }
         }
         private void toolAdd_Click(object sender, EventArgs e)
         {
             mnuAddTab_Click(sender, e);
+        }
+
+        private void AddTab(Person person)
+        {
+            ++tabId;
+            Form1 frm = new Form1(this, tabId, personList, person);
+            frm.onCloseTab += OnTabClose;
+
+            tabControl1.TabPages.Add(person.name);
+            tabControl1.TabPages[tabControl1.TabPages.Count - 1].Tag = tabId;
+
+            addform(tabControl1.TabPages[tabControl1.TabPages.Count - 1], frm);
+            tabControl1.SelectedTab = tabControl1.TabPages[tabControl1.TabPages.Count - 1];
+
         }
 
 
@@ -166,21 +171,41 @@ namespace WinFormsApp2
         /// <param name="month"></param>
         public void SelectFindResult(Person person ,int year, int month=Const.GetuunDispStartGetu)
         {
-            //アクティブタブ
-            var tab = tabControl1.SelectedTab;
-            Form1 frm = (Form1)tab.Controls[0];
 
-            //現在表示されている氏名と異なる場合は氏名を選択しなおす
-            if( frm.GetCurrentPerson()!=person)
+            //現在表示されている全タブにpersonに該当するタブがあるか？
+            foreach(TabPage tp in tabControl1.TabPages)
             {
-                frm.SelectGroupAndPersonCombobox(person);
+                Form1 frm = (Form1)tp.Controls[0];
+                if (frm.GetCurrentPerson() == person)
+                {
+                    tabControl1.SelectedTab = tp;
+                    DateTime dt = new DateTime(year, month, 1);
+                    frm.DispDateView(dt);
+                    return;
+                }
             }
-
-            DateTime dt = new DateTime(year, month, 1);
-            frm.DispDateView(dt);
-
+            //タブ表示されていないメンバーはタブを追加して表示
+            AddTab(person);
 
         }
+        public void SelectFindResult(Person person)
+        {
+            //現在表示されている全タブにpersonに該当するタブがあるか？
+            foreach (TabPage tp in tabControl1.TabPages)
+            {
+                Form1 frm = (Form1)tp.Controls[0];
+                if (frm.GetCurrentPerson() == person)
+                {
+                    tabControl1.SelectedTab = tp;
+                    return;
+                }
+            }
+            //タブ表示されていないメンバーはタブを追加して表示
+            AddTab(person);
+
+        }
+
+
         /// <summary>
         /// 名簿を開く
         /// </summary>
@@ -229,7 +254,7 @@ namespace WinFormsApp2
                 foreach (var person in personList.GetPersonList())
                 {
                     //ユーザ情報初期設定
-                    //   person.Init(tblMng);
+                    person.Init(tblMng);
 
                 }
 

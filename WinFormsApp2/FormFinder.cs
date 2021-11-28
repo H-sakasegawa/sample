@@ -49,6 +49,7 @@ namespace WinFormsApp2
 
 
             Common.SetGroupCombobox(personList, cmbGroup, curGroup.groupName);
+            Common.SetGroupCombobox(personList, cmbTargetGroup, curGroup.groupName);
 
             radNattin.Checked = true;
 
@@ -76,24 +77,40 @@ namespace WinFormsApp2
                 curPerson.Init(tblMng);
 
                 Finder.FindResult result = null;
-                if (radNattin.Checked || radRittin.Checked)
+
+                if (tabControl1.SelectedIndex == 0)
                 {
-                    //納音、準納音
-                    //律音、準律音
-                    int mode = -1;
-                    if (radNattin.Checked) mode = 0;
-                    if (radRittin.Checked) mode = 1;
+                    if (radNattin.Checked || radRittin.Checked)
+                    {
+                        //納音、準納音
+                        //律音、準律音
+                        int mode = -1;
+                        if (radNattin.Checked) mode = 0;
+                        if (radRittin.Checked) mode = 1;
 
-                    result = finder.FindNattinOrRittin(curPerson, mode, chkTenchusatu.Checked, chkIncludeGetuun.Checked);
-                    if (!result.IsFinded()) return;
+                        result = finder.FindNattinOrRittin(curPerson, mode, chkTenchusatu.Checked, chkIncludeGetuun.Checked);
+                        //if (!result.IsFinded()) return;
 
+                    }
+                    else if (radKyakkaHoukai.Checked)
+                    {   //却下崩壊
+                        result = finder.FindKyakkaHoukai(curPerson);
+                        //if (!result.IsFinded()) return;
+
+                    }
                 }
-                else if (radKyakkaHoukai.Checked)
-                {   //却下崩壊
-                    result = finder.FindKyakkaHoukai(curPerson);
-                    if (!result.IsFinded()) return;
-
+                else if (tabControl1.SelectedIndex == 1)
+                {
+                    //自身の日干支と同じ干支を持つ人を検索
+                    if (radSameNikkansi.Checked)
+                    {
+                        result = finder.FindSameNikkansiInOtherMember(curPerson, (Group)cmbTargetGroup.SelectedItem);
+                    }else if (radSameAkkkansi.Checked)
+                    {
+                        result = finder.FindSameAllkkansiInOtherMember(curPerson, (Group)cmbTargetGroup.SelectedItem);
+                    }
                 }
+                
 
                 if (result == null)
                 {
@@ -103,66 +120,80 @@ namespace WinFormsApp2
 
                 lblStatus.Text = string.Format("{0}件 見つかりました。", result.lstFindItems.Count);
 
-                //表示カラム設定
-                foreach (var fmt in result.lstFormat)
-                {
-                    var colHeader = lstFindResult.Columns.Add(fmt.title, fmt.columnWidth);
-                    colHeader.Tag = fmt.type;
-                    colHeader.TextAlign = fmt.alignment;
-
-
-                }
-
-                foreach (var item in result.lstFindItems)
-                {
-                    ListViewItem lvItem = null;
-                    int unColIndex = -1;
-                    //カラム数分ループ
-                    for (int i = 0; i < item.lstItem.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            lvItem = lstFindResult.Items.Add(item.lstItem[i]);
-                        }
-                        else
-                        {
-                            lvItem.SubItems.Add(item.lstItem[i]);
-                        }
-
-
-                        if (result.lstFormat[i].type == Finder.ResultFormat.Type.UN)
-                        {
-                            unColIndex = i;
-                        }
-
-                    }
-
-                    var tagIAttr = new FindResultItem(item); //FindResultItem
-                    if (unColIndex >= 0)
-                    {
-                        switch(item.lstItem[unColIndex])
-                        {
-                            case Const.sTaiun:
-                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.PeachPuff));
-                                break;
-                            case Const.sNenun:
-                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightYellow));
-                                break;
-                            case Const.sGetuun:
-                                tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightGreen));
-                                break;
-
-                        }
-                    }
-                    lvItem.Tag = tagIAttr;
-
-
-                }
-
+                DispResult(result);
             }
             finally
             {
                 btnFind.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 検索結果表示
+        /// </summary>
+        /// <param name="result"></param>
+        private void DispResult(Finder.FindResult result)
+        {
+            //表示カラム設定
+            foreach (var fmt in result.lstFormat)
+            {
+                var colHeader = lstFindResult.Columns.Add(fmt.title, fmt.columnWidth);
+                colHeader.Tag = fmt.type;
+                colHeader.TextAlign = fmt.alignment;
+            }
+
+            foreach (var item in result.lstFindItems)
+            {
+                ListViewItem lvItem = null;
+                int unColIndex = -1;
+                //カラム数分ループ
+                for (int i = 0; i < item.lstItem.Count; i++)
+                {
+                    string str = "";
+                    if (result.lstFormat[i].type == Finder.ResultFormat.Type.OTHER_PERSON_NAME)
+                    {
+                        Person person = (Person)item.lstItem[i];
+                        str = person.name;
+                    }
+                    else
+                    {
+                        str = (string)item.lstItem[i];
+                    }
+
+
+                    if (i == 0)
+                    {
+                        lvItem = lstFindResult.Items.Add(str);
+                    }
+                    else
+                    {
+                        lvItem.SubItems.Add(str);
+                    }
+
+                    if (result.lstFormat[i].type == Finder.ResultFormat.Type.UN)
+                    {
+                        unColIndex = i;
+                    }
+                }
+
+                var tagIAttr = new FindResultItem(item); //FindResultItem
+                if (unColIndex >= 0)
+                {
+                    switch (item.lstItem[unColIndex])
+                    {
+                        case Const.sTaiun:
+                            tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.PeachPuff));
+                            break;
+                        case Const.sNenun:
+                            tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightYellow));
+                            break;
+                        case Const.sGetuun:
+                            tagIAttr.lstItemColors.Add(new LvItemColor(unColIndex, Color.LightGreen));
+                            break;
+
+                    }
+                }
+                lvItem.Tag = tagIAttr;
             }
         }
 
@@ -215,25 +246,35 @@ namespace WinFormsApp2
             var lvItem = lstFindResult.SelectedItems[0];
             Finder.FindItem findItem = ((FindResultItem)lvItem.Tag).findItem;
 
+           
 
             //YEARタイプカラムを検索
             int iColYear = GetColIndex(Finder.ResultFormat.Type.YEAR);
             int iColMonth = GetColIndex(Finder.ResultFormat.Type.MONTH);
-
-            if( iColYear<0) return; //YEARなし
-
-            int year = int.Parse(findItem.lstItem[iColYear]);
-            int month = -1;
-            if( iColMonth>=0 && !string.IsNullOrEmpty(findItem.lstItem[iColMonth]))
+            int iColOtherPersonName = GetColIndex(Finder.ResultFormat.Type.OTHER_PERSON_NAME);
+            if (iColOtherPersonName >= 0)
             {
-                month = int.Parse(findItem.lstItem[iColMonth]);
-                parentForm.SelectFindResult(findItem.person, year, month);
+                Person findPerson = (Person)findItem.lstItem[iColOtherPersonName];
+
+                parentForm.SelectFindResult(findPerson);
             }
             else
             {
-                parentForm.SelectFindResult(findItem.person, year);
-            }
 
+                if (iColYear < 0) return; //YEARなし
+
+                int year = int.Parse((string)findItem.lstItem[iColYear]);
+                int month = -1;
+                if (iColMonth >= 0 && !string.IsNullOrEmpty((string)findItem.lstItem[iColMonth]))
+                {
+                    month = int.Parse((string)findItem.lstItem[iColMonth]);
+                    parentForm.SelectFindResult(findItem.person, year, month);
+                }
+                else
+                {
+                    parentForm.SelectFindResult(findItem.person, year);
+                }
+            }
            
         }
         /// <summary>
@@ -290,8 +331,8 @@ namespace WinFormsApp2
 
             Finder finder = new Finder();
 
-            int year = int.Parse(findItem.lstItem[iColYear]);
-            string un = findItem.lstItem[iColUn];
+            int year = int.Parse((string)findItem.lstItem[iColYear]);
+            string un = (string)findItem.lstItem[iColUn];
 
             //検索対象干支取得
             Kansi kansi;
@@ -325,7 +366,7 @@ namespace WinFormsApp2
             var lvItem = lstFindResult.SelectedItems[0];
             Finder.FindItem findItem = ((FindResultItem)lvItem.Tag).findItem;
             int iColUn = GetColIndex(Finder.ResultFormat.Type.UN);
-            string un = findItem.lstItem[iColUn];
+            string un = (string)findItem.lstItem[iColUn];
 
             if (un == Const.sGetuun)
             {

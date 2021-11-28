@@ -49,10 +49,10 @@ namespace WinFormsApp2
                 }
             }
 
-            public bool IsFinded()
-            {
-                return lstFindItems.Count > 0 ? true : false;
-            }
+            //public bool IsFinded()
+            //{
+            //    return lstFindItems.Count > 0 ? true : false;
+            //}
 
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace WinFormsApp2
                 person = _person;
             }
             public Person person = null;
-            public List<string> lstItem = new List<string>();
+            public List<object> lstItem = new List<object>();
         }
         /// <summary>
         /// 検索結果表示フォーマット
@@ -76,8 +76,10 @@ namespace WinFormsApp2
             {
                 NONE = 0,
                 PERSON_NAME,
+                OTHER_PERSON_NAME,
                 YEAR,
                 MONTH,
+                KANSI,  //日干支、月干支、年干支
                 UN
 
 
@@ -614,6 +616,166 @@ namespace WinFormsApp2
             return result;
         }
 
+        /// <summary>
+        /// 自身の日干支と同じ干支を日干支、月干支、年干支に持っている
+        /// 他のメンバーを検索
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="filterGroup">検索対象範囲グループ</param>
+        /// <returns></returns>
+        public FindResult FindSameNikkansiInOtherMember(Person person, Group filterGroup)
+        {
+            FindResult result = new FindResult();
+            //検索対象日干支
+            Kansi findKansi = person.nikkansi;
 
+            Persons persons = Persons.GetPersons();
+
+
+            //検索結果表示用カラムフォーマット定義
+            result.lstFormat = new List<ResultFormat>()
+            {
+                new ResultFormat("氏名",100, HorizontalAlignment.Left, ResultFormat.Type.OTHER_PERSON_NAME),
+                new ResultFormat("Hitした相手の干支",200, HorizontalAlignment.Left, ResultFormat.Type.KANSI),
+            };
+
+
+
+            foreach (var member in persons.GetPersonList())
+            {
+                //自分以外
+                if( person == member)
+                {
+                    continue;
+                }
+                //グループフィルタが指定さ入れていた場合
+                if (filterGroup.type != Group.GroupType.ALL)
+                {
+                    if( member.group != filterGroup.groupName)
+                    {   //指定グループ外なのでSKIP
+                        continue;
+                    }
+                }
+
+                string kansi = "";
+
+                Kansi[] aryKansi = new Kansi[] { member.nikkansi, member.gekkansi, member.nenkansi };
+                string[] kansiName = new string[] { "日干支", "月干支", "年干支" };
+                for (int i=0; i<aryKansi.Length; i++)
+                {
+                    if (aryKansi[i].IsSame(findKansi))
+                    {
+                        if (!string.IsNullOrEmpty(kansi)) kansi += ",";
+                        kansi += kansiName[i];
+                    }
+                    else
+                    {
+                        //準律音の関係も含める
+                        string sRittin = person.GetRittin(member.nikkansi, findKansi);
+                        if (sRittin == Const.sJunRittin)
+                        {
+                            if (!string.IsNullOrEmpty(kansi)) kansi += ",";
+                            kansi += string.Format("<{0}>",kansiName[i]);
+                        }
+                    }
+
+                }
+ 
+
+                if (!string.IsNullOrEmpty(kansi))
+                {
+                    FindItem findItem = new FindItem(person);
+                    findItem.lstItem.Add(member);//氏名
+                    findItem.lstItem.Add(kansi);//干支
+                    result.Add(findItem);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 自身の日干支、月干支、年干支を日干支に持っている他のメンバーを検索
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="filterGroup"></param>
+        /// <returns></returns>
+        public FindResult FindSameAllkkansiInOtherMember(Person person, Group filterGroup)
+        {
+            FindResult result = new FindResult();
+            //検索対象日干支
+            Kansi[] findKansi = new Kansi[3];
+
+            //自身の日干支、月干支、年干支
+            findKansi[0] = person.nikkansi;
+            findKansi[1] = person.gekkansi;
+            findKansi[2] = person.nenkansi;
+
+            Persons persons = Persons.GetPersons();
+
+
+            //検索結果表示用カラムフォーマット定義
+            result.lstFormat = new List<ResultFormat>()
+            {
+                new ResultFormat("氏名",100, HorizontalAlignment.Left, ResultFormat.Type.OTHER_PERSON_NAME),
+                new ResultFormat("Hitした自身の干支",200, HorizontalAlignment.Left, ResultFormat.Type.KANSI),
+            };
+
+
+
+            foreach (var member in persons.GetPersonList())
+            {
+                //自分以外
+                if (person == member)
+                {
+                    continue;
+                }
+                //グループフィルタが指定さ入れていた場合
+                if (filterGroup.type != Group.GroupType.ALL)
+                {
+                    if (member.group != filterGroup.groupName)
+                    {   //指定グループ外なのでSKIP
+                        continue;
+                    }
+                }
+
+                string kansi = "";
+
+                string[] kansiName = new string[] { "日干支", "月干支", "年干支" };
+                for (int i = 0; i < findKansi.Length; i++)
+                {
+                    //他者の日干支と同じか？
+                    if (member.nikkansi.IsSame(findKansi[i]))
+                    {
+                        if (!string.IsNullOrEmpty(kansi)) kansi += ",";
+                        kansi += kansiName[i];
+                    }
+                    else
+                    {
+                        //準律音の関係も含める
+                        string sRittin = person.GetRittin(member.nikkansi, findKansi[i]);
+                        if (sRittin == Const.sJunRittin)
+                        {
+                            if (!string.IsNullOrEmpty(kansi)) kansi += ",";
+                            kansi += string.Format("<{0}>", kansiName[i]);
+                        }
+                    }
+
+                }
+
+
+                if (!string.IsNullOrEmpty(kansi))
+                {
+                    FindItem findItem = new FindItem(person);
+                    findItem.lstItem.Add(member);//氏名
+                    findItem.lstItem.Add(kansi);//干支
+                    result.Add(findItem);
+                }
+            }
+
+            return result;
+        }
+
+        
     }
 }
