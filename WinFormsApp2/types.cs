@@ -648,6 +648,7 @@ namespace WinFormsApp2
         public string destoryToName; //attrが剋するもの
     }
 
+ 
 
 
 }

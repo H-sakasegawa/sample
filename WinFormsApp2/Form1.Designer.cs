@@ -155,24 +155,14 @@ namespace WinFormsApp2
             this.txtCarrerMemo = new System.Windows.Forms.TextBox();
             this.btnTabClose = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.chkZougan = new System.Windows.Forms.CheckBox();
             this.chkJuniSinkanHou = new System.Windows.Forms.CheckBox();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.columnHeader26 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader27 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader28 = new System.Windows.Forms.ColumnHeader();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader24 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader25 = new System.Windows.Forms.ColumnHeader();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lvCareer = new System.Windows.Forms.ListView();
             this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
             this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.lstInsenDetail = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -186,8 +176,6 @@ namespace WinFormsApp2
             this.tabPage2.SuspendLayout();
             this.grpGogyouGotoku.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.tabPage5.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.SuspendLayout();
@@ -1487,16 +1475,6 @@ namespace WinFormsApp2
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
-            // listBox1
-            // 
-            this.listBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(315, 165);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(115, 199);
-            this.listBox1.TabIndex = 74;
-            // 
             // chkZougan
             // 
             this.chkZougan.AutoSize = true;
@@ -1518,92 +1496,6 @@ namespace WinFormsApp2
             this.chkJuniSinkanHou.Text = "十二親干法";
             this.chkJuniSinkanHou.UseVisualStyleBackColor = true;
             this.chkJuniSinkanHou.CheckedChanged += new System.EventHandler(this.chkJuniSinkanHou_CheckedChanged);
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.listView2);
-            this.tabPage5.Location = new System.Drawing.Point(4, 24);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(265, 147);
-            this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "律音、準律音";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // listView2
-            // 
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader26,
-            this.columnHeader27,
-            this.columnHeader28});
-            this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.FullRowSelect = true;
-            this.listView2.GridLines = true;
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(3, 3);
-            this.listView2.MultiSelect = false;
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(259, 141);
-            this.listView2.TabIndex = 57;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader26
-            // 
-            this.columnHeader26.Text = "年";
-            this.columnHeader26.Width = 40;
-            // 
-            // columnHeader27
-            // 
-            this.columnHeader27.Text = "大/年";
-            this.columnHeader27.Width = 50;
-            // 
-            // columnHeader28
-            // 
-            this.columnHeader28.Text = "種別";
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.listView1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 24);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(265, 147);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "納音、準納音";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader23,
-            this.columnHeader24,
-            this.columnHeader25});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(259, 141);
-            this.listView1.TabIndex = 56;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader23
-            // 
-            this.columnHeader23.Text = "年";
-            this.columnHeader23.Width = 40;
-            // 
-            // columnHeader24
-            // 
-            this.columnHeader24.Text = "大/年";
-            this.columnHeader24.Width = 50;
-            // 
-            // columnHeader25
-            // 
-            this.columnHeader25.Text = "種別";
             // 
             // tabPage3
             // 
@@ -1649,25 +1541,34 @@ namespace WinFormsApp2
             this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Location = new System.Drawing.Point(969, 27);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(273, 175);
             this.tabControl2.TabIndex = 77;
             // 
+            // lstInsenDetail
+            // 
+            this.lstInsenDetail.FormattingEnabled = true;
+            this.lstInsenDetail.IntegralHeight = false;
+            this.lstInsenDetail.ItemHeight = 15;
+            this.lstInsenDetail.Location = new System.Drawing.Point(310, 169);
+            this.lstInsenDetail.Name = "lstInsenDetail";
+            this.lstInsenDetail.Size = new System.Drawing.Size(162, 197);
+            this.lstInsenDetail.TabIndex = 78;
+            this.lstInsenDetail.DoubleClick += new System.EventHandler(this.lstInsenDetail_DoubleClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1245, 819);
+            this.Controls.Add(this.lstInsenDetail);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.chkGotoku);
             this.Controls.Add(this.chkGogyou);
             this.Controls.Add(this.chkJuniSinkanHou);
             this.Controls.Add(this.chkZougan);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.btnTabClose);
             this.Controls.Add(this.txtCarrerMemo);
@@ -1731,8 +1632,6 @@ namespace WinFormsApp2
             this.grpGogyouGotoku.ResumeLayout(false);
             this.grpGogyouGotoku.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1867,24 +1766,14 @@ namespace WinFormsApp2
         private System.Windows.Forms.CheckBox chkRefrectHankai;
         private System.Windows.Forms.CheckBox chkRefrectSangouKaikyoku;
         private System.Windows.Forms.CheckBox chkRefrectKangou;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.CheckBox chkZougan;
         private System.Windows.Forms.CheckBox chkJuniSinkanHou;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.ListView listView2;
-        private System.Windows.Forms.ColumnHeader columnHeader26;
-        private System.Windows.Forms.ColumnHeader columnHeader27;
-        private System.Windows.Forms.ColumnHeader columnHeader28;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader23;
-        private System.Windows.Forms.ColumnHeader columnHeader24;
-        private System.Windows.Forms.ColumnHeader columnHeader25;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView lvCareer;
         private System.Windows.Forms.ColumnHeader columnHeader30;
         private System.Windows.Forms.ColumnHeader columnHeader31;
         private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.ListBox lstInsenDetail;
     }
 }
 

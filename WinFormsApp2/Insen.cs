@@ -27,7 +27,7 @@ namespace WinFormsApp2
         public Kansi gekkansi;
         public Kansi nenkansi;
 
-        public Hongen[] nikkansiHongen = null;
+        public Hongen[] nikkansiHongen = null; 
         public Hongen[] gekkansiHongen = null;
         public Hongen[] nenkansiHongen = null;
 
@@ -148,4 +148,21 @@ namespace WinFormsApp2
             return false;
         }
     }
+
+    /// <summary>
+    /// 陰占詳細データ
+    /// </summary>
+    class InsenDetail
+    {
+        public InsenDetail(string s, Const.InsenDetailType _type)
+        {
+            sText = s;
+            type = _type;
+        }
+        public Const.InsenDetailType type;
+        public string sText;
+
+        public override string ToString() { return sText; }
+    }
+
 }

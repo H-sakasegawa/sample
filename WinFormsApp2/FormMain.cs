@@ -138,6 +138,7 @@ namespace WinFormsApp2
             if(frmSerch!=null)
             {
                 frmSerch.Show();
+                return;
             }
             //アクティブタブ
             var tab = tabControl1.SelectedTab;

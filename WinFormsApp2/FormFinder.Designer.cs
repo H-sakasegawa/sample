@@ -43,6 +43,7 @@ namespace WinFormsApp2
             this.chkTenchusatu = new System.Windows.Forms.CheckBox();
             this.radKyakkaHoukai = new System.Windows.Forms.RadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.radSameAkkkansi = new System.Windows.Forms.RadioButton();
             this.radSameNikkansi = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbTargetGroup = new System.Windows.Forms.ComboBox();
@@ -52,7 +53,6 @@ namespace WinFormsApp2
             this.cmbPerson = new System.Windows.Forms.ComboBox();
             this.btnFind = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.radSameAkkkansi = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -62,9 +62,6 @@ namespace WinFormsApp2
             // 
             // lstFindResult
             // 
-            this.lstFindResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFindResult.ContextMenuStrip = this.contextMenuStrip1;
             this.lstFindResult.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstFindResult.FullRowSelect = true;
@@ -215,6 +212,16 @@ namespace WinFormsApp2
             this.tabPage2.Text = "メンバー検索";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // radSameAkkkansi
+            // 
+            this.radSameAkkkansi.AutoSize = true;
+            this.radSameAkkkansi.Location = new System.Drawing.Point(13, 60);
+            this.radSameAkkkansi.Name = "radSameAkkkansi";
+            this.radSameAkkkansi.Size = new System.Drawing.Size(263, 19);
+            this.radSameAkkkansi.TabIndex = 9;
+            this.radSameAkkkansi.Text = "自身の(日、月、年)干支を日干支に持つ人を検索";
+            this.radSameAkkkansi.UseVisualStyleBackColor = true;
+            // 
             // radSameNikkansi
             // 
             this.radSameNikkansi.AutoSize = true;
@@ -223,6 +230,7 @@ namespace WinFormsApp2
             this.radSameNikkansi.Name = "radSameNikkansi";
             this.radSameNikkansi.Size = new System.Drawing.Size(224, 19);
             this.radSameNikkansi.TabIndex = 8;
+            this.radSameNikkansi.TabStop = true;
             this.radSameNikkansi.Text = "自身の日干支と同じ干支を持つ人を検索";
             this.radSameNikkansi.UseVisualStyleBackColor = true;
             // 
@@ -302,16 +310,6 @@ namespace WinFormsApp2
             this.lblStatus.Size = new System.Drawing.Size(511, 19);
             this.lblStatus.TabIndex = 3;
             // 
-            // radSameAkkkansi
-            // 
-            this.radSameAkkkansi.AutoSize = true;
-            this.radSameAkkkansi.Location = new System.Drawing.Point(13, 60);
-            this.radSameAkkkansi.Name = "radSameAkkkansi";
-            this.radSameAkkkansi.Size = new System.Drawing.Size(263, 19);
-            this.radSameAkkkansi.TabIndex = 9;
-            this.radSameAkkkansi.Text = "自身の(日、月、年)干支を日干支に持つ人を検索";
-            this.radSameAkkkansi.UseVisualStyleBackColor = true;
-            // 
             // FormFinder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -320,7 +318,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstFindResult);
-            this.MinimumSize = new System.Drawing.Size(438, 489);
+            this.MinimumSize = new System.Drawing.Size(438, 200);
             this.Name = "FormFinder";
             this.Text = "検索";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormFinder_FormClosing);

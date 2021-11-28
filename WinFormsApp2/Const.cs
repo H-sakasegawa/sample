@@ -111,6 +111,11 @@ namespace WinFormsApp2
             COL_CAREER
         }
 
+        public enum InsenDetailType
+        {
+            INSEN_DETAIL_SANKAKUANGOU=0, //三角暗合
+        }
+
         public const string sNattin = "納音";
         public const string sJunNattin = "準納音";
 

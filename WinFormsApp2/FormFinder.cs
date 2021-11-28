@@ -23,6 +23,7 @@ namespace WinFormsApp2
 
         public event Common.CloseHandler OnClose = null;
 
+        private const string title = "検索";
 
         FormMain parentForm = null;
         TableMng tblMng;
@@ -30,6 +31,7 @@ namespace WinFormsApp2
 
         Person curPerson = null;
         Group curGroup = null;
+        bool bShowCtrlArea = true;
 
         public FormFinder(FormMain _parentForm, Group group, Person person)
         {
@@ -39,21 +41,47 @@ namespace WinFormsApp2
             curPerson = person;
             curGroup = group;
         }
+        public FormFinder(FormMain _parentForm)
+        {
+            InitializeComponent();
+
+            parentForm = _parentForm;
+            bShowCtrlArea = false;
+        }
 
         private void FormSerch_Load( object sender, EventArgs e)
         {
             tblMng = TableMng.GetTblManage();
-            personList = Persons.GetPersons();
+            if (bShowCtrlArea)
+            {
+                personList = Persons.GetPersons();
 
-            var groups = personList.GetGroups();
+                Common.SetGroupCombobox(personList, cmbGroup, curGroup.groupName);
+                Common.SetGroupCombobox(personList, cmbTargetGroup, curGroup.groupName);
 
-
-            Common.SetGroupCombobox(personList, cmbGroup, curGroup.groupName);
-            Common.SetGroupCombobox(personList, cmbTargetGroup, curGroup.groupName);
-
-            radNattin.Checked = true;
+                radNattin.Checked = true;
+            }
+            else
+            {
+                panel1.Visible = false;
+                lstFindResult.Dock = DockStyle.Fill;
+            }
 
         }
+
+        /// <summary>
+        /// 三角暗合が活性化する大運、年運をリストアップ
+        /// </summary>
+        /// <param name="_parentForm"></param>
+        public void FindSankakuAngouActive( Person person)
+        {
+            this.Text = string.Format("{0} : {1}", title, "三角暗合が活性化する大運、年運");
+            Finder finder = new Finder();
+            var result = finder.FindSankakuAngouActive(person);
+
+            DispResult(result);
+        }
+
 
         /// <summary>
         /// 検索開始
@@ -110,16 +138,6 @@ namespace WinFormsApp2
                         result = finder.FindSameAllkkansiInOtherMember(curPerson, (Group)cmbTargetGroup.SelectedItem);
                     }
                 }
-                
-
-                if (result == null)
-                {
-                    lblStatus.Text = string.Format("該当項目は見つかりませんでした。");
-                    return;
-                }
-
-                lblStatus.Text = string.Format("{0}件 見つかりました。", result.lstFindItems.Count);
-
                 DispResult(result);
             }
             finally
@@ -134,6 +152,15 @@ namespace WinFormsApp2
         /// <param name="result"></param>
         private void DispResult(Finder.FindResult result)
         {
+
+            if (result == null)
+            {
+                lblStatus.Text = string.Format("該当項目は見つかりませんでした。");
+                return;
+            }
+
+            lblStatus.Text = string.Format("{0}件 見つかりました。", result.lstFindItems.Count);
+
             //表示カラム設定
             foreach (var fmt in result.lstFormat)
             {

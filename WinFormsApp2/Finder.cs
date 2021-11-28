@@ -776,6 +776,84 @@ namespace WinFormsApp2
             return result;
         }
 
-        
+        /// <summary>
+        /// 三角暗合の活性化大運、年運検索
+        /// 蔵元に見つかった月干支の干と干合にある文字が現れる大運、年運をリストアップ
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        public FindResult FindSankakuAngouActive(Person person)
+        {
+            FindResult result = new FindResult();
+            string sTarget = person.GetSAnkakuAngouStr();
+            if (string.IsNullOrEmpty(sTarget)) return result;
+
+
+            //検索結果表示用カラムフォーマット定義
+            result.lstFormat = new List<ResultFormat>()
+            {
+                new ResultFormat("年",50, HorizontalAlignment.Right, ResultFormat.Type.YEAR),
+                new ResultFormat("運",50, HorizontalAlignment.Left, ResultFormat.Type.UN),
+            };
+
+            //大運干支
+            var lstTaiunKansi = person.GetTaiunKansiList();
+
+            foreach (var item in lstTaiunKansi)
+            {
+                Kansi taiunKansi = person.GetKansi(item.kansiNo);
+                if (taiunKansi.kan == sTarget)
+                {
+                    //発見！
+                    FindItem findItem = new FindItem(person);
+                    findItem.lstItem.Add(item.year.ToString()); //年
+                    findItem.lstItem.Add(Const.sTaiun); //"大運"
+
+                    result.Add(findItem);
+                }
+                //年運・月運検索
+                result.Add(FindSankakuAngouActiveNenuni(person,
+                                                        item.year,
+                                                        sTarget
+                                                        ));
+            }
+
+
+
+            return result;
+        }
+
+        private FindResult FindSankakuAngouActiveNenuni(Person person,
+                                                         int year,
+                                                         string findStr
+                                                         )
+        {
+            FindResult result = new FindResult();
+            //年運検索
+            int nenunKansi = person.GetNenkansiNo(year, true);
+
+            for (int nenCnt = 0; nenCnt < 10; nenCnt++)
+            {
+                //順行のみなので、60超えたら1にするだけ
+                if (nenunKansi > 60) nenunKansi = 1;
+                Kansi nenkansi = person.GetKansi(nenunKansi);
+                int targetYear = year + nenCnt;
+
+                if (nenkansi.kan == findStr)
+                {
+                    //発見！
+                    FindItem findItem = new FindItem(person);
+                    //findItem.lstItem.Add(person.name);
+                    findItem.lstItem.Add(targetYear.ToString());//年
+                    findItem.lstItem.Add(Const.sNenun); // "年運"
+
+                    result.Add(findItem);
+                }
+ 
+                nenunKansi += 1;
+            }
+
+            return result;
+        }
     }
 }

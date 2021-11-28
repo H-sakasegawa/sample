@@ -96,76 +96,12 @@ namespace WinFormsApp2
                 exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
                 personList = _persons;
-                //setuiribiTbl = new SetuiribiTable();
-                //try
-                //{
-                //    //節入り日テーブル読み込み
-                //    tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
-                //}
-                //catch (Exception e)
-                //{
-                //    MessageBox.Show(string.Format("節入り日テーブルが読み込めません。\n\n{0}", e.Message));
-                //    return;
-                //}
-
-                //try
-                //{
-                //    //名簿読み込み
-                //    personList.ReadPersonList(exePath + @"\名簿.xls");
-                //}
-                //catch (Exception e)
-                //{
-                //    MessageBox.Show(string.Format("名簿.xlsが読み込めません。\n{0}", e.Message));
-                //    return;
-                //}
-
-
-
-
-                //----------------------------------------------
-                //ラベルの組み合わせを登録
-                //----------------------------------------------
-                ////日干支 ラベル
-                //lstLblNikkansi = new List<Label>() { lblNikkansi1, lblNikkansi2 };
-                ////月干支 ラベル
-                //lstLblGekkansi = new List<Label>() { lblGekkansi1, lblGekkansi2 };
-                ////年干支 ラベル
-                //lstLblNenkansi = new List<Label>() { lblNenkansi1, lblNenkansi2 };
-
-                ////日干支 天中殺 ラベル
-                //lstLblNikkansiTenchusatu = new List<Label>() { lblNikkansiTenchusatu1, lblNikkansiTenchusatu2 };
-                ////年干支 天中殺 ラベル
-                //lstLblNenkansiTenchusatu = new List<Label>() { lblNenkansiTenchusatu1, lblNenkansiTenchusatu2 };
-
-                //未使用
-                ////日干支 二十八元素 ラベル
-                //lstLblNikkansiNijuhachiGenso = new List<Label>() { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-                ////月干支 二十八元素 ラベル
-                //lstLblGekkansiNijuhachiGenso = new List<Label>() { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-                ////年干支 二十八元素 ラベル
-                //lstLblNenkansiNijuhachiGenso = new List<Label>() { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
-
-
-                //lstLblNikkansiZougan = new List<Label> { lblNikkansiShogen, lblNikkansiChugen, lblNikkansiHongen };
-                //lstLblGekkansiZougan = new List<Label> { lblGekkansiShogen, lblGekkansiChugen, lblGekkansiHongen };
-                //lstLblNenkansiZougan = new List<Label> { lblNenkansiShogen, lblNenkansiChugen, lblNenkansiHongen };
 
                 lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
                 lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
 
                 txtNikkansiSanshutuSu_TextChanged(null, null);
 
-
-
-                //int baseYear = 0;
-                //int baseMonth = 0;
-                //int baseDay = 0;
-                //int baseNenkansi = 0;
-                //int baseGekkansi = 0;
-                //int baseNikkansiSanshutusuu = 0;
-                ////節入り日テーブルの先頭データを基準に基準情報を取得
-                //tblMng.setuiribiTbl.GetBaseSetuiribiData(ref baseYear, ref baseMonth, ref baseDay,
-                //                                  ref baseNenkansi, ref baseGekkansi, ref baseNikkansiSanshutusuu);
                 txtBaseYear.Text = tblMng.setuiribiTbl.baseYear.ToString();
                 txtBaseMonth.Text = tblMng.setuiribiTbl.baseMonth.ToString();
                 txtBaseDay.Text = tblMng.setuiribiTbl.baseDay.ToString();
@@ -184,17 +120,10 @@ namespace WinFormsApp2
 
 
                 grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
-                //chkRefrectHousani.Enabled = false;
 
                 //グループコンボボックス設定
                 UpdateGroupCombobox();
 
-                //Properties.Settings.Default.Reload();
-
-                //if (cmbGroup.Items.Contains(Properties.Settings.Default.Group))
-                //{
-                //    cmbGroup.Text = Properties.Settings.Default.Group;
-                //}
                 if (targetPerson == null)
                 {
                     ReloadSetting();
@@ -211,8 +140,6 @@ namespace WinFormsApp2
                     button7.Visible = false;
                     button8.Visible = false;
                     button9.Visible = false;
-
-
                 }
             }
             finally
@@ -229,17 +156,17 @@ namespace WinFormsApp2
             {
                 bControlEventEnable = false;
 
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            SetInitComboBox( config, "Group", cmbGroup);
-            SetInitComboBox( config, "Name", cmbPerson);
+                SetInitComboBox( config, "Group", cmbGroup);
+                SetInitComboBox( config, "Name", cmbPerson);
 
-            SetInitCheckBox(config, "Getuun", chkDispGetuun);
-            SetInitCheckBox(config, "Nenun", chkDispNenun);
-            SetInitCheckBox(config, "Taiun", chkDispTaiun);
-            SetInitCheckBox(config, "SangouKaikyoku", chkSangouKaikyoku);
-            SetInitCheckBox(config, "Gogyou", chkGogyou);
-            SetInitCheckBox(config, "Gotoku", chkGotoku);
+                SetInitCheckBox(config, "Getuun", chkDispGetuun);
+                SetInitCheckBox(config, "Nenun", chkDispNenun);
+                SetInitCheckBox(config, "Taiun", chkDispTaiun);
+                SetInitCheckBox(config, "SangouKaikyoku", chkSangouKaikyoku);
+                SetInitCheckBox(config, "Gogyou", chkGogyou);
+                SetInitCheckBox(config, "Gotoku", chkGotoku);
 
             }
             finally
@@ -249,6 +176,13 @@ namespace WinFormsApp2
 
 
         }
+
+        /// <summary>
+        /// セッティング情報からコンボボックスの選択状態を設定
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="keyName"></param>
+        /// <param name="cmb"></param>
         public void SetInitComboBox(Configuration config, string keyName, ComboBox cmb)
         {
             string sValue = config.AppSettings.Settings[keyName].Value;
@@ -264,6 +198,12 @@ namespace WinFormsApp2
                 }
             }
         }
+        /// <summary>
+        /// セッティング情報からチェックボックスの選択状態を設定
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="keyName"></param>
+        /// <param name="chk"></param>
         public void SetInitCheckBox(Configuration config, string keyName, CheckBox chk)
         {
             string sValue = config.AppSettings.Settings[keyName].Value;
@@ -272,6 +212,11 @@ namespace WinFormsApp2
                 chk.Checked = bool.Parse(sValue);
             }
         }
+        /// <summary>
+        /// フォーム終了時処理（セッティング情報保存）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (tabId==0)
@@ -340,7 +285,10 @@ namespace WinFormsApp2
             }
 
         }
-
+        /// <summary>
+        /// 引数で指定された人に対応するグループと氏名コンボボックスの表示を設定
+        /// </summary>
+        /// <param name="person"></param>
         public void SelectGroupAndPersonCombobox(Person person)
         {
             string groupName = person.group;
@@ -488,23 +436,6 @@ namespace WinFormsApp2
                 var idxGekkansiGensoType = (int)nijuhachiGensoGekkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
                 var idxNenkaisiGensoType = (int)nijuhachiGensoNenkansi.GetTargetGensoType(person.dayNumFromSetuiribi);
 
-                //foreach (var Value in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
-                //{
-                //    Label label = lstLblNikkansiZougan[(int)Value];
-                //    label.Text = nijuhachiGensoNikkansi.genso[(int)Value].name;
-                //    if(idxNikkansiGensoType== (int)Value) Common.SetBold(label, true);
-                //    else                                  Common.SetBold(label, false);
-
-                //    label = lstLblGekkansiZougan[(int)Value];
-                //    label.Text = nijuhachiGensoGekkansi.genso[(int)Value].name;
-                //    if (idxGekkansiGensoType == (int)Value) Common.SetBold(label, true);
-                //    else                                    Common.SetBold(label, false);
-
-                //    label = lstLblNenkansiZougan[(int)Value];
-                //    label.Text = nijuhachiGensoNenkansi.genso[(int)Value].name;
-                //    if (idxNenkaisiGensoType == (int)Value) Common.SetBold(label, true);
-                //    else                                    Common.SetBold(label, false);
-                //}
                 //============================================================
                 //支合、半会、干合、方三位、三合会局反映チェックボックス
                 //============================================================
@@ -513,6 +444,7 @@ namespace WinFormsApp2
                 chkRefrectKangou.Checked = person.bRefrectKangou;
                 chkRefrectHousani.Checked = person.bRefrectHousani;
                 chkRefrectSangouKaikyoku.Checked = person.bRefrectSangouKaikyoku;
+
 
                 //============================================================
                 //陰占
@@ -540,6 +472,9 @@ namespace WinFormsApp2
                 //============================================================
                 DispShukumei(person, pictureBox1);
 
+
+
+
             }finally
             {
                 bControlEventEnable = true;
@@ -547,6 +482,8 @@ namespace WinFormsApp2
             }
 
         }
+
+
 
         //経歴一覧表
         private void DispCarrerList(Person person)
@@ -1063,10 +1000,9 @@ namespace WinFormsApp2
 
         }
 
-    
-
-
-
+        //==================================================================
+        // 宿命図表示
+        //==================================================================
         /// <summary>
         /// 宿命図表示
         /// </summary>
@@ -1077,7 +1013,46 @@ namespace WinFormsApp2
             drawInsen = new DrawInsen(person, pictureBox, true, true);
             drawInsen.Draw();
 
+            DispInsenDetailInfo(person);
+
         }
+
+        /// <summary>
+        /// 陰占　詳細データ表示
+        /// </summary>
+        /// <param name="person"></param>
+        private void DispInsenDetailInfo(Person person)
+        {
+            lstInsenDetail.Items.Clear();
+            //三角暗合
+            if (person.IsSankakuAngou())
+            {
+                lstInsenDetail.Items.Add(new InsenDetail("三角暗合", Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU));
+            }
+
+        }
+        /// <summary>
+        /// 陰占　詳細情報リストボックスダブルクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lstInsenDetail_DoubleClick(object sender, EventArgs e)
+        {
+            var item = (InsenDetail)lstInsenDetail.SelectedItem;
+
+            switch(item.type)
+            {
+                case Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU:
+                    FormFinder frm = new FormFinder((FormMain)mainForm);
+                    frm.Show();
+                    lstModlessForms.Add(frm);
+                    frm.FindSankakuAngouActive(curPerson);
+
+                    break;
+
+            }
+        }
+
 
 
         //============================================================
@@ -1957,7 +1932,7 @@ namespace WinFormsApp2
         {
             if (onCloseTab != null) onCloseTab(tabId);
         }
-
+ 
 
 
 

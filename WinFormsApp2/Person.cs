@@ -1781,6 +1781,52 @@ namespace WinFormsApp2
             customImigami.Remove(attr);
         }
 
+        public string GetSAnkakuAngouStr()
+        {
+            TableMng tblMng = TableMng.GetTblManage();
+            return  tblMng.kangouTbl.GetKangouOtherStr(gekkansi.kan);
+        }
+
+        /// <summary>
+        /// 三角暗合 判定
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSankakuAngou()
+        {
+            Insen insen = new Insen(this);
+
+            var nikkansiHongen = insen.GetNikkansiHongen();
+            var nenkansiiHOngen = insen.GetNenkansiHongen();
+
+            //月干支の干と干合する文字
+
+            string sTarget = GetSAnkakuAngouStr();
+            if (sTarget == null) return false;
+
+            //三角暗合 判定
+            bool bResult1 = false;
+            bool bResult2 = false;
+            foreach (var s in nikkansiHongen)
+            {
+                if (s == sTarget)
+                {
+                    bResult1 = true;
+                    break;
+                }
+            }
+            foreach (var s in nenkansiiHOngen)
+            {
+                if (s == sTarget)
+                {
+                    bResult2 = true;
+                    break;
+                }
+            }
+
+            return bResult1 && bResult2;
+
+        }
+
 
     }
 

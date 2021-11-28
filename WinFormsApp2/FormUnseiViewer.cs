@@ -155,7 +155,6 @@ namespace WinFormsApp2
 
         private int AddColmnOnPerson(Person person,Color bkColor)
         {
-            int idx;
             int cnt = 0;
             DataGridViewColumn column = new DataGridViewColumn();
 
