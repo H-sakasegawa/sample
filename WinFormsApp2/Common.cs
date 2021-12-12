@@ -16,6 +16,8 @@ namespace WinFormsApp2
 
         public delegate void CloseHandler(Form frm);
 
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto, CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
+        private static extern short GetKeyState(int nVirtKey);
 
         /// <summary>
         /// 経過月数計算
@@ -409,6 +411,20 @@ namespace WinFormsApp2
 
             return new Font(PreferedFont.FontFamily, ScaleFontSize);
         }
+
+        //============
+        // 指定キー押下状態調査メソッド
+        // 指定のキーが押下状態か調査するメソッドです。
+        // 第１引数: 調査対象のキーを示すKeys列挙体
+        // 戻り値: 判定結果 true:押下 / false:非押下
+        public static bool IsKeyLocked(System.Windows.Forms.Keys Key_Value)
+        {
+            // WindowsAPIで押下判定
+            bool Key_State = (GetKeyState((int) Key_Value) & 0x80) != 0;
+            return Key_State;
+        
+        }
+
     }
 
 }

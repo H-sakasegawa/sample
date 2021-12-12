@@ -250,7 +250,9 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button7_Click_1(object sender, EventArgs e)
         {
-            FormPersonInfo frm = new FormPersonInfo(personList, FormPersonInfo.Mode.MODE_NEW);
+            //現在画面で選択されているグループ
+            string grpName = cmbGroup.Text;
+            FormPersonInfo frm = new FormPersonInfo(personList, grpName, FormPersonInfo.Mode.MODE_NEW);
             if( frm.ShowDialog() == DialogResult.OK)
             {
                 SelectGroupAndPersonCombobox(curPerson);

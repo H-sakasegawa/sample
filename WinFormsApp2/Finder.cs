@@ -671,7 +671,7 @@ namespace WinFormsApp2
                     else
                     {
                         //準律音の関係も含める
-                        string sRittin = person.GetRittin(member.nikkansi, findKansi);
+                        string sRittin = person.GetRittin(aryKansi[i], findKansi);
                         if (sRittin == Const.sJunRittin)
                         {
                             if (!string.IsNullOrEmpty(kansi)) kansi += ",";

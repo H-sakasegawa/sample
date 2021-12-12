@@ -1238,7 +1238,7 @@ namespace WinFormsApp2
                                           new ShugoSin( new string[]{ "癸", "丁", "庚" },       EnmSugosinCond.Natu_Ato,     "土性") } },
                 { "甲未", new ShugoSin[]{ new ShugoSin( new string[]{ "庚", "丁", "癸" },       EnmSugosinCond.None,         "土性"),
                                           new ShugoSin( new string[]{ "庚", "癸", "丁" },       EnmSugosinCond.Hi_2num,      "土性") } },
-                { "甲申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚" },             EnmSugosinCond.None,         "木性",   "特に癸水が忌神") } },
+                { "甲申", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚" },             EnmSugosinCond.None,         "水性",   "特に癸水が忌神") } },
                 { "甲酉", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "丙" },       EnmSugosinCond.None,         "水性",   "特に癸水が忌神") } },
                 { "甲戌", new ShugoSin[]{ new ShugoSin( new string[]{ "丁", "庚", "壬" },       EnmSugosinCond.None,         "土性)"),
                                           new ShugoSin( new string[]{ "丁", "庚", "壬" },       EnmSugosinCond.Ki_Toukan,    "土性・癸水"),

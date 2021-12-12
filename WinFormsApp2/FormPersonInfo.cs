@@ -20,12 +20,14 @@ namespace WinFormsApp2
         Mode mode;
         Persons personList;
         Person updatePerson;
+        string initGroupName=null;
 
-        public FormPersonInfo(Persons _personList, Mode _mode)
+        public FormPersonInfo(Persons _personList, string _initGroupName, Mode _mode)
         {
             InitializeComponent();
             mode = _mode;
             personList = _personList;
+            initGroupName =_initGroupName;
         }
         public FormPersonInfo(Persons _personList, Person person, Mode _mode)
         {
@@ -46,9 +48,18 @@ namespace WinFormsApp2
 
             if ( mode == Mode.MODE_NEW )
             {
-                if (cmbGroup.Items.Count > 0)
+                //初期選択グループ名が指定されていない場合
+                if (string.IsNullOrEmpty(initGroupName))
                 {
-                    cmbGroup.SelectedIndex = 0;
+                    if (cmbGroup.Items.Count > 0)
+                    {
+                        cmbGroup.SelectedIndex = 0;
+                    }
+                }
+                else
+                {
+                    //初期選択グループ名が指定されている場合
+                    cmbGroup.Text = initGroupName;
                 }
             }
             else

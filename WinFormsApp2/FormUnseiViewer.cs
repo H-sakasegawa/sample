@@ -45,6 +45,7 @@ namespace WinFormsApp2
         int grpItemCnt =0;
         uint MAX_YEAR_RANGE = 120;
         Color basePersonColor = Color.PaleTurquoise;
+        int koutenunRectWidth = 35;
 
         bool bRowSelectEvent = false;
 
@@ -102,11 +103,28 @@ namespace WinFormsApp2
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.MouseWheel += OnFlowLayoutPanel_Wheel;
 
             DispListItem();
 
             bInitializeLoad = false;
 
+        }
+
+        private void OnFlowLayoutPanel_Wheel(object sender, MouseEventArgs e)
+        {
+            //if (Common.IsKeyLocked(System.Windows.Forms.Keys.ControlKey))
+            //{
+            //    int flg = 1;
+            //    if (e.Delta < 0) flg = -1;
+            //    //処理
+            //    koutenunRectWidth += (2 * flg);
+            //    DrawKoutenun();
+            //    e.
+
+
+            //}
+           
         }
 
         private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
@@ -593,7 +611,7 @@ namespace WinFormsApp2
             PictureBox pictureBox = new PictureBox();
            // pictureBox.BorderStyle = BorderStyle.FixedSingle;
             pictureBox.Dock = DockStyle.Fill;
-            pictureBox.SizeChanged += KoutenunPicture_OnSizeChanged;
+           // pictureBox.SizeChanged += KoutenunPicture_OnSizeChanged;
 
             SplitContainer sc = new SplitContainer();
             sc.IsSplitterFixed = true;
@@ -604,8 +622,13 @@ namespace WinFormsApp2
             sc.SplitterDistance = lbl.Height; //分割パネル上側の高さ設定
             sc.Panel1.Controls.Add(lbl);        //分割パネル上側に回数ラベルを追加
             sc.Panel2.Controls.Add(pictureBox); //分割パネル下側に後天運表示ピクチャーボックスを追加
-            sc.Width = 200;
+            sc.Width = 200;  //この幅は、DrawKoutenun()で再設定されます。
             sc.Height = 200; //この高さは、DrawKoutenun()で再設定されます。
+
+            pictureBox.SizeChanged += KoutenunPicture_OnSizeChanged;
+
+            //for debug
+            sc.BorderStyle = BorderStyle.FixedSingle;
 
             flowLayoutPanel1.Controls.Add(sc);
             lstKoutenUn.Add(new KoutenUn(person, sc, pictureBox));
@@ -617,14 +640,37 @@ namespace WinFormsApp2
             var item = lstKoutenUn.FirstOrDefault(x => x.person.name == person.name);
             if (item == null) return;
 
-            flowLayoutPanel1.Controls.Remove(item.sc);
+            SetPictureEvent(false);
+            {
+                flowLayoutPanel1.Controls.Remove(item.sc);
+            }
+            SetPictureEvent(true);
             lstKoutenUn.Remove(item);
         }
         private void RemoveKoutenunAll()
         {
-            flowLayoutPanel1.Controls.Clear();
+            SetPictureEvent(false);
+            {
+                flowLayoutPanel1.Controls.Clear();
+            }
+            SetPictureEvent(true);
 
             lstKoutenUn.Clear();
+        }
+
+        /// <summary>
+        /// 後天運描画ピクチャーボックスのサイズ変更イベントの有効・無効設定
+        /// </summary>
+        /// <param name="bActive"></param>
+        private void SetPictureEvent(bool bActive)
+        {
+
+            foreach (SplitContainer sc in flowLayoutPanel1.Controls)
+            {
+                PictureBox picture = (PictureBox)sc.Panel2.Controls[0];
+                if (!bActive) picture.SizeChanged -= KoutenunPicture_OnSizeChanged;
+                else picture.SizeChanged += KoutenunPicture_OnSizeChanged;
+            }
         }
 
         public void DrawKoutenun()
@@ -671,12 +717,19 @@ namespace WinFormsApp2
                                         false,           //十二親干法
                                         10               //フォントサイズ
                                         );
-            drawItem2.rangeWidth = 35;
+            drawItem2.rangeWidth = koutenunRectWidth;
             drawItem2.Draw();
-            koutenun.sc.Height = drawItem2.CalcDrawAreaSize().Height + koutenun.sc.SplitterDistance + koutenun.sc.SplitterWidth;
+
+            SetPictureEvent(false);
+            {
+                koutenun.sc.Width = drawItem2.CalcDrawAreaSize().Width + koutenun.sc.SplitterWidth;
+                koutenun.sc.Height = drawItem2.CalcDrawAreaSize().Height + koutenun.sc.SplitterDistance + koutenun.sc.SplitterWidth;
+            }
+            SetPictureEvent(true);
+            drawItem2.Draw();
         }
 
-        
+
         private void KoutenunPicture_OnSizeChanged(object sender, EventArgs e)
         {
             KoutenUn item = lstKoutenUn.FirstOrDefault(x => x.picture == sender);

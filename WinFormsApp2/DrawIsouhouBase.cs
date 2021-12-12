@@ -293,7 +293,7 @@ namespace WinFormsApp2
         /// <summary>
         /// 描画処理メイン
         /// </summary>
-        public void Draw()
+        public void Draw(double magnification = 1.0)
         {
             matrix.Clear();
             matrixBottom.Clear();
@@ -311,8 +311,20 @@ namespace WinFormsApp2
 
             g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             DrawItem(g);
+            if (magnification == 1.0)
+            {
+                pictureBox.Image = canvas;
+            }
+            else
+            {
+                int width = (int)(pictureBox.Width * magnification);
+                int height = (int)(pictureBox.Height * magnification);
+                Bitmap canvas2 = new Bitmap(width, height);
+                var g2 = Graphics.FromImage(canvas2);
+                g2.DrawImage(canvas, 0, 0, width, height);
 
-            pictureBox.Image = canvas;
+                pictureBox.Image = canvas2;
+            }
 
         }
         int redColorItemBit = 0;
