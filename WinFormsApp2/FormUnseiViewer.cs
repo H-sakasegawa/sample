@@ -544,7 +544,8 @@ namespace WinFormsApp2
             //大運干支表示
             var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year);
             //年運情報取得
-            var nenunItem = Common.GetNenunGetuunItems(person, title, targetkansiNo, taiunKansi);
+            Kansi nenunKansi = person.GetKansi(targetkansiNo);
+            var nenunItem = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, null, Const.bitFlgNenun);
 
             var row = grdViewNenUn.Rows[idxRow];
 

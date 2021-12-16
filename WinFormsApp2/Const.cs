@@ -94,6 +94,7 @@ namespace WinFormsApp2
             COL_GOUHOUSANPOU_NITI,
             COL_GOUHOUSANPOU_GETU,
             COL_GOUHOUSANPOU_NEN,
+            COL_DETAIL,
             COL_CAREER
         }
         /// <summary>
@@ -108,12 +109,15 @@ namespace WinFormsApp2
             COL_GOUHOUSANPOU_NITI,
             COL_GOUHOUSANPOU_GETU,
             COL_GOUHOUSANPOU_NEN,
+            COL_DETAIL,
             COL_CAREER
         }
 
         public enum InsenDetailType
         {
-            INSEN_DETAIL_SANKAKUANGOU=0, //三角暗合
+            NONE = 0,
+            INSEN_DETAIL_SANKAKUANGOU, //三角暗合
+            INSEN_DETAIL_KYOKITOUKAN0, //虚気透干
         }
 
         public const string sNattin = "納音";

@@ -182,6 +182,20 @@ namespace WinFormsApp2
             kangou = person.GetKangoStr(taiunKansi, person.nenkansi); //干合
             item.sItems[(int)Const.ColTaiun.COL_GOUHOUSANPOU_NEN] = (Common.GetListViewItemString(gouhouSanpoui, kangou, nanasatu));
 
+            //--------------------------------
+            //詳細
+            //--------------------------------
+            string detail = "";
+            //虚気透干
+            KyokiToukan kyokiTokan = new KyokiToukan();
+            if(kyokiTokan.IsKyokiTokan_Koutenun(person, taiunKansi, null, null, Const.bitFlgTaiun))
+            {
+                detail += "虚気";
+            }
+
+
+            item.sItems[(int)Const.ColTaiun.COL_DETAIL] = detail;
+
             //天中殺
             Color color = Color.Black;
             foreach( var tenchusatu in person.nikkansi.tenchusatu.ToArray() )
@@ -258,14 +272,22 @@ namespace WinFormsApp2
         /// <param name="targetkansiNo"></param>
         /// <param name="taiunKansi"></param>
         /// <returns></returns>
-        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, int targetkansiNo, Kansi taiunKansi)
+        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, Kansi taiunKansi, Kansi nenunKansi, Kansi getuunKansi, int bitTarget)
         {
             NenunGetuunItems item = new NenunGetuunItems();
             TableMng tblMng = TableMng.GetTblManage();
 
             item.title = title;
+            Kansi targetKansi;
+            if (bitTarget == Const.bitFlgNenun)
+            {
+                targetKansi = nenunKansi;
+            }
+            else
+            {
+                targetKansi = getuunKansi;
+            }
 
-            Kansi targetKansi = person.GetKansi(targetkansiNo);
             item.targetKansi = targetKansi;
 
             int idxNanasatuItem = 0;
@@ -302,6 +324,17 @@ namespace WinFormsApp2
             nanasatu = (person.IsNanasatu(targetKansi, person.nenkansi, ref idxNanasatuItem) == true && idxNanasatuItem == 1) ? Const.sNanasatu : "";   //七殺
             item.sItems[(int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN] = GetListViewItemString(gouhouSanpoui, kangou, nanasatu);
 
+            //--------------------------------
+            //詳細
+            //--------------------------------
+            string detail = "";
+            //虚気透干
+            KyokiToukan kyokiTokan = new KyokiToukan();
+            if (kyokiTokan.IsKyokiTokan_Koutenun(person, taiunKansi, targetKansi, getuunKansi, bitTarget))
+            {
+                detail += "虚気";
+            }
+            item.sItems[(int)Const.ColTaiun.COL_DETAIL] = detail;
 
             //天中殺
             item.colorTenchusatu = Color.Black;

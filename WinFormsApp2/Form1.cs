@@ -932,12 +932,14 @@ namespace WinFormsApp2
                 //順行のみなので、60超えたら1にするだけ
                 //if (gekkansiNo > 60) gekkansiNo = 1;
 
-                AddNenunGetuunItem(person, 
+                AdGetuunItem(person, 
                                     mMonth, 
                                     string.Format("{0}月", mMonth),
                                     gekkansiNo,
                                     taiunItemData.kansi,
-                                    lvGetuun
+                                    nenunKansi,
+                                    lvGetuun,
+                                    Const.bitFlgGetuun
                                     );
                 gekkansiNo += 1;
             }
@@ -958,18 +960,33 @@ namespace WinFormsApp2
         private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,ListView lv)
         {
 
-            AddNenunGetuunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, lv);
+            AddNenunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, lv, Const.bitFlgNenun);
             var lvItem = lv.Items[lv.Items.Count - 1];
-
+             //経歴情報
             lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
 
 
         }
 
-        private void AddNenunGetuunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi, ListView lv)
+        private void AddNenunItem(Person person, int rowKeyValue, string title, int nenunkansiNo, Kansi taiunKansi, ListView lv, int bitTarget)
+        {
+            Kansi nenunKansi = person.GetKansi(nenunkansiNo);
+
+            var item = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, null, bitTarget);
+            AddNenunGetuunItem(rowKeyValue, title, item, lv);
+        }
+
+        private void AdGetuunItem(Person person, int rowKeyValue, string title, int getuunKansiNo, Kansi taiunKansi,Kansi nenunKansi, ListView lv, int bitTarget)
+        {
+            Kansi getuunKansi = person.GetKansi(getuunKansiNo);
+            var item = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, getuunKansi, bitTarget);
+            AddNenunGetuunItem(rowKeyValue, title, item, lv);
+        }
+
+        private void AddNenunGetuunItem(  int rowKeyValue, string title, Common.NenunGetuunItems item, ListView lv)
         {
 
-            var item = Common.GetNenunGetuunItems(person,  title, targetkansiNo, taiunKansi);
+           // var item = Common.GetNenunGetuunItems(person,  title, targetkansiNo, taiunKansi, bitTarget);
 
     
             var lvItem = lv.Items.Add(title);
@@ -1032,6 +1049,11 @@ namespace WinFormsApp2
                 lstInsenDetail.Items.Add(new InsenDetail("三角暗合", Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU));
             }
 
+            KyokiToukan kyokiToukan = new KyokiToukan();
+            if(kyokiToukan.IsKyokiTokan_Shukumei(person))
+            {
+                lstInsenDetail.Items.Add(new InsenDetail("虚気透干", Const.InsenDetailType.INSEN_DETAIL_KYOKITOUKAN0));
+            }
         }
         /// <summary>
         /// 陰占　詳細情報リストボックスダブルクリック

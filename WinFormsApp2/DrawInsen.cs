@@ -229,6 +229,7 @@ namespace WinFormsApp2
             DrawInsenKansi(insen.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansiKan.color);
             DrawInsenKansi(insen.nenkansi, rectNenkansiKan, rectNenkansiSi,colorNenkansiKan.color);
 
+            //蔵元 
             if (bDispZougan)
             {
                 foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
