@@ -665,6 +665,8 @@ namespace WinFormsApp2
         public bool bShugosin = false; //true...守護神
         public bool bImigami=false;   //true...忌神
         public bool bKyokiToukan = false; //true..虚気
+        public int kyokiTargetBit = 0;  //虚気と判定された干支を指すビット
+        public string kyokiTargetAtrr = null;  //虚気と判定された属性
     }
     //====================================================
     // 年運、月運リストビュー Itemデータ
@@ -683,6 +685,8 @@ namespace WinFormsApp2
         public bool bShugosin = false; //true...守護神
         public bool bImigami = false;   //true...忌神
         public bool bKyokiToukan = false; //true..虚気
+        public int kyokiTargetBit = 0;  //虚気と判定された干支を指すビット
+        public string kyokiTargetAtrr = null;  //虚気と判定された属性
     }
 
 

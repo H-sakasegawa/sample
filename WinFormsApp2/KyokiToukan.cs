@@ -15,250 +15,169 @@ namespace WinFormsApp2
 
         class ChkData
         {
-            public ChkData(string _name, bool _bIgnoreTarget=false, bool _bKan = true)
+            public ChkData(string _name, int _bitTargetType, bool _bIgnoreKyokiTarget=false, bool _bKan = true)
             {
                 name = _name;
-                bIgnoreTarget = _bIgnoreTarget;
+                bitTargetType = _bitTargetType;
+                bIgnoreKyokiTarget = _bIgnoreKyokiTarget;
                 bKan = _bKan;
             }
             public string name;
-            public bool bIgnoreTarget;
+            public int bitTargetType;
+            public bool bIgnoreKyokiTarget;
             public bool bKan;
+        }
+
+        public class KyokiChkResult
+        {
+            public KyokiChkResult()
+            {
+                kyokiAttr = null;
+                kyokiItemBit = 0;
+            }
+
+            public string kyokiAttr;
+            public int kyokiItemBit;
         }
 
         public bool IsKyokiTokan_Shukumei(Person person)
         {
-            string gogyouAttr = null;
             //int chkRangeBit = Const.bitFlgNiti | Const.bitFlgGetu | Const.bitFlgNen;
             Insen insen = new Insen(person);
 
             List<ChkData> aryChkData = new List<ChkData>
             {
-                new ChkData(person.nikkansi.kan), //日干
-                new ChkData(person.gekkansi.kan), //月干
-                new ChkData(person.nenkansi.kan), //年干
+                new ChkData(person.nikkansi.kan, Const.bitFlgNiti), //日干
+                new ChkData(person.gekkansi.kan, Const.bitFlgGetu), //月干
+                new ChkData(person.nenkansi.kan, Const.bitFlgNen), //年干
             };
             foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
             {
                 int idx = (int)item;
-                aryChkData.Add(new ChkData(insen.nikkansiHongen[idx].name, false, false));
-                aryChkData.Add(new ChkData(insen.gekkansiHongen[idx].name, false, false));
-                aryChkData.Add(new ChkData(insen.nenkansiHongen[idx].name, false, false));
+                aryChkData.Add(new ChkData(insen.nikkansiHongen[idx].name, 0, false, false));
+                aryChkData.Add(new ChkData(insen.gekkansiHongen[idx].name, 0, false, false));
+                aryChkData.Add(new ChkData(insen.nenkansiHongen[idx].name, 0, false, false));
             }
+            if( CheckKyokiToukan(person, aryChkData, 0, null, null)!=null)
+            {
+                return true;
+            }
+            return false;
 
-            return CheckKyokiToukan(person, aryChkData);
-
-            ////--------------------------------------------
-            //// 日干、月干、年干の組み合わせでチェック
-            ////--------------------------------------------
-            //if (IsKyokiTokanInKansi(person, chkRangeBit)) return true;
-
-            ////--------------------------------------------
-            //// ＊干と蔵元 でチェック
-            ////--------------------------------------------
-            ////日干 － 蔵元
-            //gogyouAttr = GetKangouAttrByZougan(person, person.nikkansi.kan);
-            //if (gogyouAttr != null)
-            //{
-            //    //変化した属性は月干、年干の属性と同じか？
-            //    if (IsExistSameAttrInShukumei(person, gogyouAttr, Const.bitFlgGetu | Const.bitFlgNen)) return true;
-            //}
-            ////月干 － 蔵元
-            //gogyouAttr = GetKangouAttrByZougan(person, person.gekkansi.kan);
-            //if (gogyouAttr != null)
-            //{
-            //    //変化した属性は日干、年干の属性と同じか？
-            //    if (IsExistSameAttrInShukumei(person, gogyouAttr, Const.bitFlgNiti | Const.bitFlgNen)) return true;
-            //}
-            ////年干 － 蔵元
-            //gogyouAttr = GetKangouAttrByZougan(person, person.nenkansi.kan);
-            //if (gogyouAttr != null)
-            //{
-            //    //変化した属性は日干、月干の属性と同じか？
-            //    if (IsExistSameAttrInShukumei(person, gogyouAttr, Const.bitFlgNiti | Const.bitFlgGetu)) return true;
-            //}
-            //return false;
         }
 
-        public bool IsKyokiTokan_Koutenun(Person person,
+        public KyokiChkResult IsKyokiTokan_Koutenun(Person person,
                                             Kansi kansiTaiun,
                                             Kansi kansiNenun,
                                             Kansi kansiGetuun,
-                                            bool bTaiunKyoki,
-                                            bool bNenunKyoki,
-                                            int kansiTypeBit
+                                            string taiunKyokiAttr,  //大運で虚気となったときの属性
+                                            int taiunKyokiTarget,    //大運で虚気となった干支のビット
+                                            string nenunKyokiAttr,  //年運で虚気となったときの属性
+                                            int nenunKyokiTarget,    //年運で虚気となった干支のビット
+                                            int kansiTypeBit        //今回検証干支（大運？年運？月運？）
             )
         {
 
+            //すでに虚気と判断されている干支のビット情報
+            int ignoreKyokiTarget = taiunKyokiTarget | nenunKyokiTarget;
+
             List<ChkData> aryChkData = new List<ChkData>
             {
-                new ChkData(person.nikkansi.kan), //日干
-                new ChkData(person.gekkansi.kan), //月干
-                new ChkData(person.nenkansi.kan), //年干
+                new ChkData(person.nikkansi.kan, Const.bitFlgNiti, (ignoreKyokiTarget &  Const.bitFlgNiti)!=0 ), //日干
+                new ChkData(person.gekkansi.kan, Const.bitFlgGetu, (ignoreKyokiTarget &  Const.bitFlgGetu)!=0), //月干
+                new ChkData(person.nenkansi.kan, Const.bitFlgNen, (ignoreKyokiTarget &  Const.bitFlgNen)!=0), //年干
             };
 
 
             if (kansiTypeBit == Const.bitFlgTaiun)
             {    //大運、日干、月干、年干が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan));
+                aryChkData.Add(new ChkData(kansiTaiun.kan, Const.bitFlgTaiun));
             }
             else if (kansiTypeBit == Const.bitFlgNenun)
             {   //年運、大運、日干、月干、年干が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan, bTaiunKyoki));
-                aryChkData.Add(new ChkData(kansiNenun.kan));
+                aryChkData.Add(new ChkData(kansiTaiun.kan, Const.bitFlgTaiun, (ignoreKyokiTarget & Const.bitFlgTaiun) != 0));
+                aryChkData.Add(new ChkData(kansiNenun.kan, Const.bitFlgNenun));
             }
             else if (kansiTypeBit == Const.bitFlgGetuun)
             {   //月運、年運、大運、日干、月干、年干が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan, bTaiunKyoki));
-                aryChkData.Add(new ChkData(kansiNenun.kan, bNenunKyoki));
-                aryChkData.Add(new ChkData(kansiGetuun.kan));
+                aryChkData.Add(new ChkData(kansiTaiun.kan, Const.bitFlgTaiun, (ignoreKyokiTarget & Const.bitFlgTaiun) != 0));
+                aryChkData.Add(new ChkData(kansiNenun.kan, Const.bitFlgNenun, (ignoreKyokiTarget & Const.bitFlgNenun) != 0));
+                aryChkData.Add(new ChkData(kansiGetuun.kan, Const.bitFlgGetuun));
             }
 
-            return CheckKyokiToukan(person, aryChkData, false);
+            return CheckKyokiToukan(person, aryChkData, kansiTypeBit, taiunKyokiAttr, nenunKyokiAttr);
         }
 
-        private bool CheckKyokiToukan(Person person, List<ChkData> lstChkDatas, bool bAllPatternCheck=true)
+        private KyokiChkResult CheckKyokiToukan(Person person,
+                                    List<ChkData> lstChkDatas, 
+                                    int kansiTypeBit, 
+                                    string taiunKyokiAttr,
+                                    string nenunKyokiAttr
+            )
         {
             for (int i = 0; i < lstChkDatas.Count; i++)
             {
                 //今回の干合チェック対象干支でなければSKIP
-                if (!bAllPatternCheck && lstChkDatas[i].bIgnoreTarget) continue;
+                //if (!bAllPatternCheck && lstChkDatas[i].bIgnoreTarget) continue;
 
                 for (int j = 0; j < lstChkDatas.Count; j++)
                 {
                     if (i == j) continue;
 
                     //今回の干合チェック対象干支でなければSKIP
-                    if (!bAllPatternCheck && lstChkDatas[j].bIgnoreTarget) continue;
+                    //if (!bAllPatternCheck && lstChkDatas[j].bIgnoreTarget) continue;
 
 
                     //干以外同士はSKIP
                     if (!lstChkDatas[i].bKan && !lstChkDatas[j].bKan) continue;
 
+
                     var gogyouAttr = tblMng.kangouTbl.GetKangouAttr(lstChkDatas[i].name, lstChkDatas[j].name);
                     if (gogyouAttr != null)
                     {
+
+                        if(lstChkDatas[i].bitTargetType == kansiTypeBit)
+                        {
+                            if (!string.IsNullOrEmpty(taiunKyokiAttr) && gogyouAttr == taiunKyokiAttr)
+                            {
+                                KyokiChkResult result = new KyokiChkResult();
+                                result.kyokiAttr = gogyouAttr;
+                                return result;
+
+                            }
+                            if (!string.IsNullOrEmpty(nenunKyokiAttr) && gogyouAttr == nenunKyokiAttr)
+                            {
+                                KyokiChkResult result = new KyokiChkResult();
+                                result.kyokiAttr = gogyouAttr;
+                                return result;
+
+                            }
+                        }
+
+
                         //変化した属性は干合判定のあった干以外のオリジナル属性と同じか？
                         for (int iChk = 0; iChk < lstChkDatas.Count; iChk++)
                         {
                             if (iChk == i || iChk == j) continue; //干合判定の文字なのでSKIP
                             if (string.IsNullOrEmpty(lstChkDatas[iChk].name)) continue;
                             if (!lstChkDatas[iChk].bKan) continue; //干以外（蔵元など）はSKIP
-                            //if (!bAllPatternCheck && lstChkDatas[iChk].bIgnoreTarget) continue;
+                            if (lstChkDatas[iChk].bIgnoreKyokiTarget) continue;
 
 
                             if (gogyouAttr == tblMng.jyukanTbl[lstChkDatas[iChk].name].gogyou)
-                                return true;
+                            {
+                                KyokiChkResult result = new KyokiChkResult();
+                                result.kyokiAttr = gogyouAttr;
+                                result.kyokiItemBit = lstChkDatas[iChk].bitTargetType;
+                                return result;
+                            }
                         }
                     }
                 }
             }
-            return false;
+            return null;
         }
 
 
-
-        //public bool IsKyokiTokanInKansi(Person person, int checkRangeBit)
-        //{
-        //    string gogyouAttr = null;
-        //    //--------------------------------------------
-        //    // 日干、月干、年干の組み合わせでチェック
-        //    //--------------------------------------------
-        //    //日干 - 月干
-        //    gogyouAttr = tblMng.kangouTbl.GetKangouAttr(person.nikkansi.kan, person.gekkansi.kan);
-        //    if (gogyouAttr != null)
-        //    {
-        //        //変化した属性は年干の属性と同じか？
-        //        if (IsExistSameAttrInShukumei(person, gogyouAttr, checkRangeBit & ~(Const.bitFlgNiti | Const.bitFlgGetu) )) return true;
-        //    }
-        //    //日干 - 年干
-        //    gogyouAttr = tblMng.kangouTbl.GetKangouAttr(person.nikkansi.kan, person.nenkansi.kan);
-        //    if (gogyouAttr != null)
-        //    {
-        //        //変化した属性は月干の属性と同じか？
-        //        if (IsExistSameAttrInShukumei(person, gogyouAttr, checkRangeBit & ~(Const.bitFlgNiti | Const.bitFlgNen))) return true;
-        //    }
-        //    //月干 - 年干
-        //    gogyouAttr = tblMng.kangouTbl.GetKangouAttr(person.gekkansi.kan, person.nenkansi.kan);
-        //    if (gogyouAttr != null)
-        //    {
-        //        //変化した属性は日干の属性と同じか？
-        //        if (IsExistSameAttrInShukumei(person, gogyouAttr, checkRangeBit & ~(Const.bitFlgGetu | Const.bitFlgNen)) return true;
-        //    }
-        //    return false;
-        //}
-
-        ////指定された干と蔵元の文字で干合をチェック
-        //string GetKangouAttrByZougan( Person person , string kan)
-        //{
-        //    string gogyouAttr = null;
-        //    Insen insen = new Insen(person);
-        //    foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
-        //    {
-        //        int idx = (int)item;
-        //        //日蔵元
-        //        gogyouAttr = tblMng.kangouTbl.GetKangouAttr(kan, insen.nikkansiHongen[idx].name);
-        //        if (gogyouAttr != null) return gogyouAttr;
-
-        //        //月蔵元
-        //        gogyouAttr = tblMng.kangouTbl.GetKangouAttr(kan, insen.gekkansiHongen[idx].name);
-        //        if (gogyouAttr != null) return gogyouAttr;
-
-        //        //年蔵元
-        //        gogyouAttr = tblMng.kangouTbl.GetKangouAttr(kan, insen.nenkansiHongen[idx].name);
-        //        if (gogyouAttr != null) return gogyouAttr;
-        //    }
-
-        //    return null;
-
-        //}
-
-
-        ////指定された属性が指定干以外の干の属性に存在するか？
-        //private bool IsExistSameAttrInShukumei(Person person ,string goryouAttr, int findTargetBit )
-        //{
-        //    if ((findTargetBit & Const.bitFlgNiti) != 0) //日干
-        //    {
-        //        if (goryouAttr == tblMng.jyukanTbl[person.nikkansi.kan].gogyou) return true;
-        //    }
-        //    if ((findTargetBit & Const.bitFlgGetu) != 0) //月干
-        //    {
-        //        if (goryouAttr == tblMng.jyukanTbl[person.gekkansi.kan].gogyou) return true;
-        //    }
-        //    if ((findTargetBit & Const.bitFlgNen) != 0) //年干
-        //    {
-        //        if (goryouAttr == tblMng.jyukanTbl[person.nenkansi.kan].gogyou) return true;
-        //    }
-        //    return false;
-        //}
-
-        ////指定された属性が指定干以外の干の属性に存在するか？
-        //private bool IsExistSameAttrInKoutenun(string goryouAttr, int findTargetBit)
-        //{
-        //    if ((findTargetBit & Const.bitFlgGetuun) != 0) //月運
-        //    {
-
-        //    }
-        //    else if ((findTargetBit & Const.bitFlgNenun) != 0) //年運
-        //    {
-
-        //    }
-        //    else if ((findTargetBit & Const.bitFlgTaiun) != 0) //大運
-        //    {
-
-        //    }
-        //    else if ((findTargetBit & Const.bitFlgNiti) != 0) //日干
-        //    {
-
-        //    }
-        //    else if ((findTargetBit & Const.bitFlgGetu) != 0) //月干
-        //    {
-
-        //    }
-        //    else if ((findTargetBit & Const.bitFlgNen) != 0) //年干
-        //    {
-
-        //    }
-        //}
     }
 }

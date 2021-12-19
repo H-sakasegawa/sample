@@ -784,6 +784,8 @@ namespace WinFormsApp2
             itemData.bShugosin = item.bShugosin;  //守護神
             itemData.bImigami = item.bImigami;  //忌神
             itemData.bKyokiToukan = item.bKyokiToukan;  //虚気
+            itemData.kyokiTargetAtrr = item.kyokiTargetAtrr;  //虚気となった属性
+            itemData.kyokiTargetBit = item.kyokiTargetBit;  //虚気となった干支のビット
 
 
             if (item.bShugosin)
@@ -990,7 +992,9 @@ namespace WinFormsApp2
             itemData.bShugosin = item.bShugosin;  //守護神
             itemData.bImigami = item.bImigami;  //忌神
             itemData.bKyokiToukan = item.bKyokiToukan;  //虚気
-            
+            itemData.kyokiTargetAtrr = item.kyokiTargetAtrr;  //虚気となった属性
+            itemData.kyokiTargetBit = item.kyokiTargetBit;  //虚気となった干支のビット
+
             if (item.bShugosin)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
