@@ -35,6 +35,7 @@ namespace WinFormsApp2
         protected DrawMode drawMode = DrawMode.DRAW;
 
         TableMng tblMng = TableMng.GetTblManage();
+        protected bool bDraw = true;
 
 
         public bool bDrawRentangleKansi = true;//干支の枠表示有無
@@ -68,6 +69,8 @@ namespace WinFormsApp2
         protected int rangeHeight;     //干支文字領域高さ
         public int rangeWidth;      //干支文字領域幅
 
+        private int pictureBaseWidth;   //描画先PictureBoxの基準サイズ
+        private int pictureBaseHeight;  //描画先PictureBoxの基準サイズ
 
         //干支文字表示領域
         public Rectangle rectNikansiKan;
@@ -202,6 +205,9 @@ namespace WinFormsApp2
             person = _person;
             pictureBox = _pictureBox;
 
+            pictureBaseWidth = pictureBox.Width;
+            pictureBaseHeight = pictureBox.Height;
+
             if (_fontSize >= 0) fntSize = _fontSize;
 
              blackPen = new Pen(Color.Black, 1);
@@ -281,19 +287,11 @@ namespace WinFormsApp2
             return new Size(pictureBox.Width, pictureBox.Height);
         }
 
-        public Size CalcDrawAreaSize()
-        {
-            return new Size(
-                offsetX + rectNenkansiKan.X + rectNenkansiKan.Width,
-                maxDrawStringAreaY
-                );
 
-
-        }
         /// <summary>
         /// 描画処理メイン
         /// </summary>
-        public void Draw(double magnification = 1.0)
+        public void Draw()
         {
             matrix.Clear();
             matrixBottom.Clear();
@@ -311,22 +309,73 @@ namespace WinFormsApp2
 
             g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             DrawItem(g);
-            if (magnification == 1.0)
-            {
-                pictureBox.Image = canvas;
-            }
-            else
-            {
-                int width = (int)(pictureBox.Width * magnification);
-                int height = (int)(pictureBox.Height * magnification);
-                Bitmap canvas2 = new Bitmap(width, height);
-                var g2 = Graphics.FromImage(canvas2);
-                g2.DrawImage(canvas, 0, 0, width, height);
+            pictureBox.Image = canvas;
+        }
 
-                pictureBox.Image = canvas2;
-            }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orgDrawSize">描画図の基準サイズ</param>
+        /// <param name="magnification">倍率</param>
+        public void Draw(Size orgDrawSize, double magnification)
+        {
+            matrix.Clear();
+            matrixBottom.Clear();
+            matrix.Add(0);
+            matrixBottom.Add(0);
+
+            idxMtx = 0;
+            idxMtxButtom = 0;
+            maxDrawStringAreaY = 0;
+
+            //派生先クラスの描画I/F呼び出し
+            Bitmap canvas = new Bitmap(orgDrawSize.Width, orgDrawSize.Height);
+            // Graphicsオブジェクトの作成
+            g = Graphics.FromImage(canvas);
+
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+            DrawItem(g);
+
+            int width = Common.CalcDoubleToIntSize(orgDrawSize.Width * magnification);
+            int height = Common.CalcDoubleToIntSize(orgDrawSize.Height * magnification);
+            Bitmap canvas2 = new Bitmap(width, height);
+            var g2 = Graphics.FromImage(canvas2);
+            g2.DrawImage(canvas, 0, 0, width, height);
+
+            pictureBox.Image = canvas2;
 
         }
+
+
+        public Size CalcDrawAreaSize()
+        {
+            matrix.Clear();
+            matrixBottom.Clear();
+            matrix.Add(0);
+            matrixBottom.Add(0);
+
+            idxMtx = 0;
+            idxMtxButtom = 0;
+            maxDrawStringAreaY = 0;
+
+            //派生先クラスの描画I/F呼び出し
+            Bitmap canvas = new Bitmap(pictureBox.Width, pictureBox.Height);
+            // Graphicsオブジェクトの作成
+            g = Graphics.FromImage(canvas);
+
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
+            DrawItem(g);
+            pictureBox.Image = canvas;
+
+
+            return new Size(
+                offsetX + rectNenkansiKan.X + rectNenkansiKan.Width,
+                maxDrawStringAreaY
+                );
+        }
+
+
         int redColorItemBit = 0;
 
         public void DrawKyokiPattern( int _redColorItemBit)
@@ -786,6 +835,7 @@ namespace WinFormsApp2
 
             int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
             int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
+            int strBaseY = y;
 
             foreach (var s in gsr)
             {
@@ -806,7 +856,8 @@ namespace WinFormsApp2
             }
 
             //文字描画Y座標＋文字の高さ
-            int bottom = y + fntSmall.Height / 2;
+            //int bottom = y + fntSmall.Height / 2;
+            int bottom = strBaseY + Common.CalcDoubleToIntSize(sumHeight);
             if (maxDrawStringAreaY < bottom) maxDrawStringAreaY = bottom;
 
         }
@@ -836,18 +887,24 @@ namespace WinFormsApp2
 
             int x = from + (Math.Abs(from - to) - (int)Math.Ceiling(maxWidth)) / 2;
             int y = (int)(baseY + ((mtxIndex + 1) * offsetY) * dirc - Math.Ceiling(sumHeight) / 2) + 2;
+            int strBaseY = y;
 
-            foreach (var s in aryStr)
+            for(int i=0; i<aryStr.Length; i++)
             {
-
+                
                 Rectangle rect = new Rectangle(x, y, (int)Math.Ceiling(maxWidth), fntSmall.Height);
                 g.FillRectangle(Brushes.WhiteSmoke, rect);
 
-                g.DrawString(s, fntSmall, brush, rect, smallStringFormat);
-                y += fntSmall.Height;
+                g.DrawString(aryStr[i], fntSmall, brush, rect, smallStringFormat);
+
+                if (i < aryStr.Length - 1)
+                {
+                    y += fntSmall.Height;
+                }
             }
             //文字描画Y座標＋文字の高さ
-            int bottom = y + fntSmall.Height / 2;
+            //int bottom = y + fntSmall.Height / 2;
+            int bottom = strBaseY + Common.CalcDoubleToIntSize(sumHeight);
             if (maxDrawStringAreaY < bottom) maxDrawStringAreaY = bottom;
 
         }

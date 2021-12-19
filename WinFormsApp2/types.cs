@@ -648,7 +648,42 @@ namespace WinFormsApp2
         public string destoryToName; //attrが剋するもの
     }
 
- 
+
+
+
+    //====================================================
+    // 大運リストビュー Itemデータ
+    //====================================================
+    /// <summary>
+    /// 大運リストビューアイテムデータクラス
+    /// </summary>
+    public class TaiunLvItemData : LvItemDataBase
+    {
+        public int startNen; //開始年
+        public int startYear; //開始年
+        public Kansi kansi; //干支
+        public bool bShugosin = false; //true...守護神
+        public bool bImigami=false;   //true...忌神
+        public bool bKyokiToukan = false; //true..虚気
+    }
+    //====================================================
+    // 年運、月運リストビュー Itemデータ
+    //====================================================
+    /// <summary>
+    /// 年運リストビューアイテムデータクラス
+    /// </summary>
+    public class GetuunNenunLvItemData : LvItemDataBase
+    {
+        /// <summary>
+        /// 年運では、年
+        /// 月運では、月
+        /// </summary>
+        public int keyValue;
+        public Kansi kansi; //干支
+        public bool bShugosin = false; //true...守護神
+        public bool bImigami = false;   //true...忌神
+        public bool bKyokiToukan = false; //true..虚気
+    }
 
 
 }

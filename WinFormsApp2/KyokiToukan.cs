@@ -15,14 +15,14 @@ namespace WinFormsApp2
 
         class ChkData
         {
-            public ChkData(string _name, bool _bCheckTarget=false, bool _bKan = true)
+            public ChkData(string _name, bool _bIgnoreTarget=false, bool _bKan = true)
             {
                 name = _name;
-                bCheckTarget = _bCheckTarget;
+                bIgnoreTarget = _bIgnoreTarget;
                 bKan = _bKan;
             }
             public string name;
-            public bool bCheckTarget;
+            public bool bIgnoreTarget;
             public bool bKan;
         }
 
@@ -41,9 +41,9 @@ namespace WinFormsApp2
             foreach (var item in Enum.GetValues(typeof(NijuhachiGenso.enmGensoType)))//初元、中元、本元
             {
                 int idx = (int)item;
-                aryChkData.Add(new ChkData(insen.nikkansiHongen[idx].name, false));
-                aryChkData.Add(new ChkData(insen.gekkansiHongen[idx].name, false));
-                aryChkData.Add(new ChkData(insen.nenkansiHongen[idx].name, false));
+                aryChkData.Add(new ChkData(insen.nikkansiHongen[idx].name, false, false));
+                aryChkData.Add(new ChkData(insen.gekkansiHongen[idx].name, false, false));
+                aryChkData.Add(new ChkData(insen.nenkansiHongen[idx].name, false, false));
             }
 
             return CheckKyokiToukan(person, aryChkData);
@@ -84,11 +84,11 @@ namespace WinFormsApp2
                                             Kansi kansiTaiun,
                                             Kansi kansiNenun,
                                             Kansi kansiGetuun,
+                                            bool bTaiunKyoki,
+                                            bool bNenunKyoki,
                                             int kansiTypeBit
             )
         {
-            string gogyouAttr = null;
-            Insen insen = new Insen(person);
 
             List<ChkData> aryChkData = new List<ChkData>
             {
@@ -99,19 +99,19 @@ namespace WinFormsApp2
 
 
             if (kansiTypeBit == Const.bitFlgTaiun)
-            {    //大運、日干、月干、年干　が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan, true));
+            {    //大運、日干、月干、年干が同一チェック範囲
+                aryChkData.Add(new ChkData(kansiTaiun.kan));
             }
             else if (kansiTypeBit == Const.bitFlgNenun)
-            {   //年運、大運、日干、月干、年干　が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan));
-                aryChkData.Add(new ChkData(kansiNenun.kan, true));
+            {   //年運、大運、日干、月干、年干が同一チェック範囲
+                aryChkData.Add(new ChkData(kansiTaiun.kan, bTaiunKyoki));
+                aryChkData.Add(new ChkData(kansiNenun.kan));
             }
             else if (kansiTypeBit == Const.bitFlgGetuun)
-            {   //月運、年運、大運、日干、月干、年干　が同一チェック範囲
-                aryChkData.Add(new ChkData(kansiTaiun.kan));
-                aryChkData.Add(new ChkData(kansiNenun.kan));
-                aryChkData.Add(new ChkData(kansiGetuun.kan, true));
+            {   //月運、年運、大運、日干、月干、年干が同一チェック範囲
+                aryChkData.Add(new ChkData(kansiTaiun.kan, bTaiunKyoki));
+                aryChkData.Add(new ChkData(kansiNenun.kan, bNenunKyoki));
+                aryChkData.Add(new ChkData(kansiGetuun.kan));
             }
 
             return CheckKyokiToukan(person, aryChkData, false);
@@ -122,11 +122,15 @@ namespace WinFormsApp2
             for (int i = 0; i < lstChkDatas.Count; i++)
             {
                 //今回の干合チェック対象干支でなければSKIP
-               // if (!bAllPatternCheck && !lstChkDatas[i].bCheckTarget) continue;
+                if (!bAllPatternCheck && lstChkDatas[i].bIgnoreTarget) continue;
 
                 for (int j = 0; j < lstChkDatas.Count; j++)
                 {
                     if (i == j) continue;
+
+                    //今回の干合チェック対象干支でなければSKIP
+                    if (!bAllPatternCheck && lstChkDatas[j].bIgnoreTarget) continue;
+
 
                     //干以外同士はSKIP
                     if (!lstChkDatas[i].bKan && !lstChkDatas[j].bKan) continue;
@@ -140,7 +144,7 @@ namespace WinFormsApp2
                             if (iChk == i || iChk == j) continue; //干合判定の文字なのでSKIP
                             if (string.IsNullOrEmpty(lstChkDatas[iChk].name)) continue;
                             if (!lstChkDatas[iChk].bKan) continue; //干以外（蔵元など）はSKIP
-                           // if (!bAllPatternCheck && lstChkDatas[iChk].bCheckTarget) continue;
+                            //if (!bAllPatternCheck && lstChkDatas[iChk].bIgnoreTarget) continue;
 
 
                             if (gogyouAttr == tblMng.jyukanTbl[lstChkDatas[iChk].name].gogyou)

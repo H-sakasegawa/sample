@@ -124,6 +124,7 @@ namespace WinFormsApp2
             public bool bTenchusatu = false;
             public bool bShugosin = false;
             public bool bImigami = false;
+            public bool bKyokiToukan = false;
 
         }
         public class NenunGetuunItems
@@ -136,6 +137,7 @@ namespace WinFormsApp2
             public bool bTenchusatu = false;
             public bool bShugosin = false;
             public bool bImigami = false;
+            public bool bKyokiToukan = false;
 
         }
 
@@ -188,9 +190,10 @@ namespace WinFormsApp2
             string detail = "";
             //虚気透干
             KyokiToukan kyokiTokan = new KyokiToukan();
-            if(kyokiTokan.IsKyokiTokan_Koutenun(person, taiunKansi, null, null, Const.bitFlgTaiun))
+            if(kyokiTokan.IsKyokiTokan_Koutenun(person, taiunKansi, null, null, false, false,Const.bitFlgTaiun))
             {
                 detail += "虚気";
+                item.bKyokiToukan = true;
             }
 
 
@@ -264,6 +267,37 @@ namespace WinFormsApp2
 
         }
 
+
+        public static NenunGetuunItems GetNenunItems(
+                Person person,
+                string title,
+                Kansi targetKansi, //対象干支（年運）
+                TaiunLvItemData taiunLvItemData
+            )
+        {
+            return GetNenunGetuunItems(person, title, targetKansi, taiunLvItemData, null, Const.bitFlgNenun);
+        }
+        public static NenunGetuunItems GetNenunItems(
+                Person person,
+                string title,
+                Kansi targetKansi, //対象干支（年運）
+                Kansi taiunKansi
+            )
+        {
+            TaiunLvItemData dummyData = new TaiunLvItemData();
+            dummyData.kansi = taiunKansi;
+            return GetNenunGetuunItems(person, title, targetKansi, dummyData, null, Const.bitFlgNenun);
+        }
+        public static NenunGetuunItems GetGetuunItems(
+                Person person,
+                string title,
+                Kansi targetKansi, //対象干支（月運）
+                TaiunLvItemData taiunLvItemData,
+                GetuunNenunLvItemData nenunLvItemData
+            )
+        {
+            return GetNenunGetuunItems(person, title, targetKansi, taiunLvItemData, nenunLvItemData, Const.bitFlgGetuun);
+        }
         /// <summary>
         /// 年運、月運リスト表示データ取得
         /// </summary>
@@ -272,21 +306,47 @@ namespace WinFormsApp2
         /// <param name="targetkansiNo"></param>
         /// <param name="taiunKansi"></param>
         /// <returns></returns>
-        public static NenunGetuunItems GetNenunGetuunItems(Person person, string title, Kansi taiunKansi, Kansi nenunKansi, Kansi getuunKansi, int bitTarget)
+        public static NenunGetuunItems GetNenunGetuunItems(
+                Person person, 
+                string title,
+                Kansi targetKansi,
+                TaiunLvItemData taiunLvItemData,
+                GetuunNenunLvItemData nenunLvItemData,
+                int bitTarget
+            )
         {
             NenunGetuunItems item = new NenunGetuunItems();
             TableMng tblMng = TableMng.GetTblManage();
 
-            item.title = title;
-            Kansi targetKansi;
+            bool bKyokiTaiun = taiunLvItemData.bKyokiToukan;
+            bool bKyokiNenun = false;
+
+            Kansi taiunKansi = taiunLvItemData.kansi;
+            Kansi nenunKansi = null;
             if (bitTarget == Const.bitFlgNenun)
             {
-                targetKansi = nenunKansi;
+                nenunKansi = targetKansi;
+            }else{
+                nenunKansi = nenunLvItemData.kansi;
+                bKyokiNenun = nenunLvItemData.bKyokiToukan;
             }
-            else
+
+            Kansi getuunKansi = null;
+            if (bitTarget == Const.bitFlgGetuun)
             {
-                targetKansi = getuunKansi;
+                getuunKansi = targetKansi;
             }
+
+            item.title = title;
+            //Kansi targetKansi;
+            //if (bitTarget == Const.bitFlgNenun)
+            //{
+            //    targetKansi = nenunKansi;
+            //}
+            //else
+            //{
+            //    targetKansi = getuunKansi;
+            //}
 
             item.targetKansi = targetKansi;
 
@@ -330,9 +390,17 @@ namespace WinFormsApp2
             string detail = "";
             //虚気透干
             KyokiToukan kyokiTokan = new KyokiToukan();
-            if (kyokiTokan.IsKyokiTokan_Koutenun(person, taiunKansi, targetKansi, getuunKansi, bitTarget))
+            if (kyokiTokan.IsKyokiTokan_Koutenun(
+                                        person, 
+                                        taiunKansi,
+                                        nenunKansi, 
+                                        getuunKansi,
+                                        bKyokiTaiun,
+                                        bKyokiNenun,
+                                        bitTarget))
             {
                 detail += "虚気";
+                item.bKyokiToukan = true;  //虚気
             }
             item.sItems[(int)Const.ColTaiun.COL_DETAIL] = detail;
 
@@ -457,6 +525,15 @@ namespace WinFormsApp2
             return Key_State;
         
         }
+
+
+        public static int CalcDoubleToIntSize(double value)
+        {
+            value += 0.4;
+            return (int)Math.Round(value, MidpointRounding.AwayFromZero);
+
+        }
+
 
     }
 

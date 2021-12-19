@@ -8,11 +8,11 @@ using System.Drawing;
 
 namespace WinFormsApp2
 {
-    class LvItemDataBase
+    public class LvItemDataBase
     {
         public List<LvItemColor> lstItemColors = new List<LvItemColor>();
     }
-    class LvItemColor
+    public class LvItemColor
     {
         public LvItemColor(int _col, Color _color)
         {

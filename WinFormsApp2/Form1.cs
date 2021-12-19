@@ -652,17 +652,6 @@ namespace WinFormsApp2
         // 大運 表示処理
         //====================================================
         /// <summary>
-        /// 大運リストビューアイテムデータクラス
-        /// </summary>
-        class TaiunLvItemData: LvItemDataBase
-        {
-            public int startNen; //開始年
-            public int startYear; //開始年
-            public Kansi kansi; //干支
-            public bool bShugosin; //true...守護神
-            public bool bImigami;   //true...忌神
-        }
-        /// <summary>
         /// 大運
         /// </summary>
         /// <param name="nenkansiNo"></param>
@@ -794,8 +783,9 @@ namespace WinFormsApp2
             itemData.kansi = item.targetKansi;    //干支
             itemData.bShugosin = item.bShugosin;  //守護神
             itemData.bImigami = item.bImigami;  //忌神
+            itemData.bKyokiToukan = item.bKyokiToukan;  //虚気
 
- 
+
             if (item.bShugosin)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
@@ -814,21 +804,7 @@ namespace WinFormsApp2
         //====================================================
         // 年運 表示処理
         //====================================================
-        /// <summary>
-        /// 年運リストビューアイテムデータクラス
-        /// </summary>
-        class GetuunNenunLvItemData: LvItemDataBase
-        {
-            /// <summary>
-            /// 年運では、年
-            /// 月運では、月
-            /// </summary>
-            public int keyValue; 
-            public Kansi kansi; //干支
-            public bool bShugosin; //true...守護神
-            public bool bImigami;   //true...忌神
-        }
-        /// <summary>
+         /// <summary>
         /// 年運
         /// </summary>
         /// <param name="baseYear">大運で選択された行の開始年</param>
@@ -875,7 +851,7 @@ namespace WinFormsApp2
                                     baseYear + i,
                                     string.Format("{0}歳({1})", (baseYear +i) - person.birthday.year,  baseYear +i),
                                     nenkansiNo,
-                                    taiunKansi,
+                                    taiunItemData,
                                     lvNenun
                                     );
                 nenkansiNo += 1;
@@ -936,8 +912,8 @@ namespace WinFormsApp2
                                     mMonth, 
                                     string.Format("{0}月", mMonth),
                                     gekkansiNo,
-                                    taiunItemData.kansi,
-                                    nenunKansi,
+                                    taiunItemData,
+                                    nenunItemData,
                                     lvGetuun,
                                     Const.bitFlgGetuun
                                     );
@@ -957,10 +933,20 @@ namespace WinFormsApp2
         /// <param name="title">行タイトル文字列</param>
         /// <param name="targetkansiNo">年運干支No</param>
         /// <param name="kansi">大運干支No</param>
-        private void AddNenunItem(Person person, int rowKeyValue, string title, int targetkansiNo, Kansi taiunKansi,ListView lv)
+        private void AddNenunItem(Person person, 
+                                  int rowKeyValue, 
+                                  string title, 
+                                  int targetkansiNo, 
+                                  TaiunLvItemData taiunLvItemData, 
+                                  ListView lv
+            )
         {
 
-            AddNenunItem(person, rowKeyValue, title, targetkansiNo, taiunKansi, lv, Const.bitFlgNenun);
+            Kansi nenunKansi = person.GetKansi(targetkansiNo);
+
+            var item = Common.GetNenunItems(person, title, nenunKansi, taiunLvItemData);
+            AddNenunGetuunItem(rowKeyValue, title, item, lv);
+
             var lvItem = lv.Items[lv.Items.Count - 1];
              //経歴情報
             lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
@@ -968,18 +954,16 @@ namespace WinFormsApp2
 
         }
 
-        private void AddNenunItem(Person person, int rowKeyValue, string title, int nenunkansiNo, Kansi taiunKansi, ListView lv, int bitTarget)
-        {
-            Kansi nenunKansi = person.GetKansi(nenunkansiNo);
-
-            var item = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, null, bitTarget);
-            AddNenunGetuunItem(rowKeyValue, title, item, lv);
-        }
-
-        private void AdGetuunItem(Person person, int rowKeyValue, string title, int getuunKansiNo, Kansi taiunKansi,Kansi nenunKansi, ListView lv, int bitTarget)
+        private void AdGetuunItem(  Person person,
+                                    int rowKeyValue, 
+                                    string title, 
+                                    int getuunKansiNo, 
+                                    TaiunLvItemData taiunLvItemData,
+                                    GetuunNenunLvItemData nenunLvItemData,
+                                    ListView lv, int bitTarget)
         {
             Kansi getuunKansi = person.GetKansi(getuunKansiNo);
-            var item = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, getuunKansi, bitTarget);
+            var item = Common.GetGetuunItems(person, title, getuunKansi, taiunLvItemData, nenunLvItemData);
             AddNenunGetuunItem(rowKeyValue, title, item, lv);
         }
 
@@ -1005,7 +989,8 @@ namespace WinFormsApp2
             itemData.kansi = item.targetKansi;    //干支
             itemData.bShugosin = item.bShugosin;  //守護神
             itemData.bImigami = item.bImigami;  //忌神
-
+            itemData.bKyokiToukan = item.bKyokiToukan;  //虚気
+            
             if (item.bShugosin)
             {
                 itemData.lstItemColors.Add(new LvItemColor(1, Const.colorShugosin));
@@ -1775,7 +1760,7 @@ namespace WinFormsApp2
             DispKoutenUn(curPerson, pictureBox2);
             if (frmUnseiViewer != null)
             {
-                frmUnseiViewer.DrawKoutenun();
+                frmUnseiViewer.UpdateKoutenUn();
             }
 
         }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace WinFormsApp2
 {
@@ -45,6 +46,7 @@ namespace WinFormsApp2
         int grpItemCnt =0;
         uint MAX_YEAR_RANGE = 120;
         Color basePersonColor = Color.PaleTurquoise;
+
         int koutenunRectWidth = 35;
 
         bool bRowSelectEvent = false;
@@ -60,6 +62,7 @@ namespace WinFormsApp2
 
         Form1 parentForm;
 
+        double Magnification = 1; //倍率
 
         public FormUnseiViewer(Form _parenForm, Persons _persons, Person _basePerson)
         {
@@ -107,6 +110,26 @@ namespace WinFormsApp2
 
             DispListItem();
 
+
+            trackBar1.Maximum = 15; //1.5
+            trackBar1.Minimum = 5;  //0.5
+            trackBar1.TickFrequency = trackBar1.Minimum + (trackBar1.Maximum - trackBar1.Minimum) / 2;
+
+            int trackValue = 1;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string sValue = config.AppSettings.Settings["UnseiViewerMagnification"].Value;
+            if (!string.IsNullOrEmpty(sValue))
+            {
+                trackValue = int.Parse(sValue);
+            }
+            try
+            {
+                trackBar1.Value = trackValue;
+            }
+            catch
+            {
+                //異常値の場合は、デフォルト
+            }
             bInitializeLoad = false;
 
         }
@@ -545,7 +568,7 @@ namespace WinFormsApp2
             var taiunItem = Common.GetTaiunItem(person, "", taiunKansi.no, year);
             //年運情報取得
             Kansi nenunKansi = person.GetKansi(targetkansiNo);
-            var nenunItem = Common.GetNenunGetuunItems(person, title, taiunKansi, nenunKansi, null, Const.bitFlgNenun);
+            var nenunItem = Common.GetNenunItems(person, title, nenunKansi, taiunKansi);
 
             var row = grdViewNenUn.Rows[idxRow];
 
@@ -588,7 +611,7 @@ namespace WinFormsApp2
                 //表示追加した人の後天運表示
                 AddKoutenun(person);
             }
-            DrawKoutenun();
+            UpdateKoutenUn();
 
             flowLayoutPanel1.ResumeLayout();
         }
@@ -674,13 +697,6 @@ namespace WinFormsApp2
             }
         }
 
-        public void DrawKoutenun()
-        {
-            foreach (var item in lstKoutenUn)
-            {
-                DrawKoutenun(item);
-            }
-        }
         private void DrawKoutenun(KoutenUn koutenun)
         {
             //初回描画はsc.Heightと描画エリアサイズが不一致のため、sc.Heightが設定されると、
@@ -719,15 +735,21 @@ namespace WinFormsApp2
                                         10               //フォントサイズ
                                         );
             drawItem2.rangeWidth = koutenunRectWidth;
-            drawItem2.Draw();
+            Size drawSize = drawItem2.CalcDrawAreaSize();
 
             SetPictureEvent(false);
             {
-                koutenun.sc.Width = drawItem2.CalcDrawAreaSize().Width + koutenun.sc.SplitterWidth;
-                koutenun.sc.Height = drawItem2.CalcDrawAreaSize().Height + koutenun.sc.SplitterDistance + koutenun.sc.SplitterWidth;
+                //koutenun.sc.Width = Common.CalcDoubleToIntSize((drawSize.Width + koutenun.sc.SplitterWidth) * Magnification);
+                //koutenun.sc.Height = Common.CalcDoubleToIntSize((drawSize.Height + koutenun.sc.SplitterDistance + koutenun.sc.SplitterWidth) * Magnification);
+                koutenun.sc.Width = Common.CalcDoubleToIntSize(drawSize.Width * Magnification)+5;
+                koutenun.sc.Height = Common.CalcDoubleToIntSize(drawSize.Height * Magnification)+30;
             }
             SetPictureEvent(true);
-            drawItem2.Draw();
+            drawItem2.Draw(
+                     new Size(drawSize.Width, drawSize.Height), 
+                     Magnification
+                     );
+
         }
 
 
@@ -777,6 +799,22 @@ namespace WinFormsApp2
             OnClose?.Invoke(this);
         }
 
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            double value = (double)trackBar1.Value;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings["UnseiViewerMagnification"].Value = value.ToString();
+            config.Save();
+
+            //10倍したトラックバーの値を目的の倍率値に変換
+            Magnification = value / 10.0;
+            DispKoutenUn();
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            trackBar1.Value = 10;
+        }
     }
 
 
