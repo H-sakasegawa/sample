@@ -13,6 +13,9 @@
     <Compile Update="FormEditCareer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormExcelPictureTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormJuniSinKanHou.cs">
       <SubType>Form</SubType>
     </Compile>

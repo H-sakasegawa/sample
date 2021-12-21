@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Configuration;
 
+
 namespace WinFormsApp2
 {
     public partial class FormMain : Form
@@ -18,13 +19,15 @@ namespace WinFormsApp2
 
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
-        string exePath = "";
+        static string exePath = "";
         int tabId = -1;
 
         const string keyLastDataFile = "LastDataFile";
 
         List<Form> lstModlessForms = new List<Form>();
         FormFinder frmSerch = null;
+
+        public static string GetExePath() { return exePath; }
 
         public FormMain()
         {
@@ -65,7 +68,6 @@ namespace WinFormsApp2
             {
                 //節入り日テーブル読み込み
                 tblMng.setuiribiTbl.ReadTable(exePath + @"\節入り日.xls");
-
 
             }
             catch (Exception ex)
@@ -275,5 +277,10 @@ namespace WinFormsApp2
             addform(tabControl1.TabPages[0], frm);
         }
 
+        private void mnuExcelPicture_Click(object sender, EventArgs e)
+        {
+            FormExcelPictureTest frm = new FormExcelPictureTest();
+            frm.ShowDialog();
+        }
     }
 }

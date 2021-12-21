@@ -22,7 +22,7 @@ namespace WinFormsApp2
     /// <summary>
     /// Excelファイル読み込み機能
     /// </summary>
-    class ExcelReader
+    public class ExcelReader
     {
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace WinFormsApp2
                     // xlsとxlsxじゃなければ、エラー発生
                     throw new NotSupportedException();
                 }
-            }catch
+            } catch
             {
             }
             return null;
@@ -129,7 +129,7 @@ namespace WinFormsApp2
             }
             catch
             {
-                MessageBox.Show(string.Format("データの書き込みに失敗しました。\nファイルが書き込み不可となっています\n{0}", filepath) );
+                MessageBox.Show(string.Format("データの書き込みに失敗しました。\nファイルが書き込み不可となっています\n{0}", filepath));
             }
         }
 
@@ -144,7 +144,7 @@ namespace WinFormsApp2
         {
             var row = sheet.GetRow(idxRow) ?? sheet.CreateRow(idxRow); //指定した行を取得できない時はエラーとならないよう新規作成している
             var cell = row.GetCell(idxColumn) ?? row.CreateCell(idxColumn); //一行上の処理の列版
-            string value="";
+            string value = "";
 
             switch (cell.CellType)
             {
@@ -186,23 +186,84 @@ namespace WinFormsApp2
             return value;
         }
 
-        public static bool CellBoolValue(ISheet sheet, int idxRow, int idxColumn, bool defaultValue=false)
+        public static bool CellBoolValue(ISheet sheet, int idxRow, int idxColumn, bool defaultValue = false)
         {
             string sFlg = ExcelReader.CellValue(sheet, idxRow, idxColumn);
             if (string.IsNullOrEmpty(sFlg))
             {
                 return defaultValue;
             }
-            if( sFlg.ToLower()=="true" || sFlg.ToLower()=="false")
+            if (sFlg.ToLower() == "true" || sFlg.ToLower() == "false")
             {
                 return bool.Parse(sFlg);
             }
-            return  Convert.ToBoolean( int.Parse(sFlg));
+            return Convert.ToBoolean(int.Parse(sFlg));
         }
 
         public static IWorkbook CreateWorkbook()
         {
             return new HSSFWorkbook();
         }
-     }
+
+        public class PictureInfo
+        {
+            public int row;
+            public int col;
+            public IPictureData pictureData;
+            public int width;
+            public int height;
+
+        }
+        public static List<PictureInfo> GetPicture(XSSFSheet sheet)
+        {
+            List<PictureInfo> lst = new List<PictureInfo>();
+            // シートに添付されている画像を収集
+            foreach (POIXMLDocumentPart dr in sheet.GetRelations())
+            {
+                if (dr.GetType() == typeof(XSSFDrawing))
+                {
+                    XSSFDrawing xfd = (XSSFDrawing)dr;
+                    foreach (XSSFShape shape in xfd.GetShapes())
+                    {
+                        if (shape.GetType() == typeof(XSSFPicture))
+                        {
+                            XSSFPicture pic = (XSSFPicture)shape;
+                            //XSSFClientAnchor xca =(XSSFClientAnchor)pic.GetPreferredSize();
+                            // 画像が設置されているセルの左上座標を取得
+                            var cellInfo = new PictureInfo();
+                            cellInfo.row = pic.ClientAnchor.Row1;
+                            cellInfo.col = pic.ClientAnchor.Col1;
+                            cellInfo.pictureData = pic.PictureData;
+                            cellInfo.width = Math.Abs(pic.ClientAnchor.Dx1 - pic.ClientAnchor.Dx2) / 9525;
+                            cellInfo.height = Math.Abs(pic.ClientAnchor.Dy1 - pic.ClientAnchor.Dy2)/ 9525;
+                            lst.Add(cellInfo);
+                        }
+                    }
+                }
+            }
+
+            return lst;
+        }
+
+        //        public static Dictionary<String, PictureData> getSheetPictrues07(XSSFSheet sheet, XSSFWorkbook workbook)
+        //        {
+        //            Dictionary<String, PictureData> sheetIndexPicMap = new Dictionary<String, PictureData>();
+        //            for (POIXMLDocumentPart dr : sheet.getRelations())
+        //            {
+        //                if (dr instanceof XSSFDrawing) {
+        //                XSSFDrawing drawing = (XSSFDrawing)dr;
+        //                List<XSSFShape> shapes = drawing.getShapes();
+        //                for (XSSFShape shape : shapes)
+        //                {
+        //                    XSSFPicture pic = (XSSFPicture)shape;
+        //                    XSSFClientAnchor anchor = pic.getPreferredSize();
+        //                    CTMarker ctMarker = anchor.getFrom();
+        //                    String picIndex = ctMarker.getRow() + "_" + ctMarker.getCol();
+        //                    sheetIndexPicMap.put(picIndex, pic.getPictureData());
+        //                }
+        //            }
+        //        }
+        //	return sheetIndexPicMap;
+        //}
+    }
 }

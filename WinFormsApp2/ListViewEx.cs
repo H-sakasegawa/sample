@@ -66,7 +66,6 @@ namespace WinFormsApp2
         public void OnDrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
             Brush brush = new SolidBrush(e.Item.ForeColor);
-
             Brush brs = new SolidBrush(e.Item.BackColor);
             if (e.Item.Selected)
             {

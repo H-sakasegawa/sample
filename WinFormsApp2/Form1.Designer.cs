@@ -123,6 +123,7 @@ namespace WinFormsApp2
             this.columnHeader12 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader14 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader25 = new System.Windows.Forms.ColumnHeader();
             this.label17 = new System.Windows.Forms.Label();
             this.chkDispGetuun = new System.Windows.Forms.CheckBox();
             this.chkSangouKaikyoku = new System.Windows.Forms.CheckBox();
@@ -165,7 +166,6 @@ namespace WinFormsApp2
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.lstInsenDetail = new System.Windows.Forms.ListBox();
-            this.columnHeader25 = new System.Windows.Forms.ColumnHeader();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1130,6 +1130,11 @@ namespace WinFormsApp2
             this.columnHeader14.Text = "年";
             this.columnHeader14.Width = 90;
             // 
+            // columnHeader25
+            // 
+            this.columnHeader25.Text = "詳細";
+            this.columnHeader25.Width = 120;
+            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -1573,11 +1578,6 @@ namespace WinFormsApp2
             this.lstInsenDetail.Size = new System.Drawing.Size(162, 197);
             this.lstInsenDetail.TabIndex = 78;
             this.lstInsenDetail.DoubleClick += new System.EventHandler(this.lstInsenDetail_DoubleClick);
-            // 
-            // columnHeader25
-            // 
-            this.columnHeader25.Text = "詳細";
-            this.columnHeader25.Width = 120;
             // 
             // Form1
             // 

@@ -45,6 +45,8 @@ namespace WinFormsApp2
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolAdd = new System.Windows.Forms.ToolStripButton();
             this.toolFind = new System.Windows.Forms.ToolStripButton();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExcelPicture = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -87,7 +89,8 @@ namespace WinFormsApp2
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2,
-            this.機能ToolStripMenuItem});
+            this.機能ToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1313, 24);
@@ -122,19 +125,19 @@ namespace WinFormsApp2
             // mnuAddTab
             // 
             this.mnuAddTab.Name = "mnuAddTab";
-            this.mnuAddTab.Size = new System.Drawing.Size(116, 22);
+            this.mnuAddTab.Size = new System.Drawing.Size(180, 22);
             this.mnuAddTab.Text = "タブ追加";
             this.mnuAddTab.Click += new System.EventHandler(this.mnuAddTab_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuSerch
             // 
             this.mnuSerch.Name = "mnuSerch";
-            this.mnuSerch.Size = new System.Drawing.Size(116, 22);
+            this.mnuSerch.Size = new System.Drawing.Size(180, 22);
             this.mnuSerch.Text = "検索";
             this.mnuSerch.Click += new System.EventHandler(this.mnuSerch_Click);
             // 
@@ -187,6 +190,21 @@ namespace WinFormsApp2
             this.toolFind.Text = "検索";
             this.toolFind.Click += new System.EventHandler(this.toolFind_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExcelPicture});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // mnuExcelPicture
+            // 
+            this.mnuExcelPicture.Name = "mnuExcelPicture";
+            this.mnuExcelPicture.Size = new System.Drawing.Size(180, 22);
+            this.mnuExcelPicture.Text = "Excel画像読み込み";
+            this.mnuExcelPicture.Click += new System.EventHandler(this.mnuExcelPicture_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -226,5 +244,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripButton toolOpen;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuExcelPicture;
     }
 }
