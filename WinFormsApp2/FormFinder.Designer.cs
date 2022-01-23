@@ -62,6 +62,9 @@ namespace WinFormsApp2
             // 
             // lstFindResult
             // 
+            this.lstFindResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFindResult.ContextMenuStrip = this.contextMenuStrip1;
             this.lstFindResult.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstFindResult.FullRowSelect = true;

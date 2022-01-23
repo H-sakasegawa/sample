@@ -1127,7 +1127,7 @@ namespace WinFormsApp2
 
             sim.Simulation(person, curGetuun.kansi, curNenun.kansi, curTaiun.kansi, chkDispGetuun.Checked);
             //lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
-            button3.Text = string.Format("虚気変化 [ パターン数：{0} ]", sim.lstKansPattern.Count - 1);
+            button3.Text = string.Format("虚気変化\n[ パターン数：{0} ]", sim.lstKansPattern.Count - 1);
             if (frmKykiSim != null && frmKykiSim.Visible==true)
             {
                 frmKykiSim.UpdateKyokiPatternOnly(curPerson,

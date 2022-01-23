@@ -797,7 +797,7 @@ namespace WinFormsApp2
                 return null;
 
             }
-            //支合テーブルの五行（色）を取得
+            //半会テーブルの五行（色）を取得
             public string GetGogyou(string siName1, string siName2)
             {
                 var sigou = GetHankai(siName1, siName2);

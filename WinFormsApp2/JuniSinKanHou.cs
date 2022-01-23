@@ -158,7 +158,7 @@ namespace WinFormsApp2
                     //含まれていなければ、十干テーブルから陰陽の関係にある干を取得
                     result = tblMng.jyukanTbl.GetInyouOtherString(kan);
 
-                    //陰陽の関係から取得した干が蔵元に含まれているか？
+                    //陰陽の関係から取得した干が陰占、蔵元に含まれているか？
                     if (!insen.IsExist(result))
                     {
                         //場所から取得
