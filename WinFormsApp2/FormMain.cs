@@ -35,6 +35,7 @@ namespace WinFormsApp2
 
             //tabControl1.Dock = DockStyle.Fill;
             tabControl1.TabPages.Clear();
+            tabControl1.onTabCloseButtonClick += OnTabCloseButtonClick;
         }
 
 
@@ -112,7 +113,7 @@ namespace WinFormsApp2
             Form1 frm = new Form1(this, tabId, personList, person);
             frm.onCloseTab += OnTabClose;
 
-            tabControl1.TabPages.Add(person.name);
+            tabControl1.TabPages.Add(person.name +   "　　");
             tabControl1.TabPages[tabControl1.TabPages.Count - 1].Tag = tabId;
 
             addform(tabControl1.TabPages[tabControl1.TabPages.Count - 1], frm);
@@ -120,7 +121,13 @@ namespace WinFormsApp2
 
         }
 
+        private void OnTabCloseButtonClick(object sender, EventArgs e)
+        {
+           TabControlEx.EventCloseTab ev = (TabControlEx.EventCloseTab)e;
 
+           tabControl1.TabPages.RemoveAt(ev.tabIndex );
+
+        }
 
         private void OnTabClose( int tagId)
         {

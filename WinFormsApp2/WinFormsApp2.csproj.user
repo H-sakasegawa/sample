@@ -37,5 +37,8 @@
     <Compile Update="FromKyokiSimulation.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="TabControlEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
