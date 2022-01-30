@@ -75,9 +75,9 @@ namespace WinFormsApp2
             lstModlessForms.Add(frm);
 
         }
- 
 
-        public Form1( Form mainFrm ,int _tabId, Persons _persons, Person targetPerson=null)
+
+        public Form1(Form mainFrm, int _tabId, Persons _persons, Person targetPerson = null)
         {
             InitializeComponent();
 
@@ -121,26 +121,53 @@ namespace WinFormsApp2
 
                 grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
 
-                //グループコンボボックス設定
-                UpdateGroupCombobox();
-
+  
                 if (targetPerson == null)
                 {
+                    //グループコンボボックス設定
+                    UpdateGroupCombobox();
+                    //基本タブ
                     ReloadSetting();
                     btnTabClose.Visible = false;
                 }
                 else
                 {
-                    cmbGroup.Text = targetPerson.group;
-                    cmbPerson.Text = targetPerson.name;
+                    if (targetPerson.classIdetify == PersonClassIdentity.Person)
+                    {
+                        //グループコンボボックス設定
+                        UpdateGroupCombobox();
 
-                    cmbGroup.Enabled = false;
-                    cmbPerson.Enabled = false;
-                    curPerson = targetPerson;
-                    button7.Visible = false;
-                    button8.Visible = false;
-                    button9.Visible = false;
+                        if (targetPerson.group != null)
+                        {
+                            cmbGroup.Text = targetPerson.group;
+                        }
+                        else
+                        {
+                            cmbGroup.Enabled = false;
+
+                        }
+                        cmbPerson.Text = targetPerson.name;
+
+                        cmbGroup.Enabled = false;
+                        cmbPerson.Enabled = false;
+                        curPerson = targetPerson;
+                        button7.Visible = false;
+                        button8.Visible = false;
+                        button9.Visible = false;
+                    }
+                    else
+                    {
+                        cmbGroup.Enabled = false;
+                        cmbPerson.Enabled = false;
+                        cmbPerson.Items.Add(targetPerson);
+                        cmbPerson.SelectedIndex = 0;
+                        cmbPerson.Text = targetPerson.name;
+                        button7.Visible = false;
+                        button8.Visible = false;
+                        button9.Visible = false;
+                    }
                 }
+
             }
             finally
             {
@@ -490,6 +517,7 @@ namespace WinFormsApp2
         //経歴一覧表
         private void DispCarrerList(Person person)
         {
+            if (person.career == null) return;
             lvCareer.Items.Clear();
             foreach (var career in person.career.dicCareer.OrderBy(c => c.Key))
             {
@@ -503,6 +531,7 @@ namespace WinFormsApp2
         //経歴メモ フォーカスロスト
         private void txtCarrerMemo_Leave(object sender, EventArgs e)
         {
+            if (curPerson.career == null) return;
             curPerson.career.Memo = txtCarrerMemo.Text;
             curPerson.career.Save();
         }
@@ -950,9 +979,11 @@ namespace WinFormsApp2
             AddNenunGetuunItem(rowKeyValue, title, item, lv);
 
             var lvItem = lv.Items[lv.Items.Count - 1];
-             //経歴情報
-            lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
-
+            //経歴情報
+            if (person.career != null)
+            {
+                lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
+            }
 
         }
 

@@ -375,11 +375,17 @@ namespace WinFormsApp2
 
     }
 
+    public enum PersonClassIdentity
+    {
+        Person = 0,
+        Birthday
+    }
     /// <summary>
     /// ユーザ情報
     /// </summary>
     public class Person
     {
+        public PersonClassIdentity classIdetify { get; set; }
         public string name { get; set; }
         public Birthday birthday { get; set; }
         public Gender gender { get; set; }
@@ -435,7 +441,14 @@ namespace WinFormsApp2
         private TableMng tblMng;
         private SetuiribiTable tblSetuiribi;
 
- 
+        public Person(string _name, Gender _gender, PersonClassIdentity _classIdetify)
+        {
+            name = _name;
+            gender = _gender;
+            classIdetify = _classIdetify;
+        }
+
+
         public Person(string _name, int year, int month, int day, Gender _gender, bool custShugosin = false, string custShugo=null, string custImigami = null)
         {
             Birthday _birthday = new Birthday(year,  month,  day);
@@ -448,6 +461,7 @@ namespace WinFormsApp2
 
         private int Init(string _name, Birthday _birthday, Gender _gender, string _group, bool _bCustomShugosin, string _custShugo, string _custImigami)
         {
+            classIdetify = PersonClassIdentity.Person;
             name = _name;
             birthday = _birthday;
             gender = _gender;
@@ -493,9 +507,9 @@ namespace WinFormsApp2
             return 0;
 
         }
- 
 
-        public int Init(TableMng _tblMng)
+
+        public int Init(TableMng _tblMng, bool bDispErrMsg = true)
         {
             if (tblMng != null) return 0;
 
@@ -559,12 +573,21 @@ namespace WinFormsApp2
             //守護神情報
             //------------------
             SetChouwaShugosinAttr();
-            SetChoukouShugosinAttr();
+            SetChoukouShugosinAttr(bDispErrMsg);
 
 
             return 0;
         }
 
+        //キャリア情報は取り込まない
+        public int InitEx(TableMng _tblMng, int year, int month, int day)
+        {
+            birthday = new Birthday(year, month, day);
+
+            Init(_tblMng, false);
+
+            return 0;
+        }
 
         private int ReadCareer()
         {
@@ -1540,9 +1563,9 @@ namespace WinFormsApp2
         /// <param name="kan">調候の守護神</param>
         /// <param name="inigamiAttr">調候の忌神</param>
         /// <returns></returns>
-        private void SetChoukouShugosinAttr()
+        private void SetChoukouShugosinAttr(bool bDispErrMsg = true)
         {
-            var shugosin = GetChoukouShugosin();
+            var shugosin = GetChoukouShugosin(bDispErrMsg);
             if (shugosin != null)
             {
                 //調候の守護神
@@ -1555,12 +1578,15 @@ namespace WinFormsApp2
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("調候の守護神が取得できませんでした");
+                if (bDispErrMsg)
+                {
+                    System.Windows.Forms.MessageBox.Show("調候の守護神が取得できませんでした");
+                }
             }
         }
 
         //調候の守護神 取得
-        private ShugoSin GetChoukouShugosin()
+        private ShugoSin GetChoukouShugosin(bool bDispErrMsg=true)
         {
             var aryShugosin = tblMng.shugosinTbl.GetSugoSinItem(nikkansi, gekkansi);
             if (aryShugosin == null) return null;
@@ -1674,7 +1700,7 @@ namespace WinFormsApp2
                         break;
                 }
             }
-            if (errStr != "")
+            if (bDispErrMsg && errStr != "")
             {
                 System.Windows.Forms.MessageBox.Show(string.Format("{0}さんの\n{1}", name, errStr));
             }
@@ -1828,6 +1854,7 @@ namespace WinFormsApp2
         }
 
 
+
     }
 
     /// <summary>
@@ -1857,7 +1884,7 @@ namespace WinFormsApp2
             day = _day;
 
         }
-
+        
         public string birthday;
         public int year;
         public int month;

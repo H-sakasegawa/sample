@@ -25,7 +25,8 @@ namespace WinFormsApp2
         const string keyLastDataFile = "LastDataFile";
 
         List<Form> lstModlessForms = new List<Form>();
-        FormFinder frmSerch = null;
+        FormFinder frmFinder = null;
+        FormFinderCustom frmFinderCustom = null;
 
         public static string GetExePath() { return exePath; }
 
@@ -144,9 +145,10 @@ namespace WinFormsApp2
         }
         private void mnuSerch_Click(object sender, EventArgs e)
         {
-            if(frmSerch!=null)
+            if(frmFinder!=null)
             {
-                frmSerch.Show();
+                frmFinder.Show();
+                frmFinderCustom.Activate();
                 return;
             }
             //アクティブタブ
@@ -156,16 +158,16 @@ namespace WinFormsApp2
             Person person = frm.GetCurrentPerson();
             Group group = frm.GetCurrentGroup();
 
-            frmSerch = new FormFinder(this, group, person);
-            frmSerch.OnClose += OnFrmSerch_Close;
-            frmSerch.Show();
-            lstModlessForms.Add(frmSerch);
+            frmFinder = new FormFinder(this, group, person);
+            frmFinder.OnClose += OnFrmFinder_Close;
+            frmFinder.Show();
+            lstModlessForms.Add(frmFinder);
         }
 
-        private void OnFrmSerch_Close(Form frm)
+        private void OnFrmFinder_Close(Form frm)
         {
             lstModlessForms.Remove(frm);
-            if(frm == frmSerch) frmSerch = null;
+            if(frm == frmFinder) frmFinder = null;
         }
 
         private void toolFind_Click(object sender, EventArgs e)
@@ -204,10 +206,22 @@ namespace WinFormsApp2
             foreach (TabPage tp in tabControl1.TabPages)
             {
                 Form1 frm = (Form1)tp.Controls[0];
-                if (frm.GetCurrentPerson() == person)
+                if (person.classIdetify == PersonClassIdentity.Person)
                 {
-                    tabControl1.SelectedTab = tp;
-                    return;
+                    if (frm.GetCurrentPerson() == person)
+                    {
+                        tabControl1.SelectedTab = tp;
+                        return;
+                    }
+                }else if(person.classIdetify == PersonClassIdentity.Birthday)
+                {
+                    Person p = frm.GetCurrentPerson();
+                    if(p.classIdetify == person.classIdetify &&  p.birthday.birthday == person.birthday.birthday)
+                    {
+                        tabControl1.SelectedTab = tp;
+                        return;
+                    }
+
                 }
             }
             //タブ表示されていないメンバーはタブを追加して表示
@@ -215,6 +229,28 @@ namespace WinFormsApp2
 
         }
 
+        //全検索
+        private void toolFindCustom_Click(object sender, EventArgs e)
+        {
+
+            if (frmFinderCustom != null)
+            {
+                frmFinderCustom.Show();
+                frmFinderCustom.Activate();
+                return;
+            }
+
+            frmFinderCustom = new FormFinderCustom(this);
+            frmFinderCustom.OnClose += OnFrmFindCustom_Close;
+            frmFinderCustom.Show();
+            lstModlessForms.Add(frmFinderCustom);
+        }
+
+        private void OnFrmFindCustom_Close(Form frm)
+        {
+            lstModlessForms.Remove(frm);
+            if (frm == frmFinderCustom) frmFinderCustom = null;
+        }
 
         /// <summary>
         /// 名簿を開く
@@ -289,5 +325,6 @@ namespace WinFormsApp2
             FormExcelPictureTest frm = new FormExcelPictureTest();
             frm.ShowDialog();
         }
-    }
+
+     }
 }

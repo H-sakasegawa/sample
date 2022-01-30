@@ -24,10 +24,15 @@ namespace WinFormsApp2
         /// <summary>
         /// 年毎データ
         /// </summary>
-        class YearItem
+        class YearItem : IComparable
         {
             public int year =0;
             public Dictionary<int, int> dicSetuiribi = new Dictionary<int, int>();
+
+            public int CompareTo(object x)
+            {
+                return year.CompareTo(((YearItem)x).year);
+            }
 
         }
         //節入り日テーブルの先頭行
@@ -503,6 +508,23 @@ namespace WinFormsApp2
         public bool IsContainsYear( int year )
         {
             return dicSetuiribiTbl.ContainsKey(year);
+        }
+
+        public int GetMinYear()
+        {
+            var item = dicSetuiribiTbl.Min(x => x.Value);
+            return item.year;
+
+        }
+        public int GetSetuiribi(int year)
+        {
+            if (!dicSetuiribiTbl.ContainsKey(year)) return -1;
+            return dicSetuiribiTbl[year].dicSetuiribi[2];//2月の節入り日
+        }
+        public int GetMaxYear()
+        {
+            var item = dicSetuiribiTbl.Max(x => x.Value);
+            return item.year;
         }
 
     }

@@ -277,6 +277,7 @@ namespace WinFormsApp2
             // 
             this.txtYear.Location = new System.Drawing.Point(65, 68);
             this.txtYear.Name = "txtYear";
+            this.txtYear.ReadOnly = true;
             this.txtYear.Size = new System.Drawing.Size(56, 23);
             this.txtYear.TabIndex = 7;
             this.txtYear.Text = "1970";
@@ -286,6 +287,7 @@ namespace WinFormsApp2
             // 
             this.txtMonth.Location = new System.Drawing.Point(150, 69);
             this.txtMonth.Name = "txtMonth";
+            this.txtMonth.ReadOnly = true;
             this.txtMonth.Size = new System.Drawing.Size(33, 23);
             this.txtMonth.TabIndex = 8;
             this.txtMonth.Text = "1";
@@ -295,6 +297,7 @@ namespace WinFormsApp2
             // 
             this.txtDay.Location = new System.Drawing.Point(203, 69);
             this.txtDay.Name = "txtDay";
+            this.txtDay.ReadOnly = true;
             this.txtDay.Size = new System.Drawing.Size(33, 23);
             this.txtDay.TabIndex = 9;
             this.txtDay.Text = "12";
@@ -580,6 +583,7 @@ namespace WinFormsApp2
             // 
             this.groupBox2.Controls.Add(this.radMan);
             this.groupBox2.Controls.Add(this.radWoman);
+            this.groupBox2.Enabled = false;
             this.groupBox2.Location = new System.Drawing.Point(68, 89);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(97, 36);
@@ -758,7 +762,7 @@ namespace WinFormsApp2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tableLayoutPanel8);
-            this.panel2.Location = new System.Drawing.Point(128, 369);
+            this.panel2.Location = new System.Drawing.Point(128, 371);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(302, 137);
             this.panel2.TabIndex = 45;
@@ -943,7 +947,7 @@ namespace WinFormsApp2
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(128, -1);
+            this.tabControl1.Location = new System.Drawing.Point(128, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(407, 161);
@@ -1430,7 +1434,7 @@ namespace WinFormsApp2
             // pictureBox3
             // 
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Location = new System.Drawing.Point(129, 166);
+            this.pictureBox3.Location = new System.Drawing.Point(129, 168);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(301, 197);
             this.pictureBox3.TabIndex = 69;
@@ -1576,7 +1580,7 @@ namespace WinFormsApp2
             this.lstInsenDetail.FormattingEnabled = true;
             this.lstInsenDetail.IntegralHeight = false;
             this.lstInsenDetail.ItemHeight = 15;
-            this.lstInsenDetail.Location = new System.Drawing.Point(431, 166);
+            this.lstInsenDetail.Location = new System.Drawing.Point(431, 168);
             this.lstInsenDetail.Name = "lstInsenDetail";
             this.lstInsenDetail.Size = new System.Drawing.Size(162, 197);
             this.lstInsenDetail.TabIndex = 78;
@@ -1607,7 +1611,7 @@ namespace WinFormsApp2
             this.listBox1.FormattingEnabled = true;
             this.listBox1.IntegralHeight = false;
             this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(431, 369);
+            this.listBox1.Location = new System.Drawing.Point(431, 371);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(159, 137);
             this.listBox1.TabIndex = 80;

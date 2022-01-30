@@ -73,6 +73,15 @@ namespace WinFormsApp2
         public string si;
         public Tenchusatu tenchusatu;
 
+        public Kansi()
+        {
+            no = -1;
+            kan = "";
+            si = "";
+            tenchusatu = null;
+        }
+
+
         public Kansi(int _no, string _kan, string _si, string _tenchusatu)
         {
             no = _no;

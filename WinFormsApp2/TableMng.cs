@@ -133,7 +133,7 @@ namespace WinFormsApp2
                 }
             }
             public int Count { get { return dicJyunisi.Count; } }
-            public List<Jyunisi> ToList()
+            public List<Jyunisi> ToList(bool bMinimul=false)
             {
                 return dicJyunisi.Values.ToList();
             }
@@ -156,6 +156,7 @@ namespace WinFormsApp2
             }
             public int Count { get { return dicKansi.Count; } }
 
+            public Kansi[] GetKansiList() { return dicKansi.Values.ToArray(); }
             /// <summary>
             /// 干支文字列から干支番号取得
             /// </summary>
