@@ -230,6 +230,10 @@ namespace WinFormsApp2
         }
 
         //全検索
+        private void mnuPatternCondFind_Click(object sender, EventArgs e)
+        {
+            toolFindCustom_Click(null, null);
+        }
         private void toolFindCustom_Click(object sender, EventArgs e)
         {
 

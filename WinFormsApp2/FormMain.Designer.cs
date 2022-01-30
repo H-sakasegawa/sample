@@ -36,10 +36,11 @@ namespace WinFormsApp2
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.機能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuPatternCondFind = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAddTab = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSerch = new System.Windows.Forms.ToolStripMenuItem();
+            this.パターン条件検索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExcelPicture = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -90,7 +91,7 @@ namespace WinFormsApp2
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2,
-            this.機能ToolStripMenuItem,
+            this.mnuPatternCondFind,
             this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -113,34 +114,42 @@ namespace WinFormsApp2
             this.mnuOpen.Text = "名簿を開く(&O)";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
-            // 機能ToolStripMenuItem
+            // mnuPatternCondFind
             // 
-            this.機能ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuPatternCondFind.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAddTab,
             this.toolStripSeparator1,
-            this.mnuSerch});
-            this.機能ToolStripMenuItem.Name = "機能ToolStripMenuItem";
-            this.機能ToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.機能ToolStripMenuItem.Text = "機能(&U)";
+            this.mnuSerch,
+            this.パターン条件検索ToolStripMenuItem});
+            this.mnuPatternCondFind.Name = "mnuPatternCondFind";
+            this.mnuPatternCondFind.Size = new System.Drawing.Size(59, 20);
+            this.mnuPatternCondFind.Text = "機能(&U)";
             // 
             // mnuAddTab
             // 
             this.mnuAddTab.Name = "mnuAddTab";
-            this.mnuAddTab.Size = new System.Drawing.Size(116, 22);
+            this.mnuAddTab.Size = new System.Drawing.Size(180, 22);
             this.mnuAddTab.Text = "タブ追加";
             this.mnuAddTab.Click += new System.EventHandler(this.mnuAddTab_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuSerch
             // 
             this.mnuSerch.Name = "mnuSerch";
-            this.mnuSerch.Size = new System.Drawing.Size(116, 22);
-            this.mnuSerch.Text = "検索";
+            this.mnuSerch.Size = new System.Drawing.Size(180, 22);
+            this.mnuSerch.Text = "大運・年運検索";
             this.mnuSerch.Click += new System.EventHandler(this.mnuSerch_Click);
+            // 
+            // パターン条件検索ToolStripMenuItem
+            // 
+            this.パターン条件検索ToolStripMenuItem.Name = "パターン条件検索ToolStripMenuItem";
+            this.パターン条件検索ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.パターン条件検索ToolStripMenuItem.Text = "パターン条件検索";
+            this.パターン条件検索ToolStripMenuItem.Click += new System.EventHandler(this.mnuPatternCondFind_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -204,7 +213,7 @@ namespace WinFormsApp2
             this.toolFind.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFind.Name = "toolFind";
             this.toolFind.Size = new System.Drawing.Size(23, 22);
-            this.toolFind.Text = "検索";
+            this.toolFind.Text = "大運・年運検索";
             this.toolFind.Click += new System.EventHandler(this.toolFind_Click);
             // 
             // toolFindCustom
@@ -214,7 +223,8 @@ namespace WinFormsApp2
             this.toolFindCustom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolFindCustom.Name = "toolFindCustom";
             this.toolFindCustom.Size = new System.Drawing.Size(23, 22);
-            this.toolFindCustom.Text = "toolStripButton1";
+            this.toolFindCustom.Text = "パターン条件検索";
+            this.toolFindCustom.ToolTipText = "パターン条件検索";
             this.toolFindCustom.Click += new System.EventHandler(this.toolFindCustom_Click);
             // 
             // FormMain
@@ -245,7 +255,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem 機能ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuPatternCondFind;
         private System.Windows.Forms.ToolStripMenuItem mnuAddTab;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuSerch;
@@ -259,5 +269,6 @@ namespace WinFormsApp2
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuExcelPicture;
         private System.Windows.Forms.ToolStripButton toolFindCustom;
+        private System.Windows.Forms.ToolStripMenuItem パターン条件検索ToolStripMenuItem;
     }
 }

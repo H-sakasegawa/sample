@@ -67,6 +67,7 @@ namespace WinFormsApp2
             this.cmbJudaishuseiC = new System.Windows.Forms.ComboBox();
             this.cmbJunidaijuseiB = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cmbToYear = new System.Windows.Forms.ComboBox();
             this.cmbFromYear = new System.Windows.Forms.ComboBox();
@@ -80,7 +81,6 @@ namespace WinFormsApp2
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.lvFindResultBIRTHDAY = new WinFormsApp2.ListViewEx();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -502,6 +502,16 @@ namespace WinFormsApp2
             this.tabPage2.Text = "詳細条件";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(38, 113);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(216, 50);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "ここはまだまだ";
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Cursor = System.Windows.Forms.Cursors.HSplit;
@@ -660,16 +670,6 @@ namespace WinFormsApp2
             this.lvFindResultBIRTHDAY.View = System.Windows.Forms.View.Details;
             this.lvFindResultBIRTHDAY.SelectedIndexChanged += new System.EventHandler(this.lvFindResultBIRTHDAY_SelectedIndexChanged);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Yu Gothic UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(38, 113);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(216, 50);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ここはまだまだ";
-            // 
             // FormFinderCustom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -679,7 +679,7 @@ namespace WinFormsApp2
             this.Controls.Add(this.lblStatus);
             this.MinimumSize = new System.Drawing.Size(438, 200);
             this.Name = "FormFinderCustom";
-            this.Text = "検索";
+            this.Text = "パターン条件検索";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormFinder_FormClosing);
             this.Load += new System.EventHandler(this.FormSerch_Load);
             this.panel2.ResumeLayout(false);
