@@ -21,6 +21,29 @@ namespace WinFormsApp2
         TARGET_BIRTHDAY = 0x0002
     }
 
+
+    public class FindItem
+    {
+        public enum ItemType
+        {
+            NAME = 0,
+            ATTR,
+            SEP,
+        }
+        public FindItem(string _name, ItemType _type = ItemType.NAME)
+        {
+            name = _name;
+            type = _type;
+        }
+        public override string ToString()
+        {
+            return name;
+        }
+        public string name;
+        public ItemType type;
+    }
+
+
     public class FindParameter
     {
         public FindCondition cond;
@@ -30,48 +53,51 @@ namespace WinFormsApp2
         public int maxYear;
 
         //干支
-        public Kansi nikkansi = new Kansi();
-        public Kansi gekkansi = new Kansi();
-        public Kansi nenkansi = new Kansi();
+        public FindItem nitiKansiKan;
+        public FindItem nitiKansiSi;
+        public FindItem getuKansiKan;
+        public FindItem getuKansiSi;
+        public FindItem nenKansiKan;
+        public FindItem nenKansiSi;
         //天中殺
-        public string[] tenchusatuNiti = new string[2];
-        public string[] tenchusatuNen = new string[2];
+        public FindItem[] tenchusatuNiti = new FindItem[2];
+        public FindItem[] tenchusatuNen = new FindItem[2];
 
 
         //蔵元
-        public string zouganNitiShogen;
-        public string zouganNitiChugen;
-        public string zouganNitiHongen;
-        public string zouganGetuShogen;
-        public string zouganGetuChugen;
-        public string zouganGetuHongen;
-        public string zouganNenShogen;
-        public string zouganNenChugen;
-        public string zouganNenHongen;
+        public FindItem zouganNitiShogen;
+        public FindItem zouganNitiChugen;
+        public FindItem zouganNitiHongen;
+        public FindItem zouganGetuShogen;
+        public FindItem zouganGetuChugen;
+        public FindItem zouganGetuHongen;
+        public FindItem zouganNenShogen;
+        public FindItem zouganNenChugen;
+        public FindItem zouganNenHongen;
         ////二十八元素
         //public NijuhachiGenso nijuhachiGensoNikkansi { get; set; }
         //public NijuhachiGenso nijuhachiGensoGekkansi { get; set; }
         //public NijuhachiGenso nijuhachiGensoNenkansi { get; set; }
 
         //十大主星
-        public string judaiShuseiA;
-        public string judaiShuseiB;
-        public string judaiShuseiC;
-        public string judaiShuseiD;
-        public string judaiShuseiE;
+        public FindItem judaiShuseiA;
+        public FindItem judaiShuseiB;
+        public FindItem judaiShuseiC;
+        public FindItem judaiShuseiD;
+        public FindItem judaiShuseiE;
 
-        public string judaiShuseiAttrA;
-        public string judaiShuseiAttrB;
-        public string judaiShuseiAttrC;
-        public string judaiShuseiAttrD;
-        public string judaiShuseiAttrE;
+        public FindItem judaiShuseiAttrA;
+        public FindItem judaiShuseiAttrB;
+        public FindItem judaiShuseiAttrC;
+        public FindItem judaiShuseiAttrD;
+        public FindItem judaiShuseiAttrE;
         //十二大主星
-        public string junidaiJuseiA;
-        public string junidaiJuseiB;
-        public string junidaiJuseiC;
-        public string junidaiJuseiAttrA;
-        public string junidaiJuseiAttrB;
-        public string junidaiJuseiAttrC;
+        public FindItem junidaiJuseiA;
+        public FindItem junidaiJuseiB;
+        public FindItem junidaiJuseiC;
+        public FindItem junidaiJuseiAttrA;
+        public FindItem junidaiJuseiAttrB;
+        public FindItem junidaiJuseiAttrC;
 
     }
 
@@ -89,17 +115,17 @@ namespace WinFormsApp2
         /// </summary>
         public class FindResult
         {
-            public List<FindItem> lstFindItemsDB = new List<FindItem>();
+            public List<ResultItem> lstFindItemsDB = new List<ResultItem>();
             public List<ResultFormatTargetDB> lstFormatTargetDB = new List<ResultFormatTargetDB>();
 
-            public List<FindItem> lstFindItemsBIRTHDAY = new List<FindItem>();
+            public List<ResultItem> lstFindItemsBIRTHDAY = new List<ResultItem>();
             public List<ResultFormatTargetBIRTHDAY> lstFormatTargetBIRTHDAY = new List<ResultFormatTargetBIRTHDAY>();
 
             public FindResult()
             {
             }
 
-            public void AddDB(FindItem item)
+            public void AddDB(ResultItem item)
             {
                 lstFindItemsDB.Add(item);
             }
@@ -110,7 +136,7 @@ namespace WinFormsApp2
                     lstFindItemsDB.Add(item);
                 }
             }
-            public void AddBIRTHDAY(FindItem item)
+            public void AddBIRTHDAY(ResultItem item)
             {
                 lstFindItemsBIRTHDAY.Add(item);
             }
@@ -131,9 +157,9 @@ namespace WinFormsApp2
         /// <summary>
         /// 検索結果項目
         /// </summary>
-        public class FindItem
+        public class ResultItem
         {
-            public FindItem(Person _person)
+            public ResultItem(Person _person)
             {
                 person = _person;
             }
@@ -226,7 +252,7 @@ namespace WinFormsApp2
                 {
                     if (IsSameCondition(param, person))
                     {
-                        FindItem item = new FindItem(person);
+                        ResultItem item = new ResultItem(person);
                         result.AddDB(item);
 
                     }
@@ -259,10 +285,10 @@ namespace WinFormsApp2
                     woman.InitEx(tblMng, dt.Year, dt.Month, dt.Day);
 
                     List<Gender> lstFindedGender = new List<Gender>();
-                    FindItem findItem = null;
+                    ResultItem findItem = null;
                     if (IsSameCondition(param, man))
                     {
-                        findItem = new FindItem(man);
+                        findItem = new ResultItem(man);
                         findItem.lstItem.Add(man.birthday.year.ToString()); //年
                         findItem.lstItem.Add(man.birthday.month.ToString());//月
                         findItem.lstItem.Add(man.birthday.day.ToString()); //日
@@ -273,7 +299,7 @@ namespace WinFormsApp2
                     {
                         if (findItem == null)
                         {
-                            findItem = new FindItem(woman);
+                            findItem = new ResultItem(woman);
                             findItem.lstItem.Add(woman.birthday.year.ToString()); //年
                             findItem.lstItem.Add(woman.birthday.month.ToString());//月
                             findItem.lstItem.Add(woman.birthday.day.ToString()); //日
@@ -313,6 +339,57 @@ namespace WinFormsApp2
             else return true;
 
         }
+
+        //十干テーブル項目同一チェック
+        bool IsMatchJukan(FindItem findItem, string s)
+        {
+            if (findItem.type == FindItem.ItemType.NAME)
+            {
+                return findItem.name == s;
+            }
+            else if (findItem.type == FindItem.ItemType.ATTR)
+            {
+                string gogyo = tblMng.jyukanTbl.GetGogyo(s);
+                return findItem.name == gogyo;
+            }
+            return false;
+        }
+        //十二支テーブル項目同一チェック
+        bool IsMatchJunisi(FindItem findItem, string s)
+        {
+            if (findItem.type == FindItem.ItemType.NAME)
+            {
+                return findItem.name == s;
+            }
+            else if (findItem.type == FindItem.ItemType.ATTR)
+            {
+                string gogyo = tblMng.jyunisiTbl.GetGogyo(s);
+                return findItem.name == gogyo;
+            }
+            return false;
+        }
+        //十大主星項目同一チェック
+        bool IsMatchJudaishusei (FindItem findItem, string s)
+        {
+            if (findItem.type == FindItem.ItemType.NAME)
+            {
+                return findItem.name == s;
+            }
+            else if (findItem.type == FindItem.ItemType.ATTR)
+            {
+                string gogyo = tblMng.juudaiShusei.GetGogyo(s);
+                if (gogyo == null) return false;
+                return findItem.name == gogyo;
+            }
+            return false;
+        }
+        bool IsEffectiveParam( FindItem findItem)
+        {
+            if (findItem == null) return false;
+            if (findItem.type == FindItem.ItemType.SEP) return false;
+            return true;
+        }
+
         /// <summary>
         /// 陰占
         /// </summary>
@@ -323,103 +400,104 @@ namespace WinFormsApp2
         { 
             bool bMatch = false;
             bool bResult = false;
+            TableMng.JyukanTbl jukanTbl = tblMng.jyukanTbl;
 
-            if (!string.IsNullOrEmpty(param.nikkansi.kan))
+            if (IsEffectiveParam(param.nitiKansiKan))
             {
-                bMatch = (param.nikkansi.kan == person.nikkansi.kan);
+                bMatch = IsMatchJukan(param.nitiKansiKan, person.nikkansi.kan );
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.nikkansi.si))
+            if (IsEffectiveParam(param.nitiKansiSi))
             {
-                bMatch = (param.nikkansi.si == person.nikkansi.si);
+                bMatch = IsMatchJunisi(param.nitiKansiSi, person.nikkansi.si);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.gekkansi.kan))
+            if (IsEffectiveParam(param.getuKansiKan))
             {
-                bMatch = (param.gekkansi.kan == person.gekkansi.kan);
+                bMatch = IsMatchJukan(param.getuKansiKan,person.gekkansi.kan);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.gekkansi.si))
+            if (IsEffectiveParam(param.getuKansiSi))
             {
-                bMatch = (param.gekkansi.si == person.gekkansi.si);
+                bMatch = IsMatchJunisi(param.getuKansiSi,person.gekkansi.si);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.nenkansi.kan))
+            if (IsEffectiveParam(param.nenKansiKan))
             {
-                bMatch = (param.nenkansi.kan == person.nenkansi.kan);
+                bMatch = IsMatchJukan(param.nenKansiKan,person.nenkansi.kan);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.nenkansi.si))
+            if (IsEffectiveParam(param.nenKansiSi))
             {
-                bMatch = (param.nenkansi.si == person.nenkansi.si);
+                bMatch = IsMatchJunisi(param.nenKansiSi,person.nenkansi.si);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
             //天中殺
-            if (!string.IsNullOrEmpty(param.tenchusatuNiti[0]))
+            if (IsEffectiveParam(param.tenchusatuNiti[0]))
             {
-                bMatch = (param.tenchusatuNiti[0] == person.nikkansi.tenchusatu[0]);
+                bMatch = IsMatchJunisi(param.tenchusatuNiti[0], person.nikkansi.tenchusatu[0]);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.tenchusatuNiti[1]))
+            if (IsEffectiveParam(param.tenchusatuNiti[1]))
             {
-                bMatch = (param.tenchusatuNiti[1] == person.nikkansi.tenchusatu[1]);
+                bMatch = IsMatchJunisi(param.tenchusatuNiti[1],person.nikkansi.tenchusatu[1]);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.tenchusatuNen[0]))
+            if (IsEffectiveParam(param.tenchusatuNen[0]))
             {
-                bMatch = (param.tenchusatuNen[0] == person.nenkansi.tenchusatu[0]);
+                bMatch = IsMatchJunisi(param.tenchusatuNen[0],person.nenkansi.tenchusatu[0]);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.tenchusatuNen[1]))
+            if (IsEffectiveParam(param.tenchusatuNen[1]))
             {
-                bMatch = (param.tenchusatuNen[1] == person.nenkansi.tenchusatu[1]);
+                bMatch = IsMatchJunisi(param.tenchusatuNen[1],person.nenkansi.tenchusatu[1]);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
             Insen insen = new Insen(person);
             //蔵元
-            if (!string.IsNullOrEmpty(param.zouganNitiShogen))
+            if (IsEffectiveParam(param.zouganNitiShogen))
             {
-                bMatch = (param.zouganNitiShogen == insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
+                bMatch = IsMatchJukan(param.zouganNitiShogen,insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganNitiChugen))
+            if (IsEffectiveParam(param.zouganNitiChugen))
             {
-                bMatch = (param.zouganNitiChugen == insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
+                bMatch = IsMatchJukan(param.zouganNitiChugen,insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganNitiHongen))
+            if (IsEffectiveParam(param.zouganNitiHongen))
             {
-                bMatch = (param.zouganNitiHongen == insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
+                bMatch = IsMatchJukan(param.zouganNitiHongen,insen.nikkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganGetuShogen))
+            if (IsEffectiveParam(param.zouganGetuShogen))
             {
-                bMatch = (param.zouganGetuShogen == insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
+                bMatch = IsMatchJukan(param.zouganGetuShogen,insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganGetuChugen))
+            if (IsEffectiveParam(param.zouganGetuChugen))
             {
-                bMatch = (param.zouganGetuChugen == insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
+                bMatch = IsMatchJukan(param.zouganGetuChugen,insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganGetuHongen))
+            if (IsEffectiveParam(param.zouganGetuHongen))
             {
-                bMatch = (param.zouganGetuHongen == insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
+                bMatch = IsMatchJukan(param.zouganGetuHongen,insen.gekkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganNenShogen))
+            if (IsEffectiveParam(param.zouganNenShogen))
             {
-                bMatch = (param.zouganNenShogen == insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
+                bMatch = IsMatchJukan(param.zouganNenShogen,insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_SHOGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganNenChugen))
+            if (IsEffectiveParam(param.zouganNenChugen))
             {
-                bMatch = (param.zouganNenChugen == insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
+                bMatch = IsMatchJukan(param.zouganNenChugen,insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_CHUGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.zouganNenHongen))
+            if (IsEffectiveParam(param.zouganNenHongen))
             {
-                bMatch = (param.zouganNenHongen == insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
+                bMatch = IsMatchJukan(param.zouganNenHongen,insen.nenkansiHongen[(int)NijuhachiGenso.enmGensoType.GENSO_HONGEN].name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
 
@@ -435,46 +513,46 @@ namespace WinFormsApp2
         /// <returns></returns>
         public bool IsSameConditionYousen(FindParameter param, Person person)
         {
-            bool bMatch = false;
+            bool bMatch;
             bool bResult = false;
-            if (!string.IsNullOrEmpty(param.judaiShuseiA))
+            if (IsEffectiveParam(param.judaiShuseiA ))
             {
-                bMatch = (param.judaiShuseiA == person.judaiShuseiA.name);
+                bMatch = IsMatchJudaishusei(param.judaiShuseiA,person.judaiShuseiA.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.judaiShuseiB))
+            if (IsEffectiveParam(param.judaiShuseiB))
             {
-                bMatch = (param.judaiShuseiB == person.judaiShuseiB.name);
+                bMatch = IsMatchJudaishusei(param.judaiShuseiB,person.judaiShuseiB.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.judaiShuseiC))
+            if (IsEffectiveParam(param.judaiShuseiC))
             {
-                bMatch = (param.judaiShuseiC == person.judaiShuseiC.name);
+                bMatch = IsMatchJudaishusei(param.judaiShuseiC,person.judaiShuseiC.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.judaiShuseiD))
+            if (IsEffectiveParam(param.judaiShuseiD))
             {
-                bMatch = (param.judaiShuseiD == person.judaiShuseiD.name);
+                bMatch = IsMatchJudaishusei(param.judaiShuseiD,person.judaiShuseiD.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.judaiShuseiE))
+            if (IsEffectiveParam(param.judaiShuseiE))
             {
-                bMatch = (param.judaiShuseiE == person.judaiShuseiE.name);
+                bMatch = IsMatchJudaishusei(param.judaiShuseiE,person.judaiShuseiE.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.junidaiJuseiA))
+            if (IsEffectiveParam(param.junidaiJuseiA))
             {
-                bMatch = (param.junidaiJuseiA == person.junidaiJuseiA.name);
+                bMatch = IsMatchJudaishusei(param.junidaiJuseiA,person.junidaiJuseiA.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.junidaiJuseiB))
+            if (IsEffectiveParam(param.junidaiJuseiB))
             {
-                bMatch = (param.junidaiJuseiB == person.junidaiJuseiB.name);
+                bMatch = IsMatchJudaishusei(param.junidaiJuseiB,person.junidaiJuseiB.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
-            if (!string.IsNullOrEmpty(param.junidaiJuseiC))
+            if (IsEffectiveParam(param.junidaiJuseiC))
             {
-                bMatch = (param.junidaiJuseiC == person.junidaiJuseiC.name);
+                bMatch = IsMatchJudaishusei(param.junidaiJuseiC,person.junidaiJuseiC.name);
                 if (IsReturn(param, bMatch, ref bResult)) return bResult;
             }
 

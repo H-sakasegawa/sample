@@ -45,6 +45,10 @@ namespace WinFormsApp2
             {
                 return dicJyukan.Values.ToList();
             }
+            public string GetGogyo(string jukan)
+            {
+                return this[jukan].gogyou;
+            }
             /// <summary>
             /// 指定した２の十干名称の組み合わせが陰陽の関係かチェック
             /// </summary>
@@ -137,6 +141,11 @@ namespace WinFormsApp2
             {
                 return dicJyunisi.Values.ToList();
             }
+            public string GetGogyo(string junisi)
+            {
+                return this[junisi].gogyou;
+            }
+
         }
         public JyunisiTbl jyunisiTbl = new JyunisiTbl();
 
@@ -268,6 +277,13 @@ namespace WinFormsApp2
                     }
 
                 }
+                return null;
+            }
+
+            public string GetGogyo( string name)
+            {
+                var item = lstJudaiShusei.FirstOrDefault(x => x.name == name);
+                if (item != null) return item.gogyou;
                 return null;
             }
 

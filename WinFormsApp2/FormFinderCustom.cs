@@ -14,12 +14,13 @@ namespace WinFormsApp2
     {
         class FindResultItem : LvItemDataBase
         {
-            public FindResultItem(FinderCustom.FindItem item )
+            public FindResultItem(FinderCustom.ResultItem item )
             {
                 findItem = item;
             }
-            public FinderCustom.FindItem findItem;
+            public FinderCustom.ResultItem findItem;
         }
+
 
         public event Common.CloseHandler OnClose = null;
 
@@ -79,58 +80,60 @@ namespace WinFormsApp2
             };
 
 
+            var lstJukan = tblMng.jyukanTbl.ToList();
+            var lstJukanGogyo = lstJukan.ConvertAll(x => x.gogyou).Distinct();
+            var lstJunisi = tblMng.jyunisiTbl.ToList();
+            var lstJunisiGogyo = lstJunisi.ConvertAll(x => x.gogyou).Distinct();
+            var lstJudaishusei = tblMng.juudaiShusei.lstJudaiShusei;
+            var lstJudaishuseiGogyo = lstJudaishusei.ConvertAll(x => x.gogyou).Distinct();
+            var lstJunidaijusei = tblMng.junidaiJusei.lstJunidaiJusei;
+
             foreach (var cmb in cmbKan)
             {
                 cmb.Items.Add("");
-                foreach (var item in tblMng.jyukanTbl.ToList())
+                foreach (var item in lstJukan)
                 {
-                    cmb.Items.Add(item.name);
+                    cmb.Items.Add(new FindItem(item.name));
                 }
-                cmb.Items.Add(sep);
-                foreach (var item in tblMng.jyukanTbl.ToList())
+                cmb.Items.Add(new FindItem(sep, FindItem.ItemType.SEP));
+                foreach (var item in lstJukanGogyo)
                 {
-                    if (cmb.Items.Contains(item.gogyou)) continue;
-                    cmb.Items.Add(item.gogyou);
+                    cmb.Items.Add(new FindItem(item, FindItem.ItemType.ATTR));
                 }
 
             }
             foreach (var cmb in cmbSi)
             {
                 cmb.Items.Add("");
-                var lst = tblMng.jyunisiTbl.ToList();
-                foreach (var item in lst)
+                foreach (var item in lstJunisi)
                 {
-                    cmb.Items.Add(item.name);
+                    cmb.Items.Add(new FindItem(item.name));
                 }
-                cmb.Items.Add(sep);
-                foreach (var item in lst)
+                cmb.Items.Add(new FindItem(sep, FindItem.ItemType.SEP));
+                foreach (var item in lstJunisiGogyo)
                 {
-                    if (cmb.Items.Contains(item.gogyou)) continue;
-                    cmb.Items.Add(item.gogyou);
+                    cmb.Items.Add(new FindItem(item, FindItem.ItemType.ATTR));
                 }
             }
             foreach (var cmb in cmbJudaiShusei)
             {
                 cmb.Items.Add("");
-                var lst = tblMng.juudaiShusei.lstJudaiShusei;
-                foreach (var item in lst)
+                foreach (var item in lstJudaishusei)
                 {
-                    cmb.Items.Add(item.name);
+                    cmb.Items.Add(new FindItem(item.name));
                 }
-                cmb.Items.Add(sep);
-                foreach (var item in lst)
+                cmb.Items.Add(new FindItem(sep, FindItem.ItemType.SEP));
+                foreach (var item in lstJudaishuseiGogyo)
                 {
-                    if (cmb.Items.Contains(item.gogyou)) continue;
-                    cmb.Items.Add(item.gogyou);
+                    cmb.Items.Add(new FindItem(item, FindItem.ItemType.ATTR));
                 }
             }
             foreach (var cmb in cmbJunidaijusei)
             {
                 cmb.Items.Add("");
-                var lst = tblMng.junidaiJusei.lstJunidaiJusei;
-                foreach (var item in lst)
+                foreach (var item in lstJunidaijusei)
                 {
-                    cmb.Items.Add(item.name);
+                    cmb.Items.Add(new FindItem(item.name));
                 }
               
             }
@@ -204,40 +207,40 @@ namespace WinFormsApp2
 
                 //■陰占
                 //干支
-                param.nikkansi.kan = cmbNitiKan.Text;
-                param.nikkansi.si = cmbNitiSi.Text;
-                param.gekkansi.kan = cmbGetuKan.Text;
-                param.gekkansi.si = cmbGetuSi.Text;
-                param.nenkansi.kan = cmbNenKan.Text;
-                param.nenkansi.si = cmbNenSi.Text;
+                param.nitiKansiKan = (FindItem)cmbNitiKan.SelectedItem;
+                param.nitiKansiSi = (FindItem)cmbNitiSi.SelectedItem;
+                param.getuKansiKan = (FindItem)cmbGetuKan.SelectedItem;
+                param.getuKansiSi = (FindItem)cmbGetuSi.SelectedItem;
+                param.nenKansiKan = (FindItem)cmbNenKan.SelectedItem;
+                param.nenKansiSi = (FindItem)cmbNenSi.SelectedItem;
 
                 //天中殺
-                param.tenchusatuNiti[0] = cmbNitiTenchusatuKan.Text;
-                param.tenchusatuNiti[1] = cmbNitiTenchusatuSi.Text;
-                param.tenchusatuNen[0] = cmbNenTenchusatuKan.Text;
-                param.tenchusatuNen[1] = cmbNenTenchusatuSi.Text;
+                param.tenchusatuNiti[0] = (FindItem)cmbNitiTenchusatuKan.SelectedItem;
+                param.tenchusatuNiti[1] = (FindItem)cmbNitiTenchusatuSi.SelectedItem;
+                param.tenchusatuNen[0] = (FindItem)cmbNenTenchusatuKan.SelectedItem;
+                param.tenchusatuNen[1] = (FindItem)cmbNenTenchusatuSi.SelectedItem;
 
                 //蔵元
-                param.zouganNitiShogen = cmbNitiZoganShogen.Text;
-                param.zouganNitiChugen = cmbNitiZoganChugen.Text;
-                param.zouganNitiHongen = cmbNitiZoganHongen.Text;
-                param.zouganGetuShogen = cmbGetuZoganShogen.Text;
-                param.zouganGetuChugen = cmbGetuZoganChugen.Text;
-                param.zouganGetuHongen = cmbGetuZoganHongen.Text;
-                param.zouganNenShogen = cmbNenZoganShogen.Text;
-                param.zouganNenChugen = cmbNenZoganChugen.Text;
-                param.zouganNenHongen = cmbNenZoganHongen.Text;
+                param.zouganNitiShogen = (FindItem)cmbNitiZoganShogen.SelectedItem;
+                param.zouganNitiChugen = (FindItem)cmbNitiZoganChugen.SelectedItem;
+                param.zouganNitiHongen = (FindItem)cmbNitiZoganHongen.SelectedItem;
+                param.zouganGetuShogen = (FindItem)cmbGetuZoganShogen.SelectedItem;
+                param.zouganGetuChugen = (FindItem)cmbGetuZoganChugen.SelectedItem;
+                param.zouganGetuHongen = (FindItem)cmbGetuZoganHongen.SelectedItem;
+                param.zouganNenShogen = (FindItem)cmbNenZoganShogen.SelectedItem;
+                param.zouganNenChugen = (FindItem)cmbNenZoganChugen.SelectedItem;
+                param.zouganNenHongen = (FindItem)cmbNenZoganHongen.SelectedItem;
 
                 //■陽占
-                param.judaiShuseiA = cmbJudaishuseiA.Text;
-                param.judaiShuseiB = cmbJudaishuseiB.Text;
-                param.judaiShuseiC = cmbJudaishuseiC.Text;
-                param.judaiShuseiD = cmbJudaishuseiD.Text;
-                param.judaiShuseiE = cmbJudaishuseiE.Text;
+                param.judaiShuseiA = (FindItem)cmbJudaishuseiA.SelectedItem;
+                param.judaiShuseiB = (FindItem)cmbJudaishuseiB.SelectedItem;
+                param.judaiShuseiC = (FindItem)cmbJudaishuseiC.SelectedItem;
+                param.judaiShuseiD = (FindItem)cmbJudaishuseiD.SelectedItem;
+                param.judaiShuseiE = (FindItem)cmbJudaishuseiE.SelectedItem;
 
-                param.junidaiJuseiA = cmbJunidaijuseiA.Text;
-                param.junidaiJuseiB = cmbJunidaijuseiB.Text;
-                param.junidaiJuseiC = cmbJunidaijuseiC.Text;
+                param.junidaiJuseiA = (FindItem)cmbJunidaijuseiA.SelectedItem;
+                param.junidaiJuseiB = (FindItem)cmbJunidaijuseiB.SelectedItem;
+                param.junidaiJuseiC = (FindItem)cmbJunidaijuseiC.SelectedItem;
 
                 var result = finder.Find(param);
 
@@ -344,7 +347,7 @@ namespace WinFormsApp2
             if (lvFindResultDB.SelectedItems.Count <= 0) return;
 
             var lvItem = lvFindResultDB.SelectedItems[0];
-            FinderCustom.FindItem findItem = ((FindResultItem)lvItem.Tag).findItem;
+            FinderCustom.ResultItem findItem = ((FindResultItem)lvItem.Tag).findItem;
 
 
             Person findPerson = (Person)findItem.person;
@@ -357,7 +360,7 @@ namespace WinFormsApp2
             if (lvFindResultBIRTHDAY.SelectedItems.Count <= 0) return;
 
             var lvItem = lvFindResultBIRTHDAY.SelectedItems[0];
-            FinderCustom.FindItem findItem = ((FindResultItem)lvItem.Tag).findItem;
+            FinderCustom.ResultItem findItem = ((FindResultItem)lvItem.Tag).findItem;
 
 
             Person findPerson = (Person)findItem.person;
