@@ -400,7 +400,7 @@ namespace WinFormsApp2
                // tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
                 //ユーザ情報初期設定
-                person.Init(tblMng);
+                person.Init();
 
                 //経歴リスト表示
                 DispCarrerList(person);
@@ -567,6 +567,41 @@ namespace WinFormsApp2
             lblJunidaiJuseiB.Text = person.junidaiJuseiB.name;
             //干1 → 支1
             lblJunidaiJuseiC.Text = person.junidaiJuseiC.name;
+
+            listYousenDetail.Items.Clear();
+
+            //局法（凶運）表示
+            Kyokuhou kyokuHou = new Kyokuhou();
+            var result = kyokuHou.GetKyouUn(person);
+            foreach(var item in result)
+            {
+                string str = item.name;
+                if (item.count > 1) str += string.Format("({0})", item.count);
+                listYousenDetail.Items.Add(str);
+            }
+
+            //局法（幸運）表示
+            result = kyokuHou.GetKouUn(person);
+            foreach (var item in result)
+            {
+                string str = item.name;
+                if (item.count > 1) str += string.Format("({0})", item.count);
+                listYousenDetail.Items.Add(str);
+            }
+            //別格表示
+            result = kyokuHou.GetBekkakku(person);
+            foreach (var item in result)
+            {
+                string str = item.name;
+                listYousenDetail.Items.Add(str);
+            }
+            //特殊五局表示
+            result = kyokuHou.GetTokushuGokyoku(person);
+            foreach (var item in result)
+            {
+                string str = item.name;
+                listYousenDetail.Items.Add(str);
+            }
 
         }
 

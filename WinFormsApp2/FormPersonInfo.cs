@@ -121,6 +121,9 @@ namespace WinFormsApp2
                 updatePerson.birthday.SetBirthday(year, month, day);
                 updatePerson.gender = (radMan.Checked ? Gender.MAN : Gender.WOMAN);
                 updatePerson.group = cmbGroup.Text;
+
+                //強制初期化
+                updatePerson.Init2(true);
             }
             else
             {

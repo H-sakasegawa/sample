@@ -960,7 +960,7 @@ namespace WinFormsApp2
 
 
         /// <summary>
-        /// 五行属性どうしの関係テーブル
+        /// 五行属性どうしの関係（相生、相剋）テーブル
         /// </summary>
         public class GogyouAttrRerationshipTbl
         {
@@ -970,6 +970,31 @@ namespace WinFormsApp2
             {
                 if (!dicGogyouAttrRelationship.ContainsKey(name)) return null;
                 return dicGogyouAttrRelationship[name];
+            }
+
+            /// <summary>
+            /// 相生 関係チェック
+            /// </summary>
+            /// <param name="from">生み出すもの</param>
+            /// <param name="to">生み出されるもの</param>
+            /// <returns></returns>
+            public bool IsCreate(string from, string to)
+            {
+                var relation = GetRelation(from);
+                if (relation.createToName == to) return true;
+                return false;
+            }
+            /// <summary>
+            /// 相剋生 関係チェック
+            /// </summary>
+            /// <param name="from">剋するもの</param>
+            /// <param name="to">剋されるもの</param>
+            /// <returns></returns>
+            public bool IsDestory(string from, string to)
+            {
+                var relation = GetRelation(from);
+                if (relation.destoryToName == to) return true;
+                return false;
             }
         }
 

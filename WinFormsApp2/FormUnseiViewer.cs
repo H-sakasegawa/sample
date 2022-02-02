@@ -394,7 +394,7 @@ namespace WinFormsApp2
             foreach(var item in items)
             {
                 Person person = (Person)item;
-                person.Init(TableMng.GetTblManage());
+                person.Init();
 
                 //未登録のみ追加
                 if ( lstDispItems.Items.IndexOf(item)<0)

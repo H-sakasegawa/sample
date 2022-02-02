@@ -26,7 +26,8 @@ namespace WinFormsApp2
     {
         public enum ItemType
         {
-            NAME = 0,
+            NONE = 0,
+            NAME,
             ATTR,
             SEP,
         }
@@ -386,7 +387,7 @@ namespace WinFormsApp2
         bool IsEffectiveParam( FindItem findItem)
         {
             if (findItem == null) return false;
-            if (findItem.type == FindItem.ItemType.SEP) return false;
+            if (findItem.type == FindItem.ItemType.NONE || findItem.type == FindItem.ItemType.SEP) return false;
             return true;
         }
 

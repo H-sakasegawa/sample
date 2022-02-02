@@ -637,7 +637,9 @@ namespace WinFormsApp2
         public string explanation;
 
     }
-
+    /// <summary>
+    /// 五行同士の関係（相生、相剋）
+    /// </summary>
     public class GogyouAttrRelationship
     {
         public GogyouAttrRelationship(string _name, string _createFromName, string _createToName, string _destoryFromName, string _destoryToName)

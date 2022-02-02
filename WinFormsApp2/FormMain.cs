@@ -304,7 +304,7 @@ namespace WinFormsApp2
                 foreach (var person in personList.GetPersonList())
                 {
                     //ユーザ情報初期設定
-                    person.Init(tblMng);
+                    person.Init();
 
                 }
 

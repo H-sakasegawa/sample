@@ -88,9 +88,10 @@ namespace WinFormsApp2
             var lstJudaishuseiGogyo = lstJudaishusei.ConvertAll(x => x.gogyou).Distinct();
             var lstJunidaijusei = tblMng.junidaiJusei.lstJunidaiJusei;
 
+            FindItem emptyItem = new FindItem("", FindItem.ItemType.NONE);
             foreach (var cmb in cmbKan)
             {
-                cmb.Items.Add("");
+                cmb.Items.Add(emptyItem);
                 foreach (var item in lstJukan)
                 {
                     cmb.Items.Add(new FindItem(item.name));
@@ -104,7 +105,7 @@ namespace WinFormsApp2
             }
             foreach (var cmb in cmbSi)
             {
-                cmb.Items.Add("");
+                cmb.Items.Add(emptyItem);
                 foreach (var item in lstJunisi)
                 {
                     cmb.Items.Add(new FindItem(item.name));
@@ -117,7 +118,7 @@ namespace WinFormsApp2
             }
             foreach (var cmb in cmbJudaiShusei)
             {
-                cmb.Items.Add("");
+                cmb.Items.Add(emptyItem);
                 foreach (var item in lstJudaishusei)
                 {
                     cmb.Items.Add(new FindItem(item.name));
@@ -130,7 +131,7 @@ namespace WinFormsApp2
             }
             foreach (var cmb in cmbJunidaijusei)
             {
-                cmb.Items.Add("");
+                cmb.Items.Add(emptyItem);
                 foreach (var item in lstJunidaijusei)
                 {
                     cmb.Items.Add(new FindItem(item.name));
@@ -182,6 +183,19 @@ namespace WinFormsApp2
             {
                 lvFindResultDB.Columns.Clear();
                 lvFindResultDB.Items.Clear();
+
+                //条件未入力チェック
+                int n = 0;
+                foreach (var item in cmbKan) { n += (item.SelectedIndex>0?1:0) ; }
+                foreach (var item in cmbSi) { n += (item.SelectedIndex > 0 ? 1 : 0); }
+                foreach (var item in cmbJudaiShusei) { n += (item.SelectedIndex > 0 ? 1 : 0); }
+                foreach (var item in cmbJunidaijusei) { n += (item.SelectedIndex > 0 ? 1 : 0); }
+
+                if( n==0)
+                {
+                    MessageBox.Show("条件が指定されていません");
+                    return;
+                }
 
                 FinderCustom finder = new FinderCustom();
 
@@ -402,14 +416,14 @@ namespace WinFormsApp2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            foreach (var cmb in cmbKan) cmb.Text = "";
-            foreach (var cmb in cmbSi) cmb.Text = "";
+            foreach (var cmb in cmbKan) cmb.SelectedIndex = 0;
+            foreach (var cmb in cmbSi) cmb.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            foreach (var cmb in cmbJudaiShusei) cmb.Text = "";
-            foreach (var cmb in cmbJunidaijusei) cmb.Text = "";
+            foreach (var cmb in cmbJudaiShusei) cmb.SelectedIndex = 0;
+            foreach (var cmb in cmbJunidaijusei) cmb.SelectedIndex = 0;
         }
         //生年月日検索チェックボックス
         private void chkTargetBirthday_CheckedChanged(object sender, EventArgs e)

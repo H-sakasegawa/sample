@@ -102,7 +102,7 @@ namespace WinFormsApp2
 
                 //★★暫定：メインフォームで氏名を選択しないとtblMngで初期化されないので
                 //すでに初期化済みは内部で処理がSKIPされます。
-                curPerson.Init(tblMng);
+                curPerson.Init();
 
                 Finder.FindResult result = null;
 

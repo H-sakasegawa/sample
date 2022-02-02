@@ -385,6 +385,7 @@ namespace WinFormsApp2
     /// </summary>
     public class Person
     {
+        private bool bInitialized = false;
         public PersonClassIdentity classIdetify { get; set; }
         public string name { get; set; }
         public Birthday birthday { get; set; }
@@ -438,7 +439,7 @@ namespace WinFormsApp2
         public bool bRefrectSangouKaikyoku { get; set; } = false;//三合会局
 
 
-        private TableMng tblMng;
+        private TableMng tblMng = TableMng.GetTblManage();
         private SetuiribiTable tblSetuiribi;
 
         public Person(string _name, Gender _gender, PersonClassIdentity _classIdetify)
@@ -509,11 +510,14 @@ namespace WinFormsApp2
         }
 
 
-        public int Init(TableMng _tblMng, bool bDispErrMsg = true)
+        public int Init( bool bDispErrMsg = true)
         {
-            if (tblMng != null) return 0;
-
-            tblMng = _tblMng;
+            if (bInitialized) return 0;
+            return Init2( bDispErrMsg);
+        }
+        public int Init2( bool bDispErrMsg = true)
+        {
+            bInitialized = true;
             tblSetuiribi = tblMng.setuiribiTbl;
 
             //誕生日に該当する節入り日から誕生日までの経過日数(節入り日はカウントされません）
@@ -584,7 +588,7 @@ namespace WinFormsApp2
         {
             birthday = new Birthday(year, month, day);
 
-            Init(_tblMng, false);
+            Init( false);
 
             return 0;
         }

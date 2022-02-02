@@ -167,7 +167,7 @@ namespace WinFormsApp2
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.lstInsenDetail = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listYousenDetail = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -1606,22 +1606,22 @@ namespace WinFormsApp2
             this.panel1.Size = new System.Drawing.Size(121, 819);
             this.panel1.TabIndex = 79;
             // 
-            // listBox1
+            // listYousenDetail
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.IntegralHeight = false;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(431, 371);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(159, 137);
-            this.listBox1.TabIndex = 80;
+            this.listYousenDetail.FormattingEnabled = true;
+            this.listYousenDetail.IntegralHeight = false;
+            this.listYousenDetail.ItemHeight = 15;
+            this.listYousenDetail.Location = new System.Drawing.Point(431, 371);
+            this.listYousenDetail.Name = "listYousenDetail";
+            this.listYousenDetail.Size = new System.Drawing.Size(159, 137);
+            this.listYousenDetail.TabIndex = 80;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1318, 819);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listYousenDetail);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstInsenDetail);
             this.Controls.Add(this.tabControl2);
@@ -1829,7 +1829,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ColumnHeader columnHeader24;
         private System.Windows.Forms.ColumnHeader columnHeader25;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listYousenDetail;
     }
 }
 
