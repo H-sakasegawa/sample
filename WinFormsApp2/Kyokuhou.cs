@@ -217,7 +217,7 @@ namespace WinFormsApp2
             foreach(var level in levelTbl)
             {
                 if( (level.item1 == inyou1 && level.item2 == inyou2)||
-                    (level.item1 == inyou2 && level.item2 == inyou2)
+                    (level.item1 == inyou2 && level.item2 == inyou1)
                     )
                  {
                     return level.level;
