@@ -43,12 +43,14 @@ namespace WinFormsApp2
 
             string[] patternVer = new string[]
             {
+                //縦方向の上から順番に定義
+                person.judaiShuseiD.name, 
                 person.judaiShuseiB.name,
-                person.judaiShuseiD.name,
                 person.judaiShuseiE.name
             };
             string[] patternHor = new string[]
             {
+                //横方向の左から順番に定義
                 person.judaiShuseiA.name,
                 person.judaiShuseiB.name,
                 person.judaiShuseiC.name
@@ -130,23 +132,27 @@ namespace WinFormsApp2
         private int CheckKyouUn(List<string> target, string[] pattern)
         {
             int resultCnt = 0;
-            for (int i = 0; i < pattern.Length - 1; i++)
+            var relation = tblMng.gogyouAttrRelationshipTbl;
+            for (int i = 0; i < pattern.Length; i++)
             {
                 if (!target.Contains(pattern[i])) continue;
 
-                for (int j = i + 1; j < pattern.Length; j++)
+                for (int j = 0; j < pattern.Length; j++)
                 {
+                    if (i == j) continue;
                     if (!target.Contains(pattern[j])) continue;
+                    if (Math.Abs(i - j) != 1)
+                        continue; //隣同士ではない
 
                     //pattern[i]のgogyoを取得
                     string attr1 = tblMng.juudaiShusei.GetGogyo(pattern[i]);
                     string attr2 = tblMng.juudaiShusei.GetGogyo(pattern[j]);
-                    if (attr1 != attr2)
+                    if (!relation.IsDestory(attr1, attr2))
                     {
-                        //ここで２つの五行属性が異なるということは、相剋の関係
-                        resultCnt++;
+                        //相剋の関係ではない
+                        continue;
                     }
-
+                       resultCnt++;
                 }
             }
             return resultCnt;
@@ -296,7 +302,7 @@ namespace WinFormsApp2
                         {
                             if (k == i || k == j) continue;
                             //終端主星をチェック
-                            if (stopShusei.Contains(target[k])) continue;
+                            if (!stopShusei.Contains(target[k])) continue;
 
                             string attr3 = tblMng.juudaiShusei.GetGogyo(target[k]);
                             if (relation.IsCreate(attr2, attr3))
@@ -331,7 +337,7 @@ namespace WinFormsApp2
                     if (i == j) continue;
 
                     //終端主星をチェック
-                    if (stopShusei.Contains(target[j])) continue;
+                    if (!stopShusei.Contains(target[j])) continue;
 
                     string attr2 = tblMng.juudaiShusei.GetGogyo(target[j]);
                     if (relation.IsCreate(attr1, attr2))
@@ -339,7 +345,8 @@ namespace WinFormsApp2
                         chkMatrix |= 0x0001 << i;
                         chkMatrix |= 0x0001 << j;
 
-                        if (chkMatrix == 0x0007) resultCnt++;
+                        if (chkMatrix == 0x0007) 
+                            resultCnt++;
                     }
                 }
             }
