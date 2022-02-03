@@ -576,7 +576,8 @@ namespace WinFormsApp2
             foreach(var item in result)
             {
                 string str = item.name;
-                if (item.count > 1) str += string.Format("({0})", item.count);
+                str += string.Format("({0})", LevelToStr(item.chkResult.level));
+                if (item.chkResult.matchCount > 1) str += string.Format("[{0}]", item.chkResult.matchCount);
                 listYousenDetail.Items.Add(str);
             }
 
@@ -585,7 +586,7 @@ namespace WinFormsApp2
             foreach (var item in result)
             {
                 string str = item.name;
-                if (item.count > 1) str += string.Format("({0})", item.count);
+                if (item.chkResult.matchCount > 1) str += string.Format("[{0}]", item.chkResult.matchCount);
                 listYousenDetail.Items.Add(str);
             }
             //別格表示
@@ -603,6 +604,16 @@ namespace WinFormsApp2
                 listYousenDetail.Items.Add(str);
             }
 
+        }
+        string LevelToStr(Kyokuhou.Level level)
+        {
+            switch(level)
+            {
+                case Kyokuhou.Level.Weak: return "弱";
+                case Kyokuhou.Level.Medium: return "中";
+                case Kyokuhou.Level.Strong: return "強";
+            }
+            return "";
         }
 
         /// <summary>

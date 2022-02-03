@@ -280,10 +280,16 @@ namespace WinFormsApp2
                 return null;
             }
 
-            public string GetGogyo( string name)
+            public string GetGogyo(string name)
             {
                 var item = lstJudaiShusei.FirstOrDefault(x => x.name == name);
                 if (item != null) return item.gogyou;
+                return null;
+            }
+            public string GetInyou(string name)
+            {
+                var item = lstJudaiShusei.FirstOrDefault(x => x.name == name);
+                if (item != null) return item.inyou;
                 return null;
             }
 

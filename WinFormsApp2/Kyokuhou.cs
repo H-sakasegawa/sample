@@ -14,15 +14,47 @@ namespace WinFormsApp2
     {
 
         TableMng tblMng = TableMng.GetTblManage();
+        public enum Level
+        {
+            None = 0,
+            Weak,   //1
+            Medium, //2
+            Strong, //3
+
+        }
         public class Result
         {
-            public Result(string _name, int _cnt=1)
+            public Result(string _name, ChkResult _chkResult)
             {
                 name = _name;
-                count = _cnt;
+                chkResult = _chkResult;
+            }
+            public Result(string _name, int cnt=0)
+            {
+                name = _name;
+                chkResult = new ChkResult();
+                chkResult.matchCount = cnt;
             }
             public string name;
-            public int count;
+            public ChkResult chkResult;
+        }
+
+        public class ChkResult
+        {
+            public int matchCount=0;
+            public Level level = Level.None;
+        }
+        private class LevelTbl
+        {
+            public LevelTbl( string s1, string s2, Level lv)
+            {
+                item1 = s1;
+                item2 = s2;
+                level = lv;
+            }
+            public string item1;
+            public string item2;
+            public Level level;
         }
         //                | D |
         //             ---+---+----
@@ -44,7 +76,7 @@ namespace WinFormsApp2
             string[] patternVer = new string[]
             {
                 //縦方向の上から順番に定義
-                person.judaiShuseiD.name, 
+                person.judaiShuseiD.name,
                 person.judaiShuseiB.name,
                 person.judaiShuseiE.name
             };
@@ -56,82 +88,96 @@ namespace WinFormsApp2
                 person.judaiShuseiC.name
             };
 
+            List<LevelTbl> levelTbl1 = new List<LevelTbl>()
+           {
+               new LevelTbl( "陽","陽", Level.Strong ),
+               new LevelTbl( "陰","陰", Level.Medium ),
+               new LevelTbl(  "陽","陰", Level.Weak ),
+           };
+            List<LevelTbl> levelTbl2 = new List<LevelTbl>()
+           {
+               new LevelTbl( "陰","陰", Level.Strong ),
+               new LevelTbl( "陽","陽", Level.Medium ),
+               new LevelTbl(  "陽","陰", Level.Weak ),
+           };
 
+            ChkResult chkResult;
             //推逆局 判定（D、B、E）
             List<string> target = new List<string> { "鳳閣星", "調舒星", "龍高星", "玉堂星" };
-            resultCnt = CheckKyouUn(target, patternVer);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternVer, levelTbl1);
+            if (chkResult!=null)
             {
-                lstResult.Add(new Result("推逆局", resultCnt));
+                lstResult.Add(new Result("推逆局", chkResult));
             }
             //円推局 判定（A、B、C）
-            resultCnt = CheckKyouUn(target, patternHor);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternHor, levelTbl1);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("円推局", resultCnt));
+                lstResult.Add(new Result("円推局", chkResult));
             }
 
             //生殺局 判定（D、B、E）
             target = new List<string> { "鳳閣星", "調舒星", "車騎星", "牽牛星" };
-            resultCnt = CheckKyouUn(target, patternVer);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternVer, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("生殺局", resultCnt));
+                lstResult.Add(new Result("生殺局", chkResult));
             }
             //殺局 判定（A、B、C）
-            resultCnt = CheckKyouUn(target, patternHor);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternHor, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("円推局", resultCnt));
+                lstResult.Add(new Result("殺局", chkResult));
             }
 
             //井乱局 判定（D、B、E）
             target = new List<string> { "車騎星", "牽牛星", "貫索星", "石門星" };
-            resultCnt = CheckKyouUn(target, patternVer);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternVer, levelTbl1);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("井乱局", resultCnt));
+                lstResult.Add(new Result("井乱局", chkResult));
             }
             //乱命局 判定（A、B、C）
-            resultCnt = CheckKyouUn(target, patternHor);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternHor, levelTbl1);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("乱命局", resultCnt));
+                lstResult.Add(new Result("乱命局", chkResult));
             }
 
             //破財局 判定（D、B、E）
             target = new List<string> { "貫索星", "石門星", "禄存星", "司禄星" };
-            resultCnt = CheckKyouUn(target, patternVer);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternVer, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("破財局", resultCnt));
+                lstResult.Add(new Result("破財局", chkResult));
             }
             //曲財局 判定（A、B、C）
-            resultCnt = CheckKyouUn(target, patternHor);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternHor, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("乱命局", resultCnt));
+                lstResult.Add(new Result("曲財局", chkResult));
             }
 
             //地財局 判定（D、B、E）
             target = new List<string> { "禄存星", "司禄星", "龍高星", "玉堂星" };
-            resultCnt = CheckKyouUn(target, patternVer);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternVer, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("地財局", resultCnt));
+                lstResult.Add(new Result("地財局", chkResult));
             }
             //叉財局 判定（A、B、C）
-            resultCnt = CheckKyouUn(target, patternHor);
-            if (resultCnt > 0)
+            chkResult = CheckKyouUn(target, patternHor, levelTbl2);
+            if (chkResult != null)
             {
-                lstResult.Add(new Result("叉財局", resultCnt));
+                lstResult.Add(new Result("叉財局", chkResult));
             }
             return lstResult;
         }
 
-        private int CheckKyouUn(List<string> target, string[] pattern)
+
+        private ChkResult CheckKyouUn(List<string> target, string[] pattern, List<LevelTbl> levelTbl)
         {
-            int resultCnt = 0;
+            ChkResult chkResult = null;
             var relation = tblMng.gogyouAttrRelationshipTbl;
             for (int i = 0; i < pattern.Length; i++)
             {
@@ -152,11 +198,32 @@ namespace WinFormsApp2
                         //相剋の関係ではない
                         continue;
                     }
-                       resultCnt++;
+
+                    //レベル確定
+                    string inyou1 = tblMng.juudaiShusei.GetInyou(pattern[i]);
+                    string inyou2 = tblMng.juudaiShusei.GetInyou(pattern[j]);
+
+                    if (chkResult == null) chkResult = new ChkResult();
+                    Level level = CheckLevel(inyou1, inyou2, levelTbl);
+                    chkResult.level = (chkResult.level < level ? level : chkResult.level);
+                    chkResult.matchCount++;
                 }
             }
-            return resultCnt;
+            return chkResult;
 
+        }
+        Level CheckLevel(string inyou1, string inyou2, List<LevelTbl> levelTbl)
+        {
+            foreach(var level in levelTbl)
+            {
+                if( (level.item1 == inyou1 && level.item2 == inyou2)||
+                    (level.item1 == inyou2 && level.item2 == inyou2)
+                    )
+                 {
+                    return level.level;
+                }
+            }
+            return Level.None;
         }
 
         //==================================================
