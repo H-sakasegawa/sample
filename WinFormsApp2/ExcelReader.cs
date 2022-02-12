@@ -185,6 +185,16 @@ namespace WinFormsApp2
             }
             return value;
         }
+        public static int CellIntValue(ISheet sheet, int idxRow, int idxColumn, int defaultValue = 0)
+        {
+            string sFlg = ExcelReader.CellValue(sheet, idxRow, idxColumn);
+            if (string.IsNullOrEmpty(sFlg))
+            {
+                return defaultValue;
+            }
+           
+            return int.Parse(sFlg);
+        }
 
         public static bool CellBoolValue(ISheet sheet, int idxRow, int idxColumn, bool defaultValue = false)
         {

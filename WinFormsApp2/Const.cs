@@ -119,6 +119,15 @@ namespace WinFormsApp2
             INSEN_DETAIL_SANKAKUANGOU, //三角暗合
             INSEN_DETAIL_KYOKITOUKAN0, //虚気透干
         }
+        public enum YousenDetailType
+        {
+            NONE = 0,
+            INSEN_DETAIL_KYOKUHOU_KYOUN, //局法（凶運）
+            INSEN_DETAIL_KYOKUHOU_KOUUN, //局法（幸運）
+            INSEN_DETAIL_BEKKAKU, //別格
+            INSEN_DETAIL_TOKUSHU_GOKYOKU, //特殊五局
+            INSEN_DETAIL_JUNDAKU, //純濁法
+        }
 
         public const string sNattin = "納音";
         public const string sJunNattin = "準納音";

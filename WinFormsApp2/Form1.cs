@@ -536,14 +536,55 @@ namespace WinFormsApp2
             curPerson.career.Save();
         }
 
+        //==================================================================
+        // 宿命図表示（陰占）
+        //==================================================================
+        /// <summary>
+        /// 宿命図表示
+        /// </summary>
+        /// <param name="person"></param>
+        private void DispInsen(Person person, PictureBox pictureBox)
+        {
+
+            drawInsen = new DrawInsen(person, pictureBox, true, true);
+            drawInsen.Draw();
+
+            Insen insen = new Insen(person);
+            //陰占 特徴表示
+            insen.DispInsenDetailInfo(person, lstInsenDetail);
+
+        }
+        /// <summary>
+        /// 陰占　詳細情報リストボックスダブルクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lstInsenDetail_DoubleClick(object sender, EventArgs e)
+        {
+            var item = (InsenDetail)lstInsenDetail.SelectedItem;
+
+            switch (item.type)
+            {
+                case Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU:
+                    FormFinder frm = new FormFinder((FormMain)mainForm);
+                    frm.Show();
+                    lstModlessForms.Add(frm);
+                    frm.FindSankakuAngouActive(curPerson);
+
+                    break;
+
+            }
+        }
 
 
+        //==================================================================
+        // 人体図表示（陽占）
+        //==================================================================
         /// <summary>
         /// 陽占 表示
         /// </summary>
         private void DispYousen(Person person , int idxNikkansiGensoType, int idxGekkansiGensoType, int idxNenkaisiGensoType)
         {
-
             //------------------
             //十大主星
             //------------------
@@ -568,53 +609,12 @@ namespace WinFormsApp2
             //干1 → 支1
             lblJunidaiJuseiC.Text = person.junidaiJuseiC.name;
 
-            listYousenDetail.Items.Clear();
-
-            //局法（凶運）表示
-            Kyokuhou kyokuHou = new Kyokuhou();
-            var result = kyokuHou.GetKyouUn(person);
-            foreach(var item in result)
-            {
-                string str = item.name;
-                str += string.Format("({0})", LevelToStr(item.chkResult.level));
-                if (item.chkResult.matchCount > 1) str += string.Format("[{0}]", item.chkResult.matchCount);
-                listYousenDetail.Items.Add(str);
-            }
-
-            //局法（幸運）表示
-            result = kyokuHou.GetKouUn(person);
-            foreach (var item in result)
-            {
-                string str = item.name;
-                if (item.chkResult.matchCount > 1) str += string.Format("[{0}]", item.chkResult.matchCount);
-                listYousenDetail.Items.Add(str);
-            }
-            //別格表示
-            result = kyokuHou.GetBekkakku(person);
-            foreach (var item in result)
-            {
-                string str = item.name;
-                listYousenDetail.Items.Add(str);
-            }
-            //特殊五局表示
-            result = kyokuHou.GetTokushuGokyoku(person);
-            foreach (var item in result)
-            {
-                string str = item.name;
-                listYousenDetail.Items.Add(str);
-            }
+            //陽占 特徴表示
+            Yousen yousen = new Yousen(person);
+            yousen.DispYousennDetailInfo(listYousenDetail);
 
         }
-        string LevelToStr(Kyokuhou.Level level)
-        {
-            switch(level)
-            {
-                case Kyokuhou.Level.Weak: return "弱";
-                case Kyokuhou.Level.Medium: return "中";
-                case Kyokuhou.Level.Strong: return "強";
-            }
-            return "";
-        }
+ 
 
         /// <summary>
         /// 天中殺 カラー設定（陽占）
@@ -1085,63 +1085,6 @@ namespace WinFormsApp2
 
         }
 
-        //==================================================================
-        // 宿命図表示
-        //==================================================================
-        /// <summary>
-        /// 宿命図表示
-        /// </summary>
-        /// <param name="person"></param>
-        private void DispInsen(Person person, PictureBox pictureBox)
-        {
-
-            drawInsen = new DrawInsen(person, pictureBox, true, true);
-            drawInsen.Draw();
-
-            DispInsenDetailInfo(person);
-
-        }
-
-        /// <summary>
-        /// 陰占　詳細データ表示
-        /// </summary>
-        /// <param name="person"></param>
-        private void DispInsenDetailInfo(Person person)
-        {
-            lstInsenDetail.Items.Clear();
-            //三角暗合
-            if (person.IsSankakuAngou())
-            {
-                lstInsenDetail.Items.Add(new InsenDetail("三角暗合", Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU));
-            }
-
-            KyokiToukan kyokiToukan = new KyokiToukan();
-            if(kyokiToukan.IsKyokiTokan_Shukumei(person))
-            {
-                lstInsenDetail.Items.Add(new InsenDetail("虚気透干", Const.InsenDetailType.INSEN_DETAIL_KYOKITOUKAN0));
-            }
-        }
-        /// <summary>
-        /// 陰占　詳細情報リストボックスダブルクリック
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lstInsenDetail_DoubleClick(object sender, EventArgs e)
-        {
-            var item = (InsenDetail)lstInsenDetail.SelectedItem;
-
-            switch(item.type)
-            {
-                case Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU:
-                    FormFinder frm = new FormFinder((FormMain)mainForm);
-                    frm.Show();
-                    lstModlessForms.Add(frm);
-                    frm.FindSankakuAngouActive(curPerson);
-
-                    break;
-
-            }
-        }
 
 
 

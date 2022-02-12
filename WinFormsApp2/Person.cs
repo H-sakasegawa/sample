@@ -60,14 +60,25 @@ namespace WinFormsApp2
             COL_CUST_SHUGOSIN ,   //カスタム守護神
             COL_CUST_IMIGAMI,    //カスタム忌神
             COL_CUST_ONOFF,     //カスタム設定の有効・無効フラグ
-            COL_CUST_REFRECT_SIGOU,             //支合 反映
-            COL_CUST_REFRECT_HANKAI,            //半会 反映
-            COL_CUST_REFRECT_KANGOU,            //干合 反映
-            COL_CUST_REFRECT_HOUSANI,           //方三位 反映
-            COL_CUST_REFRECT_SANGOUKAIKYOKU,    //三合会局 反映
+            COL_DISP_OPTION,    //表示オプション設定
+            //COL_CUST_REFRECT_SIGOU,             //支合 反映
+            //COL_CUST_REFRECT_HANKAI,            //半会 反映
+            //COL_CUST_REFRECT_KANGOU,            //干合 反映
+            //COL_CUST_REFRECT_HOUSANI,           //方三位 反映
+            //COL_CUST_REFRECT_SANGOUKAIKYOKU,    //三合会局 反映
 
 
         };
+
+        enum DispOpt
+        {
+            OPT_SIGOU = 0x0000001,
+            OPT_HANKAI = 0x0000002,
+            OPT_KANGOU = 0x0000004,
+            OPT_HOUSANI = 0x0000008,
+            OPT_SANGOUKAIKYOKU = 0x0000010,
+
+        }
 
         private static Persons persons = new Persons();
         public static Persons GetPersons() { return persons; }
@@ -220,16 +231,19 @@ namespace WinFormsApp2
 
                 var person = new Person(name, birthday, gender, group, bCustomFlg, custShugo, custImigami);
 
+                //表示オプション
+                int option = ExcelReader.CellIntValue(sheet, iRow, (int)PersonListCol.COL_DISP_OPTION, 0);
+
                 //支合 反映
-                person.bRefrectSigou = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU, false);
+                person.bRefrectSigou = (option & (int)DispOpt.OPT_SIGOU)!=0;
                 //半会 反映
-                person.bRefrectHankai = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI, false);
+                person.bRefrectHankai = (option & (int)DispOpt.OPT_HANKAI) != 0;
                 //干合 反映
-                person.bRefrectKangou = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU, false);
+                person.bRefrectKangou = (option & (int)DispOpt.OPT_KANGOU) != 0;
                 //方三位 反映
-                person.bRefrectHousani = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI, false);
+                person.bRefrectHousani = (option & (int)DispOpt.OPT_HOUSANI) != 0;
                 //三合会局 反映
-                person.bRefrectSangouKaikyoku = ExcelReader.CellBoolValue(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU, false);
+                person.bRefrectSangouKaikyoku = (option & (int)DispOpt.OPT_SANGOUKAIKYOKU) != 0;
                 lstPersons.Add(person);
 
                 //グループディクショナリ
@@ -297,26 +311,32 @@ namespace WinFormsApp2
             cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
             cell.SetCellValue("カスタム設定有効フラグ");
             cell.CellStyle = style;
-            //支合 反映
-            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
-            cell.SetCellValue("支合反映");
+
+            //表示オプション
+            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_DISP_OPTION);
+            cell.SetCellValue("表示オプション");
             cell.CellStyle = style;
-            //半会 反映
-            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
-            cell.SetCellValue("半会反映");
-            cell.CellStyle = style;
-            //干合 反映
-            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
-            cell.SetCellValue("干合反映");
-            cell.CellStyle = style;
-            //方三位 反映
-            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
-            cell.SetCellValue("方三位反映");
-            cell.CellStyle = style;
-            //三合会局 反映
-            cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
-            cell.SetCellValue("三合会局反映");
-            cell.CellStyle = style;
+
+            ////支合 反映
+            //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
+            //cell.SetCellValue("支合反映");
+            //cell.CellStyle = style;
+            ////半会 反映
+            //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
+            //cell.SetCellValue("半会反映");
+            //cell.CellStyle = style;
+            ////干合 反映
+            //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
+            //cell.SetCellValue("干合反映");
+            //cell.CellStyle = style;
+            ////方三位 反映
+            //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
+            //cell.SetCellValue("方三位反映");
+            //cell.CellStyle = style;
+            ////三合会局 反映
+            //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
+            //cell.SetCellValue("三合会局反映");
+            //cell.CellStyle = style;
 
             iRow++;
             foreach (var item in lstPersons)
@@ -349,21 +369,31 @@ namespace WinFormsApp2
                 cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_ONOFF);
                 cell.SetCellValue(Convert.ToInt32(person.bCustomShugosin));
 
-                //支合 反映
-                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
-                cell.SetCellValue(Convert.ToInt32( person.bRefrectSigou) );
-                //半会 反映
-                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
-                cell.SetCellValue(Convert.ToInt32(person.bRefrectHankai));
-                //干合 反映
-                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
-                cell.SetCellValue(Convert.ToInt32(person.bRefrectKangou));
-                //方三位 反映
-                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
-                cell.SetCellValue(Convert.ToInt32(person.bRefrectHousani));
-                //三合会局 反映
-                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
-                cell.SetCellValue(Convert.ToInt32(person.bRefrectSangouKaikyoku));
+                //表示オプション
+                int option =0;
+                if (person.bRefrectSigou) option |= (int)DispOpt.OPT_SIGOU; //支合
+                if (person.bRefrectHankai) option |= (int)DispOpt.OPT_HANKAI;//半会
+                if (person.bRefrectKangou) option |= (int)DispOpt.OPT_KANGOU;//干合
+                if (person.bRefrectHousani) option |= (int)DispOpt.OPT_HOUSANI;//方三位
+                if (person.bRefrectSangouKaikyoku) option |= (int)DispOpt.OPT_SANGOUKAIKYOKU;//三合会局
+                cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_DISP_OPTION);
+                cell.SetCellValue(option);
+
+                ////支合 反映
+                //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SIGOU);
+                //cell.SetCellValue(Convert.ToInt32( person.bRefrectSigou) );
+                ////半会 反映
+                //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HANKAI);
+                //cell.SetCellValue(Convert.ToInt32(person.bRefrectHankai));
+                ////干合 反映
+                //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_KANGOU);
+                //cell.SetCellValue(Convert.ToInt32(person.bRefrectKangou));
+                ////方三位 反映
+                //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_HOUSANI);
+                //cell.SetCellValue(Convert.ToInt32(person.bRefrectHousani));
+                ////三合会局 反映
+                //cell = ExcelReader.GetCell(sheet, iRow, (int)PersonListCol.COL_CUST_REFRECT_SANGOUKAIKYOKU);
+                //cell.SetCellValue(Convert.ToInt32(person.bRefrectSangouKaikyoku));
 
                 iRow++;
             }
@@ -392,7 +422,7 @@ namespace WinFormsApp2
         public Gender gender { get; set; }
         public string group { get; set; }
 
-        public Career career { get;  set; }
+        public Career career { get; set; }
         public CustomShugosinImigami customShugosin { get; set; } = new CustomShugosinImigami();
         public CustomShugosinImigami customImigami { get; set; } = new CustomShugosinImigami();
 
@@ -416,6 +446,7 @@ namespace WinFormsApp2
         public JudaiShusei judaiShuseiC { get; set; }
         public JudaiShusei judaiShuseiD { get; set; }
         public JudaiShusei judaiShuseiE { get; set; }
+        public JudaiShusei[] judaiShuseiAry=null;
         //十二大主星
         public JunidaiJusei junidaiJuseiA { get; set; }
         public JunidaiJusei junidaiJuseiB { get; set; }
@@ -505,6 +536,8 @@ namespace WinFormsApp2
             ////ユーザ情報初期設定
             //person.Init(tblMng);
 
+
+
             return 0;
 
         }
@@ -562,6 +595,7 @@ namespace WinFormsApp2
             //干1 → 干2
             judaiShuseiE = tblMng.juudaiShusei.GetJudaiShusei(nikkansi.kan, gekkansi.kan);
 
+            judaiShuseiAry = new JudaiShusei[] { judaiShuseiA, judaiShuseiB, judaiShuseiC, judaiShuseiD, judaiShuseiE };
 
             //------------------
             //十二大主星
