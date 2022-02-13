@@ -306,6 +306,11 @@ namespace WinFormsApp2
             //身強、身中、身弱
             str = MikyouMichuMijaku.GetMikyouMichuMijaku(person);
             listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_MIKYO_MICHU_MIJSKU));
+
+            //影星法
+            str = string.Format("影星 : {0}", EiseiHou.GetEiseiHou(person));
+            listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_EISEIHOU));
+
         }
 
         string LevelToStr(Kyokuhou.Level level)
