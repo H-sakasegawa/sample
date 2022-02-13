@@ -302,6 +302,10 @@ namespace WinFormsApp2
                 str = string.Format("帰星 : {0}", kisei);
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JUNKAN));
             }
+
+            //身強、身中、身弱
+            str = MikyouMichuMijaku.GetMikyouMichuMijaku(person);
+            listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_MIKYO_MICHU_MIJSKU));
         }
 
         string LevelToStr(Kyokuhou.Level level)
