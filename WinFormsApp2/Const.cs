@@ -130,6 +130,8 @@ namespace WinFormsApp2
             INSEN_DETAIL_JUNKAN, //循環法
             INSEN_DETAIL_MIKYO_MICHU_MIJSKU,//身強、身中、身弱
             INSEN_DETAIL_EISEIHOU,//影星法
+            INSEN_DETAIL_HEIHITUMEISIKI,//閉畢命式
+            INSEN_DETAIL_HIHITUMEISIKI,//閟畢命式
         }
 
         public const string sNattin = "納音";

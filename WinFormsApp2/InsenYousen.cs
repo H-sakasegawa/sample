@@ -230,6 +230,18 @@ namespace WinFormsApp2
                 str = "虚気透干";
                 listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_KYOKITOUKAN0));
             }
+            //閉畢命式
+            str = Heihitumeisiki.GetHeihitumeisiki(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_HEIHITUMEISIKI));
+            }
+            //閟畢命式
+            str = Hihitumeisiki.GetHihitumeisiki(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_HIHITUMEISIKI));
+            }
         }
     }
 
@@ -302,16 +314,16 @@ namespace WinFormsApp2
                 str = string.Format("帰星 : {0}", kisei);
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JUNKAN));
             }
+ 
+            //影星法
+            str = string.Format("影星 : {0}", EiseiHou.GetEiseiHou(person));
+            listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_EISEIHOU));
 
             //身強、身中、身弱
             str = MikyouMichuMijaku.GetMikyouMichuMijaku(person);
             listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_MIKYO_MICHU_MIJSKU));
 
-            //影星法
-            str = string.Format("影星 : {0}", EiseiHou.GetEiseiHou(person));
-            listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_EISEIHOU));
-
-        }
+         }
 
         string LevelToStr(Kyokuhou.Level level)
         {

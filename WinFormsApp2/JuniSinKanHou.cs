@@ -39,7 +39,7 @@ namespace WinFormsApp2
             return nodeBase;
         }
 
-        public int CreateParentNodes(Node node, int maxKinshipNo)
+        private int CreateParentNodes(Node node, int maxKinshipNo)
         {
             Const.enumOyakoID oyako = Const.enumOyakoID.None;
             if (node.kinshipNo == 0)
@@ -66,7 +66,7 @@ namespace WinFormsApp2
             }
             return 0;
         }
-        public int CreatePartnerNodes(Node node, int maxKinshipNo)
+        private int CreatePartnerNodes(Node node, int maxKinshipNo)
         {
             Const.enumOyakoID oyako = Const.enumOyakoID.None;
             if (node.kinshipNo==0)
@@ -115,7 +115,7 @@ namespace WinFormsApp2
             }            
             return 0;
         }
-        public int CreateChildNodes(Node node, int maxKinshipNo)
+        private int CreateChildNodes(Node node, int maxKinshipNo)
         {
             Const.enumOyakoID oyako = Const.enumOyakoID.None;
             if (node.kinshipNo <=1)
@@ -145,7 +145,7 @@ namespace WinFormsApp2
             return 0;
         }
 
-        string RefrectKan(string kan, Const.enumOyakoID oyako)
+        private string RefrectKan(string kan, Const.enumOyakoID oyako)
         {
             string result = kan;
 

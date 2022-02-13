@@ -996,14 +996,30 @@ namespace WinFormsApp2
             /// <summary>
             /// 相生 関係チェック
             /// </summary>
-            /// <param name="from">生み出すもの</param>
-            /// <param name="to">生み出されるもの</param>
+            /// <param name="from">生み出すもの属性</param>
+            /// <param name="to">生み出されるもの属性</param>
             /// <returns></returns>
-            public bool IsCreate(string from, string to)
+            public bool IsCreate(string fromAttr, string toAttr)
             {
-                var relation = GetRelation(from);
-                if (relation.createToName == to) return true;
+                var relation = GetRelation(fromAttr);
+                if (relation.createToName == toAttr) return true;
                 return false;
+            }
+            /// <summary>
+            /// 相生 関係チェック
+            /// </summary>
+            /// <param name="from">生み出すもの属性</param>
+            /// <param name="to">生み出されるもの属性</param>
+            /// <returns></returns>
+            public bool IsCreateByKan(string fromKan, string toKan)
+            {
+                TableMng tblMng = TableMng.GetTblManage();
+
+                string fromAttr = tblMng.jyukanTbl.GetGogyo(fromKan);
+                string toAttr = tblMng.jyukanTbl.GetGogyo(toKan);
+
+               
+                return IsCreate( fromAttr,  toAttr);
             }
             /// <summary>
             /// 相剋生 関係チェック
