@@ -127,6 +127,7 @@ namespace WinFormsApp2
             INSEN_DETAIL_BEKKAKU, //別格
             INSEN_DETAIL_TOKUSHU_GOKYOKU, //特殊五局
             INSEN_DETAIL_JUNDAKU, //純濁法
+            INSEN_DETAIL_JUNKAN, //循環法
         }
 
         public const string sNattin = "納音";

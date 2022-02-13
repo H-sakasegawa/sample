@@ -978,6 +978,21 @@ namespace WinFormsApp2
                 return dicGogyouAttrRelationship[name];
             }
 
+            public string[] GetCreatedRelation(string start)
+            {
+                List<string> lstAttrs = new List<string>();
+                lstAttrs.Add(start);
+                string createFrom = start;
+                do
+                {
+                    createFrom = dicGogyouAttrRelationship[createFrom].createFromName;
+                    if (start == createFrom) break;
+                    lstAttrs.Add(createFrom);
+                } while (true);
+
+
+                return lstAttrs.ToArray();
+            }
             /// <summary>
             /// 相生 関係チェック
             /// </summary>
@@ -1001,6 +1016,34 @@ namespace WinFormsApp2
                 var relation = GetRelation(from);
                 if (relation.destoryToName == to) return true;
                 return false;
+            }
+            /// <summary>
+            /// 引数で渡された属性を生み出すものを返す
+            /// </summary>
+            /// <param name="to"></param>
+            /// <returns></returns>
+            public string GetCreatFrom( string to)
+            {
+                var relation = GetRelation(to);
+                return relation.createFromName;
+            }
+            /// <summary>
+            /// 属性AからBまでの相生関連距離
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            public int GetCreateDistanceFromAToB(string a, string b)
+            {
+                int d = 0;
+                while(true)
+                {
+                    var relation = GetRelation(a);
+                    a = relation.createToName;
+                    if (a == b) break;
+                    d++;
+                }
+                return d;
             }
         }
 
@@ -1269,7 +1312,6 @@ namespace WinFormsApp2
                 {"印", Color.Gray},
             };
 
-
             //--------------------------------
             //守護神 テーブル
             //--------------------------------
@@ -1460,7 +1502,7 @@ namespace WinFormsApp2
             //--------------------------------
 
             //-----------------------------------
-            // 五行属性どうしの関係
+            // 五行属性どうしの関係(相生、粗剋）)
             //-----------------------------------
             gogyouAttrRelationshipTbl = new GogyouAttrRerationshipTbl();
             gogyouAttrRelationshipTbl.dicGogyouAttrRelationship = new Dictionary<string, GogyouAttrRelationship>()

@@ -291,6 +291,17 @@ namespace WinFormsApp2
             //純濁法
             str = JundakuHou.GetJundakuHou(person);
             listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JUNDAKU));
+
+            //循環法
+            string sisei="", kisei = "";
+            bool isGogyoJunkan = JunkanHou.GetJunkanHou(person, ref sisei, ref kisei);
+            if (!string.IsNullOrEmpty(sisei))
+            {
+                str = string.Format("始星 : {0}", sisei);
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JUNKAN));
+                str = string.Format("帰星 : {0}", kisei);
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JUNKAN));
+            }
         }
 
         string LevelToStr(Kyokuhou.Level level)

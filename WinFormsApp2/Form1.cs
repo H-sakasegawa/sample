@@ -585,19 +585,39 @@ namespace WinFormsApp2
         /// </summary>
         private void DispYousen(Person person , int idxNikkansiGensoType, int idxGekkansiGensoType, int idxNenkaisiGensoType)
         {
+            TableMng.GogyouAttrRerationshipTbl relation = tblMng.gogyouAttrRelationshipTbl;
+            lblGogyoJunkan.Text = "";
+
+            string kiseiAttr="";
+            string siseiAttr="";
+            bool bGogyoJunkan = JunkanHou.GetJunkanHouAttr(person, ref siseiAttr, ref kiseiAttr);
+            int[] junkanHouNo = new int[5];
+            if (!string.IsNullOrEmpty(siseiAttr))
+            {
+                for (int i = 0; i < person.judaiShuseiAry.Length; i++)
+                {
+                    junkanHouNo[i] = JunkanHou.GetCreateDistanceFromSiseiToN(siseiAttr, kiseiAttr, person.judaiShuseiAry[i]);
+                }
+                if (bGogyoJunkan) lblGogyoJunkan.Text = "(五行循環)";
+            }
             //------------------
             //十大主星
             //------------------
             //干1 → 蔵x1
-            lblJudaiShuseiA.Text = person.judaiShuseiA.name;
+            lblJudaiShuseiA.Text =person.judaiShuseiA.name;
+            if (junkanHouNo[0] > 0) lblJudaiShuseiA.Text += string.Format("({0})", junkanHouNo[0]);
             //干1 → 蔵x2
             lblJudaiShuseiB.Text = person.judaiShuseiB.name;
+            if (junkanHouNo[1] > 0) lblJudaiShuseiB.Text += string.Format("({0})", junkanHouNo[1]);
             //干1 → 蔵x3
             lblJudaiShuseiC.Text = person.judaiShuseiC.name;
+            if (junkanHouNo[2] > 0) lblJudaiShuseiC.Text += string.Format("({0})", junkanHouNo[2]);
             //干1 → 干3
             lblJudaiShuseiD.Text = person.judaiShuseiD.name;
+            if (junkanHouNo[3] > 0) lblJudaiShuseiD.Text += string.Format("({0})", junkanHouNo[3]);
             //干1 → 干2
             lblJudaiShuseiE.Text = person.judaiShuseiE.name;
+            if (junkanHouNo[4] > 0) lblJudaiShuseiE.Text += string.Format("({0})", junkanHouNo[4]);
 
             //------------------
             //十二大主星
