@@ -16,6 +16,9 @@
     <Compile Update="FormExcelPictureTest.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormExplanation.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormFinderCustom.cs">
       <SubType>Form</SubType>
     </Compile>

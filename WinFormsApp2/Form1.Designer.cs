@@ -29,6 +29,7 @@ namespace WinFormsApp2
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -169,6 +170,8 @@ namespace WinFormsApp2
             this.lstInsenDetail = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listYousenDetail = new System.Windows.Forms.ListBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuExplanation = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -185,6 +188,7 @@ namespace WinFormsApp2
             this.tabPage3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -959,7 +963,7 @@ namespace WinFormsApp2
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(128, 5);
+            this.tabControl1.Location = new System.Drawing.Point(128, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(407, 161);
@@ -1627,6 +1631,21 @@ namespace WinFormsApp2
             this.listYousenDetail.Name = "listYousenDetail";
             this.listYousenDetail.Size = new System.Drawing.Size(159, 137);
             this.listYousenDetail.TabIndex = 80;
+            this.listYousenDetail.DoubleClick += new System.EventHandler(this.listYousenDetail_DoubleClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExplanation});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            // 
+            // mnuExplanation
+            // 
+            this.mnuExplanation.Name = "mnuExplanation";
+            this.mnuExplanation.Size = new System.Drawing.Size(180, 22);
+            this.mnuExplanation.Text = "説明表示";
+            this.mnuExplanation.Click += new System.EventHandler(this.mnuExplanation_Click);
             // 
             // Form1
             // 
@@ -1698,6 +1717,7 @@ namespace WinFormsApp2
             this.tabControl2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1844,6 +1864,8 @@ namespace WinFormsApp2
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listYousenDetail;
         private System.Windows.Forms.Label lblGogyoJunkan;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem mnuExplanation;
     }
 }
 

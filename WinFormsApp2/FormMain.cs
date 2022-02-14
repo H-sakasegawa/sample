@@ -28,6 +28,8 @@ namespace WinFormsApp2
         FormFinder frmFinder = null;
         FormFinderCustom frmFinderCustom = null;
 
+        FormExplanation frmExplanation = null;
+
         public static string GetExePath() { return exePath; }
 
         public FormMain()
@@ -330,5 +332,27 @@ namespace WinFormsApp2
             frm.ShowDialog();
         }
 
-     }
+
+        public void ShowExplanation(string type, string key)
+        {
+            if (frmExplanation != null)
+            {
+                frmExplanation.Show(type, key);
+                frmExplanation.Activate();
+                return;
+            }
+
+            frmExplanation = new FormExplanation();
+            frmExplanation.OnClose += OnExplanation_Close;
+            frmExplanation.Show( type,  key);
+            lstModlessForms.Add(frmExplanation);
+        }
+        private void OnExplanation_Close(Form frm)
+        {
+            lstModlessForms.Remove(frm);
+            if (frm == frmExplanation) frmExplanation = null;
+        }
+
+
+    }
 }

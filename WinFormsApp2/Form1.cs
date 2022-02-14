@@ -174,6 +174,9 @@ namespace WinFormsApp2
                 bControlEventEnable = true;
             }
 
+            lstInsenDetail.ContextMenuStrip = contextMenuStrip1;
+            listYousenDetail.ContextMenuStrip = contextMenuStrip1;
+
 
         }
 
@@ -634,7 +637,11 @@ namespace WinFormsApp2
             yousen.DispYousennDetailInfo(listYousenDetail);
 
         }
- 
+
+        private void listYousenDetail_DoubleClick(object sender, EventArgs e)
+        {
+        }
+
 
         /// <summary>
         /// 天中殺 カラー設定（陽占）
@@ -1985,7 +1992,23 @@ namespace WinFormsApp2
         {
             if (onCloseTab != null) onCloseTab(tabId);
         }
- 
+
+        //====================================================
+        // Popup Menu
+        //====================================================
+        private void mnuExplanation_Click(object sender, EventArgs e)
+        {
+            Control source = contextMenuStrip1.SourceControl;
+            if (source == lstInsenDetail)
+            {
+                ((FormMain)mainForm).ShowExplanation("sss", "3000");
+            }
+            else if(source == listYousenDetail)
+            {
+                ((FormMain)mainForm).ShowExplanation("sss", "3000");
+            }
+        }
+
 
 
 
