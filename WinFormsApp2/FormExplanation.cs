@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace WinFormsApp2
 {
@@ -16,6 +18,8 @@ namespace WinFormsApp2
         ExplanationReader reader = new ExplanationReader();
         ExplanationReader.ExplanationData curData = null;
         string curType = "";
+
+        const string explanationFileDefName = "ExplanationFileDef.ini";
 
         public FormExplanation()
         {
@@ -43,12 +47,24 @@ namespace WinFormsApp2
             {
                 reader.Clear();
 
-                string exePath = FormMain.GetExePath();
-                string excelFilePath = exePath + @"\Contents.xlsx";
+                string fileName = GetDataFileName(type);
+                if(string.IsNullOrEmpty(fileName))
+                {
+                    return;
+                }
+                string excelFilePath = Path.Combine(FormMain.GetExePath(), fileName );
 
                 reader.ReadExcel(excelFilePath);
 
                 curType = type;
+            }
+
+            //キー文字から"(～)"などを除外
+            char[] splitKeys = new char[] { '(', ':', '：', '['};
+            int index = key.IndexOfAny(splitKeys);
+            if( index>=0)
+            {
+                key = key.Substring(0, index).Trim();
             }
 
             bool bEnable = true;
@@ -72,6 +88,15 @@ namespace WinFormsApp2
             base.Show();
 
         }
+
+        private string GetDataFileName( string type)
+        {
+            string filePath = Path.Combine( FormMain.GetExePath() , explanationFileDefName);
+            IniFile iniFile = new IniFile(filePath);
+
+            return iniFile.GetString("Setting", type);
+        }
+
         private void ShowPage()
         {
             int page = int.Parse(lblPage.Text);

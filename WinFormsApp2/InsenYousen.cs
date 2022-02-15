@@ -23,13 +23,13 @@ namespace WinFormsApp2
         /// <param name="_sType">データタイプ</param>
         public DetailBase(string _dispText, string _sKey, string _sType)
         {
-            sKey = _sKey;
-            sType = _sType;
+            expressionKey = _sKey;
+            expressionType = _sType;
             sText = _dispText;
         }
         public override string ToString() { return sText; }
-        string sKey;
-        string sType;
+        public string expressionKey;
+        public string expressionType;
         public string sText;
     }
     /// <summary>

@@ -65,24 +65,28 @@ namespace WinFormsApp2
             {
 
                 //説明項目キー文字
-                string sKey = ExcelReader.CellValue(sheet, iRow, 0);
-                if (string.IsNullOrEmpty(sKey)) break;
+                string sKeyItem = ExcelReader.CellValue(sheet, iRow, 0);
+                if (string.IsNullOrEmpty(sKeyItem)) break;
 
+                var sKeyAry = sKeyItem.Split('\n');
                 //string Explanation = ExcelReader.CellValue(sheet, iRow, 1);
 
                 List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow)
                                                                          .OrderBy(x=> x.col).ToList();
                 if (pictureInfos != null)
                 {
-                    foreach (var info in pictureInfos)
+                    foreach (var sKey in sKeyAry)
                     {
-                        if (dic.ContainsKey(sKey))
+                        foreach (var info in pictureInfos)
                         {
-                            dic[sKey].AddPictureInfo(info);
-                        }
-                        else
-                        {
-                            dic.Add(sKey, new ExplanationData(sKey, info));
+                            if (dic.ContainsKey(sKey))
+                            {
+                                dic[sKey].AddPictureInfo(info);
+                            }
+                            else
+                            {
+                                dic.Add(sKey, new ExplanationData(sKey, info));
+                            }
                         }
                     }
                 }

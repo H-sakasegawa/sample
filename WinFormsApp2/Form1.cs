@@ -2001,11 +2001,19 @@ namespace WinFormsApp2
             Control source = contextMenuStrip1.SourceControl;
             if (source == lstInsenDetail)
             {
-                ((FormMain)mainForm).ShowExplanation("sss", "3000");
+                InsenDetail item = (InsenDetail)lstInsenDetail.SelectedItem;
+                if (item != null)
+                {
+                    ((FormMain)mainForm).ShowExplanation(item.expressionType, item.expressionKey);
+                }
             }
             else if(source == listYousenDetail)
             {
-                ((FormMain)mainForm).ShowExplanation("sss", "3000");
+                YousenDetail item = (YousenDetail)listYousenDetail.SelectedItem;
+                if (item != null)
+                {
+                    ((FormMain)mainForm).ShowExplanation(item.expressionType, item.expressionKey);
+                }
             }
         }
 

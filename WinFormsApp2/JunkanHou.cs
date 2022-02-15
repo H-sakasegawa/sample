@@ -75,7 +75,6 @@ namespace WinFormsApp2
             int kiseiIndex = iGogyo;
             if (iGogyo < bMark.Length)
             {
-                iGogyo = iNext;
                 //始星 検索
                 while (true)
                 {

@@ -54,7 +54,7 @@ namespace WinFormsApp2
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(148, 230);
+            this.button1.Location = new System.Drawing.Point(141, 230);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(25, 23);
             this.button1.TabIndex = 1;
@@ -77,7 +77,7 @@ namespace WinFormsApp2
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(111, 234);
+            this.label1.Location = new System.Drawing.Point(104, 234);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 15);
             this.label1.TabIndex = 3;
@@ -97,7 +97,7 @@ namespace WinFormsApp2
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(179, 230);
+            this.button4.Location = new System.Drawing.Point(172, 230);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(29, 23);
             this.button4.TabIndex = 6;
@@ -108,7 +108,7 @@ namespace WinFormsApp2
             // lblPage
             // 
             this.lblPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblPage.Location = new System.Drawing.Point(82, 234);
+            this.lblPage.Location = new System.Drawing.Point(75, 234);
             this.lblPage.Name = "lblPage";
             this.lblPage.Size = new System.Drawing.Size(31, 15);
             this.lblPage.TabIndex = 7;
