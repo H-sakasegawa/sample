@@ -70,7 +70,8 @@ namespace WinFormsApp2
 
                 //string Explanation = ExcelReader.CellValue(sheet, iRow, 1);
 
-                List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow);
+                List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow)
+                                                                         .OrderBy(x=> x.col).ToList();
                 if (pictureInfos != null)
                 {
                     foreach (var info in pictureInfos)

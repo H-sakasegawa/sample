@@ -25,9 +25,11 @@ namespace WinFormsApp2
             TableMng tblMng = TableMng.GetTblManage();
             TableMng.GogyouAttrRerationshipTbl relation = tblMng.gogyouAttrRelationshipTbl;
 
+            //水、木、火、土、金
             string[] gogyous = relation.GetCreatedRelation("水");
+            bool[] bMark = new bool[gogyous.Length];
+            for (int i = 0; i < bMark.Length; i++) bMark[i] = false;
 
-            bool bFlg = false; //１つ前の五行の評価が有か無か？
             for (int i = 0; i < gogyous.Length; i++)
             {
                 bool bFind = false;
@@ -36,26 +38,62 @@ namespace WinFormsApp2
                 {
                     if (gogyous[i] == person.judaiShuseiAry[j].gogyou)
                     {
-                        bFind = true;
+                        bMark[i] = true;
                         break;
                     }
                 }
-                if (bFind)
+            }
+
+            int iGogyo = 0;
+            int iNext = 0;
+            //該当しない五行の位置を特定
+            for (iGogyo=0; iGogyo< bMark.Length; iGogyo++)
+            {
+                if (!bMark[iGogyo]) break;
+            }
+            if(iGogyo == bMark.Length)
+            {   //五行循環
+                siseiAttr = "木";
+                kiseiAttr = "水";
+                return true;
+            }
+
+
+            //帰星 検索
+            for ( ; iGogyo < bMark.Length; iGogyo++)
+            {
+                iNext = iGogyo + 1;
+                if (iNext >= bMark.Length) iNext = 0;
+
+                //最初に2つ続く位置を検索
+                if( bMark[iGogyo] && bMark[iNext])
                 {
-                    if (bFlg == false)
-                    {   //✕→○ は帰星としておく
-                        kiseiAttr = gogyous[i];
-                    }
-                    else
-                    {   //○→○は始星としておく
-                        siseiAttr = gogyous[i];
-                    }
-                    bFlg = true;
+                    kiseiAttr = gogyous[iGogyo];
+                    break;
                 }
-                else
+            }
+            int kiseiIndex = iGogyo;
+            if (iGogyo < bMark.Length)
+            {
+                iGogyo = iNext;
+                //始星 検索
+                while (true)
                 {
-                    bFlg = false;
-                }
+                    iGogyo++;
+                    if (iGogyo >= bMark.Length) iGogyo = 0;
+                    if( iGogyo == kiseiIndex)
+                    {   //五行循環の場合は無限ループしてしまう
+                        break;
+                    }
+                    //五行が存在するまで帰星を変えながら進める
+                    if (bMark[iGogyo])
+                    {
+                        siseiAttr = gogyous[iGogyo];
+                    }else
+                    {
+                        break;
+                    }
+                 }
             }
             if (!string.IsNullOrEmpty(siseiAttr))
             {
