@@ -177,7 +177,29 @@ namespace WinFormsApp2
             lstInsenDetail.ContextMenuStrip = contextMenuStrip1;
             listYousenDetail.ContextMenuStrip = contextMenuStrip1;
 
+            lstInsenDetail.MouseUp += listBox_MouseUp;
+            listYousenDetail.MouseUp += listBox_MouseUp;
 
+
+        }
+        void listBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            // マウス座標から選択すべきアイテムのインデックスを取得
+            int index = listYousenDetail.IndexFromPoint(e.Location);
+
+            // インデックスが取得できたら
+            if (index >= 0)
+            {
+                // すべての選択状態を解除してから
+                listYousenDetail.ClearSelected();
+
+                // アイテムを選択
+                listYousenDetail.SelectedIndex = index;
+
+                // コンテキストメニューを表示
+                //Point pos = listBox1.PointToScreen(e.Location);
+                //contextMenuStrip1.Show(pos);
+            }
         }
 
         private void ReloadSetting()
