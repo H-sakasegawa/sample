@@ -32,7 +32,7 @@ namespace WinFormsApp2
         {
             this.TopMost = true;
 
-            this.KeyPreview = true;
+            //拡大縮小で縦横比率を維持
             picExplanation.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
