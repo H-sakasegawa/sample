@@ -215,5 +215,22 @@ namespace WinFormsApp2
                 chkImigami[i].Checked = chkShugosin[i].Checked =false;
             }
         }
+
+        /// <summary>
+        /// 説明表示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string gogyo = tblMng.jyukanTbl.GetGogyo(person.nikkansi.kan);
+
+            string expressionType = string.Format("守護神{0}{1}", person.nikkansi.kan, gogyo);
+            string expressionKey = string.Format("{0}{1}", person.nikkansi.kan, gogyo);
+
+            //画面に表示されている
+            FormMain.GetFormMain().ShowExplanation(expressionType, expressionKey);
+
+        }
     }
 }

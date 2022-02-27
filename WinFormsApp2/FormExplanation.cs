@@ -23,6 +23,8 @@ namespace WinFormsApp2
 
         Image curImage = null;
 
+        string formTitle = "説明";
+
         const string explanationFileDefName = "ExplanationFileDef.ini";
 
         public FormExplanation()
@@ -63,13 +65,21 @@ namespace WinFormsApp2
                 string fileName = GetDataFileName(type);
                 if(string.IsNullOrEmpty(fileName))
                 {
+                    string filePath = Path.Combine(FormMain.GetExePath(), explanationFileDefName);
+                    MessageBox.Show(string.Format("説明ファイル定義INIファイル[ {0 }]に\n{1}\nの定義がありません。", explanationFileDefName, type));
                     return;
                 }
                 string excelFilePath = Path.Combine(FormMain.GetExePath(), fileName );
 
-                reader.ReadExcel(excelFilePath);
+                if(reader.ReadExcel(excelFilePath) !=0)
+                {
+                    MessageBox.Show(string.Format("説明ファイルの読み込みに失敗しま\n\n{0}", excelFilePath));
+                    return;
+                }
 
                 curType = type;
+
+                this.Text = string.Format("{0} : {1}", formTitle, Path.GetFileNameWithoutExtension(excelFilePath));
 
                 //項目一覧表示
 
@@ -81,15 +91,20 @@ namespace WinFormsApp2
 
             }
 
-
-            //キー文字から"(～)"などを除外
-            char[] splitKeys = new char[] { '(', ':', '：', '['};
-            int index = dispTargetKey.IndexOfAny(splitKeys);
-            if( index>=0)
+            if (!string.IsNullOrEmpty(dispTargetKey))
             {
-                dispTargetKey = dispTargetKey.Substring(0, index).Trim();
+                //キー文字から"(～)"などを除外
+                char[] splitKeys = new char[] { '(', ':', '：', '[' };
+                int index = dispTargetKey.IndexOfAny(splitKeys);
+                if (index >= 0)
+                {
+                    dispTargetKey = dispTargetKey.Substring(0, index).Trim();
+                }
             }
-
+            else
+            {
+                dispTargetKey = null;
+            }
             SetCurrentExplanation(dispTargetKey);
             //bool bEnable = true;
             //curData = reader.GetExplanation(dispTargetKey);
@@ -118,12 +133,23 @@ namespace WinFormsApp2
         private void SetCurrentExplanation( string dispTargetKey, bool bResize=true )
         {
             bool bEnable = true;
-            curData = reader.GetExplanation(dispTargetKey);
+            if (!string.IsNullOrEmpty(dispTargetKey))
+            {
+                curData = reader.GetExplanation(dispTargetKey);
+            }else
+            {
+                //最初の項目をデフォルトとして表示
+                var kyes = reader.GetExplanationKeys();
+                if (kyes.Count > 0)
+                {
+                    curData = reader.GetExplanation(kyes[0]);
+                }
+            }
             if (curData != null)
             {
                 lblPage.Text = string.Format("{0}/{1}", 1, curData.pictureInfos.Count);
                 ShowPage(1);
-                if(bResize )ResizeWindow(1);
+                if (bResize) ResizeWindow(1);
                 lstKeys.SelectedItem = dispTargetKey;
 
             }
@@ -144,6 +170,9 @@ namespace WinFormsApp2
         //指定されたページの画像サイズにピクチャー（ウィンドウは＋α）サイズに合わせる
         private void ResizeWindow(int pageNo)
         {
+            if (pageNo > curData.pictureInfos.Count) return;
+            if (curData.pictureInfos[pageNo - 1] == null) return;
+
             ImageConverter imgconv = new ImageConverter();
             Image img = (Image)imgconv.ConvertFrom(curData.pictureInfos[pageNo - 1].pictureData.Data);
 
@@ -169,7 +198,9 @@ namespace WinFormsApp2
 
          private void ShowPage(int pageNo)
         {
-
+            picExplanation.Image = null;
+            if (pageNo > curData.pictureInfos.Count) return;
+            if (curData.pictureInfos[pageNo - 1] == null) return;
             curPageNo = pageNo;
 
             if (curPageNo >= 0)

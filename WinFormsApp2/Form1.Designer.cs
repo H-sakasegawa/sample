@@ -106,6 +106,8 @@ namespace WinFormsApp2
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.contextMenuDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuExplanation = new System.Windows.Forms.ToolStripMenuItem();
             this.label14 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -170,8 +172,7 @@ namespace WinFormsApp2
             this.lstInsenDetail = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listYousenDetail = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuExplanation = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -180,6 +181,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.contextMenuDetail.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -188,7 +190,6 @@ namespace WinFormsApp2
             this.tabPage3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -921,6 +922,7 @@ namespace WinFormsApp2
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.ContextMenuStrip = this.contextMenuDetail;
             this.pictureBox1.Location = new System.Drawing.Point(129, 532);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(147, 238);
@@ -942,12 +944,27 @@ namespace WinFormsApp2
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.ContextMenuStrip = this.contextMenuDetail;
             this.pictureBox2.Location = new System.Drawing.Point(282, 532);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(308, 279);
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
+            // 
+            // contextMenuDetail
+            // 
+            this.contextMenuDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExplanation});
+            this.contextMenuDetail.Name = "contextMenuStrip1";
+            this.contextMenuDetail.Size = new System.Drawing.Size(123, 26);
+            // 
+            // mnuExplanation
+            // 
+            this.mnuExplanation.Name = "mnuExplanation";
+            this.mnuExplanation.Size = new System.Drawing.Size(122, 22);
+            this.mnuExplanation.Text = "説明表示";
+            this.mnuExplanation.Click += new System.EventHandler(this.mnuExplanation_Click);
             // 
             // label14
             // 
@@ -1633,19 +1650,11 @@ namespace WinFormsApp2
             this.listYousenDetail.TabIndex = 80;
             this.listYousenDetail.DoubleClick += new System.EventHandler(this.listYousenDetail_DoubleClick);
             // 
-            // contextMenuStrip1
+            // toolStripMenuItem1
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuExplanation});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
-            // 
-            // mnuExplanation
-            // 
-            this.mnuExplanation.Name = "mnuExplanation";
-            this.mnuExplanation.Size = new System.Drawing.Size(180, 22);
-            this.mnuExplanation.Text = "説明表示";
-            this.mnuExplanation.Click += new System.EventHandler(this.mnuExplanation_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "説明表示";
             // 
             // Form1
             // 
@@ -1705,6 +1714,7 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.contextMenuDetail.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1717,7 +1727,6 @@ namespace WinFormsApp2
             this.tabControl2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1864,8 +1873,10 @@ namespace WinFormsApp2
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListBox listYousenDetail;
         private System.Windows.Forms.Label lblGogyoJunkan;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuDetail;
         private System.Windows.Forms.ToolStripMenuItem mnuExplanation;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
 

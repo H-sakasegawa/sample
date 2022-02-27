@@ -16,7 +16,7 @@ namespace WinFormsApp2
     public partial class Form1 : Form
     {
 
-        public delegate void CloseTab( int tabId);
+        public delegate void CloseTab(int tabId);
         public event CloseTab onCloseTab = null;
 
         Form mainForm = null;
@@ -25,7 +25,7 @@ namespace WinFormsApp2
 
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
-         bool bControlEventEnable = true;
+        bool bControlEventEnable = true;
 
 
         //陰占 描画オブジェクト
@@ -121,7 +121,7 @@ namespace WinFormsApp2
 
                 grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
 
-  
+
                 if (targetPerson == null)
                 {
                     //グループコンボボックス設定
@@ -174,11 +174,29 @@ namespace WinFormsApp2
                 bControlEventEnable = true;
             }
 
-            lstInsenDetail.ContextMenuStrip = contextMenuStrip1;
-            listYousenDetail.ContextMenuStrip = contextMenuStrip1;
+            lstInsenDetail.ContextMenuStrip = contextMenuDetail;
+            listYousenDetail.ContextMenuStrip = contextMenuDetail;
 
             lstInsenDetail.MouseUp += listBox_MouseUp;
             listYousenDetail.MouseUp += listBox_MouseUp;
+
+
+            //説明コンテキストメニュー割付
+            lstInsenDetail.ContextMenuStrip = contextMenuDetail;
+            listYousenDetail.ContextMenuStrip = contextMenuDetail;
+            pictureBox1.ContextMenuStrip = contextMenuDetail;
+            pictureBox2.ContextMenuStrip = contextMenuDetail;
+            //十大主星
+            lblJudaiShuseiA.ContextMenuStrip = contextMenuDetail;
+            lblJudaiShuseiB.ContextMenuStrip = contextMenuDetail;
+            lblJudaiShuseiC.ContextMenuStrip = contextMenuDetail;
+            lblJudaiShuseiD.ContextMenuStrip = contextMenuDetail;
+            lblJudaiShuseiE.ContextMenuStrip = contextMenuDetail;
+            //十二大従星
+            lblJunidaiJuseiA.ContextMenuStrip = contextMenuDetail;
+            lblJunidaiJuseiB.ContextMenuStrip = contextMenuDetail;
+            lblJunidaiJuseiC.ContextMenuStrip = contextMenuDetail;
+
 
 
         }
@@ -210,8 +228,8 @@ namespace WinFormsApp2
 
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                SetInitComboBox( config, "Group", cmbGroup);
-                SetInitComboBox( config, "Name", cmbPerson);
+                SetInitComboBox(config, "Group", cmbGroup);
+                SetInitComboBox(config, "Name", cmbPerson);
 
                 SetInitCheckBox(config, "Getuun", chkDispGetuun);
                 SetInitCheckBox(config, "Nenun", chkDispNenun);
@@ -242,7 +260,7 @@ namespace WinFormsApp2
             {
                 for (int i = 0; i < cmb.Items.Count; i++)
                 {
-                    if ( cmb.Items[i].ToString() == sValue)
+                    if (cmb.Items[i].ToString() == sValue)
                     {
                         cmb.Text = sValue;
                         return;
@@ -271,7 +289,7 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (tabId==0)
+            if (tabId == 0)
             {
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -287,7 +305,7 @@ namespace WinFormsApp2
             }
 
             //モードレスダイアログを終了する
-            for(int i=lstModlessForms.Count-1; i>=0; i--)
+            for (int i = lstModlessForms.Count - 1; i >= 0; i--)
             {
                 lstModlessForms[i].Close();
             }
@@ -305,7 +323,7 @@ namespace WinFormsApp2
             //現在画面で選択されているグループ
             string grpName = cmbGroup.Text;
             FormPersonInfo frm = new FormPersonInfo(personList, grpName, FormPersonInfo.Mode.MODE_NEW);
-            if( frm.ShowDialog() == DialogResult.OK)
+            if (frm.ShowDialog() == DialogResult.OK)
             {
                 SelectGroupAndPersonCombobox(curPerson);
             }
@@ -330,7 +348,7 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
-            if( MessageBox.Show(string.Format("'{0}' \nを削除します。よろしいですか？", curPerson.name),
+            if (MessageBox.Show(string.Format("'{0}' \nを削除します。よろしいですか？", curPerson.name),
                              "削除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 personList.Remove(curPerson);
@@ -364,11 +382,11 @@ namespace WinFormsApp2
         }
 
         //グループコンボボックス更新
-        void UpdateGroupCombobox(string selectGroup=null)
+        void UpdateGroupCombobox(string selectGroup = null)
         {
             Common.SetGroupCombobox(personList, cmbGroup, selectGroup);
 
-         }
+        }
 
         public Group GetCurrentGroup()
         {
@@ -422,7 +440,7 @@ namespace WinFormsApp2
                     MessageBox.Show(string.Format("{0}さんの節入り日テーブルに指定された年度の情報が不足しています", person.name));
                     return;
                 }
-               // tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
+                // tblMng.setuiribiTbl.Init(baseYear, baseMonth, baseDay, baseNenkansiNo, baseGekkansiNo, baseNikkansiNo);
 
                 //ユーザ情報初期設定
                 person.Init();
@@ -529,7 +547,8 @@ namespace WinFormsApp2
 
 
 
-            }finally
+            }
+            finally
             {
                 bControlEventEnable = true;
 
@@ -608,13 +627,13 @@ namespace WinFormsApp2
         /// <summary>
         /// 陽占 表示
         /// </summary>
-        private void DispYousen(Person person , int idxNikkansiGensoType, int idxGekkansiGensoType, int idxNenkaisiGensoType)
+        private void DispYousen(Person person, int idxNikkansiGensoType, int idxGekkansiGensoType, int idxNenkaisiGensoType)
         {
             TableMng.GogyouAttrRerationshipTbl relation = tblMng.gogyouAttrRelationshipTbl;
             lblGogyoJunkan.Text = "";
 
-            string kiseiAttr="";
-            string siseiAttr="";
+            string kiseiAttr = "";
+            string siseiAttr = "";
             bool bGogyoJunkan = JunkanHou.GetJunkanHouAttr(person, ref siseiAttr, ref kiseiAttr);
             int[] junkanHouNo = new int[5];
             if (!string.IsNullOrEmpty(siseiAttr))
@@ -629,7 +648,7 @@ namespace WinFormsApp2
             //十大主星
             //------------------
             //干1 → 蔵x1
-            lblJudaiShuseiA.Text =person.judaiShuseiA.name;
+            lblJudaiShuseiA.Text = person.judaiShuseiA.name;
             if (junkanHouNo[0] > 0) lblJudaiShuseiA.Text += string.Format("({0})", junkanHouNo[0]);
             //干1 → 蔵x2
             lblJudaiShuseiB.Text = person.judaiShuseiB.name;
@@ -762,7 +781,7 @@ namespace WinFormsApp2
                 { lblJunidaiJuseiB, insen.colorGekkansiSi },
                 { lblJunidaiJuseiC, insen.colorNikkansiSi },
             };
- 
+
             //陰占ラベルの色を陽占のラベルに反映
             foreach (var item in dicYosenCombineInsenLabel)
             {
@@ -779,7 +798,7 @@ namespace WinFormsApp2
         /// 大運
         /// </summary>
         /// <param name="nenkansiNo"></param>
-        private void DispTaiun(Person person )
+        private void DispTaiun(Person person)
         {
             lvTaiun.Items.Clear();
 
@@ -837,10 +856,10 @@ namespace WinFormsApp2
 
             //大運表示用の干支リストを取得
             var lstTaiunKansi = person.GetTaiunKansiList();
-            for(int i=0; i< lstTaiunKansi.Count; i++)
+            for (int i = 0; i < lstTaiunKansi.Count; i++)
             {
                 var kansiItem = lstTaiunKansi[i];
-                if ( i==0)
+                if (i == 0)
                 {
                     //初旬
                     AddTaiunItem(person, "初旬 0～", kansiItem.kansiNo, 0);
@@ -882,11 +901,11 @@ namespace WinFormsApp2
         /// </summary>
         /// <param name="title"></param>
         /// <param name="kansiNo"></param>
-        private void AddTaiunItem(Person person , string title, int kansiNo, int startNen)
+        private void AddTaiunItem(Person person, string title, int kansiNo, int startNen)
         {
 
 
-            var item  = Common.GetTaiunItem(person, title, kansiNo, startNen);
+            var item = Common.GetTaiunItem(person, title, kansiNo, startNen);
 
 
 
@@ -930,11 +949,11 @@ namespace WinFormsApp2
         //====================================================
         // 年運 表示処理
         //====================================================
-         /// <summary>
+        /// <summary>
         /// 年運
         /// </summary>
         /// <param name="baseYear">大運で選択された行の開始年</param>
-        private void DispNenun(Person person ,int startNen)
+        private void DispNenun(Person person, int startNen)
         {
             lvNenun.Items.Clear();
 
@@ -958,7 +977,7 @@ namespace WinFormsApp2
             int nenkansiNo = person.GetNenkansiNo(baseYear, true);
 #endif
 
-           // string[] choukouShugosinKan = null;
+            // string[] choukouShugosinKan = null;
             //var shugosinAttrs = person.ShugosinAttrs;
             //var imigamiAttrs = person.ImigamiAttrs;
             //if (imigamiAttrs.Count==0)
@@ -968,14 +987,14 @@ namespace WinFormsApp2
             //}
 
             //11年分を表示
-            for (int i = 0; i < 10+1; i++)
+            for (int i = 0; i < 10 + 1; i++)
             {
                 //順行のみなので、60超えたら1にするだけ
                 if (nenkansiNo > 60) nenkansiNo = 1;
 
-                AddNenunItem( person,
+                AddNenunItem(person,
                                     baseYear + i,
-                                    string.Format("{0}歳({1})", (baseYear +i) - person.birthday.year,  baseYear +i),
+                                    string.Format("{0}歳({1})", (baseYear + i) - person.birthday.year, baseYear + i),
                                     nenkansiNo,
                                     taiunItemData,
                                     lvNenun
@@ -1024,7 +1043,7 @@ namespace WinFormsApp2
                 if (mMonth > 12)
                 {
                     mMonth = (mMonth - 12);
-                    year = nenunItemData.keyValue+1;
+                    year = nenunItemData.keyValue + 1;
                 }
 
                 //月干支番号取得(節入り日無視で単純月で取得）
@@ -1034,8 +1053,8 @@ namespace WinFormsApp2
                 //順行のみなので、60超えたら1にするだけ
                 //if (gekkansiNo > 60) gekkansiNo = 1;
 
-                AdGetuunItem(person, 
-                                    mMonth, 
+                AdGetuunItem(person,
+                                    mMonth,
                                     string.Format("{0}月", mMonth),
                                     gekkansiNo,
                                     taiunItemData,
@@ -1059,11 +1078,11 @@ namespace WinFormsApp2
         /// <param name="title">行タイトル文字列</param>
         /// <param name="targetkansiNo">年運干支No</param>
         /// <param name="kansi">大運干支No</param>
-        private void AddNenunItem(Person person, 
-                                  int rowKeyValue, 
-                                  string title, 
-                                  int targetkansiNo, 
-                                  TaiunLvItemData taiunLvItemData, 
+        private void AddNenunItem(Person person,
+                                  int rowKeyValue,
+                                  string title,
+                                  int targetkansiNo,
+                                  TaiunLvItemData taiunLvItemData,
                                   ListView lv
             )
         {
@@ -1082,10 +1101,10 @@ namespace WinFormsApp2
 
         }
 
-        private void AdGetuunItem(  Person person,
-                                    int rowKeyValue, 
-                                    string title, 
-                                    int getuunKansiNo, 
+        private void AdGetuunItem(Person person,
+                                    int rowKeyValue,
+                                    string title,
+                                    int getuunKansiNo,
                                     TaiunLvItemData taiunLvItemData,
                                     GetuunNenunLvItemData nenunLvItemData,
                                     ListView lv, int bitTarget)
@@ -1095,12 +1114,12 @@ namespace WinFormsApp2
             AddNenunGetuunItem(rowKeyValue, title, item, lv);
         }
 
-        private void AddNenunGetuunItem(  int rowKeyValue, string title, Common.NenunGetuunItems item, ListView lv)
+        private void AddNenunGetuunItem(int rowKeyValue, string title, Common.NenunGetuunItems item, ListView lv)
         {
 
-           // var item = Common.GetNenunGetuunItems(person,  title, targetkansiNo, taiunKansi, bitTarget);
+            // var item = Common.GetNenunGetuunItems(person,  title, targetkansiNo, taiunKansi, bitTarget);
 
-    
+
             var lvItem = lv.Items.Add(title);
             //サブアイテム追加
             for (int i = (int)Const.ColNenunListView.COL_KANSI; i < item.sItems.Length; i++)
@@ -1178,7 +1197,7 @@ namespace WinFormsApp2
             curGetuun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
             if (drawItem2 != null) drawItem2.Dispose();
-            drawItem2 = new DrawKoutenUn(person, pictureBox, 
+            drawItem2 = new DrawKoutenUn(person, pictureBox,
                                         curTaiun.kansi, curNenun.kansi, curGetuun.kansi,
                                         chkDispTaiun.Checked,
                                         chkDispNenun.Checked,
@@ -1197,7 +1216,7 @@ namespace WinFormsApp2
             sim.Simulation(person, curGetuun.kansi, curNenun.kansi, curTaiun.kansi, chkDispGetuun.Checked);
             //lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
             button3.Text = string.Format("虚気変化\n[ パターン数：{0} ]", sim.lstKansPattern.Count - 1);
-            if (frmKykiSim != null && frmKykiSim.Visible==true)
+            if (frmKykiSim != null && frmKykiSim.Visible == true)
             {
                 frmKykiSim.UpdateKyokiPatternOnly(curPerson,
                                         curNenun.keyValue,
@@ -1206,7 +1225,7 @@ namespace WinFormsApp2
                                         chkSangouKaikyoku.Checked,
                                         chkGogyou.Checked,
                                         chkGotoku.Checked
-                                    );;
+                                    ); ;
             }
 
         }
@@ -1241,7 +1260,7 @@ namespace WinFormsApp2
                 }
             }
             //年運リストビューで年に該当する行を選択
-            if( today.Month< Const.GetuunDispStartGetu)
+            if (today.Month < Const.GetuunDispStartGetu)
             {
                 //月運で選択される月は、次の年度の月となるので、
                 //年運の選択を１年前に設定する必要がある。
@@ -1346,15 +1365,15 @@ namespace WinFormsApp2
                                     );
             }
             //根気法画面再描画
-            if(frmKonkihou!=null)
+            if (frmKonkihou != null)
             {
                 frmKonkihou.Update(curPerson);
             }
-            if(formJuniSinKanHou!=null)
+            if (formJuniSinKanHou != null)
             {
                 formJuniSinKanHou.Update(curPerson);
             }
-            if(FormShugoSinHou!=null)
+            if (FormShugoSinHou != null)
             {
                 FormShugoSinHou.Update(curPerson);
             }
@@ -1466,7 +1485,7 @@ namespace WinFormsApp2
             //後天運 図の表示更新
             DispKoutenUn(curPerson, pictureBox2);
 
-            if(frmUnseiViewer!=null)
+            if (frmUnseiViewer != null)
             {
                 frmUnseiViewer.SelectYear(((GetuunNenunLvItemData)selectedItem[0].Tag).keyValue);
             }
@@ -1627,7 +1646,7 @@ namespace WinFormsApp2
             GetuunNenunLvItemData itemData = (GetuunNenunLvItemData)item.Tag;
             //編集画面表示
             FormEditCareer frm = new FormEditCareer(itemData.keyValue, curPerson);
-            if( frm.ShowDialog()==DialogResult.OK)
+            if (frm.ShowDialog() == DialogResult.OK)
             {
                 //リストビューの経歴表示更新
                 item.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
@@ -1701,7 +1720,7 @@ namespace WinFormsApp2
 
                     var idTaiun = lvTaiun.SelectedItems[0].Index;
                     var idxNenun = lvNenun.SelectedItems[0].Index;
-                    if (idTaiun == lvTaiun.Items.Count-1 && idxNenun == lvNenun.Items.Count - 1) return;
+                    if (idTaiun == lvTaiun.Items.Count - 1 && idxNenun == lvNenun.Items.Count - 1) return;
 
                     lvGetuun.Items[0].Selected = true;
                     lvGetuun.Items[0].Focused = true;
@@ -1710,7 +1729,7 @@ namespace WinFormsApp2
             }
         }
 
- 
+
         //------------------------------------------------------------
         //  後天運ピクチャーボックス イベント
         //------------------------------------------------------------
@@ -1721,7 +1740,7 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void pictureBox2_SizeChanged(object sender, EventArgs e)
         {
-            
+
             if (mainForm.WindowState == FormWindowState.Minimized) return;
             UpdateShukumeiAndKoutenunDraw();
 
@@ -1846,7 +1865,7 @@ namespace WinFormsApp2
         private void button3_Click(object sender, EventArgs e)
         {
             //年運の選択行の干支取得
-           var selectedItem = lvNenun.SelectedItems;
+            var selectedItem = lvNenun.SelectedItems;
             if (selectedItem.Count == 0) return;
 
             curNenun = (GetuunNenunLvItemData)selectedItem[0].Tag;
@@ -1857,7 +1876,7 @@ namespace WinFormsApp2
             }
 
 
-            frmKykiSim = new FromKyokiSimulation( this );
+            frmKykiSim = new FromKyokiSimulation(this);
             frmKykiSim.OnClose += OnModelessFormClose;
             ShowModless(frmKykiSim);
 
@@ -2007,7 +2026,7 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void btnTabClose_Click(object sender, EventArgs e)
         {
-            if(onCloseTab!=null) onCloseTab(tabId);
+            if (onCloseTab != null) onCloseTab(tabId);
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -2020,8 +2039,9 @@ namespace WinFormsApp2
         //====================================================
         private void mnuExplanation_Click(object sender, EventArgs e)
         {
-            Control source = contextMenuStrip1.SourceControl;
-            if (source == lstInsenDetail)
+            Control source = contextMenuDetail.SourceControl;
+
+            if (source == lstInsenDetail)   //陰占特徴リストボックス
             {
                 InsenDetail item = (InsenDetail)lstInsenDetail.SelectedItem;
                 if (item != null)
@@ -2029,7 +2049,7 @@ namespace WinFormsApp2
                     ((FormMain)mainForm).ShowExplanation(item.expressionType, item.expressionKey);
                 }
             }
-            else if(source == listYousenDetail)
+            else if (source == listYousenDetail)//陽占特徴リストボックス
             {
                 YousenDetail item = (YousenDetail)listYousenDetail.SelectedItem;
                 if (item != null)
@@ -2037,11 +2057,32 @@ namespace WinFormsApp2
                     ((FormMain)mainForm).ShowExplanation(item.expressionType, item.expressionKey);
                 }
             }
+            else if (source == pictureBox2) //後天運ピクチャー領域
+            {
+                ((FormMain)mainForm).ShowExplanation("位相法後天運", null);
+            }
+            else if (source == pictureBox1) //宿命ピクチャー領域
+            {
+                ((FormMain)mainForm).ShowExplanation("位相法宿命", null);
+            }
+            else if (source == lblJudaiShuseiA
+                  || source == lblJudaiShuseiB
+                  || source == lblJudaiShuseiC
+                  || source == lblJudaiShuseiD
+                  || source == lblJudaiShuseiE
+                  ) //十大主星
+            {
+                ((FormMain)mainForm).ShowExplanation("十大主星", source.Text);
+            }
+            else if (source == lblJunidaiJuseiA
+                  || source == lblJunidaiJuseiB
+                  || source == lblJunidaiJuseiC
+                  ) //十二大従星
+            {
+                ((FormMain)mainForm).ShowExplanation("十二大従星", source.Text);
+            }
+
         }
-
-
-
-
         //=================================================
         //Owner Draw 　⇒  ListViewExに統合しました
         //=================================================

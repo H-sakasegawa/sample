@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 using NPOI.XSSF.UserModel;
 
@@ -52,8 +53,14 @@ namespace WinFormsApp2
         private Dictionary<string, ExplanationData> dic = new Dictionary<string, ExplanationData>();
 
 
-        public void ReadExcel(string excelFilePath)
+        public int ReadExcel(string excelFilePath)
         {
+            if( !File.Exists(excelFilePath))
+            {
+                return -1;
+            }
+
+
             string exePath = FormMain.GetExePath();
 
             var workbook = ExcelReader.GetWorkbook(excelFilePath, "xlsx");
@@ -71,11 +78,11 @@ namespace WinFormsApp2
                 var sKeyAry = sKeyItem.Split('\n');
                 //string Explanation = ExcelReader.CellValue(sheet, iRow, 1);
 
-                List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow)
+                List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow+1)
                                                                          .OrderBy(x=> x.col).ToList();
-                if (pictureInfos != null)
+                foreach (var sKey in sKeyAry)
                 {
-                    foreach (var sKey in sKeyAry)
+                    if (pictureInfos != null && pictureInfos.Count>0)
                     {
                         foreach (var info in pictureInfos)
                         {
@@ -89,9 +96,15 @@ namespace WinFormsApp2
                             }
                         }
                     }
+                    else
+                    {
+                        dic.Add(sKey, new ExplanationData(sKey, null));
+                    }
                 }
                 iRow++;
             }
+
+            return 0;
 
         }
    

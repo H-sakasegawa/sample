@@ -30,11 +30,16 @@ namespace WinFormsApp2
 
         FormExplanation frmExplanation = null;
 
+        static FormMain frmMain = null;
+
         public static string GetExePath() { return exePath; }
+        public static FormMain GetFormMain() { return frmMain;  }
 
         public FormMain()
         {
             InitializeComponent();
+
+            frmMain = this;
 
             //tabControl1.Dock = DockStyle.Fill;
             tabControl1.TabPages.Clear();
