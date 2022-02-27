@@ -239,10 +239,9 @@ namespace WinFormsApp2
                         {
                             XSSFPicture pic = (XSSFPicture)shape;
                             //XSSFClientAnchor xca =(XSSFClientAnchor)pic.GetPreferredSize();
-                            XSSFClientAnchor anchor =  (XSSFClientAnchor)pic.GetPreferredSize();
                             // 画像が設置されているセルの左上座標を取得
                             var cellInfo = new PictureInfo();
-                            cellInfo.row = pic.ClientAnchor.Row1; //Index→No
+                            cellInfo.row = pic.ClientAnchor.Row1+1; //Index→No
                             cellInfo.col = pic.ClientAnchor.Col1;
                             cellInfo.pictureData = pic.PictureData;
                             cellInfo.width = Math.Abs(pic.ClientAnchor.Dx1 - pic.ClientAnchor.Dx2) / 9525;
