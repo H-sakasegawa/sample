@@ -19,6 +19,8 @@ namespace WinFormsApp2
         ExplanationReader.ExplanationData curData = null;
         string curType = "";
 
+        int curPageNo = 0;
+
         Image curImage = null;
 
         const string explanationFileDefName = "ExplanationFileDef.ini";
@@ -32,8 +34,14 @@ namespace WinFormsApp2
         {
             this.TopMost = true;
 
+            lstKeys.Dock = DockStyle.Fill;
+            picExplanation.Dock = DockStyle.Fill;
+
             //拡大縮小で縦横比率を維持
             picExplanation.SizeMode = PictureBoxSizeMode.Zoom;
+
+            picExplanation.MouseWheel
+                += new System.Windows.Forms.MouseEventHandler(this.picExplanation_MouseWheel);
         }
 
         private void FormExplanation_FormClosing(object sender, FormClosingEventArgs e)
@@ -45,8 +53,8 @@ namespace WinFormsApp2
         /// 
         /// </summary>
         /// <param name="type">説明資料種別</param>
-        /// <param name="key">説明項目キー名</param>
-        public void Show( string type, string key)
+        /// <param name="dispTargetKey">説明項目キー名</param>
+        public void Show( string type, string dispTargetKey)
         {
             if (curType != type)
             {
@@ -62,38 +70,75 @@ namespace WinFormsApp2
                 reader.ReadExcel(excelFilePath);
 
                 curType = type;
+
+                //項目一覧表示
+
+                var keys = reader.GetExplanationKeys();
+                foreach(var item in keys)
+                {
+                    lstKeys.Items.Add(item);
+                }
+
             }
+
 
             //キー文字から"(～)"などを除外
             char[] splitKeys = new char[] { '(', ':', '：', '['};
-            int index = key.IndexOfAny(splitKeys);
+            int index = dispTargetKey.IndexOfAny(splitKeys);
             if( index>=0)
             {
-                key = key.Substring(0, index).Trim();
+                dispTargetKey = dispTargetKey.Substring(0, index).Trim();
             }
 
+            SetCurrentExplanation(dispTargetKey);
+            //bool bEnable = true;
+            //curData = reader.GetExplanation(dispTargetKey);
+            //if (curData != null)
+            //{
+            //    label1.Text = string.Format("/{0}", curData.pictureInfos.Count);
+            //    lblPage.Text = "1";
+            //    ShowPage(1);
+            //    ResizeWindow(1);
+            //}
+            //else
+            //{
+            //    label1.Text = "/0";
+            //    lblPage.Text = "0";
+            //    bEnable = false;
+            //    FormExplanation_Resize(null, null);
+            //}
+            //button1.Enabled = bEnable;
+            //button2.Enabled = bEnable;
+            //button3.Enabled = bEnable;
+            //button4.Enabled = bEnable;
+            base.Show();
+
+        }
+
+        private void SetCurrentExplanation( string dispTargetKey, bool bResize=true )
+        {
             bool bEnable = true;
-            curData = reader.GetExplanation(key);
+            curData = reader.GetExplanation(dispTargetKey);
             if (curData != null)
             {
-                label1.Text = string.Format("/{0}", curData.pictureInfos.Count);
-                lblPage.Text = "1";
+                lblPage.Text = string.Format("{0}/{1}", 1, curData.pictureInfos.Count);
                 ShowPage(1);
-                ResizeWindow(1);
+                if(bResize )ResizeWindow(1);
+                lstKeys.SelectedItem = dispTargetKey;
+
             }
             else
             {
-                label1.Text = "/0";
-                lblPage.Text = "0";
+
+                ShowPage(-1);
                 bEnable = false;
                 FormExplanation_Resize(null, null);
+                lstKeys.SelectedItem = null;
             }
             button1.Enabled = bEnable;
             button2.Enabled = bEnable;
             button3.Enabled = bEnable;
             button4.Enabled = bEnable;
-            base.Show();
-
         }
 
         //指定されたページの画像サイズにピクチャー（ウィンドウは＋α）サイズに合わせる
@@ -103,12 +148,13 @@ namespace WinFormsApp2
             Image img = (Image)imgconv.ConvertFrom(curData.pictureInfos[pageNo - 1].pictureData.Data);
 
             Size szForm = this.Size;
-            Size szPicture = picExplanation.Size;
-            int ofsW = szForm.Width - szPicture.Width;
-            int ofsH = szForm.Height - szPicture.Height;
+            Size szSplitWin = splitContainer1.Size;
+ 
+            int ofsW = szForm.Width - szSplitWin.Width;
+            int ofsH = szForm.Height - szSplitWin.Height;
 
 
-            this.Width = img.Width + ofsW;
+            this.Width = img.Width + ofsW+ splitContainer1.Panel1.Width + splitContainer1.SplitterWidth;
             this.Height = img.Height + ofsH;
 
         }
@@ -121,53 +167,61 @@ namespace WinFormsApp2
             return iniFile.GetString("Setting", type);
         }
 
-        private void ShowPage()
-        {
-            int page = int.Parse(lblPage.Text);
-            ShowPage(page);
-        }
          private void ShowPage(int pageNo)
         {
-            if (curData == null) return;
 
-            ImageConverter imgconv = new ImageConverter();
-            curImage = (Image)imgconv.ConvertFrom(curData.pictureInfos[pageNo - 1].pictureData.Data);
-            picExplanation.Image = curImage;
+            curPageNo = pageNo;
 
+            if (curPageNo >= 0)
+            {
+                if (curData == null) return;
+                ImageConverter imgconv = new ImageConverter();
+                curImage = (Image)imgconv.ConvertFrom(curData.pictureInfos[pageNo - 1].pictureData.Data);
+                picExplanation.Image = curImage;
+
+                lblPage.Text = string.Format("{0}/{1}", curPageNo, curData.pictureInfos.Count);
+            }
+            else
+            {
+                picExplanation.Image = null;
+                lblPage.Text = string.Format("{0}/{1}", 0,0);
+            }
+        }
+
+        private void PageDown()
+        {
+            if (curData==null || curPageNo <= 1) return;
+
+            ShowPage(curPageNo - 1);
+        }
+
+        private void PageUp()
+        {
+            if (curData == null || curPageNo >= curData.pictureInfos.Count) return;
+            ShowPage(curPageNo + 1);
         }
 
         // "<"ボタン
         private void button2_Click(object sender, EventArgs e)
         {
-            int page = int.Parse(lblPage.Text);
-            if (page <= 1) return;
-            lblPage.Text = (page - 1).ToString();
-
-            ShowPage();
+            PageDown();
         }
         // ">"ボタン
         private void button1_Click(object sender, EventArgs e)
         {
-            int page = int.Parse(lblPage.Text);
-            if (page >= curData.pictureInfos.Count) return;
-            lblPage.Text = (page + 1).ToString();
-
-            ShowPage();
-
+            PageUp();
         }
         // "|<"ボタン
         private void button3_Click(object sender, EventArgs e)
         {
-            lblPage.Text = "1";
-            ShowPage();
+            ShowPage(1);
 
         }
 
         // ">|"ボタン
         private void button4_Click(object sender, EventArgs e)
         {
-            lblPage.Text = curData.pictureInfos.Count.ToString();
-            ShowPage();
+            ShowPage(curData.pictureInfos.Count);
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
@@ -192,7 +246,30 @@ namespace WinFormsApp2
 
         private void FormExplanation_Resize(object sender, EventArgs e)
         {
+            //ページ切り替えコントロールパネル位置を左右中央に設定
             panel1.Left = (this.Width - panel1.Width) / 2;
+        }
+
+        // マウスホイールイベント  
+        private void picExplanation_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if(e.Delta<0)
+            {
+                PageUp();
+            }
+            else if( e.Delta>0)
+            {
+                PageDown();
+            }
+        }
+
+        private void lstKeys_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string key = (string)lstKeys.SelectedItem;
+            if (string.IsNullOrEmpty(key)) return;
+
+            SetCurrentExplanation(key, false);
+
         }
     }
 }

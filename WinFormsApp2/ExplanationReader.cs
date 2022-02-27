@@ -105,5 +105,10 @@ namespace WinFormsApp2
             if (!dic.ContainsKey(sKey)) return null;
             return dic[sKey];
         }
+
+        public List<string> GetExplanationKeys()
+        {
+            return dic.Keys.ToList();
+        }
     }
 }

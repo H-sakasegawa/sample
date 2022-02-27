@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="FormExplanation2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormShugoSinHou.cs">
       <SubType>Form</SubType>
     </Compile>
