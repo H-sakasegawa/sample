@@ -102,6 +102,14 @@ namespace WinFormsApp2
 
         }
 
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach (TabPage tp in tabControl1.TabPages)
+            {
+                ((Form)tp.Controls[0]).Close();
+            }
+
+        }
         private void mnuAddTab_Click(object sender, EventArgs e)
         {
             FormAddTab frmAddTab = new FormAddTab(personList);
@@ -356,6 +364,17 @@ namespace WinFormsApp2
         {
             lstModlessForms.Remove(frm);
             if (frm == frmExplanation) frmExplanation = null;
+        }
+
+        /// <summary>
+        /// オプションメニュー
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuOption_Click(object sender, EventArgs e)
+        {
+            FormOption frm = new FormOption();
+            frm.ShowDialog();
         }
 
 

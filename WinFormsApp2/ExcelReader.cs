@@ -241,6 +241,7 @@ namespace WinFormsApp2
                             //XSSFClientAnchor xca =(XSSFClientAnchor)pic.GetPreferredSize();
                             // 画像が設置されているセルの左上座標を取得
                             var cellInfo = new PictureInfo();
+                            //なぜか、Row1は、0始まりのIndexになっている
                             cellInfo.row = pic.ClientAnchor.Row1+1; //Index→No
                             cellInfo.col = pic.ClientAnchor.Col1;
                             cellInfo.pictureData = pic.PictureData;

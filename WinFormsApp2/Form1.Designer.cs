@@ -104,10 +104,10 @@ namespace WinFormsApp2
             this.lblJudaiShuseiD = new System.Windows.Forms.Label();
             this.lblJunidaiJuseiA = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.contextMenuDetail = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuExplanation = new System.Windows.Forms.ToolStripMenuItem();
+            this.label13 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label14 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -180,8 +180,8 @@ namespace WinFormsApp2
             this.panel2.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.contextMenuDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -929,6 +929,20 @@ namespace WinFormsApp2
             this.pictureBox1.TabIndex = 46;
             this.pictureBox1.TabStop = false;
             // 
+            // contextMenuDetail
+            // 
+            this.contextMenuDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExplanation});
+            this.contextMenuDetail.Name = "contextMenuStrip1";
+            this.contextMenuDetail.Size = new System.Drawing.Size(123, 26);
+            // 
+            // mnuExplanation
+            // 
+            this.mnuExplanation.Name = "mnuExplanation";
+            this.mnuExplanation.Size = new System.Drawing.Size(122, 22);
+            this.mnuExplanation.Text = "説明表示";
+            this.mnuExplanation.Click += new System.EventHandler(this.mnuExplanation_Click);
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -951,20 +965,6 @@ namespace WinFormsApp2
             this.pictureBox2.TabIndex = 48;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.SizeChanged += new System.EventHandler(this.pictureBox2_SizeChanged);
-            // 
-            // contextMenuDetail
-            // 
-            this.contextMenuDetail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuExplanation});
-            this.contextMenuDetail.Name = "contextMenuStrip1";
-            this.contextMenuDetail.Size = new System.Drawing.Size(123, 26);
-            // 
-            // mnuExplanation
-            // 
-            this.mnuExplanation.Name = "mnuExplanation";
-            this.mnuExplanation.Size = new System.Drawing.Size(122, 22);
-            this.mnuExplanation.Text = "説明表示";
-            this.mnuExplanation.Click += new System.EventHandler(this.mnuExplanation_Click);
             // 
             // label14
             // 
@@ -1700,6 +1700,7 @@ namespace WinFormsApp2
             this.Text = "占いソフト";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -1713,8 +1714,8 @@ namespace WinFormsApp2
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.contextMenuDetail.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

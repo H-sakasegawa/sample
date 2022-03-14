@@ -41,6 +41,8 @@ namespace WinFormsApp2
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSerch = new System.Windows.Forms.ToolStripMenuItem();
             this.パターン条件検索ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOption = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExcelPicture = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -92,6 +94,7 @@ namespace WinFormsApp2
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2,
             this.mnuPatternCondFind,
+            this.mnuSetting,
             this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -128,28 +131,43 @@ namespace WinFormsApp2
             // mnuAddTab
             // 
             this.mnuAddTab.Name = "mnuAddTab";
-            this.mnuAddTab.Size = new System.Drawing.Size(180, 22);
+            this.mnuAddTab.Size = new System.Drawing.Size(158, 22);
             this.mnuAddTab.Text = "タブ追加";
             this.mnuAddTab.Click += new System.EventHandler(this.mnuAddTab_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
             // 
             // mnuSerch
             // 
             this.mnuSerch.Name = "mnuSerch";
-            this.mnuSerch.Size = new System.Drawing.Size(180, 22);
+            this.mnuSerch.Size = new System.Drawing.Size(158, 22);
             this.mnuSerch.Text = "大運・年運検索";
             this.mnuSerch.Click += new System.EventHandler(this.mnuSerch_Click);
             // 
             // パターン条件検索ToolStripMenuItem
             // 
             this.パターン条件検索ToolStripMenuItem.Name = "パターン条件検索ToolStripMenuItem";
-            this.パターン条件検索ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.パターン条件検索ToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.パターン条件検索ToolStripMenuItem.Text = "パターン条件検索";
             this.パターン条件検索ToolStripMenuItem.Click += new System.EventHandler(this.mnuPatternCondFind_Click);
+            // 
+            // mnuSetting
+            // 
+            this.mnuSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuOption});
+            this.mnuSetting.Name = "mnuSetting";
+            this.mnuSetting.Size = new System.Drawing.Size(43, 20);
+            this.mnuSetting.Text = "設定";
+            // 
+            // mnuOption
+            // 
+            this.mnuOption.Name = "mnuOption";
+            this.mnuOption.Size = new System.Drawing.Size(180, 22);
+            this.mnuOption.Text = "オプション";
+            this.mnuOption.Click += new System.EventHandler(this.mnuOption_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -238,6 +256,7 @@ namespace WinFormsApp2
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "占いソフト";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.tabControl1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -270,5 +289,7 @@ namespace WinFormsApp2
         private System.Windows.Forms.ToolStripMenuItem mnuExcelPicture;
         private System.Windows.Forms.ToolStripButton toolFindCustom;
         private System.Windows.Forms.ToolStripMenuItem パターン条件検索ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuSetting;
+        private System.Windows.Forms.ToolStripMenuItem mnuOption;
     }
 }

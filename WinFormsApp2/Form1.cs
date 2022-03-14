@@ -26,6 +26,7 @@ namespace WinFormsApp2
         TableMng tblMng = TableMng.GetTblManage();
         Persons personList = null;
         bool bControlEventEnable = true;
+        bool bDispToday = false;
 
 
         //陰占 描画オブジェクト
@@ -122,12 +123,14 @@ namespace WinFormsApp2
                 grpGogyouGotoku.Enabled = chkGogyou.Checked || chkGotoku.Checked;
 
 
+                ReloadOptionSetting();
+                
                 if (targetPerson == null)
                 {
                     //グループコンボボックス設定
                     UpdateGroupCombobox();
                     //基本タブ
-                    ReloadSetting();
+                    ReloadUserSetting();
                     btnTabClose.Visible = false;
                 }
                 else
@@ -197,9 +200,46 @@ namespace WinFormsApp2
             lblJunidaiJuseiB.ContextMenuStrip = contextMenuDetail;
             lblJunidaiJuseiC.ContextMenuStrip = contextMenuDetail;
 
+        }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+            if (bDispToday) button2_Click(null, null);
 
         }
+        /// <summary>
+        /// フォーム終了時処理（セッティング情報保存）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (tabId == 0)
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
+                config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
+                //config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
+                //config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
+                //config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
+                //config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
+                //config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
+                //config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
+                config.Save();
+            }
+
+            //モードレスダイアログを終了する
+            for (int i = lstModlessForms.Count - 1; i >= 0; i--)
+            {
+                lstModlessForms[i].Close();
+            }
+            lstModlessForms.Clear();
+        }
+
+
+
         void listBox_MouseUp(object sender, MouseEventArgs e)
         {
             // マウス座標から選択すべきアイテムのインデックスを取得
@@ -220,7 +260,27 @@ namespace WinFormsApp2
             }
         }
 
-        private void ReloadSetting()
+
+        private void ReloadUserSetting()
+        {
+            try
+            {
+                //bControlEventEnable = false;
+
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                SetInitComboBox(config, "Group", cmbGroup, -1);
+                SetInitComboBox(config, "Name", cmbPerson, -1);
+            }
+            finally
+            {
+                //bControlEventEnable = true;
+            }
+
+
+        }
+
+        private void ReloadOptionSetting()
         {
             try
             {
@@ -228,15 +288,14 @@ namespace WinFormsApp2
 
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                SetInitComboBox(config, "Group", cmbGroup);
-                SetInitComboBox(config, "Name", cmbPerson);
-
                 SetInitCheckBox(config, "Getuun", chkDispGetuun);
                 SetInitCheckBox(config, "Nenun", chkDispNenun);
                 SetInitCheckBox(config, "Taiun", chkDispTaiun);
                 SetInitCheckBox(config, "SangouKaikyoku", chkSangouKaikyoku);
                 SetInitCheckBox(config, "Gogyou", chkGogyou);
                 SetInitCheckBox(config, "Gotoku", chkGotoku);
+
+                bDispToday = GetInitBoolValue(config, "DispToday");
 
             }
             finally
@@ -247,13 +306,22 @@ namespace WinFormsApp2
 
         }
 
+        public bool GetInitBoolValue(Configuration config, string keyName)
+        {
+            string sValue = config.AppSettings.Settings[keyName].Value;
+            if (sValue != "")
+            {
+                return bool.Parse(sValue);
+            }
+            return false;
+        }
         /// <summary>
         /// セッティング情報からコンボボックスの選択状態を設定
         /// </summary>
         /// <param name="config"></param>
         /// <param name="keyName"></param>
         /// <param name="cmb"></param>
-        public void SetInitComboBox(Configuration config, string keyName, ComboBox cmb)
+        public void SetInitComboBox(Configuration config, string keyName, ComboBox cmb, int idxDefault=0)
         {
             string sValue = config.AppSettings.Settings[keyName].Value;
             if (sValue != "")
@@ -265,6 +333,13 @@ namespace WinFormsApp2
                         cmb.Text = sValue;
                         return;
                     }
+                }
+            }
+            else
+            {
+                if(idxDefault>=0)
+                {
+                    cmb.SelectedIndex = idxDefault;
                 }
             }
         }
@@ -282,36 +357,8 @@ namespace WinFormsApp2
                 chk.Checked = bool.Parse(sValue);
             }
         }
-        /// <summary>
-        /// フォーム終了時処理（セッティング情報保存）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (tabId == 0)
-            {
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
-                config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
-                config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
-                config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
-                config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
-                config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
-                config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
-                config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
-                config.Save();
-            }
-
-            //モードレスダイアログを終了する
-            for (int i = lstModlessForms.Count - 1; i >= 0; i--)
-            {
-                lstModlessForms[i].Close();
-            }
-            lstModlessForms.Clear();
-        }
-
+  
 
         /// <summary>
         /// メンバー情報の追加ボタン
@@ -2083,7 +2130,8 @@ namespace WinFormsApp2
             }
 
         }
-        //=================================================
+
+         //=================================================
         //Owner Draw 　⇒  ListViewExに統合しました
         //=================================================
         //----------------------------------------
