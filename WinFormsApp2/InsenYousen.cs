@@ -242,6 +242,22 @@ namespace WinFormsApp2
             {
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_HIHITUMEISIKI));
             }
+            //争財、争母、争官
+            str = JozaiJoboJokan.GetJouzai(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUZAI));
+            }
+            str = JozaiJoboJokan.GetJoubo(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUBO));
+            }
+            str = JozaiJoboJokan.GetJoukan(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUKAN));
+            }
         }
     }
 

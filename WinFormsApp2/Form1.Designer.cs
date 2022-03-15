@@ -614,7 +614,7 @@ namespace WinFormsApp2
             this.lvTaiun.MultiSelect = false;
             this.lvTaiun.Name = "lvTaiun";
             this.lvTaiun.OwnerDraw = true;
-            this.lvTaiun.Size = new System.Drawing.Size(472, 240);
+            this.lvTaiun.Size = new System.Drawing.Size(557, 240);
             this.lvTaiun.TabIndex = 40;
             this.lvTaiun.UseCompatibleStateImageBehavior = false;
             this.lvTaiun.View = System.Windows.Forms.View.Details;
@@ -1112,6 +1112,8 @@ namespace WinFormsApp2
             // 
             // lvGetuun
             // 
+            this.lvGetuun.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvGetuun.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader5,
             this.columnHeader6,
@@ -1128,7 +1130,7 @@ namespace WinFormsApp2
             this.lvGetuun.MultiSelect = false;
             this.lvGetuun.Name = "lvGetuun";
             this.lvGetuun.OwnerDraw = true;
-            this.lvGetuun.Size = new System.Drawing.Size(479, 256);
+            this.lvGetuun.Size = new System.Drawing.Size(710, 256);
             this.lvGetuun.TabIndex = 51;
             this.lvGetuun.UseCompatibleStateImageBehavior = false;
             this.lvGetuun.View = System.Windows.Forms.View.Details;
@@ -1507,11 +1509,11 @@ namespace WinFormsApp2
             // 
             this.txtCarrerMemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCarrerMemo.Location = new System.Drawing.Point(1074, 204);
+            this.txtCarrerMemo.Location = new System.Drawing.Point(1163, 204);
             this.txtCarrerMemo.Multiline = true;
             this.txtCarrerMemo.Name = "txtCarrerMemo";
             this.txtCarrerMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCarrerMemo.Size = new System.Drawing.Size(235, 83);
+            this.txtCarrerMemo.Size = new System.Drawing.Size(146, 83);
             this.txtCarrerMemo.TabIndex = 71;
             this.txtCarrerMemo.Leave += new System.EventHandler(this.txtCarrerMemo_Leave);
             // 
@@ -1564,7 +1566,7 @@ namespace WinFormsApp2
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(233, 147);
+            this.tabPage3.Size = new System.Drawing.Size(148, 147);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "経歴一覧";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1581,7 +1583,7 @@ namespace WinFormsApp2
             this.lvCareer.Location = new System.Drawing.Point(3, 3);
             this.lvCareer.MultiSelect = false;
             this.lvCareer.Name = "lvCareer";
-            this.lvCareer.Size = new System.Drawing.Size(227, 141);
+            this.lvCareer.Size = new System.Drawing.Size(142, 141);
             this.lvCareer.TabIndex = 55;
             this.lvCareer.UseCompatibleStateImageBehavior = false;
             this.lvCareer.View = System.Windows.Forms.View.Details;
@@ -1602,10 +1604,10 @@ namespace WinFormsApp2
             this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Location = new System.Drawing.Point(1074, 27);
+            this.tabControl2.Location = new System.Drawing.Point(1159, 27);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(241, 175);
+            this.tabControl2.Size = new System.Drawing.Size(156, 175);
             this.tabControl2.TabIndex = 77;
             // 
             // lstInsenDetail

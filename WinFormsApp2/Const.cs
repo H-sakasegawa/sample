@@ -83,9 +83,9 @@ namespace WinFormsApp2
         }
 
         /// <summary>
-        /// 大運表カラム Index
+        /// 大運、年運、月運表カラム Index
         /// </summary>
-        public enum ColTaiun
+        public enum ColUnseiLv
         {
             COL_TITLE = 0,
             COL_KANSI,
@@ -97,21 +97,7 @@ namespace WinFormsApp2
             COL_DETAIL,
             COL_CAREER
         }
-        /// <summary>
-        /// 年運表カラム Index
-        /// </summary>
-        public enum ColNenunListView
-        {
-            COL_TITLE = 0,
-            COL_KANSI,
-            COL_JUDAISHUSEI,
-            COL_JUNIDAIJUUSEI,
-            COL_GOUHOUSANPOU_NITI,
-            COL_GOUHOUSANPOU_GETU,
-            COL_GOUHOUSANPOU_NEN,
-            COL_DETAIL,
-            COL_CAREER
-        }
+ 
 
         public enum InsenDetailType
         {
@@ -132,6 +118,9 @@ namespace WinFormsApp2
             INSEN_DETAIL_EISEIHOU,//影星法
             INSEN_DETAIL_HEIHITUMEISIKI,//閉畢命式
             INSEN_DETAIL_HIHITUMEISIKI,//閟畢命式
+            INSEN_DETAIL_JOUZAI,//争財
+            INSEN_DETAIL_JOUBO, //争母
+            INSEN_DETAIL_JOUKAN,//争官
         }
 
         public const string sNattin = "納音";

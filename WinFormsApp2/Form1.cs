@@ -958,7 +958,7 @@ namespace WinFormsApp2
 
             var lvItem = lvTaiun.Items.Add(title);
             //サブアイテム追加
-            for (int i = (int)Const.ColNenunListView.COL_KANSI; i < item.sItems.Length; i++)
+            for (int i = (int)Const.ColUnseiLv.COL_KANSI; i < item.sItems.Length; i++)
             {
                 lvItem.SubItems.Add(item.sItems[i]);
             }
@@ -1143,7 +1143,7 @@ namespace WinFormsApp2
             //経歴情報
             if (person.career != null)
             {
-                lvItem.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
+                lvItem.SubItems[(int)Const.ColUnseiLv.COL_CAREER].Text = person.career.GetLineString(rowKeyValue); //経歴
             }
 
         }
@@ -1169,7 +1169,7 @@ namespace WinFormsApp2
 
             var lvItem = lv.Items.Add(title);
             //サブアイテム追加
-            for (int i = (int)Const.ColNenunListView.COL_KANSI; i < item.sItems.Length; i++)
+            for (int i = (int)Const.ColUnseiLv.COL_KANSI; i < item.sItems.Length; i++)
             {
                 lvItem.SubItems.Add(item.sItems[i]);
             }
@@ -1696,7 +1696,7 @@ namespace WinFormsApp2
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 //リストビューの経歴表示更新
-                item.SubItems[(int)Const.ColNenunListView.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
+                item.SubItems[(int)Const.ColUnseiLv.COL_CAREER].Text = curPerson.career.GetLineString(itemData.keyValue);
                 DispCarrerList(curPerson);
             }
 

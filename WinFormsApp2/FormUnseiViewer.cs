@@ -575,14 +575,14 @@ namespace WinFormsApp2
             int cnt = startCol;
             if( taiunKansi.no != prevTaiunKansiNo)
             {
-                row.Cells[cnt].Value = taiunItem.sItems[(int)Const.ColTaiun.COL_KANSI];
+                row.Cells[cnt].Value = taiunItem.sItems[(int)Const.ColUnseiLv.COL_KANSI];
                 prevTaiunKansiNo = taiunKansi.no;
             }
             row.Cells[cnt].Style.BackColor = (taiunItem.bTenchusatu? Color.Red: row.Cells[cnt].Style.BackColor);
             cnt++;
 
            // row.Cells[cnt].Style.BackColor = (nenunItem.bTenchusatu ? Color.Red : row.Cells[cnt].Style.BackColor);
-            for (int i = (int)Const.ColNenunListView.COL_KANSI; i <= (int)Const.ColNenunListView.COL_GOUHOUSANPOU_NEN; i++)
+            for (int i = (int)Const.ColUnseiLv.COL_KANSI; i <= (int)Const.ColUnseiLv.COL_GOUHOUSANPOU_NEN; i++)
             {
                 row.Cells[cnt].Value = nenunItem.sItems[i];
                 row.Cells[cnt].Style.ForeColor = nenunItem.colorTenchusatu;
