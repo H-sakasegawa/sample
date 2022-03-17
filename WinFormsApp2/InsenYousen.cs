@@ -223,7 +223,7 @@ namespace WinFormsApp2
                 str = "三角暗合";
                 listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU));
             }
-
+            //虚気透干
             KyokiToukan kyokiToukan = new KyokiToukan();
             if (kyokiToukan.IsKyokiTokan_Shukumei(person))
             {
@@ -258,6 +258,47 @@ namespace WinFormsApp2
             {
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUKAN));
             }
+            //春水
+            str = ShunSui.GetShunSuii(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUNSUI));
+            }
+            //日座中殺
+            str = Chusatu.GetNichizaChusatu(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_NITIZACHUSATUI));
+            }
+            //日居中殺
+            str = Chusatu.GetNikkyoChusatu(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_NIKKYOCHUSATUI));
+            }
+            
+            //宿命全中殺
+            str = Chusatu.GetShukumeiZenChusatu(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_ZENCHUSATU));
+            }
+            else
+            {
+                //宿命二中殺
+                str = Chusatu.GetShukumeiNiChusatu(person);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_NICHUSATU));
+                }
+                //互換中殺
+                str = Chusatu.GetShukumeiGokanChusatu(person);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU));
+                }
+            }
+
         }
     }
 

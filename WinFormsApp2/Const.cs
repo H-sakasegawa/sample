@@ -121,6 +121,13 @@ namespace WinFormsApp2
             INSEN_DETAIL_JOUZAI,//争財
             INSEN_DETAIL_JOUBO, //争母
             INSEN_DETAIL_JOUKAN,//争官
+            INSEN_DETAIL_SHUNSUI,//春水
+            INSEN_DETAIL_NITIZACHUSATUI, //日座中殺
+            INSEN_DETAIL_NIKKYOCHUSATUI, //日居中殺
+            INSEN_DETAIL_SHUKUMEI_NICHUSATU, //宿命二中殺
+            INSEN_DETAIL_SHUKUMEI_ZENCHUSATU,//宿命全中殺
+            INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU,//互換中殺
+
         }
 
         public const string sNattin = "納音";

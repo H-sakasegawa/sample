@@ -48,12 +48,12 @@ namespace WinFormsApp2
         GetuunNenunLvItemData curNenun = null;
         GetuunNenunLvItemData curGetuun = null;
 
-        FromKyokiSimulation frmKykiSim = null;
-        FormKonkihou frmKonkihou = null;
-        FormJuniSinKanHou formJuniSinKanHou = null;
+        FromKyokiSimulation frmKyokiSim = null; //虚気シミュレーション画面
+        FormKonkihou frmKonkihou = null;        //根気法画面
+        FormJuniSinKanHou formJuniSinKanHou = null;//十二支干法画面
 
-        FormShugoSinHou FormShugoSinHou = null;
-        FormUnseiViewer frmUnseiViewer = null;
+        FormShugoSinHou FormShugoSinHou = null;//守護神法画面
+        FormUnseiViewer frmUnseiViewer = null;  //運勢比較画面
 
 
         List<Form> lstModlessForms = new List<Form>();
@@ -62,7 +62,7 @@ namespace WinFormsApp2
             frm.Dispose();
             lstModlessForms.Remove(frm);
 
-            if (frm == frmKykiSim) frmKykiSim = null;
+            if (frm == frmKyokiSim) frmKyokiSim = null;
             else if (frm == frmKonkihou) frmKonkihou = null;
             else if (frm == formJuniSinKanHou) formJuniSinKanHou = null;
             else if (frm == FormShugoSinHou) FormShugoSinHou = null;
@@ -218,8 +218,6 @@ namespace WinFormsApp2
             lblJunidaiJuseiB.ContextMenuStrip = contextMenuDetail;
             lblJunidaiJuseiC.ContextMenuStrip = contextMenuDetail;
 
-            //            if (bDispToday) button2_Click(null, null);
-
         }
         /// <summary>
         /// フォーム終了時処理（セッティング情報保存）
@@ -234,12 +232,6 @@ namespace WinFormsApp2
 
                 config.AppSettings.Settings["Group"].Value = cmbGroup.Text;
                 config.AppSettings.Settings["Name"].Value = cmbPerson.Text;
-                //config.AppSettings.Settings["Getuun"].Value = chkDispGetuun.Checked.ToString();
-                //config.AppSettings.Settings["Nenun"].Value = chkDispNenun.Checked.ToString();
-                //config.AppSettings.Settings["Taiun"].Value = chkDispTaiun.Checked.ToString();
-                //config.AppSettings.Settings["SangouKaikyoku"].Value = chkSangouKaikyoku.Checked.ToString();
-                //config.AppSettings.Settings["Gogyou"].Value = chkGogyou.Checked.ToString();
-                //config.AppSettings.Settings["Gotoku"].Value = chkGotoku.Checked.ToString();
                 config.Save();
             }
 
@@ -278,20 +270,17 @@ namespace WinFormsApp2
         {
             try
             {
-                //bControlEventEnable = false;
-
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
+                //前回設定値を反映させる場合は、人名コンボボックスの項目選択イベントを発生させない
+                //グループコンボボックスは、人名コンボボックスの項目再設定が必要なのでイベントを発生させる
                 cmbPerson.SelectedIndexChanged -= cmbPerson_SelectedIndexChanged;
-                {
-                    SetInitComboBox(config, "Group", cmbGroup, -1);
-                    SetInitComboBox(config, "Name", cmbPerson, -1);
-                }
-                cmbPerson.SelectedIndexChanged += cmbPerson_SelectedIndexChanged;
+                SetInitComboBox(config, "Group", cmbGroup, -1);
+                SetInitComboBox(config, "Name", cmbPerson, -1);
             }
             finally
             {
-                //bControlEventEnable = true;
+                cmbPerson.SelectedIndexChanged += cmbPerson_SelectedIndexChanged;
             }
 
 
@@ -1280,9 +1269,9 @@ namespace WinFormsApp2
             sim.Simulation(person, curGetuun.kansi, curNenun.kansi, curTaiun.kansi, chkDispGetuun.Checked);
             //lblKyokiNum.Text = string.Format("虚気変化パターン数:{0}", sim.lstKansPattern.Count-1);
             button3.Text = string.Format("虚気変化\n[ パターン数：{0} ]", sim.lstKansPattern.Count - 1);
-            if (frmKykiSim != null && frmKykiSim.Visible == true)
+            if (frmKyokiSim != null && frmKyokiSim.Visible == true)
             {
-                frmKykiSim.UpdateKyokiPatternOnly(curPerson,
+                frmKyokiSim.UpdateKyokiPatternOnly(curPerson,
                                         curNenun.keyValue,
                                         curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
@@ -1420,9 +1409,9 @@ namespace WinFormsApp2
 
             MainProc(person);
 
-            if (frmKykiSim != null)
+            if (frmKyokiSim != null)
             {
-                frmKykiSim.UpdateAll(curPerson, birthday.year,
+                frmKyokiSim.UpdateAll(curPerson, birthday.year,
                                         curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                         chkDispGetuun.Checked,
                                         chkSangouKaikyoku.Checked,
@@ -1828,7 +1817,7 @@ namespace WinFormsApp2
         private void chkDispGetuun_CheckedChanged(object sender, EventArgs e)
         {
             UpdateShukumeiAndKoutenunDraw();
-            if (frmKykiSim != null) frmKykiSim.UpdateKyokiPatternYearList(curPerson);
+            if (frmKyokiSim != null) frmKyokiSim.UpdateKyokiPatternYearList(curPerson);
         }
         //三合会局・方三位チェックボックス
         private void chkSangouKaikyoku_CheckedChanged(object sender, EventArgs e)
@@ -1939,17 +1928,17 @@ namespace WinFormsApp2
 
             curNenun = (GetuunNenunLvItemData)selectedItem[0].Tag;
 
-            if (frmKykiSim != null)
+            if (frmKyokiSim != null)
             {
-                OnModelessFormClose(frmKykiSim);
+                OnModelessFormClose(frmKyokiSim);
             }
 
 
-            frmKykiSim = new FromKyokiSimulation(this);
-            frmKykiSim.OnClose += OnModelessFormClose;
-            ShowModless(frmKykiSim);
+            frmKyokiSim = new FromKyokiSimulation(this);
+            frmKyokiSim.OnClose += OnModelessFormClose;
+            ShowModless(frmKyokiSim);
 
-            frmKykiSim.UpdateAll(curPerson, curNenun.keyValue,
+            frmKyokiSim.UpdateAll(curPerson, curNenun.keyValue,
                                     curGetuun.kansi, curNenun.kansi, curTaiun.kansi,
                                     chkDispGetuun.Checked,
                                     chkSangouKaikyoku.Checked,

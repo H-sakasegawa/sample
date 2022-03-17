@@ -224,6 +224,12 @@ namespace WinFormsApp2
                 //------------------
                 SetTenchusatuColor(person);
             }
+            //日座注察
+            if( !string.IsNullOrEmpty(Chusatu.GetNichizaChusatu(person)))
+            {
+                colorNikkansiKan.color = Color.Red;
+                colorNikkansiSi.color = Color.Red;
+            }
             //干支表示
             DrawInsenKansi(insen.nikkansi, rectNikansiKan, rectNikansiSi, colorNikkansiKan.color);
             DrawInsenKansi(insen.gekkansi, rectGekkansiKan, rectGekkansiSi, colorGekkansiKan.color);
