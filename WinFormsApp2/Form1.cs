@@ -27,6 +27,7 @@ namespace WinFormsApp2
         Persons personList = null;
         bool bControlEventEnable = true;
         bool bDispToday = false;
+        Person targetPerson;
 
 
         //陰占 描画オブジェクト
@@ -82,21 +83,27 @@ namespace WinFormsApp2
         {
             InitializeComponent();
 
+            bControlEventEnable = false;
+
+            mainForm = mainFrm;
+            tabId = _tabId;
+            exePath = Path.GetDirectoryName(Application.ExecutablePath);
+            personList = _persons;
+            this.targetPerson = targetPerson;
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
             try
             {
                 bControlEventEnable = false;
-
-                mainForm = mainFrm;
-                tabId = _tabId;
 
                 lvTaiun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvTaiun_MouseWheel);
                 lvNenun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvNenun_MouseWheel);
                 lvGetuun.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.lvGetuun_MouseWheel);
 
 
-                exePath = Path.GetDirectoryName(Application.ExecutablePath);
-
-                personList = _persons;
 
                 lstLblGogyou = new List<Label> { lblGgyou1, lblGgyou2, lblGgyou3, lblGgyou4, lblGgyou5 };
                 lstLblGotoku = new List<Label> { lblGotoku1, lblGotoku2, lblGotoku3, lblGotoku4, lblGotoku5 };
@@ -124,11 +131,15 @@ namespace WinFormsApp2
 
 
                 ReloadOptionSetting();
-                
+
                 if (targetPerson == null)
                 {
-                    //グループコンボボックス設定
-                    UpdateGroupCombobox();
+                    cmbPerson.SelectedIndexChanged -= cmbPerson_SelectedIndexChanged;
+                    {
+                        //グループコンボボックス設定
+                        UpdateGroupCombobox();
+                    }
+                    cmbPerson.SelectedIndexChanged += cmbPerson_SelectedIndexChanged;
                     //基本タブ
                     ReloadUserSetting();
                     btnTabClose.Visible = false;
@@ -137,18 +148,23 @@ namespace WinFormsApp2
                 {
                     if (targetPerson.classIdetify == PersonClassIdentity.Person)
                     {
-                        //グループコンボボックス設定
-                        UpdateGroupCombobox();
-
-                        if (targetPerson.group != null)
+                        cmbPerson.SelectedIndexChanged -= cmbPerson_SelectedIndexChanged;
                         {
-                            cmbGroup.Text = targetPerson.group;
-                        }
-                        else
-                        {
-                            cmbGroup.Enabled = false;
+                            //グループコンボボックス設定
+                            UpdateGroupCombobox();
 
+                            if (targetPerson.group != null)
+                            {
+                                cmbGroup.Text = targetPerson.group;
+                            }
+                            else
+                            {
+                                cmbGroup.Enabled = false;
+
+                            }
                         }
+                        cmbPerson.SelectedIndexChanged += cmbPerson_SelectedIndexChanged;
+
                         cmbPerson.Text = targetPerson.name;
 
                         cmbGroup.Enabled = false;
@@ -170,6 +186,8 @@ namespace WinFormsApp2
                         button9.Visible = false;
                     }
                 }
+                //現在選択されている人物の情報で画面を更新
+                UpdateDispPerson();
 
             }
             finally
@@ -200,12 +218,7 @@ namespace WinFormsApp2
             lblJunidaiJuseiB.ContextMenuStrip = contextMenuDetail;
             lblJunidaiJuseiC.ContextMenuStrip = contextMenuDetail;
 
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-            if (bDispToday) button2_Click(null, null);
+            //            if (bDispToday) button2_Click(null, null);
 
         }
         /// <summary>
@@ -269,8 +282,12 @@ namespace WinFormsApp2
 
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                SetInitComboBox(config, "Group", cmbGroup, -1);
-                SetInitComboBox(config, "Name", cmbPerson, -1);
+                cmbPerson.SelectedIndexChanged -= cmbPerson_SelectedIndexChanged;
+                {
+                    SetInitComboBox(config, "Group", cmbGroup, -1);
+                    SetInitComboBox(config, "Name", cmbPerson, -1);
+                }
+                cmbPerson.SelectedIndexChanged += cmbPerson_SelectedIndexChanged;
             }
             finally
             {
@@ -1388,6 +1405,10 @@ namespace WinFormsApp2
         /// <param name="e"></param>
         private void cmbPerson_SelectedIndexChanged(object sender, EventArgs e)
         {
+            UpdateDispPerson();
+        }
+        private void UpdateDispPerson()
+        { 
             Person person = (Person)cmbPerson.SelectedItem;
             Birthday birthday = person.birthday;
             txtYear.Text = birthday.year.ToString();
@@ -1425,6 +1446,7 @@ namespace WinFormsApp2
                 FormShugoSinHou.Update(curPerson);
             }
 
+            if ( bDispToday) button2_Click(null, null);
 
         }
         /// <summary>
