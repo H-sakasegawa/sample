@@ -52,7 +52,7 @@ namespace WinFormsApp2
 
             //合法
             bool bResult = IsGouhouSanpou(person, "半会", "支合");
-            return bResult ? "天殺地合" : null;
+            return bResult ? "天剋地合" : null;
         }
         /// <summary>
         /// 天殺地冲(干に七殺、支に冲動がある)
