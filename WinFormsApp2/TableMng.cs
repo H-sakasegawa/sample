@@ -1008,8 +1008,8 @@ namespace WinFormsApp2
             /// <summary>
             /// 相生 関係チェック
             /// </summary>
-            /// <param name="from">生み出すもの属性</param>
-            /// <param name="to">生み出されるもの属性</param>
+            /// <param name="from">生み出す干</param>
+            /// <param name="to">生み出される干</param>
             /// <returns></returns>
             public bool IsCreateByKan(string fromKan, string toKan)
             {
@@ -1024,14 +1024,29 @@ namespace WinFormsApp2
             /// <summary>
             /// 相剋生 関係チェック
             /// </summary>
-            /// <param name="from">剋するもの</param>
-            /// <param name="to">剋されるもの</param>
+            /// <param name="fromAttr">剋するもの属性</param>
+            /// <param name="toAttr">剋されるもの属性</param>
             /// <returns></returns>
-            public bool IsDestory(string from, string to)
+            public bool IsDestory(string fromAttr, string toAttr)
             {
-                var relation = GetRelation(from);
-                if (relation.destoryToName == to) return true;
+                var relation = GetRelation(fromAttr);
+                if (relation.destoryToName == toAttr) return true;
                 return false;
+            }
+            /// <summary>
+            /// 相剋生 関係チェック
+            /// </summary>
+            /// <param name="fromKan">剋する干</param>
+            /// <param name="toKan">剋される干</param>
+            /// <returns></returns>
+            public bool IsDestoryByKan(string fromKan, string toKan)
+            {
+                TableMng tblMng = TableMng.GetTblManage();
+
+                string fromAttr = tblMng.jyukanTbl.GetGogyo(fromKan);
+                string toAttr = tblMng.jyukanTbl.GetGogyo(toKan);
+
+                return IsDestory(fromAttr, toAttr);
             }
             /// <summary>
             /// 引数で渡された属性を生み出すものを返す
@@ -1229,7 +1244,7 @@ namespace WinFormsApp2
                 { "辰", new string[]{"半会"  ,"破"         ,""           ,"害"    ,"自刑",""              ,""    ,""           ,"半会"          ,"支合", " 冲動"    ,""         }},
                 { "巳", new string[]{""      ,"半会"       ,"生貴刑,害"  ,""      ,""    ,""              ,""    ,""           ,"半会,破,生貴刑", "半会", ""         ,"冲動"    }},
                 { "午", new string[]{"冲動"  ,"害"         ,"半会"       ,"破"    ,""    ,""              ,"自刑","支合"       ,""              ,""    , "半会"     ,""         }},
-                { "未", new string[]{"害"    ,"冲動,庫気刑",""           ,"半会"  ,""    ,""              ,"支合",""           ,""              ,""    , "庫気刑,破"," 半会"    }},
+                { "未", new string[]{"害"    ,"冲動,庫気刑",""           ,"半会"  ,""    ,""              ,"支合",""           ,""              ,""    , "庫気刑,破","半会"    }},
                 { "申", new string[]{"半会"  ,""           ,"冲動,生貴刑",""      ,"半会","支合,破,生貴刑",""    ,""           ,""              ,""    , ""         ,"害"       }},
                 { "酉", new string[]{"破"    ,"半会"       ,""           ,"冲動"  ,"支合","半会"          ,""    ,""           ,""              ,"自刑","害"        ,""         }},
                 { "戌", new string[]{""      ,"庫気刑"     ,"半会"       ,"支合"  ,"冲動",""              ,"半会","庫気刑,破"  ,""              ,"害"  , ""         ,""         }},

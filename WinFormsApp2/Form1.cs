@@ -247,17 +247,18 @@ namespace WinFormsApp2
 
         void listBox_MouseUp(object sender, MouseEventArgs e)
         {
+            ListBox listBox = (ListBox)sender;
             // マウス座標から選択すべきアイテムのインデックスを取得
-            int index = listYousenDetail.IndexFromPoint(e.Location);
+            int index = listBox.IndexFromPoint(e.Location);
 
             // インデックスが取得できたら
             if (index >= 0)
             {
                 // すべての選択状態を解除してから
-                listYousenDetail.ClearSelected();
+                listBox.ClearSelected();
 
                 // アイテムを選択
-                listYousenDetail.SelectedIndex = index;
+                listBox.SelectedIndex = index;
 
                 // コンテキストメニューを表示
                 //Point pos = listBox1.PointToScreen(e.Location);

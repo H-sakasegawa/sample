@@ -128,6 +128,14 @@ namespace WinFormsApp2
             INSEN_DETAIL_SHUKUMEI_ZENCHUSATU,//宿命全中殺
             INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU,//互換中殺
 
+            INSEN_DETAIL_TENGOU_CHIHA,//天合地破
+            INSEN_DETAIL_TENSATU_CHIGOU,//天殺地合
+            INSEN_DETAIL_TENKOKU_CHIGOU,//天剋地合
+            INSEN_DETAIL_TENSATU_CHICHU,//天殺地冲
+            INSEN_DETAIL_TENSATU_CHIHA,//天殺地破
+            INSEN_DETAIL_TENKOKU_CHIHA,//天剋地破
+            INSEN_DETAIL_TENGOU_CHIGOU,//天合地合
+
         }
 
         public const string sNattin = "納音";

@@ -298,6 +298,48 @@ namespace WinFormsApp2
                     listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU));
                 }
             }
+            //天合地破
+            str = KansiHou.GetTengouChiha(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENGOU_CHIHA));
+            }
+            //天殺地合
+            str = KansiHou.GetTensatuChigou(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHIGOU));
+            }
+            //天剋地合
+            str = KansiHou.GetTenkokuChigou(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENKOKU_CHIGOU));
+            }
+            //天殺地冲
+            str = KansiHou.GetTensatuChichu(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHICHU));
+            }
+            //天殺地破
+            str = KansiHou.GetTensatuChiha(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHIHA));
+            }
+            //天剋地破
+            str = KansiHou.GetTenkokuChiha(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENKOKU_CHIHA));
+            }
+            //天合地合
+            str = KansiHou.GetTengouChigou(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENGOU_CHIGOU));
+            }
 
         }
     }
