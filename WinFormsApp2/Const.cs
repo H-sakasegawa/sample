@@ -135,6 +135,7 @@ namespace WinFormsApp2
             INSEN_DETAIL_TENSATU_CHIHA,//天殺地破
             INSEN_DETAIL_TENKOKU_CHIHA,//天剋地破
             INSEN_DETAIL_TENGOU_CHIGOU,//天合地合
+            INSEN_DETAIL_KAKEI_SHUUIN,//家系集印
 
         }
 

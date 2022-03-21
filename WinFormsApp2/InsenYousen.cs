@@ -340,6 +340,12 @@ namespace WinFormsApp2
             {
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENGOU_CHIGOU));
             }
+            //家系集印
+            str = KakeiShuuin.GetKakeiShuuin(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_KAKEI_SHUUIN));
+            }
 
         }
     }
