@@ -346,6 +346,12 @@ namespace WinFormsApp2
             {
                 listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_KAKEI_SHUUIN));
             }
+            //全支集印
+            str = ZensiShuuin.GetZensiShuuin(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_ZENSI_SHUUIN));
+            }
 
         }
     }

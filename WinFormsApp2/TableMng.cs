@@ -1051,7 +1051,7 @@ namespace WinFormsApp2
             /// <summary>
             /// 引数で渡された属性を生み出すものを返す
             /// </summary>
-            /// <param name="to"></param>
+            /// <param name="to">生み出される属性</param>
             /// <returns></returns>
             public string GetCreatFrom( string to)
             {

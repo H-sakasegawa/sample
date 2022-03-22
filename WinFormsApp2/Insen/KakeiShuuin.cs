@@ -25,10 +25,10 @@ namespace WinFormsApp2
             string nenSi = person.nenkansi.si;
 
             string attNitiKan = tblMng.jyukanTbl.GetGogyo(nitiKan);
-            string attNitiSi = tblMng.jyukanTbl.GetGogyo(nitiSi);
+            string attNitiSi = tblMng.jyunisiTbl.GetGogyo(nitiSi);
             string attGetuKan = tblMng.jyukanTbl.GetGogyo(getuKan);
             string attGetuSi = tblMng.jyunisiTbl.GetGogyo(getuSi);
-            string attNenKan = tblMng.jyunisiTbl.GetGogyo(nenKan);
+            string attNenKan = tblMng.jyukanTbl.GetGogyo(nenKan);
             string attNenSi = tblMng.jyunisiTbl.GetGogyo(nenSi);
 
             //専気 判定
