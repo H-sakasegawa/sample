@@ -112,6 +112,14 @@ namespace WinFormsApp2
                 return;
             }
 
+            TableMng tblMng = TableMng.GetTblManage();
+            if (!tblMng.setuiribiTbl.IsContainsYear(year))
+            {
+                MessageBox.Show("節入り日テーブルに指定された年度の情報が不足しています");
+                return;
+            }
+
+
             Person person = null;
             if (mode == Mode.MODE_UPDATE)
             {

@@ -97,25 +97,13 @@ namespace WinFormsApp2
             COL_DETAIL,
             COL_CAREER
         }
- 
+
 
         public enum InsenDetailType
         {
             NONE = 0,
             INSEN_DETAIL_SANKAKUANGOU, //三角暗合
             INSEN_DETAIL_KYOKITOUKAN0, //虚気透干
-        }
-        public enum YousenDetailType
-        {
-            NONE = 0,
-            INSEN_DETAIL_KYOKUHOU_KYOUN, //局法（凶運）
-            INSEN_DETAIL_KYOKUHOU_KOUUN, //局法（幸運）
-            INSEN_DETAIL_BEKKAKU, //別格
-            INSEN_DETAIL_TOKUSHU_GOKYOKU, //特殊五局
-            INSEN_DETAIL_JUNDAKU, //純濁法
-            INSEN_DETAIL_JUNKAN, //循環法
-            INSEN_DETAIL_MIKYO_MICHU_MIJSKU,//身強、身中、身弱
-            INSEN_DETAIL_EISEIHOU,//影星法
             INSEN_DETAIL_HEIHITUMEISIKI,//閉畢命式
             INSEN_DETAIL_HIHITUMEISIKI,//閟畢命式
             INSEN_DETAIL_JOUZAI,//争財
@@ -137,6 +125,27 @@ namespace WinFormsApp2
             INSEN_DETAIL_TENGOU_CHIGOU,//天合地合
             INSEN_DETAIL_KAKEI_SHUUIN,//家系集印
             INSEN_DETAIL_ZENSI_SHUUIN,//全支集印
+            INSEN_DETAIL_RITIN_NATIN, //律音, 納音
+            INSEN_DETAIL_KANSI_ATUJOU, //干支圧伏
+            INSEN_DETAIL_ANGOU_SOUREN, //暗合双連
+            INSEN_DETAIL_DAISANGOU_DAIHANKAI,//大三合会局、大半会
+            INSEN_DETAIL_KANSI_SOUREN,//干支双連
+            INSEN_DETAIL_KANSI_SOUHA,//干支双破
+
+        }
+
+        public enum YousenDetailType
+        {
+            NONE = 0,
+            INSEN_DETAIL_KYOKUHOU_KYOUN, //局法（凶運）
+            INSEN_DETAIL_KYOKUHOU_KOUUN, //局法（幸運）
+            INSEN_DETAIL_BEKKAKU, //別格
+            INSEN_DETAIL_TOKUSHU_GOKYOKU, //特殊五局
+            INSEN_DETAIL_JUNDAKU, //純濁法
+            INSEN_DETAIL_JUNKAN, //循環法
+            INSEN_DETAIL_MIKYO_MICHU_MIJSKU,//身強、身中、身弱
+            INSEN_DETAIL_EISEIHOU,//影星法
+
 
         }
 

@@ -73,11 +73,25 @@ namespace WinFormsApp2
         /// 三角暗合が活性化する大運、年運をリストアップ
         /// </summary>
         /// <param name="_parentForm"></param>
-        public void FindSankakuAngouActive( Person person)
+        public void FindSankakuAngouActive(Person person)
         {
             this.Text = string.Format("{0} : {1}", title, "三角暗合が活性化する大運、年運");
             Finder finder = new Finder();
             var result = finder.FindSankakuAngouActive(person);
+
+            DispResult(result);
+        }
+
+        /// <summary>
+        /// 律音、準律音を検索
+        /// </summary>
+        /// <param name="_parentForm"></param>
+        public void FindRittin(Person person)
+        {
+            this.Text = string.Format("{0} : {1}", title, "律音、準律音");
+            Finder finder = new Finder();
+
+            var result = finder.FindNattinOrRittin(person, 1, false, true);
 
             DispResult(result);
         }

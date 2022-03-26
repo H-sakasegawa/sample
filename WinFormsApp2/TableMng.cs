@@ -218,6 +218,30 @@ namespace WinFormsApp2
                 return kansi.ToArray();
             }
 
+            public int GetMinNoDistance( Kansi kansi1, Kansi kansi2)
+            {
+                if (kansi1.no == kansi2.no) return 0;
+
+                int dist1 =Math.Abs( kansi1.no - kansi2.no );
+                int n1 = 0;
+                int n2 = 0;
+                if (kansi1.no < kansi2.no)
+                {
+                    n1 = kansi1.no + dicKansi.Count;
+                    n2 = kansi2.no;
+                }
+                else
+                {
+                    n1 = kansi2.no + dicKansi.Count;
+                    n2 = kansi1.no;
+                }
+
+                int dist2 = n1 - n2;
+
+                return Math.Min(dist1, dist2);
+
+            }
+
         }
         public KansiTbl kansiTbl = new KansiTbl();
 
@@ -748,6 +772,10 @@ namespace WinFormsApp2
                 }
                 return null;
 
+            }
+            public bool IsSgou(string siName1, string siName2)
+            {
+                return GetSigou( siName1,  siName2) != null ? true : false;
             }
 
             /// <summary>

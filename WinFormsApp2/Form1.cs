@@ -664,11 +664,21 @@ namespace WinFormsApp2
             switch (item.type)
             {
                 case Const.InsenDetailType.INSEN_DETAIL_SANKAKUANGOU:
-                    FormFinder frm = new FormFinder((FormMain)mainForm);
-                    frm.Show();
-                    lstModlessForms.Add(frm);
-                    frm.FindSankakuAngouActive(curPerson);
-
+                    {
+                        FormFinder frm = new FormFinder((FormMain)mainForm);
+                        frm.Show();
+                        lstModlessForms.Add(frm);
+                        frm.FindSankakuAngouActive(curPerson);
+                    }
+                    break;
+                case Const.InsenDetailType.INSEN_DETAIL_RITIN_NATIN:
+                    {
+                        FormFinder frm = new FormFinder((FormMain)mainForm);
+                        frm.Show();
+                        lstModlessForms.Add(frm);
+                        frm.FindRittin(curPerson);
+                    }
+            
                     break;
 
             }

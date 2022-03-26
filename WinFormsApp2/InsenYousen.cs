@@ -234,54 +234,54 @@ namespace WinFormsApp2
             str = Heihitumeisiki.GetHeihitumeisiki(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_HEIHITUMEISIKI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_HEIHITUMEISIKI));
             }
             //閟畢命式
             str = Hihitumeisiki.GetHihitumeisiki(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_HIHITUMEISIKI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_HIHITUMEISIKI));
             }
             //争財、争母、争官
             str = JozaiJoboJokan.GetJouzai(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUZAI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_JOUZAI));
             }
             str = JozaiJoboJokan.GetJoubo(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUBO));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_JOUBO));
             }
             str = JozaiJoboJokan.GetJoukan(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_JOUKAN));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_JOUKAN));
             }
             //春水
             str = ShunSui.GetShunSuii(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUNSUI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_SHUNSUI));
             }
             //日座中殺
             str = Chusatu.GetNichizaChusatu(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_NITIZACHUSATUI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_NITIZACHUSATUI));
             }
             //日居中殺
             str = Chusatu.GetNikkyoChusatu(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_NIKKYOCHUSATUI));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_NIKKYOCHUSATUI));
             }
             
             //宿命全中殺
             str = Chusatu.GetShukumeiZenChusatu(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_ZENCHUSATU));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_SHUKUMEI_ZENCHUSATU));
             }
             else
             {
@@ -289,71 +289,105 @@ namespace WinFormsApp2
                 str = Chusatu.GetShukumeiNiChusatu(person);
                 if (!string.IsNullOrEmpty(str))
                 {
-                    listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_NICHUSATU));
+                    listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_SHUKUMEI_NICHUSATU));
                 }
                 //互換中殺
                 str = Chusatu.GetShukumeiGokanChusatu(person);
                 if (!string.IsNullOrEmpty(str))
                 {
-                    listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU));
+                    listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_SHUKUMEI_GOKANCHUSATU));
                 }
             }
             //天合地破
             str = KansiHou.GetTengouChiha(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENGOU_CHIHA));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENGOU_CHIHA));
             }
             //天殺地合
             str = KansiHou.GetTensatuChigou(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHIGOU));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENSATU_CHIGOU));
             }
             //天剋地合
             str = KansiHou.GetTenkokuChigou(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENKOKU_CHIGOU));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENKOKU_CHIGOU));
             }
             //天殺地冲
             str = KansiHou.GetTensatuChichu(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHICHU));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENSATU_CHICHU));
             }
             //天殺地破
             str = KansiHou.GetTensatuChiha(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENSATU_CHIHA));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENSATU_CHIHA));
             }
             //天剋地破
             str = KansiHou.GetTenkokuChiha(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENKOKU_CHIHA));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENKOKU_CHIHA));
             }
             //天合地合
             str = KansiHou.GetTengouChigou(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_TENGOU_CHIGOU));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_TENGOU_CHIGOU));
             }
             //家系集印
             str = KakeiShuuin.GetKakeiShuuin(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_KAKEI_SHUUIN));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_KAKEI_SHUUIN));
             }
             //全支集印
             str = ZensiShuuin.GetZensiShuuin(person);
             if (!string.IsNullOrEmpty(str))
             {
-                listBox.Items.Add(new YousenDetail(str, str, sExpressionType, Const.YousenDetailType.INSEN_DETAIL_ZENSI_SHUUIN));
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_ZENSI_SHUUIN));
+            }
+
+            //律音と納音
+            str = RitinAndNetin.GetRitinAndNetin(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                string s = "干支圧伏";
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_RITIN_NATIN));
+                listBox.Items.Add(new InsenDetail(s, s, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_KANSI_ATUJOU));
+            }
+            //暗合双連
+            str = AngouSouren.GetAngouSouren(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_ANGOU_SOUREN));
+            }
+            //大三合会局、大半会
+            str = DaiSangouKaikyokuDaiHankai.GetDaiSangouKaikyokuDaiHankai(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_DAISANGOU_DAIHANKAI));
+            }
+            //干支双連
+            str = KansiSouren.GetKansiSouren(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_KANSI_SOUREN));
+            }
+            //干支双破
+            str = KansiSouha.GetKansiSouha(person);
+            if (!string.IsNullOrEmpty(str))
+            {
+                listBox.Items.Add(new InsenDetail(str, str, sExpressionType, Const.InsenDetailType.INSEN_DETAIL_KANSI_SOUHA));
             }
 
         }
+
     }
 
     //==================================================
